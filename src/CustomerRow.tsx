@@ -1,5 +1,6 @@
 import React from "react";
 import Customer from "./domain/Customer";
+import { allergens } from "./domain/Recipe";
 
 interface CustomerRowProps {
   customer: Customer;
@@ -46,6 +47,18 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
     props.onChange(props.customer, newCustomer);
   };
 
+  const onAllergensChange: SelectChangeHandler = (event) => {
+    const newCustomer = Object.assign({}, props.customer);
+
+    const selected = Array.from(event.target.options)
+      .filter((item) => (item as HTMLOptionElement).selected)
+      .map((item) => item.textContent ?? "")
+      .filter(Boolean);
+
+    newCustomer.allergicTo = selected;
+    props.onChange(props.customer, newCustomer);
+  };
+
   return (
     <tr>
       <td>
@@ -83,6 +96,14 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
         <select onChange={onPlanChange}>
           <option value="250">min</option>
           <option value="350">max</option>
+        </select>
+      </td>
+
+      <td>
+        <select onChange={onAllergensChange} multiple>
+          {allergens.map((allergen) => (
+            <option>{allergen}</option>
+          ))}
         </select>
       </td>
     </tr>
