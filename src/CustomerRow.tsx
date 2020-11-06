@@ -1,6 +1,5 @@
 import React from "react";
 import Customer from "./domain/Customer";
-import Plan from "./domain/Plan";
 
 interface CustomerRowProps {
   customer: Customer;
