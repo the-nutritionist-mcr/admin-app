@@ -1,6 +1,8 @@
 import React from "react";
 import Customer from "./domain/Customer";
 import { allergens } from "./domain/Recipe";
+import InputField from "./InputField";
+import SelectField from "./SelectField";
 
 interface CustomerRowProps {
   customer: Customer;
@@ -8,103 +10,89 @@ interface CustomerRowProps {
 }
 
 type InputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => void;
+
 type SelectChangeHandler = (
   event: React.ChangeEvent<HTMLSelectElement>
 ) => void;
 
 const CustomerRow: React.FC<CustomerRowProps> = (props) => {
-  const onNameChange: InputChangeHandler = (event): void => {
-    const newCustomer = Object.assign({}, props.customer);
-    newCustomer.name = event.target.value;
-    props.onChange(props.customer, newCustomer);
-  };
-
-  const onEmailChange: InputChangeHandler = (event): void => {
-    const newCustomer = Object.assign({}, props.customer);
-    newCustomer.email = event.target.value;
-    props.onChange(props.customer, newCustomer);
-  };
-
-  const onDaysPerWeekChange: SelectChangeHandler = (event) => {
-    const newCustomer = Object.assign({}, props.customer);
-    newCustomer.daysPerWeek = parseInt(event.target.value, 10);
-    props.onChange(props.customer, newCustomer);
-  };
-
-  const onMealsPerDayChange: SelectChangeHandler = (event) => {
-    const newCustomer = Object.assign({}, props.customer);
-    newCustomer.mealsPerDay = parseInt(event.target.value, 10);
-    props.onChange(props.customer, newCustomer);
-  };
-
-  const onPlanChange: SelectChangeHandler = (event) => {
-    const newCustomer = Object.assign({}, props.customer);
-    const selected = event.target.options[event.target.selectedIndex];
-    newCustomer.plan = {
-      name: selected.textContent ?? "min",
-      costPerMeal: parseInt(selected.value, 10),
-    };
-    props.onChange(props.customer, newCustomer);
-  };
-
-  const onAllergensChange: SelectChangeHandler = (event) => {
-    const newCustomer = Object.assign({}, props.customer);
-
-    const selected = Array.from(event.target.options)
-      .filter((item) => (item as HTMLOptionElement).selected)
-      .map((item) => item.textContent ?? "")
-      .filter(Boolean);
-
-    newCustomer.allergicTo = selected;
-    props.onChange(props.customer, newCustomer);
-  };
-
   return (
     <tr>
       <td>
-        <input
-          type="text"
+        <InputField
+          thing={props.customer}
+          mutator={(newCustomer, event) => {
+            newCustomer.name = event.target.value;
+          }}
           value={props.customer.name}
-          onChange={onNameChange}
+          onChange={props.onChange}
         />
       </td>
       <td>
-        <input
-          type="text"
+        <InputField
+          thing={props.customer}
+          mutator={(newCustomer, event) => {
+            newCustomer.email = event.target.value;
+          }}
           value={props.customer.email}
-          onChange={onEmailChange}
+          onChange={props.onChange}
         />
       </td>
       <td>
-        <select onChange={onDaysPerWeekChange}>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-        </select>
+        <SelectField
+          thing={props.customer}
+          options={["1", "2", "3", "4", "5", "6"]}
+          value={String(props.customer.daysPerWeek)}
+          mutator={(newCustomer, event) => {
+            newCustomer.daysPerWeek = parseInt(event.target.value, 10);
+          }}
+          onChange={props.onChange}
+        />
       </td>
       <td>
-        <select onChange={onMealsPerDayChange}>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-        </select>
+        <SelectField
+          thing={props.customer}
+          options={["1", "2", "3"]}
+          value={String(props.customer.mealsPerDay)}
+          mutator={(newCustomer, event) => {
+            newCustomer.mealsPerDay = parseInt(event.target.value, 10);
+          }}
+          onChange={props.onChange}
+        />
       </td>
       <td>
-        <select onChange={onPlanChange}>
-          <option value="250">min</option>
-          <option value="350">max</option>
-        </select>
+        <SelectField
+          thing={props.customer}
+          options={[
+            { text: "min", value: "250" },
+            { text: "max", value: "350" },
+          ]}
+          value={String(props.customer.plan.costPerMeal)}
+          mutator={(newCustomer, event) => {
+            const selected = event.target.options[event.target.selectedIndex];
+            newCustomer.plan = {
+              name: selected.textContent ?? "min",
+              costPerMeal: parseInt(selected.value, 10),
+            };
+          }}
+          onChange={props.onChange}
+        />
       </td>
-
       <td>
-        <select onChange={onAllergensChange} multiple>
-          {allergens.map((allergen) => (
-            <option>{allergen}</option>
-          ))}
-        </select>
+        <SelectField
+          multiple
+          thing={props.customer}
+          options={allergens}
+          value={props.customer.allergicTo}
+          mutator={(newCustomer, event) => {
+            const selected = Array.from(event.target.options)
+              .filter((item) => (item as HTMLOptionElement).selected)
+              .map((item) => item.textContent ?? "")
+              .filter(Boolean);
+            newCustomer.allergicTo = selected;
+          }}
+          onChange={props.onChange}
+        />
       </td>
     </tr>
   );

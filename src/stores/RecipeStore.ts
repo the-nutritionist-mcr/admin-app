@@ -1,15 +1,15 @@
 import { EventEmitter } from "events";
-import Customer from "../domain/Customer";
+import Recipe from "../domain/Recipe";
 import dispatcher from "../appDispatcher";
-import { ActionTypes } from "../actions/customers";
+import { ActionTypes } from "../actions/recipes";
 
 const CHANGE_EVENT = "change";
 
 type Callback = (...args: any[]) => void;
 
-let customers: Customer[] = [];
+let recipes: Recipe[] = [];
 
-class CustomerStore extends EventEmitter {
+class RecipeStore extends EventEmitter {
   public addChangeListener(callback: Callback) {
     this.on(CHANGE_EVENT, callback);
   }
@@ -22,31 +22,31 @@ class CustomerStore extends EventEmitter {
     this.emit(CHANGE_EVENT);
   }
 
-  getCustomers() {
-    return customers;
+  getRecipes() {
+    return recipes;
   }
 }
 
-const store = new CustomerStore();
+const store = new RecipeStore();
 
 dispatcher.register((payload) => {
   const payloadAsAny = payload as any;
 
   switch (payloadAsAny.actionTypes) {
-    case ActionTypes.GetCustomers:
-      customers = payloadAsAny.customers;
+    case ActionTypes.GetRecipes:
+      recipes = payloadAsAny.recipes;
       store.emitChange();
       break;
 
-    case ActionTypes.CreateBlankCustomer:
-      customers = [...customers, payloadAsAny.customers[0]];
+    case ActionTypes.CreateBlankRecipe:
+      recipes = [...recipes, payloadAsAny.recipes];
       store.emitChange();
       break;
 
-    case ActionTypes.UpdateCustomer:
-      const [oldCustomer, customer] = payloadAsAny.customers;
-      const index = customers.indexOf(oldCustomer);
-      customers[index] = customer;
+    case ActionTypes.UpdateRecipe:
+      const [oldRecipe, recipe] = payloadAsAny.recipes;
+      const index = recipes.indexOf(oldRecipe);
+      recipes[index] = recipe;
       store.emitChange();
       break;
   }

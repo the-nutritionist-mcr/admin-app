@@ -7,20 +7,7 @@ export enum ActionTypes {
   UpdateCustomer = "UpdateCustomer",
 }
 
-const customers: Customer[] = [
-  {
-    id: 0,
-    name: "ben",
-    email: "a@b.com",
-    daysPerWeek: 3,
-    mealsPerDay: 1,
-    plan: {
-      name: "min",
-      costPerMeal: 250,
-    },
-    allergicTo: [],
-  },
-];
+const customers: Customer[] = [];
 
 type CustomerDispatchPayload = {
   actionTypes: ActionTypes;
