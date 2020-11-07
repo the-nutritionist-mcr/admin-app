@@ -1,6 +1,6 @@
 import React from "react";
-import Customer from "./domain/Customer";
-import { allergens } from "./domain/Recipe";
+import Customer from "../domain/Customer";
+import { allergens } from "../domain/Recipe";
 import InputField from "./InputField";
 import SelectField from "./SelectField";
 
@@ -8,12 +8,6 @@ interface CustomerRowProps {
   customer: Customer;
   onChange: (oldCustomer: Customer, newCustomer: Customer) => void;
 }
-
-type InputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => void;
-
-type SelectChangeHandler = (
-  event: React.ChangeEvent<HTMLSelectElement>
-) => void;
 
 const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   return (

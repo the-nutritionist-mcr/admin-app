@@ -1,8 +1,12 @@
 import React from "react";
-import Recipe from "./domain/Recipe";
-import recipeStore from "./stores/RecipeStore";
+import Recipe from "../domain/Recipe";
+import recipeStore from "../stores/RecipeStore";
 
-import { updateRecipe, getRecipes, createBlankRecipe } from "./actions/recipes";
+import {
+  updateRecipe,
+  getRecipes,
+  createBlankRecipe,
+} from "../actions/recipes";
 
 const Recipes: React.FC = () => {
   const [recipes, setRecipes] = React.useState<Recipe[]>(
@@ -32,7 +36,6 @@ const Recipes: React.FC = () => {
             <th>Allergens</th>
           </tr>
         </thead>
-        <tbody></tbody>
       </table>
       <button onClick={createBlankRecipe}>Create New</button>
     </React.Fragment>

@@ -1,12 +1,12 @@
 import React from "react";
-import Customer from "./domain/Customer";
+import Customer from "../domain/Customer";
 import CustomerRow from "./CustomerRow";
 import {
   updateCustomer,
   getCustomers,
   createBlankCustomer,
-} from "./actions/customers";
-import customerStore from "./stores/CustomerStore";
+} from "../actions/customers";
+import customerStore from "../stores/CustomerStore";
 
 const Customers = () => {
   const [customers, setCustomers] = React.useState<Customer[]>(
