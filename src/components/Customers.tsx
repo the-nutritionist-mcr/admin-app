@@ -36,7 +36,7 @@ const Customers = () => {
             <th>Days per week</th>
             <th>Meals per day</th>
             <th>Plan</th>
-            <th>Allergens</th>
+            <th>Allergic To</th>
           </tr>
         </thead>
         <tbody>
