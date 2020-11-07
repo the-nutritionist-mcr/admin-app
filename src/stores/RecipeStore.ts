@@ -39,7 +39,10 @@ dispatcher.register((payload) => {
       break;
 
     case ActionTypes.CreateBlankRecipe:
-      recipes = [...recipes, payloadAsAny.recipes];
+      const blankRecipe = payloadAsAny.recipes[0];
+      blankRecipe.id =
+        recipes.length > 0 ? recipes[recipes.length - 1].id + 1 : 0;
+      recipes = [...recipes, blankRecipe];
       store.emitChange();
       break;
 

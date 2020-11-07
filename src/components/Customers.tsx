@@ -1,5 +1,6 @@
 import React from "react";
 import Customer from "../domain/Customer";
+import { Heading, Button, Table, majorScale } from "evergreen-ui";
 import CustomerRow from "./CustomerRow";
 import {
   updateCustomer,
@@ -27,19 +28,18 @@ const Customers = () => {
 
   return (
     <React.Fragment>
-      <h2>Customers</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Days per week</th>
-            <th>Meals per day</th>
-            <th>Plan</th>
-            <th>Allergic To</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Heading is="h2" size={700} marginBottom={majorScale(2)}>
+        Customers
+      </Heading>
+      <Table marginBottom={majorScale(2)} marginTop={majorScale(2)}>
+        <Table.Head>
+          <Table.TextHeaderCell>Name</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Email</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Meals per Week</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Plan</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Allergic To</Table.TextHeaderCell>
+        </Table.Head>
+        <Table.Body>
           {customers.map((customer) => (
             <CustomerRow
               key={customer.id}
@@ -47,9 +47,11 @@ const Customers = () => {
               onChange={updateCustomer}
             />
           ))}
-        </tbody>
-      </table>
-      <button onClick={createBlankCustomer}>Create New</button>
+        </Table.Body>
+      </Table>
+      <Button marginTop={majorScale(2)} onClick={createBlankCustomer}>
+        Create New
+      </Button>
     </React.Fragment>
   );
 };

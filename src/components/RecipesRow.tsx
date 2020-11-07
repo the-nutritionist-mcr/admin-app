@@ -1,8 +1,9 @@
 import React from "react";
 import Recipe from "../domain/Recipe";
 import { allergens } from "../domain/Recipe";
+import { Table } from "evergreen-ui";
 import InputField from "./InputField";
-import SelectField from "./SelectField";
+import MultiSelectField from "./MultiSelectField";
 
 interface RecipesRowProps {
   recipe: Recipe;
@@ -10,8 +11,8 @@ interface RecipesRowProps {
 }
 
 const RecipesRow: React.FC<RecipesRowProps> = (props) => (
-  <tr>
-    <td>
+  <Table.Row>
+    <Table.TextCell>
       <InputField
         thing={props.recipe}
         value={props.recipe.name}
@@ -20,8 +21,8 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => (
         }}
         onChange={props.onChange}
       />
-    </td>
-    <td>
+    </Table.TextCell>
+    <Table.TextCell>
       <InputField
         thing={props.recipe}
         value={props.recipe.description}
@@ -30,24 +31,24 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => (
         }}
         onChange={props.onChange}
       />
-    </td>
-    <td>
-      <SelectField
-        multiple
+    </Table.TextCell>
+    <Table.TextCell>
+      <MultiSelectField
         thing={props.recipe}
         options={allergens}
         value={props.recipe.allergens}
-        mutator={(newRecipe, event) => {
-          const selected = Array.from(event.target.options)
-            .filter((item) => (item as HTMLOptionElement).selected)
-            .map((item) => item.textContent ?? "")
-            .filter(Boolean);
-          newRecipe.allergens = selected;
+        mutator={(newRecipe, item) => {
+          newRecipe.allergens = [...newRecipe.allergens, item.value.toString()];
         }}
         onChange={props.onChange}
+        remover={(newRecipe, itemToRemove) => {
+          newRecipe.allergens = newRecipe.allergens.filter(
+            (item) => item !== itemToRemove.value
+          );
+        }}
       />
-    </td>
-  </tr>
+    </Table.TextCell>
+  </Table.Row>
 );
 
 export default RecipesRow;

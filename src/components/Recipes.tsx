@@ -2,6 +2,7 @@ import React from "react";
 import Recipe from "../domain/Recipe";
 import recipeStore from "../stores/RecipeStore";
 import RecipesRow from "./RecipesRow";
+import { majorScale, Table, Heading, Button } from "evergreen-ui";
 
 import {
   updateRecipe,
@@ -24,26 +25,28 @@ const Recipes: React.FC = () => {
       getRecipes();
     }
     return () => recipeStore.removeChangeListener(onChangeRecipes);
-  });
+  }, []);
 
   return (
     <React.Fragment>
-      <h2>Recipes</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Allergens</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Heading is="h2" size={700}>
+        Recipes
+      </Heading>
+      <Table>
+        <Table.Head>
+          <Table.TextHeaderCell>Name</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Description</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Allergens</Table.TextHeaderCell>
+        </Table.Head>
+        <Table.Body>
           {recipes.map((recipe) => (
             <RecipesRow recipe={recipe} onChange={updateRecipe} />
           ))}
-        </tbody>
-      </table>
-      <button onClick={createBlankRecipe}>Create New</button>
+        </Table.Body>
+      </Table>
+      <Button marginTop={majorScale(2)} onClick={createBlankRecipe}>
+        Create New
+      </Button>
     </React.Fragment>
   );
 };

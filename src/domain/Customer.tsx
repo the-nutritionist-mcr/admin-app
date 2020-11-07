@@ -4,8 +4,7 @@ export default interface Customer {
   id: number;
   name: string;
   email: string;
-  daysPerWeek: number;
-  mealsPerDay: number;
+  mealsPerWeek: number;
   plan: Plan;
   allergicTo: string[];
 }

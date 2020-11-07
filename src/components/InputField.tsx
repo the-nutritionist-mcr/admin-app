@@ -1,12 +1,18 @@
 import React from "react";
 import MutatorFieldProps from "./MutatorFieldProps";
+import { TextInput } from "evergreen-ui";
+
+interface InputFieldProps {
+  value?: string | number | readonly string[] | undefined;
+}
 
 function assertFC<P>(
   _component: React.FC<P>
 ): asserts _component is React.FC<P> {}
 
 function InputField<T>(
-  props: MutatorFieldProps<T, HTMLInputElement>
+  props: MutatorFieldProps<T, React.ChangeEvent<HTMLInputElement>> &
+    InputFieldProps
 ): React.ReactElement | null {
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newThing = Object.assign({}, props.thing);
@@ -14,7 +20,7 @@ function InputField<T>(
     props.onChange(props.thing, newThing);
   };
 
-  return <input type="text" value={props.value} onChange={onChange} />;
+  return <TextInput type="text" value={props.value} onChange={onChange} />;
 }
 
 assertFC(InputField);

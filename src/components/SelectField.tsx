@@ -1,11 +1,12 @@
 import React from "react";
+import { Button, SelectMenu, SelectMenuItem } from "evergreen-ui";
 import MutatorFieldProps from "./MutatorFieldProps";
 
-type SelectFieldOptions = string[] | { text: string; value: string }[];
+type SelectFieldOptions = string[] | { label: string; value: string }[];
 
 interface SelectFieldProps {
   options: SelectFieldOptions;
-  multiple?: boolean;
+  value: string;
 }
 
 function assertFC<P>(
@@ -13,12 +14,15 @@ function assertFC<P>(
 ): asserts _component is React.FC<P> {}
 
 function SelectField<T>(
-  props: MutatorFieldProps<T, HTMLSelectElement> & SelectFieldProps
+  props: MutatorFieldProps<T, SelectMenuItem> & SelectFieldProps
 ): React.ReactElement | null {
-  const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const [selected, setSelected] = React.useState<string>(props.value);
+
+  const onSelect = (item: SelectMenuItem) => {
     const newThing = Object.assign({}, props.thing);
-    props.mutator(newThing, event);
+    props.mutator(newThing, item);
     props.onChange(props.thing, newThing);
+    setSelected(item.label);
   };
 
   const isTextOnlyOptions = (
@@ -31,19 +35,22 @@ function SelectField<T>(
     return typeof options[0] === "string";
   };
 
-  const mapOptions = (options: SelectFieldOptions) => {
-    if (isTextOnlyOptions(options)) {
-      return options.map((option) => <option>{option}</option>);
-    }
-    return options.map((option) => (
-      <option value={option.value}>{option.text}</option>
-    ));
-  };
+  const mapOptions = (options: SelectFieldOptions) =>
+    isTextOnlyOptions(options)
+      ? options.map((label) => ({ label, value: label }))
+      : options;
+
+  const mappedOptions = mapOptions(props.options);
 
   return (
-    <select value={props.value} onChange={onChange} multiple={props.multiple}>
-      {mapOptions(props.options)}
-    </select>
+    <SelectMenu
+      closeOnSelect
+      options={mappedOptions}
+      onSelect={onSelect}
+      selected={selected}
+    >
+      <Button>{selected || "Make selection..."}</Button>
+    </SelectMenu>
   );
 }
 

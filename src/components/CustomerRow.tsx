@@ -1,8 +1,10 @@
 import React from "react";
 import Customer from "../domain/Customer";
+import { Table } from "evergreen-ui";
 import { allergens } from "../domain/Recipe";
 import InputField from "./InputField";
 import SelectField from "./SelectField";
+import MultiSelectField from "./MultiSelectField";
 
 interface CustomerRowProps {
   customer: Customer;
@@ -10,8 +12,8 @@ interface CustomerRowProps {
 }
 
 const CustomerRow: React.FC<CustomerRowProps> = (props) => (
-  <tr>
-    <td>
+  <Table.Row>
+    <Table.TextCell>
       <InputField
         thing={props.customer}
         mutator={(newCustomer, event) => {
@@ -20,8 +22,8 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => (
         value={props.customer.name}
         onChange={props.onChange}
       />
-    </td>
-    <td>
+    </Table.TextCell>
+    <Table.TextCell>
       <InputField
         thing={props.customer}
         mutator={(newCustomer, event) => {
@@ -30,64 +32,56 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => (
         value={props.customer.email}
         onChange={props.onChange}
       />
-    </td>
-    <td>
+    </Table.TextCell>
+    <Table.TextCell>
       <SelectField
         thing={props.customer}
-        options={["1", "2", "3", "4", "5", "6"]}
-        value={String(props.customer.daysPerWeek)}
-        mutator={(newCustomer, event) => {
-          newCustomer.daysPerWeek = parseInt(event.target.value, 10);
+        options={["5", "6", "10", "12"]}
+        value={String(props.customer.mealsPerWeek)}
+        mutator={(newCustomer, item) => {
+          newCustomer.mealsPerWeek = parseInt(item.value.toString(), 10);
         }}
         onChange={props.onChange}
       />
-    </td>
-    <td>
-      <SelectField
-        thing={props.customer}
-        options={["1", "2", "3"]}
-        value={String(props.customer.mealsPerDay)}
-        mutator={(newCustomer, event) => {
-          newCustomer.mealsPerDay = parseInt(event.target.value, 10);
-        }}
-        onChange={props.onChange}
-      />
-    </td>
-    <td>
+    </Table.TextCell>
+    <Table.TextCell>
       <SelectField
         thing={props.customer}
         options={[
-          { text: "min", value: "250" },
-          { text: "max", value: "350" },
+          { label: "min", value: "250" },
+          { label: "max", value: "350" },
         ]}
-        value={String(props.customer.plan.costPerMeal)}
-        mutator={(newCustomer, event) => {
-          const selected = event.target.options[event.target.selectedIndex];
+        value={props.customer.plan.name}
+        mutator={(newCustomer, item) => {
           newCustomer.plan = {
-            name: selected.textContent ?? "min",
-            costPerMeal: parseInt(selected.value, 10),
+            name: item.label,
+            costPerMeal: Number(item.value),
           };
         }}
         onChange={props.onChange}
       />
-    </td>
-    <td>
-      <SelectField
-        multiple
+    </Table.TextCell>
+
+    <Table.TextCell>
+      <MultiSelectField
         thing={props.customer}
         options={allergens}
         value={props.customer.allergicTo}
-        mutator={(newCustomer, event) => {
-          const selected = Array.from(event.target.options)
-            .filter((item) => (item as HTMLOptionElement).selected)
-            .map((item) => item.textContent ?? "")
-            .filter(Boolean);
-          newCustomer.allergicTo = selected;
+        mutator={(newCustomer, item) => {
+          newCustomer.allergicTo = [
+            ...newCustomer.allergicTo,
+            item.value.toString(),
+          ];
         }}
         onChange={props.onChange}
+        remover={(newCustomer, itemToRemove) => {
+          newCustomer.allergicTo = newCustomer.allergicTo.filter(
+            (item) => item !== itemToRemove.value
+          );
+        }}
       />
-    </td>
-  </tr>
+    </Table.TextCell>
+  </Table.Row>
 );
 
 export default CustomerRow;

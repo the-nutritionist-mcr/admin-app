@@ -1,6 +1,5 @@
-export default interface MutatorFieldProps<T, E extends HTMLElement> {
+export default interface MutatorFieldProps<T, I> {
   thing: T;
-  mutator: (newThing: T, event: React.ChangeEvent<E>) => void;
-  value?: string | number | readonly string[] | undefined;
+  mutator: (newThing: T, item: I) => void;
   onChange: (oldThing: T, newThing: T) => void;
 }

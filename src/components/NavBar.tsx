@@ -1,13 +1,39 @@
 import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Typography from "@material-ui/core/Typography";
-import Toolbar from "@material-ui/core/Toolbar";
+import { Heading, Pane, majorScale } from "evergreen-ui";
+import MenuLink from "./MenuLink";
 
 const NavBar: React.FC = () => (
-  <AppBar position="static">
-    <Toolbar>
-      <Typography variant="h6">Planner</Typography>
-    </Toolbar>
-  </AppBar>
+  <Pane>
+    <Pane
+      is="header"
+      elevation={1}
+      paddingLeft={majorScale(2)}
+      paddingRight={majorScale(2)}
+      height={72}
+      display="flex"
+      alignItems="center"
+    >
+      <Pane
+        width={960}
+        display="flex"
+        alignItems="center"
+        marginLeft="auto"
+        marginRight="auto"
+      >
+        <Heading
+          marginRight={majorScale(2)}
+          size={500}
+          letterSpacing="2px"
+          fontWeight={700}
+        >
+          TNM
+        </Heading>
+        <MenuLink to="/">Home</MenuLink>
+        <MenuLink to="/customers">Customers</MenuLink>
+        <MenuLink to="/recipes">Recipes</MenuLink>
+        <MenuLink to="/planner">Planner</MenuLink>
+      </Pane>
+    </Pane>
+  </Pane>
 );
 export default NavBar;

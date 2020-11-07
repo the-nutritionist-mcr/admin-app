@@ -27,6 +27,7 @@ export const createBlankRecipe = () => {
     actionTypes: ActionTypes.CreateBlankRecipe,
     recipes: [
       {
+        id: 0,
         name: "",
         allergens: [],
       },
