@@ -1,6 +1,7 @@
 import React from "react";
 import Recipe from "../domain/Recipe";
 import recipeStore from "../stores/RecipeStore";
+import RecipesRow from "./RecipesRow";
 
 import {
   updateRecipe,
@@ -36,6 +37,11 @@ const Recipes: React.FC = () => {
             <th>Allergens</th>
           </tr>
         </thead>
+        <tbody>
+          {recipes.map((recipe) => (
+            <RecipesRow recipe={recipe} onChange={updateRecipe} />
+          ))}
+        </tbody>
       </table>
       <button onClick={createBlankRecipe}>Create New</button>
     </React.Fragment>
