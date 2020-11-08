@@ -3,6 +3,7 @@ import Customer from "../domain/Customer";
 import { CrossIcon, IconButton, Table } from "evergreen-ui";
 import { deleteCustomer } from "../actions/customers";
 import { allergens } from "../domain/Recipe";
+import { plans } from "../lib/config";
 import InputField from "./InputField";
 import SelectField from "./SelectField";
 import MultiSelectField from "./MultiSelectField";
@@ -48,10 +49,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => (
     <Table.TextCell>
       <SelectField
         thing={props.customer}
-        options={[
-          { label: "min", value: "250" },
-          { label: "max", value: "350" },
-        ]}
+        options={plans}
         value={props.customer.plan.name}
         mutator={(newCustomer, item) => {
           newCustomer.plan = {
