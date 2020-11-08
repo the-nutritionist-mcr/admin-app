@@ -36,7 +36,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "start:and-wait": "yarn start & yarn wait-on http://localhost:3000",
-    "test:cypress:record": "yarn start:and-wait && cypress run --record --reporter mochawesome --reporter-options \"reportDir=cypress/report/mochawesome-report,overwrite=false,html=false,json=true,timestamp=mmddyyyy_HHMMss\"",
+    "test:cypress:record": "cypress run --record --reporter mochawesome --reporter-options \"reportDir=cypress/report/mochawesome-report,overwrite=false,html=false,json=true,timestamp=mmddyyyy_HHMMss\"",
     "test:ci": "CI=true react-scripts test --coverage",
     "eject": "react-scripts eject"
   },
