@@ -1,10 +1,18 @@
 import Plan from "./Plan";
 
+export enum Snack {
+  None,
+  Standard,
+  Large,
+}
+
 export default interface Customer {
   id: number;
   name: string;
   email: string;
-  mealsPerWeek: number;
+  daysPerWeek: number;
   plan: Plan;
+  snack: Snack;
+  breakfast: boolean;
   allergicTo: string[];
 }

@@ -1,5 +1,6 @@
 import dispatcher from "../appDispatcher";
-import Customer from "../domain/Customer";
+import Customer, { Snack } from "../domain/Customer";
+import { plans, daysPerWeekOptions } from "../lib/config";
 
 export enum ActionTypes {
   GetCustomers = "GetCustomers",
@@ -36,8 +37,10 @@ export const createBlankCustomer = () => {
     id: customers.length > 0 ? customers[customers.length - 1].id + 1 : 1,
     name: "",
     email: "",
-    mealsPerWeek: 12,
-    plan: { name: "min", costPerMeal: 250 },
+    daysPerWeek: daysPerWeekOptions[0],
+    plan: plans[0],
+    snack: Snack.None,
+    breakfast: false,
     allergicTo: [],
   };
 

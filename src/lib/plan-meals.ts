@@ -30,7 +30,14 @@ export const chooseMeals = (
   const chosenPlans = plans.filter(Boolean) as Recipe[];
   return customers.map((customer) => ({
     customer,
-    meals: [...Array(getDeliveryMeals(customer.mealsPerWeek, delivery))]
+    meals: [
+      ...Array(
+        getDeliveryMeals(
+          customer.daysPerWeek * customer.plan.mealsPerDay,
+          delivery
+        )
+      ),
+    ]
       .map((_value, index) => chosenPlans[index])
       .filter(Boolean),
   }));
@@ -42,9 +49,9 @@ export const createVariantString = (customer: Customer, meal: Recipe) => {
   );
 
   if (matchingAllergens.length > 0) {
-    return `${customer.plan.name} without ${matchingAllergens.join(", ")}`;
+    return `${customer.plan.category} without ${matchingAllergens.join(", ")}`;
   } else {
-    return `${customer.plan.name}`;
+    return `${customer.plan.category}`;
   }
 };
 

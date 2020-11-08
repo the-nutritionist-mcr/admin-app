@@ -3,7 +3,7 @@ import Customer from "../domain/Customer";
 import { CrossIcon, IconButton, Table } from "evergreen-ui";
 import { deleteCustomer } from "../actions/customers";
 import { allergens } from "../domain/Recipe";
-import { plans } from "../lib/config";
+import { plans, daysPerWeekOptions } from "../lib/config";
 import InputField from "./InputField";
 import SelectField from "./SelectField";
 import MultiSelectField from "./MultiSelectField";
@@ -38,10 +38,10 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => (
     <Table.TextCell>
       <SelectField
         thing={props.customer}
-        options={["5", "6", "10", "12"]}
-        value={String(props.customer.mealsPerWeek)}
+        options={daysPerWeekOptions.map(String)}
+        value={String(props.customer.daysPerWeek)}
         mutator={(newCustomer, item) => {
-          newCustomer.mealsPerWeek = parseInt(item.value.toString(), 10);
+          newCustomer.daysPerWeek = parseInt(item.value.toString(), 10);
         }}
         onChange={props.onChange}
       />
@@ -49,13 +49,22 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => (
     <Table.TextCell>
       <SelectField
         thing={props.customer}
-        options={plans}
-        value={props.customer.plan.name}
+        options={plans.map((plan) => ({
+          label: `${plan.category} ${plan.mealsPerDay}`,
+          value: `${plan.category} ${plan.mealsPerDay}`,
+        }))}
+        value={`${props.customer.plan.category} ${props.customer.plan.mealsPerDay}`}
         mutator={(newCustomer, item) => {
-          newCustomer.plan = {
-            name: item.label,
-            costPerMeal: Number(item.value),
-          };
+          const plan = plans.find((plan) => {
+            const category = item.label.split(" ")[0];
+            const meals = item.label.split(" ")[1];
+            return (
+              category === plan.category && meals === String(plan.mealsPerDay)
+            );
+          });
+          if (plan) {
+            newCustomer.plan = plan;
+          }
         }}
         onChange={props.onChange}
       />

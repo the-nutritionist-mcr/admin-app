@@ -33,7 +33,7 @@ const Customers = () => {
         <Table.Head>
           <Table.TextHeaderCell>Name</Table.TextHeaderCell>
           <Table.TextHeaderCell>Email</Table.TextHeaderCell>
-          <Table.TextHeaderCell>Meals per Week</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Days per week</Table.TextHeaderCell>
           <Table.TextHeaderCell>Plan</Table.TextHeaderCell>
           <Table.TextHeaderCell>Allergic To</Table.TextHeaderCell>
           <Table.TextHeaderCell>Actions</Table.TextHeaderCell>
