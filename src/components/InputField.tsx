@@ -4,6 +4,7 @@ import { TextInput } from "evergreen-ui";
 
 interface InputFieldProps {
   value?: string | number | readonly string[] | undefined;
+  type?: string | undefined;
 }
 
 function assertFC<P>(
@@ -20,7 +21,9 @@ function InputField<T>(
     props.onChange(props.thing, newThing);
   };
 
-  return <TextInput type="text" value={props.value} onChange={onChange} />;
+  return (
+    <TextInput type={props.type} value={props.value} onChange={onChange} />
+  );
 }
 
 assertFC(InputField);

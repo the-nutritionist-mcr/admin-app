@@ -28,6 +28,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => (
     <Table.TextCell>
       <InputField
         thing={props.customer}
+        type="email"
         mutator={(newCustomer, event) => {
           newCustomer.email = event.target.value;
         }}
