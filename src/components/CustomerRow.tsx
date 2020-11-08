@@ -41,8 +41,8 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => (
         thing={props.customer}
         options={daysPerWeekOptions.map(String)}
         value={String(props.customer.daysPerWeek)}
-        mutator={(newCustomer, item) => {
-          newCustomer.daysPerWeek = parseInt(item.value.toString(), 10);
+        mutator={(newCustomer, event) => {
+          newCustomer.daysPerWeek = parseInt(event.target.value, 10);
         }}
         onChange={props.onChange}
       />
@@ -55,10 +55,11 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => (
           value: `${plan.category} ${plan.mealsPerDay}`,
         }))}
         value={`${props.customer.plan.category} ${props.customer.plan.mealsPerDay}`}
-        mutator={(newCustomer, item) => {
+        mutator={(newCustomer, event) => {
           const plan = plans.find((plan) => {
-            const category = item.label.split(" ")[0];
-            const meals = item.label.split(" ")[1];
+            const parts = event.target.value.split(" ");
+            const category = parts[0];
+            const meals = parts[1];
             return (
               category === plan.category && meals === String(plan.mealsPerDay)
             );

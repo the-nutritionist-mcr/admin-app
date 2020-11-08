@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, SelectMenu, SelectMenuItem } from "evergreen-ui";
+import { Select } from "evergreen-ui";
 import MutatorFieldProps from "./MutatorFieldProps";
 
 type SelectFieldOptions = string[] | { label: string; value: string }[];
@@ -14,15 +14,16 @@ function assertFC<P>(
 ): asserts _component is React.FC<P> {}
 
 function SelectField<T>(
-  props: MutatorFieldProps<T, SelectMenuItem> & SelectFieldProps
+  props: MutatorFieldProps<T, React.ChangeEvent<HTMLSelectElement>> &
+    SelectFieldProps
 ): React.ReactElement | null {
   const [selected, setSelected] = React.useState<string>(props.value);
 
-  const onSelect = (item: SelectMenuItem) => {
+  const onChange = (item: React.ChangeEvent<HTMLSelectElement>) => {
     const newThing = Object.assign({}, props.thing);
     props.mutator(newThing, item);
     props.onChange(props.thing, newThing);
-    setSelected(item.label);
+    setSelected(item.target.value);
   };
 
   const isTextOnlyOptions = (
@@ -43,14 +44,11 @@ function SelectField<T>(
   const mappedOptions = mapOptions(props.options);
 
   return (
-    <SelectMenu
-      closeOnSelect
-      options={mappedOptions}
-      onSelect={onSelect}
-      selected={selected}
-    >
-      <Button>{selected || "Make selection..."}</Button>
-    </SelectMenu>
+    <Select value={selected} onChange={onChange}>
+      {mappedOptions.map((item) => (
+        <option value={item.value}>{item.label}</option>
+      ))}
+    </Select>
   );
 }
 
