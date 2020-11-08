@@ -231,4 +231,89 @@ describe("makePlan", () => {
 
     expect(thirdPlan?.plan["Mass"]).toEqual(1);
   });
+
+  it("Groups matching allergens together as a 'variant'", () => {
+    const recipeOne: Recipe = {
+      id: 0,
+      name: "foo-recipe",
+      allergens: ["fish"],
+    };
+
+    const recipeTwo: Recipe = {
+      id: 1,
+      name: "bar-recipe",
+      allergens: [],
+    };
+
+    const recipeThree: Recipe = {
+      id: 2,
+      name: "baz-recipe",
+      allergens: [],
+    };
+
+    const plan: CustomerMealsSelection = [
+      {
+        meals: [recipeOne, recipeTwo],
+        customer: {
+          id: 0,
+          name: "foo",
+          email: "foo-email",
+          daysPerWeek: 6,
+          breakfast: false,
+          snack: Snack.None,
+          plan: {
+            mealsPerDay: 2,
+            costPerMeal: 850,
+            category: "Mass",
+          },
+          allergicTo: [],
+        },
+      },
+      {
+        meals: [recipeOne],
+        customer: {
+          id: 1,
+          name: "foo1",
+          email: "foo1-email",
+          daysPerWeek: 6,
+          breakfast: false,
+          snack: Snack.None,
+          plan: {
+            mealsPerDay: 2,
+            costPerMeal: 850,
+            category: "Mass",
+          },
+          allergicTo: ["fish"],
+        },
+      },
+      {
+        meals: [recipeOne, recipeTwo, recipeThree],
+        customer: {
+          id: 2,
+          name: "foo2",
+          email: "foo2-email",
+          daysPerWeek: 6,
+          breakfast: false,
+          snack: Snack.None,
+          plan: {
+            mealsPerDay: 2,
+            costPerMeal: 850,
+            category: "Mass",
+          },
+          allergicTo: [],
+        },
+      },
+    ];
+
+    const actual = planMeals.makePlan(plan);
+
+    expect(actual).toHaveLength(3);
+
+    const firstPlan = actual.find(
+      (individualPlan) => individualPlan.recipe.name === recipeOne.name
+    );
+
+    expect(firstPlan?.plan["Mass"]).toEqual(2);
+    expect(firstPlan?.plan["Mass without fish"]).toEqual(1);
+  });
 });
