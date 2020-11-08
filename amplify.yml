@@ -28,7 +28,7 @@ test:
         - yarn install
     test:
       commands:
-        - yarn start:and-wait && yarn test:cypress
+        - yarn start:and-wait && yarn test:cypress:record
     postTest:
       commands:
         - yarn mochawesome-merge@4 cypress/report/mochawesome-report/*.json > cypress/report/mochawesome.json
