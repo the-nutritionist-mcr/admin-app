@@ -3,10 +3,11 @@ import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
 import CookPlan from "../types/CookPlan";
 import Customer from "../domain/Customer";
 import Recipe from "../domain/Recipe";
+import DeliveryDay from "../types/DeliveryDay";
 
 const getDeliveryMeals = (
   mealsPerDay: number,
-  delivery: "Monday" | "Thursday"
+  delivery: DeliveryDay
 ): number => {
   switch (mealsPerDay) {
     case 5:
@@ -22,7 +23,7 @@ const getDeliveryMeals = (
 };
 
 export const chooseMeals = (
-  delivery: "Monday" | "Thursday",
+  delivery: DeliveryDay,
   plans: DeliveryMealsSelection,
   customers: Customer[]
 ): CustomerMealsSelection => {

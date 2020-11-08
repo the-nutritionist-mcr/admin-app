@@ -2,15 +2,17 @@ import React from "react";
 import Recipe from "../domain/Recipe";
 import { Select, Heading, Paragraph, majorScale } from "evergreen-ui";
 import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
+import DeliveryDay from "../types/DeliveryDay";
 import Customer from "../domain/Customer";
 import ToCookTable from "./ToCookTable";
+import ToPackTable from "./ToPackTable";
 import recipeStore from "../stores/RecipeStore";
 import customerStore from "../stores/CustomerStore";
 import { getRecipes } from "../actions/recipes";
 import { getCustomers } from "../actions/customers";
 import { chooseMeals, makePlan } from "../lib/plan-meals";
 
-const plans: DeliveryMealsSelection = [
+const defaultPlans: DeliveryMealsSelection = [
   undefined,
   undefined,
   undefined,
@@ -19,8 +21,22 @@ const plans: DeliveryMealsSelection = [
   undefined,
 ];
 
+const LOCALSTORAGE_KEY_PLANNED = "TnmPlanned";
+const LOCALSTORAGE_KEY_DAY = "TnmDay";
+
 const Planner = () => {
-  const [planned, setPlanned] = React.useState<DeliveryMealsSelection>(plans);
+  const parsedPlans = JSON.parse(
+    localStorage.getItem(LOCALSTORAGE_KEY_PLANNED) ||
+      JSON.stringify(defaultPlans)
+  );
+
+  const [day, setDay] = React.useState<DeliveryDay>(
+    (localStorage.getItem(LOCALSTORAGE_KEY_DAY) as DeliveryDay) || "Monday"
+  );
+
+  const [planned, setPlanned] = React.useState<DeliveryMealsSelection>(
+    parsedPlans
+  );
 
   const [recipes, setRecipes] = React.useState<Recipe[]>(
     recipeStore.getRecipes()
@@ -30,7 +46,7 @@ const Planner = () => {
     customerStore.getCustomers()
   );
 
-  const chosenMeals = chooseMeals("Monday", planned, customers);
+  const chosenMeals = chooseMeals(day, planned, customers);
   const cookPlan = makePlan(chosenMeals);
 
   const onChangeRecipes = () => {
@@ -53,6 +69,8 @@ const Planner = () => {
     return () => recipeStore.removeChangeListener(onChangeRecipes);
   }, []);
 
+  const activeSelections = planned.filter(Boolean);
+
   return (
     <React.Fragment>
       <Heading is="h2" size={700} marginBottom={majorScale(2)}>
@@ -60,7 +78,14 @@ const Planner = () => {
       </Heading>
       <Paragraph>
         Planning for{" "}
-        <Select marginBottom={majorScale(2)}>
+        <Select
+          value={day}
+          marginBottom={majorScale(2)}
+          onChange={(event) => {
+            setDay(event.target.value as DeliveryDay);
+            localStorage.setItem(LOCALSTORAGE_KEY_DAY, event.target.value);
+          }}
+        >
           <option>Monday</option>
           <option>Thursday</option>
         </Select>
@@ -68,6 +93,7 @@ const Planner = () => {
       <Paragraph>Select the meals for this delivery:</Paragraph>
       {planned.map((_plan, index) => (
         <Select
+          value={planned[index]?.id}
           marginBottom={majorScale(2)}
           marginTop={majorScale(2)}
           marginRight={majorScale(1)}
@@ -75,6 +101,10 @@ const Planner = () => {
             const newPlanned = [...planned];
             newPlanned[index] = recipes.find(
               (recipe) => recipe.id === parseInt(event.target.value, 10)
+            );
+            localStorage.setItem(
+              LOCALSTORAGE_KEY_PLANNED,
+              JSON.stringify(newPlanned)
             );
             setPlanned(newPlanned);
           }}
@@ -85,16 +115,20 @@ const Planner = () => {
           ))}
         </Select>
       ))}
-      {cookPlan.length > 0 ? <ToCookTable plan={cookPlan} /> : null}
-
-      <Heading
-        is="h2"
-        size={700}
-        marginBottom={majorScale(2)}
-        marginTop={majorScale(2)}
-      >
-        To Pack
-      </Heading>
+      {activeSelections.length === defaultPlans.length ? (
+        <React.Fragment>
+          <ToCookTable plan={cookPlan} />
+          <ToPackTable
+            customerMeals={chosenMeals}
+            deliveryMeals={defaultPlans}
+          />
+        </React.Fragment>
+      ) : (
+        <Paragraph>
+          To calculate your delivery plan, please choose all{" "}
+          {defaultPlans.length} recipes
+        </Paragraph>
+      )}
     </React.Fragment>
   );
 };

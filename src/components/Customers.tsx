@@ -38,6 +38,7 @@ const Customers = () => {
           <Table.TextHeaderCell>Meals per Week</Table.TextHeaderCell>
           <Table.TextHeaderCell>Plan</Table.TextHeaderCell>
           <Table.TextHeaderCell>Allergic To</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Actions</Table.TextHeaderCell>
         </Table.Head>
         <Table.Body>
           {customers.map((customer) => (

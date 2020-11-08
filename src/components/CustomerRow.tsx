@@ -1,6 +1,7 @@
 import React from "react";
 import Customer from "../domain/Customer";
-import { Table } from "evergreen-ui";
+import { CrossIcon, IconButton, Table } from "evergreen-ui";
+import { deleteCustomer } from "../actions/customers";
 import { allergens } from "../domain/Recipe";
 import InputField from "./InputField";
 import SelectField from "./SelectField";
@@ -79,6 +80,13 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => (
             (item) => item !== itemToRemove.value
           );
         }}
+      />
+    </Table.TextCell>
+    <Table.TextCell>
+      <IconButton
+        onClick={() => deleteCustomer(props.customer)}
+        icon={CrossIcon}
+        height={40}
       />
     </Table.TextCell>
   </Table.Row>

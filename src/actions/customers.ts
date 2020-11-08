@@ -7,7 +7,7 @@ export enum ActionTypes {
   UpdateCustomer = "UpdateCustomer",
 }
 
-const customers: Customer[] = [];
+const LOCALSTORAGE_KEY = "TnmCustomers";
 
 type CustomerDispatchPayload = {
   actionTypes: ActionTypes;
@@ -15,6 +15,10 @@ type CustomerDispatchPayload = {
 };
 
 export const getCustomers = () => {
+  const customers: Customer[] = JSON.parse(
+    localStorage.getItem(LOCALSTORAGE_KEY) || "[]"
+  );
+
   const payload: CustomerDispatchPayload = {
     actionTypes: ActionTypes.GetCustomers,
     customers,
@@ -23,26 +27,64 @@ export const getCustomers = () => {
 };
 
 export const createBlankCustomer = () => {
+  const customers: Customer[] = JSON.parse(
+    localStorage.getItem(LOCALSTORAGE_KEY) || "[]"
+  );
+
+  const blankCustomer: Customer = {
+    id: customers.length > 0 ? customers[customers.length - 1].id + 1 : 1,
+    name: "",
+    email: "",
+    mealsPerWeek: 12,
+    plan: { name: "min", costPerMeal: 250 },
+    allergicTo: [],
+  };
+
+  customers.push(blankCustomer);
+
+  localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(customers));
+
   const payload: CustomerDispatchPayload = {
     actionTypes: ActionTypes.CreateBlankCustomer,
-    customers: [
-      {
-        id: 1,
-        name: "",
-        email: "",
-        mealsPerWeek: 12,
-        plan: { name: "min", costPerMeal: 250 },
-        allergicTo: [],
-      },
-    ],
+    customers,
   };
+
   dispatcher.dispatch(payload);
 };
 
 export const updateCustomer = (oldCustomer: Customer, customer: Customer) => {
+  const customers: Customer[] = JSON.parse(
+    localStorage.getItem(LOCALSTORAGE_KEY) || "[]"
+  );
+
+  const index = customers.findIndex(
+    (customer) => customer.id === oldCustomer.id
+  );
+  customers[index] = customer;
+
+  localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(customers));
+
   const payload: CustomerDispatchPayload = {
     actionTypes: ActionTypes.UpdateCustomer,
-    customers: [oldCustomer, customer],
+    customers,
+  };
+
+  dispatcher.dispatch(payload);
+};
+
+export const deleteCustomer = (customer: Customer) => {
+  let customers: Customer[] = JSON.parse(
+    localStorage.getItem(LOCALSTORAGE_KEY) || "[]"
+  );
+
+  customers = customers.filter(
+    (searchedCustomer) => searchedCustomer.id !== customer.id
+  );
+  localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(customers));
+
+  const payload: CustomerDispatchPayload = {
+    actionTypes: ActionTypes.UpdateCustomer,
+    customers,
   };
 
   dispatcher.dispatch(payload);

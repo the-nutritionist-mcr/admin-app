@@ -1,7 +1,8 @@
 import React from "react";
 import Recipe from "../domain/Recipe";
 import { allergens } from "../domain/Recipe";
-import { Table } from "evergreen-ui";
+import { deleteRecipe } from "../actions/recipes";
+import { Table, CrossIcon, IconButton } from "evergreen-ui";
 import InputField from "./InputField";
 import MultiSelectField from "./MultiSelectField";
 
@@ -46,6 +47,14 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => (
             (item) => item !== itemToRemove.value
           );
         }}
+      />
+    </Table.TextCell>
+
+    <Table.TextCell>
+      <IconButton
+        onClick={() => deleteRecipe(props.recipe)}
+        icon={CrossIcon}
+        height={40}
       />
     </Table.TextCell>
   </Table.Row>

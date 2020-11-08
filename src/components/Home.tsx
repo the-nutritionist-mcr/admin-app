@@ -1,12 +1,14 @@
 import React from "react";
-import { Heading, Paragraph } from "evergreen-ui";
+import { Heading, Paragraph, majorScale } from "evergreen-ui";
 
 const Home = () => (
   <React.Fragment>
-    <Heading is="h2" size={700}>
+    <Heading is="h2" size={700} marginBottom={majorScale(2)}>
       Home Page
     </Heading>
-    <Paragraph>Click on one of the links above</Paragraph>
+    <Paragraph>
+      Nothing to see here. Click on one of the links above...
+    </Paragraph>
   </React.Fragment>
 );
 

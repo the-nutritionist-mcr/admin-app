@@ -29,7 +29,7 @@ const Recipes: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Heading is="h2" size={700}>
+      <Heading is="h2" size={700} marginBottom={majorScale(2)}>
         Recipes
       </Heading>
       <Table>
@@ -37,6 +37,7 @@ const Recipes: React.FC = () => {
           <Table.TextHeaderCell>Name</Table.TextHeaderCell>
           <Table.TextHeaderCell>Description</Table.TextHeaderCell>
           <Table.TextHeaderCell>Allergens</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Actions</Table.TextHeaderCell>
         </Table.Head>
         <Table.Body>
           {recipes.map((recipe) => (

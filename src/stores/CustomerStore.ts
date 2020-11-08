@@ -34,19 +34,9 @@ dispatcher.register((payload) => {
 
   switch (payloadAsAny.actionTypes) {
     case ActionTypes.GetCustomers:
-      customers = payloadAsAny.customers;
-      store.emitChange();
-      break;
-
     case ActionTypes.CreateBlankCustomer:
-      customers = [...customers, payloadAsAny.customers[0]];
-      store.emitChange();
-      break;
-
     case ActionTypes.UpdateCustomer:
-      const [oldCustomer, customer] = payloadAsAny.customers;
-      const index = customers.indexOf(oldCustomer);
-      customers[index] = customer;
+      customers = payloadAsAny.customers;
       store.emitChange();
       break;
   }

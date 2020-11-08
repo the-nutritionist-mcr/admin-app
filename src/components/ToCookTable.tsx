@@ -1,6 +1,14 @@
 import React from "react";
 import CookPlan from "../types/CookPlan";
-import { Table, Heading, majorScale } from "evergreen-ui";
+import {
+  UnorderedList,
+  ListItem,
+  Strong,
+  Text,
+  Table,
+  Heading,
+  majorScale,
+} from "evergreen-ui";
 
 interface ToCookTableProps {
   plan: CookPlan;
@@ -18,19 +26,31 @@ const ToCookTable: React.FC<ToCookTableProps> = (props) => (
     </Heading>
     <Table>
       <Table.Head>
-        <Table.TextHeaderCell>Meal</Table.TextHeaderCell>
-        <Table.TextHeaderCell>Variant</Table.TextHeaderCell>
-        <Table.TextHeaderCell>Quantity</Table.TextHeaderCell>
+        <Table.TextHeaderCell>
+          <Strong>Meal</Strong>
+        </Table.TextHeaderCell>
+        <Table.TextHeaderCell>
+          <Strong>Quantities</Strong>
+        </Table.TextHeaderCell>
       </Table.Head>
-      {props.plan.map((item) =>
-        Object.keys(item.plan).map((variantName) => (
-          <Table.Row>
-            <Table.TextCell>{item.recipe.name}</Table.TextCell>
-            <Table.TextCell>{variantName}</Table.TextCell>
-            <Table.TextCell>{item.plan[variantName]}</Table.TextCell>
-          </Table.Row>
-        ))
-      )}
+      {props.plan.map((item) => (
+        <Table.Row height="auto">
+          <Table.TextCell>
+            <Text>{item.recipe.name}</Text>
+          </Table.TextCell>
+          <Table.TextCell>
+            <UnorderedList>
+              {Object.keys(item.plan).map((variantName) => (
+                <ListItem>
+                  <Text>
+                    {item.plan[variantName]} x {variantName}
+                  </Text>
+                </ListItem>
+              ))}
+            </UnorderedList>
+          </Table.TextCell>
+        </Table.Row>
+      ))}
     </Table>
   </React.Fragment>
 );

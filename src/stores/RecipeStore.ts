@@ -34,22 +34,9 @@ dispatcher.register((payload) => {
 
   switch (payloadAsAny.actionTypes) {
     case ActionTypes.GetRecipes:
-      recipes = payloadAsAny.recipes;
-      store.emitChange();
-      break;
-
     case ActionTypes.CreateBlankRecipe:
-      const blankRecipe = payloadAsAny.recipes[0];
-      blankRecipe.id =
-        recipes.length > 0 ? recipes[recipes.length - 1].id + 1 : 0;
-      recipes = [...recipes, blankRecipe];
-      store.emitChange();
-      break;
-
     case ActionTypes.UpdateRecipe:
-      const [oldRecipe, recipe] = payloadAsAny.recipes;
-      const index = recipes.indexOf(oldRecipe);
-      recipes[index] = recipe;
+      recipes = payloadAsAny.recipes;
       store.emitChange();
       break;
   }
