@@ -45,7 +45,11 @@ const Recipes: React.FC = () => {
           ))}
         </Table.Body>
       </Table>
-      <Button marginTop={majorScale(2)} onClick={createBlankRecipe}>
+      <Button
+        appearance="primary"
+        marginTop={majorScale(2)}
+        onClick={createBlankRecipe}
+      >
         Create New
       </Button>
     </React.Fragment>

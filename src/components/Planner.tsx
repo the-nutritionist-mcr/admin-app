@@ -1,6 +1,13 @@
 import React from "react";
 import Recipe from "../domain/Recipe";
-import { Select, Heading, Paragraph, majorScale } from "evergreen-ui";
+import {
+  CrossIcon,
+  Button,
+  Select,
+  Heading,
+  Paragraph,
+  majorScale,
+} from "evergreen-ui";
 import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
 import DeliveryDay from "../types/DeliveryDay";
 import Customer from "../domain/Customer";
@@ -25,7 +32,7 @@ const LOCALSTORAGE_KEY_PLANNED = "TnmPlanned";
 const LOCALSTORAGE_KEY_DAY = "TnmDay";
 
 const Planner = () => {
-  const parsedPlans = JSON.parse(
+  const savedPlanIds: (undefined | number)[] = JSON.parse(
     localStorage.getItem(LOCALSTORAGE_KEY_PLANNED) ||
       JSON.stringify(defaultPlans)
   );
@@ -35,7 +42,9 @@ const Planner = () => {
   );
 
   const [planned, setPlanned] = React.useState<DeliveryMealsSelection>(
-    parsedPlans
+    savedPlanIds.map((id) =>
+      id !== undefined ? recipeStore.getById(id) : undefined
+    )
   );
 
   const [recipes, setRecipes] = React.useState<Recipe[]>(
@@ -60,12 +69,8 @@ const Planner = () => {
   React.useEffect(() => {
     recipeStore.addChangeListener(onChangeRecipes);
     customerStore.addChangeListener(onChangeCustomers);
-    if (recipeStore.getRecipes().length === 0) {
-      getRecipes();
-    }
-    if (customerStore.getCustomers().length === 0) {
-      getCustomers();
-    }
+    getRecipes();
+    getCustomers();
     return () => recipeStore.removeChangeListener(onChangeRecipes);
   }, []);
 
@@ -93,7 +98,7 @@ const Planner = () => {
       <Paragraph>Select the meals for this delivery:</Paragraph>
       {planned.map((_plan, index) => (
         <Select
-          value={planned[index]?.id}
+          value={planned[index]?.id || "None"}
           marginBottom={majorScale(2)}
           marginTop={majorScale(2)}
           marginRight={majorScale(1)}
@@ -104,7 +109,7 @@ const Planner = () => {
             );
             localStorage.setItem(
               LOCALSTORAGE_KEY_PLANNED,
-              JSON.stringify(newPlanned)
+              JSON.stringify(newPlanned.map((item) => item?.id))
             );
             setPlanned(newPlanned);
           }}
@@ -115,6 +120,21 @@ const Planner = () => {
           ))}
         </Select>
       ))}
+      {activeSelections.length > 0 ? (
+        <Button
+          intent="danger"
+          iconBefore={CrossIcon}
+          onClick={() => {
+            setPlanned(defaultPlans);
+            localStorage.setItem(
+              LOCALSTORAGE_KEY_PLANNED,
+              JSON.stringify(defaultPlans)
+            );
+          }}
+        >
+          Clear Plan
+        </Button>
+      ) : null}
       {activeSelections.length === defaultPlans.length ? (
         <React.Fragment>
           <ToCookTable plan={cookPlan} />

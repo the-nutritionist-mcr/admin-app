@@ -5,6 +5,7 @@ export enum ActionTypes {
   GetCustomers = "GetCustomers",
   CreateBlankCustomer = "CreateBlankCustomer",
   UpdateCustomer = "UpdateCustomer",
+  DeleteCustomer = "DeleteCustomer",
 }
 
 const LOCALSTORAGE_KEY = "TnmCustomers";
@@ -83,7 +84,7 @@ export const deleteCustomer = (customer: Customer) => {
   localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(customers));
 
   const payload: CustomerDispatchPayload = {
-    actionTypes: ActionTypes.UpdateCustomer,
+    actionTypes: ActionTypes.DeleteCustomer,
     customers,
   };
 

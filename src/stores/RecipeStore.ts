@@ -22,6 +22,10 @@ class RecipeStore extends EventEmitter {
     this.emit(CHANGE_EVENT);
   }
 
+  public getById(id: number) {
+    return recipes.find((recipe) => recipe.id === id);
+  }
+
   getRecipes() {
     return recipes;
   }
@@ -36,6 +40,7 @@ dispatcher.register((payload) => {
     case ActionTypes.GetRecipes:
     case ActionTypes.CreateBlankRecipe:
     case ActionTypes.UpdateRecipe:
+    case ActionTypes.DeleteRecipe:
       recipes = payloadAsAny.recipes;
       store.emitChange();
       break;

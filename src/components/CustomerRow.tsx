@@ -84,6 +84,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => (
     </Table.TextCell>
     <Table.TextCell>
       <IconButton
+        intent="danger"
         onClick={() => deleteCustomer(props.customer)}
         icon={CrossIcon}
         height={40}

@@ -5,6 +5,7 @@ export enum ActionTypes {
   GetRecipes = "GetRecipe",
   CreateBlankRecipe = "CreateBlankRecipe",
   UpdateRecipe = "UpdateRecipe",
+  DeleteRecipe = "DeleteRecipe",
 }
 
 const LOCALSTORAGE_KEY = "TnmRecipes";
@@ -79,7 +80,7 @@ export const deleteRecipe = (recipe: Recipe) => {
   localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(recipes));
 
   const payload: RecipeDispatchPayload = {
-    actionTypes: ActionTypes.UpdateRecipe,
+    actionTypes: ActionTypes.DeleteRecipe,
     recipes,
   };
 

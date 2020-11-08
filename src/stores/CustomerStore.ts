@@ -36,6 +36,7 @@ dispatcher.register((payload) => {
     case ActionTypes.GetCustomers:
     case ActionTypes.CreateBlankCustomer:
     case ActionTypes.UpdateCustomer:
+    case ActionTypes.DeleteCustomer:
       customers = payloadAsAny.customers;
       store.emitChange();
       break;

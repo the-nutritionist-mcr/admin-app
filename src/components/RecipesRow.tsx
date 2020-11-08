@@ -52,6 +52,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => (
 
     <Table.TextCell>
       <IconButton
+        intent="danger"
         onClick={() => deleteRecipe(props.recipe)}
         icon={CrossIcon}
         height={40}

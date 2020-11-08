@@ -20,9 +20,7 @@ const Customers = () => {
 
   React.useEffect(() => {
     customerStore.addChangeListener(onChangeCustomers);
-    if (customerStore.getCustomers().length === 0) {
-      getCustomers();
-    }
+    getCustomers();
     return () => customerStore.removeChangeListener(onChangeCustomers);
   }, []);
 
@@ -50,7 +48,11 @@ const Customers = () => {
           ))}
         </Table.Body>
       </Table>
-      <Button marginTop={majorScale(2)} onClick={createBlankCustomer}>
+      <Button
+        appearance="primary"
+        marginTop={majorScale(2)}
+        onClick={createBlankCustomer}
+      >
         Create New
       </Button>
     </React.Fragment>
