@@ -15,20 +15,20 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
-test:
-  artifacts:
-    baseDirectory: cypress
-    files:
-      - "**/*.png"
-      - "**/*.mp4"
-  phases:
-    preTest:
-      commands:
-        - nvm use $VERSION_NODE_12
-        - yarn install
-    test:
-      commands:
-        - yarn start:and-wait && yarn test:cypress:record
-    postTest:
-      commands:
-        - yarn mochawesome-merge@4 cypress/report/mochawesome-report/*.json > cypress/report/mochawesome.json
+# test:
+#   artifacts:
+#     baseDirectory: cypress
+#     files:
+#       - "**/*.png"
+#       - "**/*.mp4"
+#   phases:
+#     preTest:
+#       commands:
+#         - nvm use $VERSION_NODE_12
+#         - yarn install
+#     test:
+#       commands:
+#         - yarn start:and-wait && yarn test:cypress:record
+#     postTest:
+#       commands:
+#         - yarn mochawesome-merge@4 cypress/report/mochawesome-report/*.json > cypress/report/mochawesome.json
