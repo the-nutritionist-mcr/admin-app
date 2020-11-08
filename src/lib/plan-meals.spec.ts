@@ -1,4 +1,5 @@
 import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
+import CustomerMealsSelection from "../types/CustomerMealsSelection";
 import Recipe from "../domain/Recipe";
 import Customer, { Snack } from "../domain/Customer";
 import { mock as mockExtended } from "jest-mock-extended";
@@ -126,4 +127,108 @@ describe("chooseMeals", () => {
       expect(actual[2].meals[5]).toBe(mealSix);
     }
   );
+});
+
+describe("makePlan", () => {
+  it("Returns an empty array if there is nothing in the cookplan", () => {
+    const actual = planMeals.makePlan([]);
+    expect(actual).toBeInstanceOf(Array);
+    expect(actual).toHaveLength(0);
+  });
+
+  it("Collects together all recipes correctly when there is no variants and there is only one type of meal", () => {
+    const recipeOne: Recipe = {
+      id: 0,
+      name: "foo-recipe",
+      allergens: [],
+    };
+
+    const recipeTwo: Recipe = {
+      id: 1,
+      name: "bar-recipe",
+      allergens: [],
+    };
+
+    const recipeThree: Recipe = {
+      id: 2,
+      name: "baz-recipe",
+      allergens: [],
+    };
+
+    const plan: CustomerMealsSelection = [
+      {
+        meals: [recipeOne, recipeTwo],
+        customer: {
+          id: 0,
+          name: "foo",
+          email: "foo-email",
+          daysPerWeek: 6,
+          breakfast: false,
+          snack: Snack.None,
+          plan: {
+            mealsPerDay: 2,
+            costPerMeal: 850,
+            category: "Mass",
+          },
+          allergicTo: [],
+        },
+      },
+      {
+        meals: [recipeOne],
+        customer: {
+          id: 1,
+          name: "foo1",
+          email: "foo1-email",
+          daysPerWeek: 6,
+          breakfast: false,
+          snack: Snack.None,
+          plan: {
+            mealsPerDay: 2,
+            costPerMeal: 850,
+            category: "Mass",
+          },
+          allergicTo: [],
+        },
+      },
+      {
+        meals: [recipeOne, recipeTwo, recipeThree],
+        customer: {
+          id: 2,
+          name: "foo2",
+          email: "foo2-email",
+          daysPerWeek: 6,
+          breakfast: false,
+          snack: Snack.None,
+          plan: {
+            mealsPerDay: 2,
+            costPerMeal: 850,
+            category: "Mass",
+          },
+          allergicTo: [],
+        },
+      },
+    ];
+
+    const actual = planMeals.makePlan(plan);
+
+    expect(actual).toHaveLength(3);
+
+    const firstPlan = actual.find(
+      (individualPlan) => individualPlan.recipe.name === recipeOne.name
+    );
+
+    expect(firstPlan?.plan["Mass"]).toEqual(3);
+
+    const secondPlan = actual.find(
+      (individualPlan) => individualPlan.recipe.name === recipeTwo.name
+    );
+
+    expect(secondPlan?.plan["Mass"]).toEqual(2);
+
+    const thirdPlan = actual.find(
+      (individualPlan) => individualPlan.recipe.name === recipeThree.name
+    );
+
+    expect(thirdPlan?.plan["Mass"]).toEqual(1);
+  });
 });
