@@ -1,11 +1,9 @@
 version: 1
 frontend:
   phases:
-    test:
-      commands:
-        - yarn test
     preBuild:
       commands:
+        - nvm install 12
         - yarn install
     build:
       commands:
@@ -13,7 +11,7 @@ frontend:
   artifacts:
     baseDirectory: build
     files:
-      - '**/*'
+      - "**/*"
   cache:
     paths:
       - node_modules/**/*
