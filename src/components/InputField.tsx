@@ -22,7 +22,12 @@ function InputField<T>(
   };
 
   return (
-    <TextInput type={props.type} value={props.value} onChange={onChange} />
+    <TextInput
+      width="100%"
+      type={props.type}
+      value={props.value}
+      onChange={onChange}
+    />
   );
 }
 

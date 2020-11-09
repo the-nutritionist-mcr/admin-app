@@ -44,7 +44,7 @@ function SelectField<T>(
   const mappedOptions = mapOptions(props.options);
 
   return (
-    <Select value={selected} onChange={onChange}>
+    <Select width="100%" value={selected} onChange={onChange}>
       {mappedOptions.map((item) => (
         <option value={item.value}>{item.label}</option>
       ))}

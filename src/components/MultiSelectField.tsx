@@ -57,7 +57,11 @@ function SelectField<T>(
       selected={selected}
       isMultiSelect={true}
     >
-      {<Button>{selected.length > 0 ? selected.join(", ") : "None"}</Button>}
+      {
+        <Button width="100%">
+          {selected.length > 0 ? selected.join(", ") : "None"}
+        </Button>
+      }
     </SelectMenu>
   );
 }
