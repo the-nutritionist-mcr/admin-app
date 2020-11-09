@@ -18,6 +18,10 @@ const getDeliveryMeals = (
       return delivery === "Monday" ? 6 : 4;
     case 12:
       return 6;
+    case 15:
+      return delivery === "Monday" ? 9 : 6;
+    case 18:
+      return 9;
   }
   return 0;
 };
@@ -38,7 +42,7 @@ export const chooseMeals = (
         )
       ),
     ]
-      .map((_value, index) => chosenPlans[index])
+      .map((_value, index) => chosenPlans[index % plans.length])
       .filter(Boolean),
   }));
 };

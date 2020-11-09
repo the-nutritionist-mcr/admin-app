@@ -28,10 +28,14 @@ describe("chooseMeals", () => {
   });
 
   it.each([
+    [9, "Monday", 3, 6],
+    [9, "Monday", 3, 5],
     [6, "Monday", 2, 6],
     [6, "Monday", 2, 5],
     [3, "Monday", 1, 5],
     [3, "Monday", 1, 6],
+    [9, "Thursday", 3, 6],
+    [6, "Thursday", 3, 5],
     [6, "Thursday", 2, 6],
     [4, "Thursday", 2, 5],
     [3, "Thursday", 1, 6],
@@ -104,17 +108,13 @@ describe("chooseMeals", () => {
 
       const actual = planMeals.chooseMeals(day, mealsSelection, customers);
 
-      const remaining = mealsSelection.length - meals;
-
       expect(actual[1].customer).toEqual(customerTwo);
       expect(actual[1].meals).toHaveLength(meals);
 
       [...Array(meals)].forEach((_item, index) => {
-        expect(actual[1].meals[index]).toBe(mealsSelection[index]);
-      });
-
-      [...Array(remaining)].forEach((_item, index) => {
-        expect(actual[1].meals[meals + index]).toBeUndefined();
+        expect(actual[1].meals[index]).toBe(
+          mealsSelection[index % mealsSelection.length]
+        );
       });
 
       expect(actual[2].customer).toEqual(customerThree);
