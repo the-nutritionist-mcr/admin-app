@@ -91,6 +91,7 @@ const Planner = () => {
             localStorage.setItem(LOCALSTORAGE_KEY_DAY, event.target.value);
           }}
         >
+          <option>Select Day</option>
           <option>Monday</option>
           <option>Thursday</option>
         </Select>
@@ -125,6 +126,7 @@ const Planner = () => {
           intent="danger"
           iconBefore={CrossIcon}
           onClick={() => {
+            setDay("Select Day");
             setPlanned(defaultPlans);
             localStorage.setItem(
               LOCALSTORAGE_KEY_PLANNED,
@@ -135,7 +137,8 @@ const Planner = () => {
           Clear Plan
         </Button>
       ) : null}
-      {activeSelections.length === defaultPlans.length ? (
+      {activeSelections.length === defaultPlans.length &&
+      day !== "Select Day" ? (
         <React.Fragment>
           <ToCookTable plan={cookPlan} />
           <ToPackTable
