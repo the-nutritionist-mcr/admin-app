@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Link, majorScale } from "evergreen-ui";
+import { Button } from "grommet";
 
 interface MenuLinkProps {
   to: string;
@@ -9,20 +9,17 @@ interface MenuLinkProps {
 const MenuLink: React.FC<MenuLinkProps> = (props) => {
   const history = useHistory();
 
-  const onClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    event.preventDefault();
+  const onClick = () => {
     history.push(props.to);
   };
 
   return (
-    <Link
-      marginLeft={majorScale(2)}
-      marginRight={majorScale(2)}
-      href={props.to}
+    <Button
+      plain={true}
       onClick={onClick}
-    >
-      {props.children}
-    </Link>
+      hoverIndicator
+      label={props.children}
+    />
   );
 };
 

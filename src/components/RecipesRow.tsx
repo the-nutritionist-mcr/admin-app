@@ -3,7 +3,7 @@ import Recipe from "../domain/Recipe";
 import { allergens } from "../domain/Recipe";
 import { deleteRecipe } from "../actions/recipes";
 import { Table, CrossIcon, IconButton } from "evergreen-ui";
-import InputField from "./InputField";
+import TableCellInputField from "./TableCellInputField";
 import MultiSelectField from "./MultiSelectField";
 
 interface RecipesRowProps {
@@ -14,7 +14,7 @@ interface RecipesRowProps {
 const RecipesRow: React.FC<RecipesRowProps> = (props) => (
   <Table.Row>
     <Table.TextCell>
-      <InputField
+      <TableCellInputField
         thing={props.recipe}
         value={props.recipe.name}
         mutator={(newRecipe, event) => {
@@ -24,7 +24,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => (
       />
     </Table.TextCell>
     <Table.TextCell>
-      <InputField
+      <TableCellInputField
         thing={props.recipe}
         value={props.recipe.description}
         mutator={(newRecipe, event) => {

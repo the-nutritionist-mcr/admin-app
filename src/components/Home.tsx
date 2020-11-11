@@ -1,9 +1,9 @@
 import React from "react";
-import { Heading, Paragraph, majorScale } from "evergreen-ui";
+import { Heading, Paragraph } from "grommet";
 
 const Home = () => (
   <React.Fragment>
-    <Heading is="h2" size={700} marginBottom={majorScale(2)}>
+    <Heading level={2} size="small">
       Home Page
     </Heading>
     <Paragraph>

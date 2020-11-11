@@ -1,6 +1,15 @@
 import React from "react";
 import Customer from "../domain/Customer";
-import { Heading, Button, Table, majorScale } from "evergreen-ui";
+import {
+  Box,
+  Button,
+  Heading,
+  Table,
+  TableRow,
+  TableCell,
+  TableHeader,
+  TableBody,
+} from "grommet";
 import CustomerRow from "./CustomerRow";
 import {
   updateCustomer,
@@ -26,19 +35,21 @@ const Customers = () => {
 
   return (
     <React.Fragment>
-      <Heading is="h2" size={700} marginBottom={majorScale(2)}>
+      <Heading level={2} size="small">
         Customers
       </Heading>
-      <Table marginBottom={majorScale(2)} marginTop={majorScale(2)}>
-        <Table.Head>
-          <Table.TextHeaderCell>Name</Table.TextHeaderCell>
-          <Table.TextHeaderCell>Email</Table.TextHeaderCell>
-          <Table.TextHeaderCell>Days per week</Table.TextHeaderCell>
-          <Table.TextHeaderCell>Plan</Table.TextHeaderCell>
-          <Table.TextHeaderCell>Allergic To</Table.TextHeaderCell>
-          <Table.TextHeaderCell>Actions</Table.TextHeaderCell>
-        </Table.Head>
-        <Table.Body>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableCell scope="col">Name</TableCell>
+            <TableCell scope="col">Email</TableCell>
+            <TableCell scope="col">Days per week</TableCell>
+            <TableCell scope="col">Plan</TableCell>
+            <TableCell scope="col">Allergic To</TableCell>
+            <TableCell scope="col">Actions</TableCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {customers.map((customer) => (
             <CustomerRow
               key={customer.id}
@@ -46,15 +57,17 @@ const Customers = () => {
               onChange={updateCustomer}
             />
           ))}
-        </Table.Body>
+        </TableBody>
       </Table>
-      <Button
-        appearance="primary"
-        marginTop={majorScale(2)}
-        onClick={createBlankCustomer}
-      >
-        Create New
-      </Button>
+      <Box direction="row" pad="medium">
+        <Button
+          margin="10"
+          size="large"
+          primary
+          onClick={createBlankCustomer}
+          label="Create New"
+        />
+      </Box>
     </React.Fragment>
   );
 };

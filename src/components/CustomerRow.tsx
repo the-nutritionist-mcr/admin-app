@@ -1,11 +1,12 @@
 import React from "react";
 import Customer from "../domain/Customer";
-import { CrossIcon, IconButton, Table } from "evergreen-ui";
+import { TableRow, TableCell, Button } from "grommet";
 import { deleteCustomer } from "../actions/customers";
 import { allergens } from "../domain/Recipe";
+import Plan from "../domain/Plan";
 import { plans, daysPerWeekOptions } from "../lib/config";
-import InputField from "./InputField";
-import SelectField from "./SelectField";
+import TableCellInputField from "./TableCellInputField";
+import TableCellSelectField from "./TableCellSelectField";
 import MultiSelectField from "./MultiSelectField";
 
 interface CustomerRowProps {
@@ -14,9 +15,9 @@ interface CustomerRowProps {
 }
 
 const CustomerRow: React.FC<CustomerRowProps> = (props) => (
-  <Table.Row>
-    <Table.TextCell>
-      <InputField
+  <TableRow>
+    <TableCell scope="row">
+      <TableCellInputField
         thing={props.customer}
         mutator={(newCustomer, event) => {
           newCustomer.name = event.target.value;
@@ -24,9 +25,9 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => (
         value={props.customer.name}
         onChange={props.onChange}
       />
-    </Table.TextCell>
-    <Table.TextCell>
-      <InputField
+    </TableCell>
+    <TableCell>
+      <TableCellInputField
         thing={props.customer}
         type="email"
         mutator={(newCustomer, event) => {
@@ -35,33 +36,35 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => (
         value={props.customer.email}
         onChange={props.onChange}
       />
-    </Table.TextCell>
-    <Table.TextCell>
-      <SelectField
+    </TableCell>
+    <TableCell>
+      <TableCellSelectField
         thing={props.customer}
         options={daysPerWeekOptions.map(String)}
         value={String(props.customer.daysPerWeek)}
         mutator={(newCustomer, event) => {
-          newCustomer.daysPerWeek = parseInt(event.target.value, 10);
+          newCustomer.daysPerWeek = parseInt(event.value, 10);
+          console.log("Mutating");
+          console.log(event);
+          console.log(event.value);
+          console.log(newCustomer);
         }}
         onChange={props.onChange}
       />
-    </Table.TextCell>
-    <Table.TextCell>
-      <SelectField
+    </TableCell>
+    <TableCell>
+      <TableCellSelectField
         thing={props.customer}
-        options={plans.map((plan) => ({
-          label: `${plan.category} ${plan.mealsPerDay}`,
-          value: `${plan.category} ${plan.mealsPerDay}`,
-        }))}
-        value={`${props.customer.plan.category} ${props.customer.plan.mealsPerDay}`}
+        options={plans}
+        valueKey={(plan: Plan) => `${plan.category} ${plan.mealsPerDay}`}
+        labelKey={(plan: Plan) => `${plan.category} ${plan.mealsPerDay}`}
+        children={(plan: Plan) => `${plan.category} ${plan.mealsPerDay}`}
+        value={props.customer.plan}
         mutator={(newCustomer, event) => {
           const plan = plans.find((plan) => {
-            const parts = event.target.value.split(" ");
-            const category = parts[0];
-            const meals = parts[1];
             return (
-              category === plan.category && meals === String(plan.mealsPerDay)
+              event.value.category === plan.category &&
+              event.value.mealsPerDay === plan.mealsPerDay
             );
           });
           if (plan) {
@@ -70,36 +73,28 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => (
         }}
         onChange={props.onChange}
       />
-    </Table.TextCell>
+    </TableCell>
 
-    <Table.TextCell>
-      <MultiSelectField
+    <TableCell>
+      <TableCellSelectField
+        multiple
         thing={props.customer}
         options={allergens}
         value={props.customer.allergicTo}
         mutator={(newCustomer, item) => {
-          newCustomer.allergicTo = [
-            ...newCustomer.allergicTo,
-            item.value.toString(),
-          ];
+          newCustomer.allergicTo = item.value;
         }}
         onChange={props.onChange}
-        remover={(newCustomer, itemToRemove) => {
-          newCustomer.allergicTo = newCustomer.allergicTo.filter(
-            (item) => item !== itemToRemove.value
-          );
-        }}
       />
-    </Table.TextCell>
-    <Table.TextCell>
-      <IconButton
-        intent="danger"
+    </TableCell>
+    <TableCell>
+      <Button
+        secondary
         onClick={() => deleteCustomer(props.customer)}
-        icon={CrossIcon}
-        height={40}
+        label="Delete"
       />
-    </Table.TextCell>
-  </Table.Row>
+    </TableCell>
+  </TableRow>
 );
 
 export default CustomerRow;

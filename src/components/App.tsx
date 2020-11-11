@@ -2,23 +2,28 @@ import React from "react";
 import Customers from "./Customers";
 import Recipes from "./Recipes";
 import Planner from "./Planner";
+import { Grommet, Main } from "grommet";
 import Home from "./Home";
 import { majorScale, Pane } from "evergreen-ui";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavBar from "./NavBar";
 
+const theme = {
+  global: {
+    font: {
+      family: "Roboto",
+      size: "14pt",
+      height: "20px",
+    },
+  },
+};
+
 const App = () => {
   return (
-    <React.Fragment>
+    <Grommet theme={theme}>
       <Router>
         <NavBar />
-        <Pane
-          elevation={1}
-          paddingLeft={majorScale(2)}
-          paddingRight={majorScale(2)}
-          paddingTop={majorScale(2)}
-          paddingBottom={majorScale(2)}
-        >
+        <Main pad={{ horizontal: "small", vertical: "medium" }}>
           <Switch>
             <Route path="/" exact>
               <Home />
@@ -33,9 +38,9 @@ const App = () => {
               <Planner />
             </Route>
           </Switch>
-        </Pane>
+        </Main>
       </Router>
-    </React.Fragment>
+    </Grommet>
   );
 };
 

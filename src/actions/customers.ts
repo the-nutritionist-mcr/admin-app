@@ -57,6 +57,9 @@ export const createBlankCustomer = () => {
 };
 
 export const updateCustomer = (oldCustomer: Customer, customer: Customer) => {
+  console.log("UPDATE");
+  console.log(oldCustomer);
+  console.log(customer);
   const customers: Customer[] = JSON.parse(
     localStorage.getItem(LOCALSTORAGE_KEY) || "[]"
   );

@@ -4,7 +4,7 @@ import { History } from "history";
 import { mock as mockExtended } from "jest-mock-extended";
 import { mocked } from "ts-jest/utils";
 import { act, render, fireEvent } from "@testing-library/react";
-import MenuLink from "./MenuLink";
+import MenuButton from "./MenuButton";
 
 jest.mock("react-router-dom", () => {
   const originalModule = jest.requireActual("react-router-dom");
@@ -24,7 +24,9 @@ describe("<MenuLink>", () => {
   it("adds to the history array when clicked", () => {
     const mockHistoryArray = mockExtended<History>();
     mocked(useHistory, true).mockReturnValue(mockHistoryArray);
-    const { getByText } = render(<MenuLink to="/foo-route">Click Me</MenuLink>);
+    const { getByText } = render(
+      <MenuButton to="/foo-route">Click Me</MenuButton>
+    );
     act(() => {
       fireEvent.click(getByText("Click Me"));
     });
