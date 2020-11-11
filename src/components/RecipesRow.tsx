@@ -2,9 +2,9 @@ import React from "react";
 import Recipe from "../domain/Recipe";
 import { allergens } from "../domain/Recipe";
 import { deleteRecipe } from "../actions/recipes";
-import { Table, CrossIcon, IconButton } from "evergreen-ui";
+import { Button, TableRow, TableCell } from "grommet";
 import TableCellInputField from "./TableCellInputField";
-import MultiSelectField from "./MultiSelectField";
+import TableCellSelectField from "./TableCellSelectField";
 
 interface RecipesRowProps {
   recipe: Recipe;
@@ -12,8 +12,8 @@ interface RecipesRowProps {
 }
 
 const RecipesRow: React.FC<RecipesRowProps> = (props) => (
-  <Table.Row>
-    <Table.TextCell>
+  <TableRow>
+    <TableCell>
       <TableCellInputField
         thing={props.recipe}
         value={props.recipe.name}
@@ -22,8 +22,8 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => (
         }}
         onChange={props.onChange}
       />
-    </Table.TextCell>
-    <Table.TextCell>
+    </TableCell>
+    <TableCell>
       <TableCellInputField
         thing={props.recipe}
         value={props.recipe.description}
@@ -32,33 +32,24 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => (
         }}
         onChange={props.onChange}
       />
-    </Table.TextCell>
-    <Table.TextCell>
-      <MultiSelectField
+    </TableCell>
+    <TableCell>
+      <TableCellSelectField
+        multiple
         thing={props.recipe}
         options={allergens}
         value={props.recipe.allergens}
         mutator={(newRecipe, item) => {
-          newRecipe.allergens = [...newRecipe.allergens, item.value.toString()];
+          newRecipe.allergens = item.value;
         }}
         onChange={props.onChange}
-        remover={(newRecipe, itemToRemove) => {
-          newRecipe.allergens = newRecipe.allergens.filter(
-            (item) => item !== itemToRemove.value
-          );
-        }}
       />
-    </Table.TextCell>
+    </TableCell>
 
-    <Table.TextCell>
-      <IconButton
-        intent="danger"
-        onClick={() => deleteRecipe(props.recipe)}
-        icon={CrossIcon}
-        height={40}
-      />
-    </Table.TextCell>
-  </Table.Row>
+    <TableCell>
+      <Button onClick={() => deleteRecipe(props.recipe)} label="Delete" />
+    </TableCell>
+  </TableRow>
 );
 
 export default RecipesRow;

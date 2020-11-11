@@ -29,11 +29,11 @@ function TableCellSelectField<
   const [selected, setSelected] = React.useState<V>(props.value);
 
   const theme = {
-    select: {
-      control: {
-        extend: `
-          font-weight: 300 !important;
-        `,
+    global: {
+      input: {
+        font: {
+          weight: 200,
+        },
       },
     },
   };

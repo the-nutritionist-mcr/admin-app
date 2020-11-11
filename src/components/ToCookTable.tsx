@@ -1,14 +1,14 @@
 import React from "react";
 import CookPlan from "../types/CookPlan";
 import {
-  UnorderedList,
-  ListItem,
-  Strong,
   Text,
   Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableCell,
   Heading,
-  majorScale,
-} from "evergreen-ui";
+} from "grommet";
 
 interface ToCookTableProps {
   plan: CookPlan;
@@ -16,41 +16,36 @@ interface ToCookTableProps {
 
 const ToCookTable: React.FC<ToCookTableProps> = (props) => (
   <React.Fragment>
-    <Heading
-      is="h2"
-      size={700}
-      marginBottom={majorScale(2)}
-      marginTop={majorScale(2)}
-    >
+    <Heading is="h2" level={2}>
       To Cook
     </Heading>
     <Table>
-      <Table.Head>
-        <Table.TextHeaderCell>
-          <Strong>Meal</Strong>
-        </Table.TextHeaderCell>
-        <Table.TextHeaderCell>
-          <Strong>Quantities</Strong>
-        </Table.TextHeaderCell>
-      </Table.Head>
-      {props.plan.map((item) => (
-        <Table.Row height="auto">
-          <Table.TextCell>
-            <Text>{item.recipe.name}</Text>
-          </Table.TextCell>
-          <Table.TextCell>
-            <UnorderedList>
-              {Object.keys(item.plan).map((variantName) => (
-                <ListItem>
-                  <Text>
-                    {item.plan[variantName]} x {variantName}
-                  </Text>
-                </ListItem>
-              ))}
-            </UnorderedList>
-          </Table.TextCell>
-        </Table.Row>
-      ))}
+      <TableHeader>
+        <TableRow>
+          <TableCell>Meal</TableCell>
+          <TableCell>Quantities</TableCell>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {props.plan.map((item) => (
+          <TableRow>
+            <TableCell>
+              <Text>{item.recipe.name}</Text>
+            </TableCell>
+            <TableCell>
+              <ul>
+                {Object.keys(item.plan).map((variantName) => (
+                  <li>
+                    <Text>
+                      {item.plan[variantName]} x {variantName}
+                    </Text>
+                  </li>
+                ))}
+              </ul>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
     </Table>
   </React.Fragment>
 );

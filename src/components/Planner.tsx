@@ -1,13 +1,6 @@
 import React from "react";
 import Recipe from "../domain/Recipe";
-import {
-  CrossIcon,
-  Button,
-  Select,
-  Heading,
-  Paragraph,
-  majorScale,
-} from "evergreen-ui";
+import { Box, Button, Select, Heading, Paragraph } from "grommet";
 import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
 import DeliveryDay from "../types/DeliveryDay";
 import Customer from "../domain/Customer";
@@ -42,9 +35,7 @@ const Planner = () => {
   );
 
   const [planned, setPlanned] = React.useState<DeliveryMealsSelection>(
-    savedPlanIds.map((id) =>
-      id !== undefined ? recipeStore.getById(id) : undefined
-    )
+    defaultPlans
   );
 
   const [recipes, setRecipes] = React.useState<Recipe[]>(
@@ -71,6 +62,11 @@ const Planner = () => {
     customerStore.addChangeListener(onChangeCustomers);
     getRecipes();
     getCustomers();
+    setPlanned(
+      savedPlanIds.map((id) =>
+        id !== undefined ? recipeStore.getById(id) : undefined
+      )
+    );
     return () => recipeStore.removeChangeListener(onChangeRecipes);
   }, []);
 
@@ -78,65 +74,57 @@ const Planner = () => {
 
   return (
     <React.Fragment>
-      <Heading is="h2" size={700} marginBottom={majorScale(2)}>
-        Planner
-      </Heading>
+      <Heading level={2}>Planner</Heading>
       <Paragraph>
         Planning for{" "}
         <Select
+          options={["Select Day", "Monday", "Thursday"]}
           value={day}
-          marginBottom={majorScale(2)}
-          onChange={(event) => {
-            setDay(event.target.value as DeliveryDay);
-            localStorage.setItem(LOCALSTORAGE_KEY_DAY, event.target.value);
+          onChange={(event: { value: DeliveryDay }) => {
+            setDay(event.value);
+            localStorage.setItem(LOCALSTORAGE_KEY_DAY, event.value);
           }}
-        >
-          <option>Select Day</option>
-          <option>Monday</option>
-          <option>Thursday</option>
-        </Select>
+        />
       </Paragraph>
       <Paragraph>Select the meals for this delivery:</Paragraph>
-      {planned.map((_plan, index) => (
-        <Select
-          value={planned[index]?.id || "None"}
-          marginBottom={majorScale(2)}
-          marginTop={majorScale(2)}
-          marginRight={majorScale(1)}
-          onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
-            const newPlanned = [...planned];
-            newPlanned[index] = recipes.find(
-              (recipe) => recipe.id === parseInt(event.target.value, 10)
-            );
-            localStorage.setItem(
-              LOCALSTORAGE_KEY_PLANNED,
-              JSON.stringify(newPlanned.map((item) => item?.id))
-            );
-            setPlanned(newPlanned);
-          }}
-        >
-          <option value={0}>None</option>
-          {recipes.map((recipe) => (
-            <option value={recipe.id}>{recipe.name}</option>
-          ))}
-        </Select>
-      ))}
-      {activeSelections.length > 0 ? (
-        <Button
-          intent="danger"
-          iconBefore={CrossIcon}
-          onClick={() => {
-            setDay("Select Day");
-            setPlanned(defaultPlans);
-            localStorage.setItem(
-              LOCALSTORAGE_KEY_PLANNED,
-              JSON.stringify(defaultPlans)
-            );
-          }}
-        >
-          Clear Plan
-        </Button>
-      ) : null}
+      <Box direction="row" gap="medium">
+        {planned.map((plan, index) => (
+          <Select
+            options={["None", ...recipes]}
+            value={plan}
+            labelKey={(labelPlan: undefined | Recipe) =>
+              labelPlan?.name ?? "None"
+            }
+            children={(childPlan: undefined | Recipe) =>
+              childPlan?.name ?? "None"
+            }
+            onChange={(event: { value: Recipe | undefined }) => {
+              const newPlanned = [...planned];
+              newPlanned[index] = recipes.find(
+                (recipe) => recipe.id === event?.value?.id
+              );
+              localStorage.setItem(
+                LOCALSTORAGE_KEY_PLANNED,
+                JSON.stringify(newPlanned.map((item) => item?.id))
+              );
+              setPlanned(newPlanned);
+            }}
+          />
+        ))}
+        {activeSelections.length > 0 ? (
+          <Button
+            onClick={() => {
+              setDay("Select Day");
+              setPlanned(defaultPlans);
+              localStorage.setItem(
+                LOCALSTORAGE_KEY_PLANNED,
+                JSON.stringify(defaultPlans)
+              );
+            }}
+            label="Clear Plan"
+          />
+        ) : null}
+      </Box>
       {activeSelections.length === defaultPlans.length &&
       day !== "Select Day" ? (
         <React.Fragment>

@@ -35,9 +35,7 @@ const Customers = () => {
 
   return (
     <React.Fragment>
-      <Heading level={2} size="small">
-        Customers
-      </Heading>
+      <Heading level={2}>Customers</Heading>
       <Table>
         <TableHeader>
           <TableRow>
@@ -61,7 +59,6 @@ const Customers = () => {
       </Table>
       <Box direction="row" pad="medium">
         <Button
-          margin="10"
           size="large"
           primary
           onClick={createBlankCustomer}

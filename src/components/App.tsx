@@ -4,7 +4,6 @@ import Recipes from "./Recipes";
 import Planner from "./Planner";
 import { Grommet, Main } from "grommet";
 import Home from "./Home";
-import { majorScale, Pane } from "evergreen-ui";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavBar from "./NavBar";
 

@@ -5,7 +5,15 @@ import Recipe from "../domain/Recipe";
 import Customer from "../domain/Customer";
 import { createVariantString } from "../lib/plan-meals";
 
-import { Text, Strong, Table, Heading, majorScale } from "evergreen-ui";
+import {
+  Text,
+  Table,
+  Heading,
+  TableCell,
+  TableHeader,
+  TableBody,
+  TableRow,
+} from "grommet";
 
 interface ToPackTableProps {
   deliveryMeals: DeliveryMealsSelection;
@@ -35,43 +43,32 @@ const makePackTableCellText = (
 const ToPackTable: React.FC<ToPackTableProps> = (props) => {
   return (
     <React.Fragment>
-      <Heading
-        is="h2"
-        size={700}
-        marginBottom={majorScale(2)}
-        marginTop={majorScale(2)}
-      >
-        To Pack
-      </Heading>
+      <Heading level={2}>To Pack</Heading>
       <Table>
-        <Table.Head>
-          <Table.TextHeaderCell>
-            <Strong>Customer Name</Strong>
-          </Table.TextHeaderCell>
+        <TableHeader>
+          <TableCell>Customer Name</TableCell>
           {props.deliveryMeals.map((_item, index) => (
-            <Table.TextHeaderCell>
-              <Strong>Meal {index + 1}</Strong>
-            </Table.TextHeaderCell>
+            <TableCell>Meal {index + 1}</TableCell>
           ))}
-        </Table.Head>
-        <Table.Body>
+        </TableHeader>
+        <TableBody>
           {props.customerMeals.map((customerPlan) => (
-            <Table.Row>
-              <Table.TextCell>
+            <TableRow>
+              <TableCell>
                 <Text>{customerPlan.customer.name}</Text>
-              </Table.TextCell>
+              </TableCell>
               {props.deliveryMeals.map((_item, index) => (
-                <Table.TextCell>
+                <TableCell>
                   {makePackTableCellText(
                     index,
                     customerPlan.meals,
                     customerPlan.customer
                   )}
-                </Table.TextCell>
+                </TableCell>
               ))}
-            </Table.Row>
+            </TableRow>
           ))}
-        </Table.Body>
+        </TableBody>
       </Table>
     </React.Fragment>
   );

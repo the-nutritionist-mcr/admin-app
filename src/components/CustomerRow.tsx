@@ -7,7 +7,6 @@ import Plan from "../domain/Plan";
 import { plans, daysPerWeekOptions } from "../lib/config";
 import TableCellInputField from "./TableCellInputField";
 import TableCellSelectField from "./TableCellSelectField";
-import MultiSelectField from "./MultiSelectField";
 
 interface CustomerRowProps {
   customer: Customer;
@@ -44,10 +43,6 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => (
         value={String(props.customer.daysPerWeek)}
         mutator={(newCustomer, event) => {
           newCustomer.daysPerWeek = parseInt(event.value, 10);
-          console.log("Mutating");
-          console.log(event);
-          console.log(event.value);
-          console.log(newCustomer);
         }}
         onChange={props.onChange}
       />

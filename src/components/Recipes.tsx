@@ -1,8 +1,17 @@
 import React from "react";
+import {
+  Box,
+  Button,
+  Heading,
+  Table,
+  TableRow,
+  TableCell,
+  TableHeader,
+  TableBody,
+} from "grommet";
 import Recipe from "../domain/Recipe";
 import recipeStore from "../stores/RecipeStore";
 import RecipesRow from "./RecipesRow";
-import { majorScale, Table, Heading, Button } from "evergreen-ui";
 
 import {
   updateRecipe,
@@ -29,29 +38,30 @@ const Recipes: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Heading is="h2" size={700} marginBottom={majorScale(2)}>
-        Recipes
-      </Heading>
+      <Heading level={2}>Recipes</Heading>
       <Table>
-        <Table.Head>
-          <Table.TextHeaderCell>Name</Table.TextHeaderCell>
-          <Table.TextHeaderCell>Description</Table.TextHeaderCell>
-          <Table.TextHeaderCell>Allergens</Table.TextHeaderCell>
-          <Table.TextHeaderCell>Actions</Table.TextHeaderCell>
-        </Table.Head>
-        <Table.Body>
+        <TableHeader>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell>Description</TableCell>
+            <TableCell>Allergens</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {recipes.map((recipe) => (
             <RecipesRow recipe={recipe} onChange={updateRecipe} />
           ))}
-        </Table.Body>
+        </TableBody>
       </Table>
-      <Button
-        appearance="primary"
-        marginTop={majorScale(2)}
-        onClick={createBlankRecipe}
-      >
-        Create New
-      </Button>
+      <Box direction="row" pad="medium">
+        <Button
+          primary
+          size="large"
+          onClick={createBlankRecipe}
+          label="Create New"
+        />
+      </Box>
     </React.Fragment>
   );
 };
