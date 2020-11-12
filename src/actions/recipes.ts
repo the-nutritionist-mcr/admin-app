@@ -1,5 +1,6 @@
 import dispatcher from "../appDispatcher";
 import Recipe from "../domain/Recipe";
+import { LOCALSTORAGE_KEY_RECIPES } from "../lib/constants";
 
 export enum ActionTypes {
   GetRecipes = "GetRecipe",
@@ -8,8 +9,6 @@ export enum ActionTypes {
   DeleteRecipe = "DeleteRecipe",
 }
 
-const LOCALSTORAGE_KEY = "TnmRecipes";
-
 type RecipeDispatchPayload = {
   actionTypes: ActionTypes;
   recipes: Recipe[];
@@ -17,7 +16,7 @@ type RecipeDispatchPayload = {
 
 export const getRecipes = () => {
   const recipes: Recipe[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY) || "[]"
+    localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) || "[]"
   );
 
   const payload: RecipeDispatchPayload = {
@@ -30,7 +29,7 @@ export const getRecipes = () => {
 
 export const createBlankRecipe = () => {
   const recipes: Recipe[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY) || "[]"
+    localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) || "[]"
   );
 
   const blankRecipe: Recipe = {
@@ -46,13 +45,13 @@ export const createBlankRecipe = () => {
 
   recipes.push(blankRecipe);
 
-  localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(recipes));
+  localStorage.setItem(LOCALSTORAGE_KEY_RECIPES, JSON.stringify(recipes));
   dispatcher.dispatch(payload);
 };
 
 export const updateRecipe = (oldRecipe: Recipe, recipe: Recipe) => {
   const recipes: Recipe[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY) || "[]"
+    localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) || "[]"
   );
 
   const index = recipes.findIndex(
@@ -60,7 +59,7 @@ export const updateRecipe = (oldRecipe: Recipe, recipe: Recipe) => {
   );
   recipes[index] = recipe;
 
-  localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(recipes));
+  localStorage.setItem(LOCALSTORAGE_KEY_RECIPES, JSON.stringify(recipes));
 
   const payload: RecipeDispatchPayload = {
     actionTypes: ActionTypes.UpdateRecipe,
@@ -72,12 +71,12 @@ export const updateRecipe = (oldRecipe: Recipe, recipe: Recipe) => {
 
 export const deleteRecipe = (recipe: Recipe) => {
   let recipes: Recipe[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY) || "[]"
+    localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) || "[]"
   );
 
   recipes = recipes.filter((searchedRecipe) => searchedRecipe.id !== recipe.id);
 
-  localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(recipes));
+  localStorage.setItem(LOCALSTORAGE_KEY_RECIPES, JSON.stringify(recipes));
 
   const payload: RecipeDispatchPayload = {
     actionTypes: ActionTypes.DeleteRecipe,

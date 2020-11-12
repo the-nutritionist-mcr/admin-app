@@ -8,6 +8,12 @@ import ToCookTable from "./ToCookTable";
 import ToPackTable from "./ToPackTable";
 import recipeStore from "../stores/RecipeStore";
 import customerStore from "../stores/CustomerStore";
+
+import {
+  LOCALSTORAGE_KEY_PLANNED,
+  LOCALSTORAGE_KEY_DAY,
+} from "../lib/constants";
+
 import { getRecipes } from "../actions/recipes";
 import { getCustomers } from "../actions/customers";
 import { chooseMeals, makePlan } from "../lib/plan-meals";
@@ -21,9 +27,6 @@ const defaultPlans: DeliveryMealsSelection = [
   undefined,
 ];
 
-const LOCALSTORAGE_KEY_PLANNED = "TnmPlanned";
-const LOCALSTORAGE_KEY_DAY = "TnmDay";
-
 const Planner = () => {
   const savedPlanIds: (undefined | number)[] = JSON.parse(
     localStorage.getItem(LOCALSTORAGE_KEY_PLANNED) ||
@@ -31,7 +34,7 @@ const Planner = () => {
   );
 
   const [day, setDay] = React.useState<DeliveryDay>(
-    (localStorage.getItem(LOCALSTORAGE_KEY_DAY) as DeliveryDay) || "Monday"
+    (localStorage.getItem(LOCALSTORAGE_KEY_DAY) as DeliveryDay) || "Select Day"
   );
 
   const [planned, setPlanned] = React.useState<DeliveryMealsSelection>(
@@ -90,8 +93,12 @@ const Planner = () => {
       <Box direction="row" gap="medium">
         {planned.map((plan, index) => (
           <Select
+            key={index}
             options={["None", ...recipes]}
             value={plan}
+            valueKey={(labelPlan: undefined | Recipe) =>
+              labelPlan?.name ?? "None"
+            }
             labelKey={(labelPlan: undefined | Recipe) =>
               labelPlan?.name ?? "None"
             }
