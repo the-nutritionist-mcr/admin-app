@@ -19,7 +19,7 @@ const ToCookTable: React.FC<ToCookTableProps> = (props) => (
     <Heading is="h2" level={2}>
       To Cook
     </Heading>
-    <Table>
+    <Table alignSelf="start">
       <TableHeader>
         <TableRow>
           <TableCell>Meal</TableCell>

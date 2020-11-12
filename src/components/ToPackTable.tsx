@@ -44,7 +44,7 @@ const ToPackTable: React.FC<ToPackTableProps> = (props) => {
   return (
     <React.Fragment>
       <Heading level={2}>To Pack</Heading>
-      <Table>
+      <Table alignSelf="start">
         <TableHeader>
           <TableCell>Customer Name</TableCell>
           {props.deliveryMeals.map((_item, index) => (
