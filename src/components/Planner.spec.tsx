@@ -32,12 +32,9 @@ describe("The planner page", () => {
       loaded = true;
     });
 
-    const {
-      getByText,
-      getAllByText,
-      getByDisplayValue,
-      getAllByDisplayValue,
-    } = render(<Planner />);
+    const { getByText, getByDisplayValue, getAllByDisplayValue } = render(
+      <Planner />
+    );
 
     fireEvent.click(getByDisplayValue("Select Day"));
     fireEvent.click(getByText("Monday"));
