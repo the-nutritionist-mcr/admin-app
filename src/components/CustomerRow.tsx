@@ -56,7 +56,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
       <TableCell>
         <TableCellSelectField
           thing={props.customer}
-          name="daysPerWeek"
+          name="plan"
           options={plans}
           valueKey={(plan: Plan): string =>
             `${plan.category} ${plan.mealsPerDay}`
