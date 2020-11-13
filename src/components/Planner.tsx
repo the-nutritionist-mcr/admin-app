@@ -71,7 +71,7 @@ const Planner = () => {
       )
     );
     return () => recipeStore.removeChangeListener(onChangeRecipes);
-  }, []);
+  }, [savedPlanIds]);
 
   const activeSelections = planned.filter(Boolean);
 
