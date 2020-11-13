@@ -1,10 +1,3 @@
-import React from "react";
-import CustomerMealsSelection from "../types/CustomerMealsSelection";
-import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
-import Recipe from "../domain/Recipe";
-import Customer from "../domain/Customer";
-import { createVariantString } from "../lib/plan-meals";
-
 import {
   Heading,
   Table,
@@ -15,6 +8,13 @@ import {
   Text,
 } from "grommet";
 
+import Customer from "../domain/Customer";
+import CustomerMealsSelection from "../types/CustomerMealsSelection";
+import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
+import React from "react";
+import Recipe from "../domain/Recipe";
+import { createVariantString } from "../lib/plan-meals";
+
 interface ToPackTableProps {
   deliveryMeals: DeliveryMealsSelection;
   customerMeals: CustomerMealsSelection;
@@ -24,7 +24,7 @@ const makePackTableCellText = (
   index: number,
   recipes: Recipe[],
   customer: Customer
-) => {
+): React.ReactElement | string => {
   if (index >= recipes.length) {
     return "";
   }
@@ -48,17 +48,17 @@ const ToPackTable: React.FC<ToPackTableProps> = (props) => {
         <TableHeader>
           <TableCell>Customer Name</TableCell>
           {props.deliveryMeals.map((_item, index) => (
-            <TableCell>Meal {index + 1}</TableCell>
+            <TableCell key={index}>Meal {index + 1}</TableCell>
           ))}
         </TableHeader>
         <TableBody>
           {props.customerMeals.map((customerPlan) => (
-            <TableRow>
+            <TableRow key={customerPlan.customer.id}>
               <TableCell>
                 <Text>{customerPlan.customer.name}</Text>
               </TableCell>
               {props.deliveryMeals.map((_item, index) => (
-                <TableCell>
+                <TableCell key={index}>
                   {makePackTableCellText(
                     index,
                     customerPlan.meals,

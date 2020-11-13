@@ -1,12 +1,12 @@
+import { Grommet, Main } from "grommet";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
-import React from "react";
 import Customers from "./pages/Customers";
-import Recipes from "./pages/Recipes";
-import Planner from "./pages/Planner";
-import { Grommet, Main } from "grommet";
 import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
+import Planner from "./pages/Planner";
+import React from "react";
+import Recipes from "./pages/Recipes";
 
 const theme = {
   global: {
@@ -18,7 +18,7 @@ const theme = {
   },
 };
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <Grommet theme={theme}>
       <Router>

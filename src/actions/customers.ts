@@ -1,6 +1,6 @@
-import dispatcher from "../appDispatcher";
 import Customer, { Snack } from "../domain/Customer";
 import { daysPerWeekOptions, plans } from "../lib/config";
+import dispatcher from "../appDispatcher";
 
 export enum ActionTypes {
   GetCustomers = "GetCustomers",
@@ -56,13 +56,16 @@ export const createBlankCustomer = (): void => {
   dispatcher.dispatch(payload);
 };
 
-export const updateCustomer = (oldCustomer: Customer, customer: Customer) => {
+export const updateCustomer = (
+  oldCustomer: Customer,
+  customer: Customer
+): void => {
   const customers: Customer[] = JSON.parse(
     localStorage.getItem(LOCALSTORAGE_KEY) ?? "[]"
   );
 
   const index = customers.findIndex(
-    (customer) => customer.id === oldCustomer.id
+    (customerAtPosition) => customerAtPosition.id === oldCustomer.id
   );
   customers[index] = customer;
 
@@ -76,9 +79,10 @@ export const updateCustomer = (oldCustomer: Customer, customer: Customer) => {
   dispatcher.dispatch(payload);
 };
 
-export const deleteCustomer = (customer: Customer) => {
+export const deleteCustomer = (customer: Customer): void => {
+  // eslint-disable-next-line fp/no-let
   let customers: Customer[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY) || "[]"
+    localStorage.getItem(LOCALSTORAGE_KEY) ?? "[]"
   );
 
   customers = customers.filter(

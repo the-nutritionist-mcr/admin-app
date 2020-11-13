@@ -1,16 +1,16 @@
-import React from "react";
-import Planner from "./Planner";
-import { mocked } from "ts-jest/utils";
 import { fireEvent, render } from "@testing-library/react";
-import { when } from "jest-when";
+
+import Planner from "./Planner";
+import React from "react";
+
+import customerStore from "../stores/customerStore";
 import { getRecipes } from "../actions/recipes";
-import { LOCALSTORAGE_KEY_DAY } from "../lib/constants";
-import recipeStore from "../stores/RecipeStore";
-import customerStore from "../stores/CustomerStore";
+import { mocked } from "ts-jest/utils";
+import recipeStore from "../stores/recipeStore";
 import recipes from "../fixtures/recipes";
 
 jest.mock("../stores/CustomerStore");
-jest.mock("../stores/RecipeStore");
+jest.mock("../stores/recipeStore");
 jest.mock("../actions/recipes");
 
 window.scrollTo = jest.fn();
@@ -32,7 +32,7 @@ describe("The planner page", () => {
       loaded = true;
     });
 
-    window.localStorage.__proto__.getItem = jest.fn();
+    window.localStorage.clear();
   });
 
   afterEach(() => {
@@ -40,10 +40,6 @@ describe("The planner page", () => {
   });
 
   it("Defaults all mealSelectors to 'None' when no selections have been made", async () => {
-    when(window.localStorage.__proto__.getItem)
-      .calledWith(LOCALSTORAGE_KEY_DAY)
-      .mockReturnValue();
-
     const { getByPlaceholderText, getAllByPlaceholderText, getByText } = render(
       <Planner />
     );

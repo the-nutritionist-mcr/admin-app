@@ -1,6 +1,6 @@
-import dispatcher from "../appDispatcher";
-import Recipe from "../domain/Recipe";
 import { LOCALSTORAGE_KEY_RECIPES } from "../lib/constants";
+import Recipe from "../domain/Recipe";
+import dispatcher from "../appDispatcher";
 
 export enum ActionTypes {
   GetRecipes = "GetRecipe",
@@ -14,9 +14,9 @@ interface RecipeDispatchPayload {
   recipes: Recipe[];
 }
 
-export const getRecipes = () => {
+export const getRecipes = (): void => {
   const recipes: Recipe[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) || "[]"
+    localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) ?? "[]"
   );
 
   const payload: RecipeDispatchPayload = {
@@ -27,9 +27,9 @@ export const getRecipes = () => {
   dispatcher.dispatch(payload);
 };
 
-export const createBlankRecipe = () => {
+export const createBlankRecipe = (): void => {
   const recipes: Recipe[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) || "[]"
+    localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) ?? "[]"
   );
 
   const blankRecipe: Recipe = {
@@ -49,9 +49,9 @@ export const createBlankRecipe = () => {
   dispatcher.dispatch(payload);
 };
 
-export const updateRecipe = (oldRecipe: Recipe, recipe: Recipe) => {
+export const updateRecipe = (oldRecipe: Recipe, recipe: Recipe): void => {
   const recipes: Recipe[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) || "[]"
+    localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) ?? "[]"
   );
 
   const index = recipes.findIndex(
@@ -69,9 +69,10 @@ export const updateRecipe = (oldRecipe: Recipe, recipe: Recipe) => {
   dispatcher.dispatch(payload);
 };
 
-export const deleteRecipe = (recipe: Recipe) => {
+export const deleteRecipe = (recipe: Recipe): void => {
+  // eslint-disable-next-line fp/no-let
   let recipes: Recipe[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) || "[]"
+    localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) ?? "[]"
   );
 
   recipes = recipes.filter((searchedRecipe) => searchedRecipe.id !== recipe.id);

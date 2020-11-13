@@ -1,5 +1,3 @@
-import React from "react";
-import Customer from "../domain/Customer";
 import {
   Box,
   Button,
@@ -10,27 +8,30 @@ import {
   TableHeader,
   TableRow,
 } from "grommet";
-import CustomerRow from "../components/CustomerRow";
 import {
   createBlankCustomer,
   getCustomers,
   updateCustomer,
 } from "../actions/customers";
-import customerStore from "../stores/CustomerStore";
 
-const Customers = () => {
+import Customer from "../domain/Customer";
+import CustomerRow from "../components/CustomerRow";
+import React from "react";
+import customerStore from "../stores/customerStore";
+
+const Customers: React.FC = () => {
   const [customers, setCustomers] = React.useState<Customer[]>(
     customerStore.getCustomers()
   );
 
-  const onChangeCustomers = () => {
+  const onChangeCustomers = (): void => {
     setCustomers([...customerStore.getCustomers()]);
   };
 
   React.useEffect(() => {
     customerStore.addChangeListener(onChangeCustomers);
     getCustomers();
-    return () => customerStore.removeChangeListener(onChangeCustomers);
+    return (): void => customerStore.removeChangeListener(onChangeCustomers);
   }, []);
 
   return (

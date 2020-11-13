@@ -63,6 +63,9 @@
     "extends": "benwainwright",
     "parserOptions": {
       "project": "./tsconfig.json"
+    },
+    "rules": {
+      "unicorn/no-null": "off"
     }
   },
   "browserslist": {

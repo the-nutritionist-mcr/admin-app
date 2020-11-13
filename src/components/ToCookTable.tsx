@@ -27,15 +27,15 @@ const ToCookTable: React.FC<ToCookTableProps> = (props) => (
         </TableRow>
       </TableHeader>
       <TableBody>
-        {props.plan.map((item) => (
-          <TableRow>
+        {props.plan.map((item, index) => (
+          <TableRow key={index}>
             <TableCell>
               <Text>{item.recipe.name}</Text>
             </TableCell>
             <TableCell>
               <ul>
                 {Object.keys(item.plan).map((variantName) => (
-                  <li>
+                  <li key={variantName}>
                     <Text>
                       {item.plan[variantName]} x {variantName}
                     </Text>

@@ -1,23 +1,23 @@
-import React from "react";
-import Recipe from "../domain/Recipe";
 import { Box, Button, Heading, Paragraph, Select } from "grommet";
-import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
-import DeliveryDay from "../types/DeliveryDay";
-import useDeepCompareEffect from "use-deep-compare-effect";
-import Customer from "../domain/Customer";
-import ToCookTable from "../components/ToCookTable";
-import ToPackTable from "../components/ToPackTable";
-import recipeStore from "../stores/RecipeStore";
-import customerStore from "../stores/CustomerStore";
-
 import {
   LOCALSTORAGE_KEY_DAY,
   LOCALSTORAGE_KEY_PLANNED,
 } from "../lib/constants";
-
-import { getRecipes } from "../actions/recipes";
-import { getCustomers } from "../actions/customers";
 import { chooseMeals, makePlan } from "../lib/plan-meals";
+
+import Customer from "../domain/Customer";
+import DeliveryDay from "../types/DeliveryDay";
+import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
+import React from "react";
+import Recipe from "../domain/Recipe";
+import ToCookTable from "../components/ToCookTable";
+import ToPackTable from "../components/ToPackTable";
+
+import customerStore from "../stores/customerStore";
+import { getCustomers } from "../actions/customers";
+import { getRecipes } from "../actions/recipes";
+import recipeStore from "../stores/recipeStore";
+import useDeepCompareEffect from "use-deep-compare-effect";
 
 const defaultPlans: DeliveryMealsSelection = [
   undefined,
@@ -28,14 +28,14 @@ const defaultPlans: DeliveryMealsSelection = [
   undefined,
 ];
 
-const Planner = () => {
+const Planner: React.FC = () => {
   const savedPlanIds: (undefined | number)[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY_PLANNED) ||
+    localStorage.getItem(LOCALSTORAGE_KEY_PLANNED) ??
       JSON.stringify(defaultPlans)
   );
 
   const [day, setDay] = React.useState<DeliveryDay>(
-    (localStorage.getItem(LOCALSTORAGE_KEY_DAY) as DeliveryDay) || ""
+    (localStorage.getItem(LOCALSTORAGE_KEY_DAY) as DeliveryDay) ?? ""
   );
 
   const [planned, setPlanned] = React.useState<DeliveryMealsSelection>(
@@ -53,15 +53,15 @@ const Planner = () => {
   const chosenMeals = chooseMeals(day, planned, customers);
   const cookPlan = makePlan(chosenMeals);
 
-  const onChangeRecipes = () => {
+  const onChangeRecipes = (): void => {
     setRecipes([...recipeStore.getRecipes()]);
   };
 
-  const onChangeCustomers = () => {
+  const onChangeCustomers = (): void => {
     setCustomers([...customerStore.getCustomers()]);
   };
 
-  useDeepCompareEffect(() => {
+  useDeepCompareEffect((): (() => void) => {
     recipeStore.addChangeListener(onChangeRecipes);
     customerStore.addChangeListener(onChangeCustomers);
     getRecipes();
@@ -71,7 +71,7 @@ const Planner = () => {
         id !== undefined ? recipeStore.getById(id) : undefined
       )
     );
-    return () => {
+    return (): void => {
       recipeStore.removeChangeListener(onChangeRecipes);
       customerStore.removeChangeListener(onChangeCustomers);
     };
@@ -88,7 +88,7 @@ const Planner = () => {
           placeholder="Select Day"
           options={["", "Monday", "Thursday"]}
           value={day}
-          onChange={(event: { value: DeliveryDay }) => {
+          onChange={(event: { value: DeliveryDay }): void => {
             setDay(event.value);
             localStorage.setItem(LOCALSTORAGE_KEY_DAY, event.value);
           }}
@@ -102,8 +102,11 @@ const Planner = () => {
             options={recipes}
             placeholder="None"
             value={plan ?? ""}
-            labelKey={(labelPlan: undefined | Recipe) => labelPlan?.name}
-            children={(childPlan: undefined | Recipe) =>
+            labelKey={(labelPlan: undefined | Recipe): string | undefined =>
+              labelPlan?.name
+            }
+            // eslint-disable-next-line react/no-children-prop
+            children={(childPlan: undefined | Recipe): string =>
               childPlan?.name ?? "None"
             }
             onChange={(event: { value: Recipe | undefined }) => {

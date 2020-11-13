@@ -1,35 +1,38 @@
-import { EventEmitter } from "events";
-import Customer from "../domain/Customer";
-import dispatcher from "../appDispatcher";
 import { ActionTypes } from "../actions/customers";
+import Customer from "../domain/Customer";
+import { EventEmitter } from "events";
 
+import dispatcher from "../appDispatcher";
 const CHANGE_EVENT = "change";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (...args: any[]) => void;
 
+// eslint-disable-next-line fp/no-let
 let customers: Customer[] = [];
 
 class CustomerStore extends EventEmitter {
-  public addChangeListener(callback: Callback) {
+  public addChangeListener(callback: Callback): void {
     this.on(CHANGE_EVENT, callback);
   }
 
-  public removeChangeListener(callback: Callback) {
+  public removeChangeListener(callback: Callback): void {
     this.removeListener(CHANGE_EVENT, callback);
   }
 
-  public emitChange() {
+  public emitChange(): void {
     this.emit(CHANGE_EVENT);
   }
 
-  getCustomers() {
+  public getCustomers(): Customer[] {
     return customers;
   }
 }
 
-const store = new CustomerStore();
+const customerStore = new CustomerStore();
 
 dispatcher.register((payload) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const payloadAsAny = payload as any;
 
   switch (payloadAsAny.actionTypes) {
@@ -38,9 +41,9 @@ dispatcher.register((payload) => {
     case ActionTypes.UpdateCustomer:
     case ActionTypes.DeleteCustomer:
       customers = payloadAsAny.customers;
-      store.emitChange();
+      customerStore.emitChange();
       break;
   }
 });
 
-export default store;
+export default customerStore;

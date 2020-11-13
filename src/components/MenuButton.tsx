@@ -1,15 +1,15 @@
+import { Button } from "grommet";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Button } from "grommet";
 
 interface MenuLinkProps {
   to: string;
 }
 
-const MenuLink: React.FC<MenuLinkProps> = (props) => {
+const MenuButton: React.FC<MenuLinkProps> = (props) => {
   const history = useHistory();
 
-  const onClick = () => {
+  const onClick = (): void => {
     history.push(props.to);
   };
 
@@ -23,4 +23,4 @@ const MenuLink: React.FC<MenuLinkProps> = (props) => {
   );
 };
 
-export default MenuLink;
+export default MenuButton;

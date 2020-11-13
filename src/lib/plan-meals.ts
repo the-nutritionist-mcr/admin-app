@@ -1,10 +1,11 @@
-import CustomerMealsSelection from "../types/CustomerMealsSelection";
-import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
 import CookPlan from "../types/CookPlan";
 import Customer from "../domain/Customer";
-import Recipe from "../domain/Recipe";
+import CustomerMealsSelection from "../types/CustomerMealsSelection";
 import DeliveryDay from "../types/DeliveryDay";
+import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
+import Recipe from "../domain/Recipe";
 
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 const getDeliveryMeals = (
   mealsPerDay: number,
   delivery: DeliveryDay
@@ -25,6 +26,7 @@ const getDeliveryMeals = (
   }
   return 0;
 };
+/* eslint-enable @typescript-eslint/no-magic-numbers */
 
 export const chooseMeals = (
   delivery: DeliveryDay,
@@ -42,17 +44,23 @@ export const chooseMeals = (
         )
       ),
     ]
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       .map((_value, index) => chosenPlans[index % plans.length])
       .filter(Boolean),
   }));
 };
 
-export const createVariantString = (customer: Customer, meal: Recipe) => {
+export const createVariantString = (
+  customer: Customer,
+  meal: Recipe
+): string => {
   const matchingAllergens = customer.allergicTo.filter((allergen) =>
     meal.allergens.includes(allergen)
   );
 
-  return matchingAllergens.length > 0 ? `${customer.plan.category} without ${matchingAllergens.join(", ")}` : `${customer.plan.category}`;
+  return matchingAllergens.length > 0
+    ? `${customer.plan.category} without ${matchingAllergens.join(", ")}`
+    : `${customer.plan.category}`;
 };
 
 export const makePlan = (chosenMeals: CustomerMealsSelection): CookPlan => {
@@ -69,11 +77,11 @@ export const makePlan = (chosenMeals: CustomerMealsSelection): CookPlan => {
           recipe: meal,
           plan: { [mealVariant]: 1 },
         });
-      } else if (existingRecipe.plan.hasOwnProperty(mealVariant)) {
-          existingRecipe.plan[mealVariant]++;
-        } else {
-          existingRecipe.plan[mealVariant] = 1;
-        }
+      } else if (Object.prototype.hasOwnProperty.call(plan, mealVariant)) {
+        existingRecipe.plan[mealVariant]++;
+      } else {
+        existingRecipe.plan[mealVariant] = 1;
+      }
     })
   );
   return plan;

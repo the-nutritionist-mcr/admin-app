@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Button,
   Card,
@@ -8,6 +7,8 @@ import {
   Heading,
   Layer,
 } from "grommet";
+
+import React from "react";
 
 interface YesNoDialogProps {
   show?: boolean;

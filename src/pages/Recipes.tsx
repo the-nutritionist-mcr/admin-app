@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Box,
   Button,
@@ -9,22 +8,23 @@ import {
   TableHeader,
   TableRow,
 } from "grommet";
-import Recipe from "../domain/Recipe";
-import recipeStore from "../stores/RecipeStore";
-import RecipesRow from "../components/RecipesRow";
 
 import {
   createBlankRecipe,
   getRecipes,
   updateRecipe,
 } from "../actions/recipes";
+import React from "react";
+import Recipe from "../domain/Recipe";
+import RecipesRow from "../components/RecipesRow";
+import recipeStore from "../stores/recipeStore";
 
 const Recipes: React.FC = () => {
   const [recipes, setRecipes] = React.useState<Recipe[]>(
     recipeStore.getRecipes()
   );
 
-  const onChangeRecipes = () => {
+  const onChangeRecipes = (): void => {
     setRecipes([...recipeStore.getRecipes()]);
   };
 
@@ -33,7 +33,7 @@ const Recipes: React.FC = () => {
     if (recipeStore.getRecipes().length === 0) {
       getRecipes();
     }
-    return () => recipeStore.removeChangeListener(onChangeRecipes);
+    return (): void => recipeStore.removeChangeListener(onChangeRecipes);
   }, []);
 
   return (
@@ -50,7 +50,11 @@ const Recipes: React.FC = () => {
         </TableHeader>
         <TableBody>
           {recipes.map((recipe) => (
-            <RecipesRow recipe={recipe} onChange={updateRecipe} />
+            <RecipesRow
+              key={recipe.id}
+              recipe={recipe}
+              onChange={updateRecipe}
+            />
           ))}
         </TableBody>
       </Table>

@@ -1,6 +1,6 @@
-import React from "react";
-import MutatorFieldProps from "./MutatorFieldProps";
 import { TextInput, ThemeContext } from "grommet";
+import MutatorFieldProps from "./MutatorFieldProps";
+import React from "react";
 
 interface InputFieldProps {
   value?: string | number | (string & readonly string[]) | undefined;
@@ -9,8 +9,13 @@ interface InputFieldProps {
   name?: string;
 }
 
+const BoldWeight = 600;
+
+const NormalWeight = 200;
+
 function assertFC<P>(
   _component: React.FC<P>
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
 ): asserts _component is React.FC<P> {}
 
 function TableCellInputField<T>(
@@ -21,14 +26,14 @@ function TableCellInputField<T>(
     global: {
       input: {
         font: {
-          weight: props.bold ? 600 : 200,
+          weight: props.bold ? BoldWeight : NormalWeight,
         },
       },
     },
   };
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newThing = { ...props.thing};
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const newThing = { ...props.thing };
     props.mutator(newThing, event);
     props.onChange(props.thing, newThing);
   };

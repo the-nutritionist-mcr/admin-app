@@ -1,8 +1,9 @@
-import React from "react";
 import Customer, { Snack } from "../domain/Customer";
-import { Grommet } from "grommet";
 import { fireEvent, render } from "@testing-library/react";
+
 import CustomerRow from "./CustomerRow";
+import { Grommet } from "grommet";
+import React from "react";
 
 describe("The <CustomerRow> component", () => {
   it("Renders a name input with the customer's name", () => {

@@ -1,6 +1,6 @@
-import React from "react";
 import { Box, Header, Heading } from "grommet";
 import MenuButton from "./MenuButton";
+import React from "react";
 
 const NavBar: React.FC = () => (
   <Header

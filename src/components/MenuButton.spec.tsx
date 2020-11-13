@@ -1,10 +1,11 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import { act, fireEvent, render } from "@testing-library/react";
+
 import { History } from "history";
+import MenuButton from "./MenuButton";
+import React from "react";
 import { mock as mockExtended } from "jest-mock-extended";
 import { mocked } from "ts-jest/utils";
-import { act, fireEvent, render } from "@testing-library/react";
-import MenuButton from "./MenuButton";
+import { useHistory } from "react-router-dom";
 
 jest.mock("react-router-dom", () => {
   const originalModule = jest.requireActual("react-router-dom");

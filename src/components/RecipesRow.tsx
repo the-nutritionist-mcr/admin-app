@@ -1,11 +1,11 @@
-import React from "react";
-import Recipe, { allergens } from "../domain/Recipe";
-
-import { deleteRecipe } from "../actions/recipes";
 import { Button, TableCell, TableRow } from "grommet";
+import Recipe, { allergens } from "../domain/Recipe";
+import React from "react";
+
 import TableCellInputField from "./TableCellInputField";
 import TableCellSelectField from "./TableCellSelectField";
 import YesNoDialog from "./YesNoDialog";
+import { deleteRecipe } from "../actions/recipes";
 
 interface RecipesRowProps {
   recipe: Recipe;
@@ -20,7 +20,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
         <TableCellInputField
           thing={props.recipe}
           value={props.recipe.name}
-          mutator={(newRecipe, event) => {
+          mutator={(newRecipe, event): void => {
             newRecipe.name = event.target.value;
           }}
           onChange={props.onChange}
@@ -30,7 +30,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
         <TableCellInputField
           thing={props.recipe}
           value={props.recipe.description}
-          mutator={(newRecipe, event) => {
+          mutator={(newRecipe, event): void => {
             newRecipe.description = event.target.value;
           }}
           onChange={props.onChange}
@@ -42,7 +42,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
           thing={props.recipe}
           options={allergens}
           value={props.recipe.allergens}
-          mutator={(newRecipe, item) => {
+          mutator={(newRecipe, item): void => {
             newRecipe.allergens = item.value;
           }}
           onChange={props.onChange}
@@ -50,12 +50,12 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
       </TableCell>
 
       <TableCell>
-        <Button onClick={() => setShowDoDelete(true)} label="Delete" />
+        <Button onClick={(): void => setShowDoDelete(true)} label="Delete" />
         <YesNoDialog
           show={showDoDelete}
           header="Are you sure?"
-          onYes={() => deleteRecipe(props.recipe)}
-          onNo={() => setShowDoDelete(false)}
+          onYes={(): void => deleteRecipe(props.recipe)}
+          onNo={(): void => setShowDoDelete(false)}
         >
           Are you sure you want to delete this recipe?
         </YesNoDialog>
