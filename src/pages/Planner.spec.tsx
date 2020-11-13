@@ -44,12 +44,9 @@ describe("The planner page", () => {
       .calledWith(LOCALSTORAGE_KEY_DAY)
       .mockReturnValue(undefined);
 
-    const {
-      getByPlaceholderText,
-      getAllByPlaceholderText,
-      getByText,
-      getByDisplayValue,
-    } = render(<Planner />);
+    const { getByPlaceholderText, getAllByPlaceholderText, getByText } = render(
+      <Planner />
+    );
 
     fireEvent.click(getByPlaceholderText("Select Day"));
     fireEvent.click(getByText("Monday"));
