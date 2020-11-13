@@ -3,6 +3,7 @@ import Recipe from "../domain/Recipe";
 import { Box, Button, Select, Heading, Paragraph } from "grommet";
 import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
 import DeliveryDay from "../types/DeliveryDay";
+import useDeepCompareEffect from "use-deep-compare-effect";
 import Customer from "../domain/Customer";
 import ToCookTable from "./ToCookTable";
 import ToPackTable from "./ToPackTable";
@@ -34,7 +35,7 @@ const Planner = () => {
   );
 
   const [day, setDay] = React.useState<DeliveryDay>(
-    (localStorage.getItem(LOCALSTORAGE_KEY_DAY) as DeliveryDay) || "Select Day"
+    (localStorage.getItem(LOCALSTORAGE_KEY_DAY) as DeliveryDay) || ""
   );
 
   const [planned, setPlanned] = React.useState<DeliveryMealsSelection>(
@@ -60,7 +61,7 @@ const Planner = () => {
     setCustomers([...customerStore.getCustomers()]);
   };
 
-  React.useEffect(() => {
+  useDeepCompareEffect(() => {
     recipeStore.addChangeListener(onChangeRecipes);
     customerStore.addChangeListener(onChangeCustomers);
     getRecipes();
@@ -84,7 +85,8 @@ const Planner = () => {
       <Paragraph>
         Planning for{" "}
         <Select
-          options={["Select Day", "Monday", "Thursday"]}
+          placeholder="Select Day"
+          options={["", "Monday", "Thursday"]}
           value={day}
           onChange={(event: { value: DeliveryDay }) => {
             setDay(event.value);
@@ -117,22 +119,21 @@ const Planner = () => {
             }}
           />
         ))}
-        {activeSelections.length > 0 ? (
+        {activeSelections.length > 0 || day !== "" ? (
           <Button
             onClick={() => {
-              setDay("Select Day");
+              setDay("");
               setPlanned(defaultPlans);
               localStorage.setItem(
                 LOCALSTORAGE_KEY_PLANNED,
                 JSON.stringify(defaultPlans)
               );
             }}
-            label="Clear Plan"
+            label="Clear"
           />
         ) : null}
       </Box>
-      {activeSelections.length === defaultPlans.length &&
-      day !== "Select Day" ? (
+      {activeSelections.length === defaultPlans.length && day !== "" ? (
         <React.Fragment>
           <ToCookTable plan={cookPlan} />
           <ToPackTable

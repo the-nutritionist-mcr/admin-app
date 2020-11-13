@@ -1,3 +1,3 @@
-type DeliveryDay = "Monday" | "Thursday" | "Select Day";
+type DeliveryDay = "Monday" | "Thursday" | "";
 
 export default DeliveryDay;

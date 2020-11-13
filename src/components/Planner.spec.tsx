@@ -1,7 +1,7 @@
 import React from "react";
 import Planner from "./Planner";
 import { mocked } from "ts-jest/utils";
-import { act, render, fireEvent, waitFor } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import { when } from "jest-when";
 import { getRecipes } from "../actions/recipes";
 import { LOCALSTORAGE_KEY_DAY } from "../lib/constants";
