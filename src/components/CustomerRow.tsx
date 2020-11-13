@@ -17,6 +17,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => (
   <TableRow>
     <TableCell scope="row">
       <TableCellInputField
+        name="name"
         thing={props.customer}
         mutator={(newCustomer, event) => {
           newCustomer.name = event.target.value;

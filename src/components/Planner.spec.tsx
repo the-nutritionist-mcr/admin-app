@@ -58,8 +58,6 @@ describe("The planner page", () => {
     Array.from(mealSelectors).forEach((item) =>
       expect((item as HTMLSelectElement).value).toEqual("")
     );
-
-    expect(mealSelectors).toHaveLength(6);
   });
 
   // it("Renders the cook plan when all sellections have been made", async () => {

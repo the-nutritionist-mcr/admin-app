@@ -6,6 +6,7 @@ interface InputFieldProps {
   value?: string | number | (string & readonly string[]) | undefined;
   type?: string | undefined;
   bold?: boolean;
+  name?: string;
 }
 
 function assertFC<P>(
@@ -36,6 +37,7 @@ function TableCellInputField<T>(
     <ThemeContext.Extend value={theme}>
       <TextInput
         type={props.type}
+        name={props.name}
         value={props.value}
         onChange={onChange}
         placeholder="None"
