@@ -1,7 +1,7 @@
 import React from "react";
 import Planner from "./Planner";
 import { mocked } from "ts-jest/utils";
-import { render, fireEvent } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { when } from "jest-when";
 import { getRecipes } from "../actions/recipes";
 import { LOCALSTORAGE_KEY_DAY } from "../lib/constants";
@@ -42,7 +42,7 @@ describe("The planner page", () => {
   it("Defaults all mealSelectors to 'None' when no selections have been made", async () => {
     when(window.localStorage.__proto__.getItem)
       .calledWith(LOCALSTORAGE_KEY_DAY)
-      .mockReturnValue(undefined);
+      .mockReturnValue();
 
     const { getByPlaceholderText, getAllByPlaceholderText, getByText } = render(
       <Planner />
@@ -55,12 +55,12 @@ describe("The planner page", () => {
 
     expect(mealSelectors).toHaveLength(6);
 
-    Array.from(mealSelectors).forEach((item) =>
+    [...mealSelectors].forEach((item) =>
       expect((item as HTMLSelectElement).value).toEqual("")
     );
   });
 
-  // it("Renders the cook plan when all sellections have been made", async () => {
+  // It("Renders the cook plan when all sellections have been made", async () => {
   //   when(window.localStorage.__proto__.getItem)
   //     .calledWith(LOCALSTORAGE_KEY_DAY)
   //     .mockReturnValue(undefined);

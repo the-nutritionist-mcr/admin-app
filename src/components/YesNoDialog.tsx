@@ -1,12 +1,12 @@
 import React from "react";
 import {
   Button,
-  Heading,
-  Layer,
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
+  CardHeader,
+  Heading,
+  Layer,
 } from "grommet";
 
 interface YesNoDialogProps {

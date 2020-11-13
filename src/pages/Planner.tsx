@@ -1,6 +1,6 @@
 import React from "react";
 import Recipe from "../domain/Recipe";
-import { Box, Button, Select, Heading, Paragraph } from "grommet";
+import { Box, Button, Heading, Paragraph, Select } from "grommet";
 import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
 import DeliveryDay from "../types/DeliveryDay";
 import useDeepCompareEffect from "use-deep-compare-effect";
@@ -11,8 +11,8 @@ import recipeStore from "../stores/RecipeStore";
 import customerStore from "../stores/CustomerStore";
 
 import {
-  LOCALSTORAGE_KEY_PLANNED,
   LOCALSTORAGE_KEY_DAY,
+  LOCALSTORAGE_KEY_PLANNED,
 } from "../lib/constants";
 
 import { getRecipes } from "../actions/recipes";

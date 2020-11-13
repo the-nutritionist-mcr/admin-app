@@ -116,7 +116,7 @@ describe("chooseMeals", () => {
       expect(actual[1].customer).toEqual(customerTwo);
       expect(actual[1].meals).toHaveLength(meals);
 
-      [...Array(meals)].forEach((_item, index) => {
+      [...new Array(meals)].forEach((_item, index) => {
         expect(actual[1].meals[index]).toBe(
           mealsSelection[index % mealsSelection.length]
         );

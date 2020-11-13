@@ -1,7 +1,7 @@
 import React from "react";
 import Customer, { Snack } from "../domain/Customer";
 import { Grommet } from "grommet";
-import { render, fireEvent } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import CustomerRow from "./CustomerRow";
 
 describe("The <CustomerRow> component", () => {

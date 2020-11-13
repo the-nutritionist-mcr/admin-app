@@ -4,19 +4,19 @@ import {
   Button,
   Heading,
   Table,
-  TableRow,
+  TableBody,
   TableCell,
   TableHeader,
-  TableBody,
+  TableRow,
 } from "grommet";
 import Recipe from "../domain/Recipe";
 import recipeStore from "../stores/RecipeStore";
 import RecipesRow from "../components/RecipesRow";
 
 import {
-  updateRecipe,
-  getRecipes,
   createBlankRecipe,
+  getRecipes,
+  updateRecipe,
 } from "../actions/recipes";
 
 const Recipes: React.FC = () => {

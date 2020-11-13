@@ -6,13 +6,13 @@ import Customer from "../domain/Customer";
 import { createVariantString } from "../lib/plan-meals";
 
 import {
-  Text,
-  Table,
   Heading,
+  Table,
+  TableBody,
   TableCell,
   TableHeader,
-  TableBody,
   TableRow,
+  Text,
 } from "grommet";
 
 interface ToPackTableProps {

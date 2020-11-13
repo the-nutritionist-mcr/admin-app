@@ -35,7 +35,7 @@ export const chooseMeals = (
   return customers.map((customer) => ({
     customer,
     meals: [
-      ...Array(
+      ...new Array(
         getDeliveryMeals(
           customer.daysPerWeek * customer.plan.mealsPerDay,
           delivery
@@ -52,11 +52,7 @@ export const createVariantString = (customer: Customer, meal: Recipe) => {
     meal.allergens.includes(allergen)
   );
 
-  if (matchingAllergens.length > 0) {
-    return `${customer.plan.category} without ${matchingAllergens.join(", ")}`;
-  } else {
-    return `${customer.plan.category}`;
-  }
+  return matchingAllergens.length > 0 ? `${customer.plan.category} without ${matchingAllergens.join(", ")}` : `${customer.plan.category}`;
 };
 
 export const makePlan = (chosenMeals: CustomerMealsSelection): CookPlan => {
@@ -73,13 +69,11 @@ export const makePlan = (chosenMeals: CustomerMealsSelection): CookPlan => {
           recipe: meal,
           plan: { [mealVariant]: 1 },
         });
-      } else {
-        if (existingRecipe.plan.hasOwnProperty(mealVariant)) {
+      } else if (existingRecipe.plan.hasOwnProperty(mealVariant)) {
           existingRecipe.plan[mealVariant]++;
         } else {
           existingRecipe.plan[mealVariant] = 1;
         }
-      }
     })
   );
   return plan;

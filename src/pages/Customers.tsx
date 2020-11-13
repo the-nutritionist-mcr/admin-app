@@ -5,16 +5,16 @@ import {
   Button,
   Heading,
   Table,
-  TableRow,
+  TableBody,
   TableCell,
   TableHeader,
-  TableBody,
+  TableRow,
 } from "grommet";
 import CustomerRow from "../components/CustomerRow";
 import {
-  updateCustomer,
-  getCustomers,
   createBlankCustomer,
+  getCustomers,
+  updateCustomer,
 } from "../actions/customers";
 import customerStore from "../stores/CustomerStore";
 

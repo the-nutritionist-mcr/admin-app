@@ -1,13 +1,13 @@
 import React from "react";
 import CookPlan from "../types/CookPlan";
 import {
-  Text,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableCell,
   Heading,
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
+  Text,
 } from "grommet";
 
 interface ToCookTableProps {

@@ -1,5 +1,5 @@
 enum ActionTypes {
-  GET_CUSTOMERS,
+  GetCustomers,
 }
 
 export default ActionTypes;

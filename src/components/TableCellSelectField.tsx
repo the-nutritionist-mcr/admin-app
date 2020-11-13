@@ -39,7 +39,7 @@ function TableCellSelectField<
   };
 
   const onChange = (item: { value: V }) => {
-    const newThing = Object.assign({}, props.thing);
+    const newThing = { ...props.thing};
     props.mutator(newThing, item);
     props.onChange(props.thing, newThing);
     setSelected(item.value);

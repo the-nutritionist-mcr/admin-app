@@ -1,6 +1,6 @@
 import dispatcher from "../appDispatcher";
 import Customer, { Snack } from "../domain/Customer";
-import { plans, daysPerWeekOptions } from "../lib/config";
+import { daysPerWeekOptions, plans } from "../lib/config";
 
 export enum ActionTypes {
   GetCustomers = "GetCustomers",
@@ -11,14 +11,14 @@ export enum ActionTypes {
 
 const LOCALSTORAGE_KEY = "TnmCustomers";
 
-type CustomerDispatchPayload = {
+interface CustomerDispatchPayload {
   actionTypes: ActionTypes;
   customers: Customer[];
-};
+}
 
-export const getCustomers = () => {
+export const getCustomers = (): void => {
   const customers: Customer[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY) || "[]"
+    localStorage.getItem(LOCALSTORAGE_KEY) ?? "[]"
   );
 
   const payload: CustomerDispatchPayload = {
@@ -28,9 +28,9 @@ export const getCustomers = () => {
   dispatcher.dispatch(payload);
 };
 
-export const createBlankCustomer = () => {
+export const createBlankCustomer = (): void => {
   const customers: Customer[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY) || "[]"
+    localStorage.getItem(LOCALSTORAGE_KEY) ?? "[]"
   );
 
   const blankCustomer: Customer = {
@@ -57,11 +57,8 @@ export const createBlankCustomer = () => {
 };
 
 export const updateCustomer = (oldCustomer: Customer, customer: Customer) => {
-  console.log("UPDATE");
-  console.log(oldCustomer);
-  console.log(customer);
   const customers: Customer[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY) || "[]"
+    localStorage.getItem(LOCALSTORAGE_KEY) ?? "[]"
   );
 
   const index = customers.findIndex(

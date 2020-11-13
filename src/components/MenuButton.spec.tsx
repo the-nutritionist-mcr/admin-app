@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { History } from "history";
 import { mock as mockExtended } from "jest-mock-extended";
 import { mocked } from "ts-jest/utils";
-import { act, render, fireEvent } from "@testing-library/react";
+import { act, fireEvent, render } from "@testing-library/react";
 import MenuButton from "./MenuButton";
 
 jest.mock("react-router-dom", () => {

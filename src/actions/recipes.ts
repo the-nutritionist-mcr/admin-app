@@ -9,10 +9,10 @@ export enum ActionTypes {
   DeleteRecipe = "DeleteRecipe",
 }
 
-type RecipeDispatchPayload = {
+interface RecipeDispatchPayload {
   actionTypes: ActionTypes;
   recipes: Recipe[];
-};
+}
 
 export const getRecipes = () => {
   const recipes: Recipe[] = JSON.parse(

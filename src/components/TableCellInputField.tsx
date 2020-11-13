@@ -28,7 +28,7 @@ function TableCellInputField<T>(
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newThing = Object.assign({}, props.thing);
+    const newThing = { ...props.thing};
     props.mutator(newThing, event);
     props.onChange(props.thing, newThing);
   };

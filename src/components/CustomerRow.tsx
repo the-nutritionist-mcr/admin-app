@@ -1,11 +1,11 @@
 import React from "react";
 import Customer from "../domain/Customer";
-import { TableRow, TableCell, Button } from "grommet";
+import { Button, TableCell, TableRow } from "grommet";
 import { deleteCustomer } from "../actions/customers";
 import { allergens } from "../domain/Recipe";
 import Plan from "../domain/Plan";
 import YesNoDialog from "./YesNoDialog";
-import { plans, daysPerWeekOptions } from "../lib/config";
+import { daysPerWeekOptions, plans } from "../lib/config";
 import TableCellInputField from "./TableCellInputField";
 import TableCellSelectField from "./TableCellSelectField";
 
@@ -47,7 +47,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
           options={daysPerWeekOptions.map(String)}
           value={String(props.customer.daysPerWeek)}
           mutator={(newCustomer, event) => {
-            newCustomer.daysPerWeek = parseInt(event.value, 10);
+            newCustomer.daysPerWeek = Number.parseInt(event.value, 10);
           }}
           onChange={props.onChange}
         />

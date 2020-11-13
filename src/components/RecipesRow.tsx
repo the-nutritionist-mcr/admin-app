@@ -1,8 +1,8 @@
 import React from "react";
-import Recipe from "../domain/Recipe";
-import { allergens } from "../domain/Recipe";
+import Recipe, { allergens } from "../domain/Recipe";
+
 import { deleteRecipe } from "../actions/recipes";
-import { Button, TableRow, TableCell } from "grommet";
+import { Button, TableCell, TableRow } from "grommet";
 import TableCellInputField from "./TableCellInputField";
 import TableCellSelectField from "./TableCellSelectField";
 import YesNoDialog from "./YesNoDialog";
