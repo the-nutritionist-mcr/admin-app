@@ -2,6 +2,7 @@ import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
 import CustomerMealsSelection from "../types/CustomerMealsSelection";
 import Recipe from "../domain/Recipe";
 import Customer, { Snack } from "../domain/Customer";
+import DeliveryDay from "../types/DeliveryDay";
 import { mock as mockExtended } from "jest-mock-extended";
 
 import * as planMeals from "./plan-meals";
@@ -106,7 +107,11 @@ describe("chooseMeals", () => {
 
       const customers = [customerOne, customerTwo, customerThree];
 
-      const actual = planMeals.chooseMeals(day, mealsSelection, customers);
+      const actual = planMeals.chooseMeals(
+        day as DeliveryDay,
+        mealsSelection,
+        customers
+      );
 
       expect(actual[1].customer).toEqual(customerTwo);
       expect(actual[1].meals).toHaveLength(meals);

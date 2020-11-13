@@ -5,8 +5,8 @@ import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
 import DeliveryDay from "../types/DeliveryDay";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import Customer from "../domain/Customer";
-import ToCookTable from "./ToCookTable";
-import ToPackTable from "./ToPackTable";
+import ToCookTable from "../components/ToCookTable";
+import ToPackTable from "../components/ToPackTable";
 import recipeStore from "../stores/RecipeStore";
 import customerStore from "../stores/CustomerStore";
 

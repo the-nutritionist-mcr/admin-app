@@ -1,11 +1,12 @@
-import React from "react";
-import Customers from "./Customers";
-import Recipes from "./Recipes";
-import Planner from "./Planner";
-import { Grommet, Main } from "grommet";
-import Home from "./Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import NavBar from "./NavBar";
+
+import React from "react";
+import Customers from "./pages/Customers";
+import Recipes from "./pages/Recipes";
+import Planner from "./pages/Planner";
+import { Grommet, Main } from "grommet";
+import Home from "./pages/Home";
+import NavBar from "./components/NavBar";
 
 const theme = {
   global: {

@@ -7,7 +7,7 @@ import { getRecipes } from "../actions/recipes";
 import { LOCALSTORAGE_KEY_DAY } from "../lib/constants";
 import recipeStore from "../stores/RecipeStore";
 import customerStore from "../stores/CustomerStore";
-import recipes from "./fixtures/recipes";
+import recipes from "../fixtures/recipes";
 
 jest.mock("../stores/CustomerStore");
 jest.mock("../stores/RecipeStore");
@@ -44,11 +44,14 @@ describe("The planner page", () => {
       .calledWith(LOCALSTORAGE_KEY_DAY)
       .mockReturnValue(undefined);
 
-    const { getAllByPlaceholderText, getByText, getByDisplayValue } = render(
-      <Planner />
-    );
+    const {
+      getByPlaceholderText,
+      getAllByPlaceholderText,
+      getByText,
+      getByDisplayValue,
+    } = render(<Planner />);
 
-    fireEvent.click(getByDisplayValue("Select Day"));
+    fireEvent.click(getByPlaceholderText("Select Day"));
     fireEvent.click(getByText("Monday"));
 
     const mealSelectors = getAllByPlaceholderText("None");
@@ -72,7 +75,7 @@ describe("The planner page", () => {
   //     getByDisplayValue,
   //   } = render(<Planner />);
 
-  //   fireEvent.click(getByDisplayValue("Select Day"));
+  //   fireEvent.click(getByDisplayValue(""));
   //   fireEvent.click(getByText("Monday"));
 
   //   await waitFor(() => {

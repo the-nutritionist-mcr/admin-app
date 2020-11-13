@@ -11,7 +11,7 @@ import {
 } from "grommet";
 import Recipe from "../domain/Recipe";
 import recipeStore from "../stores/RecipeStore";
-import RecipesRow from "./RecipesRow";
+import RecipesRow from "../components/RecipesRow";
 
 import {
   updateRecipe,

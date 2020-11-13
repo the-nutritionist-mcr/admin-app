@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableBody,
 } from "grommet";
-import CustomerRow from "./CustomerRow";
+import CustomerRow from "../components/CustomerRow";
 import {
   updateCustomer,
   getCustomers,
