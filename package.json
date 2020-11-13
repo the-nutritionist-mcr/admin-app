@@ -53,7 +53,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "eslint src/**/*.{ts,tsx}",
+    "lint": "eslint .",
     "test": "react-scripts test",
     "start:and-wait": "yarn start & yarn wait-on http://localhost:3000",
     "test:cypress:record": "cypress run --record --reporter mochawesome --reporter-options \"reportDir=cypress/report/mochawesome-report,overwrite=false,html=false,json=true,timestamp=mmddyyyy_HHMMss\"",
@@ -61,9 +61,17 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "ignorePatterns": [
+      "src/aws-exports.js",
+      "coverage",
+      "build"
+    ],
     "extends": "benwainwright",
     "parserOptions": {
-      "project": "./tsconfig.json"
+      "project": [
+        "./tsconfig.json",
+        "./cypress/tsconfig.json"
+      ]
     },
     "rules": {
       "unicorn/no-null": "off"

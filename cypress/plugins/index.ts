@@ -1,4 +1,4 @@
-/// <reference types="cypress" />
+/* eslint-disable filenames/match-exported */
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
 //
@@ -15,7 +15,8 @@
 /**
  * @type {Cypress.PluginConfig}
  */
-module.exports = (on, config) => {
-  // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
-}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const config: Cypress.PluginConfig = () => {};
+
+export default config;
