@@ -96,10 +96,8 @@ const Planner = () => {
             key={index}
             options={recipes}
             placeholder="None"
-            value={plan}
-            labelKey={(labelPlan: undefined | Recipe) =>
-              labelPlan?.name ?? "None"
-            }
+            value={plan ?? ""}
+            labelKey={(labelPlan: undefined | Recipe) => labelPlan?.name}
             children={(childPlan: undefined | Recipe) =>
               childPlan?.name ?? "None"
             }
