@@ -109,7 +109,7 @@ const Planner: React.FC = () => {
             children={(childPlan: undefined | Recipe): string =>
               childPlan?.name ?? "None"
             }
-            onChange={(event: { value: Recipe | undefined }) => {
+            onChange={(event: { value: Recipe | undefined }): void => {
               const newPlanned = [...planned];
               newPlanned[index] = recipes.find(
                 (recipe) => recipe.id === event?.value?.id
@@ -124,7 +124,7 @@ const Planner: React.FC = () => {
         ))}
         {activeSelections.length > 0 || day !== "" ? (
           <Button
-            onClick={() => {
+            onClick={(): void => {
               setDay("");
               setPlanned(defaultPlans);
               localStorage.setItem(

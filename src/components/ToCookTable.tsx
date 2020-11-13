@@ -1,5 +1,3 @@
-import React from "react";
-import CookPlan from "../types/CookPlan";
 import {
   Heading,
   Table,
@@ -9,6 +7,9 @@ import {
   TableRow,
   Text,
 } from "grommet";
+
+import CookPlan from "../types/CookPlan";
+import React from "react";
 
 interface ToCookTableProps {
   plan: CookPlan;

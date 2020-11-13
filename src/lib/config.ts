@@ -1,7 +1,9 @@
 import Plan from "../domain/Plan";
 
+/* eslint-disable sonarjs/no-duplicate-string */
 export type PlanCategory = "Mass" | "EQ" | "Micro" | "Ultra-Micro";
 
+// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 export const daysPerWeekOptions = [6, 5];
 
 export const plans: Plan[] = [
@@ -66,3 +68,4 @@ export const plans: Plan[] = [
     costPerMeal: 625,
   },
 ];
+/* eslint-disable sonarjs/no-duplicate-string */
