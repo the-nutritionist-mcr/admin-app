@@ -102,7 +102,10 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
         <YesNoDialog
           show={showDoDelete}
           header="Are you sure?"
-          onYes={(): void => deleteCustomer(props.customer)}
+          onYes={(): void => {
+            deleteCustomer(props.customer);
+            setShowDoDelete(false);
+          }}
           onNo={(): void => setShowDoDelete(false)}
         >
           Are you sure you want to delete this customer?

@@ -54,7 +54,10 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
         <YesNoDialog
           show={showDoDelete}
           header="Are you sure?"
-          onYes={(): void => deleteRecipe(props.recipe)}
+          onYes={(): void => {
+            deleteRecipe(props.recipe);
+            setShowDoDelete(false);
+          }}
           onNo={(): void => setShowDoDelete(false)}
         >
           Are you sure you want to delete this recipe?
