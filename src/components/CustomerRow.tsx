@@ -32,6 +32,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
       <TableCell>
         <TableCellInputField
           thing={props.customer}
+          name="email"
           type="email"
           mutator={(newCustomer, event): void => {
             newCustomer.email = event.target.value;
@@ -42,6 +43,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
       </TableCell>
       <TableCell>
         <TableCellSelectField
+          name="daysPerWeek"
           thing={props.customer}
           options={daysPerWeekOptions.map(String)}
           value={String(props.customer.daysPerWeek)}
@@ -54,6 +56,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
       <TableCell>
         <TableCellSelectField
           thing={props.customer}
+          name="daysPerWeek"
           options={plans}
           valueKey={(plan: Plan): string =>
             `${plan.category} ${plan.mealsPerDay}`
@@ -84,6 +87,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
       <TableCell>
         <TableCellSelectField
           multiple
+          name="allergicTo"
           thing={props.customer}
           options={allergens}
           value={props.customer.allergicTo}

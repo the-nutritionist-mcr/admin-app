@@ -9,6 +9,7 @@ interface TableCellSelectFieldProps<V> {
   children?: (value: V) => string;
   valueKey?: (value: V) => string;
   labelKey?: (value: V) => string;
+  name?: string;
   multiple?: boolean;
 }
 
@@ -56,6 +57,7 @@ function TableCellSelectField<
         multiple={props.multiple}
         closeOnChange={!props.multiple}
         plain={true}
+        name={props.name}
         options={props.options}
         onChange={onChange}
         // eslint-disable-next-line react/no-children-prop
