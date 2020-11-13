@@ -70,7 +70,10 @@ const Planner = () => {
         id !== undefined ? recipeStore.getById(id) : undefined
       )
     );
-    return () => recipeStore.removeChangeListener(onChangeRecipes);
+    return () => {
+      recipeStore.removeChangeListener(onChangeRecipes);
+      customerStore.removeChangeListener(onChangeCustomers);
+    };
   }, [savedPlanIds]);
 
   const activeSelections = planned.filter(Boolean);
