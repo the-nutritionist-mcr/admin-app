@@ -94,11 +94,9 @@ const Planner = () => {
         {planned.map((plan, index) => (
           <Select
             key={index}
-            options={["None", ...recipes]}
+            options={recipes}
+            placeholder="None"
             value={plan}
-            valueKey={(labelPlan: undefined | Recipe) =>
-              labelPlan?.name ?? "None"
-            }
             labelKey={(labelPlan: undefined | Recipe) =>
               labelPlan?.name ?? "None"
             }
