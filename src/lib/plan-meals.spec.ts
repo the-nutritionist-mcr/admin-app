@@ -318,7 +318,7 @@ describe("makePlan", () => {
       (individualPlan) => individualPlan.recipe.name === recipeOne.name
     );
 
-    expect(firstPlan?.plan["Mass"]).toEqual(2);
     expect(firstPlan?.plan["Mass without fish"]).toEqual(1);
+    expect(firstPlan?.plan["Mass"]).toEqual(2);
   });
 });

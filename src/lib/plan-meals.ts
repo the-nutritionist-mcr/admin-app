@@ -77,7 +77,9 @@ export const makePlan = (chosenMeals: CustomerMealsSelection): CookPlan => {
           recipe: meal,
           plan: { [mealVariant]: 1 },
         });
-      } else if (Object.prototype.hasOwnProperty.call(plan, mealVariant)) {
+      } else if (
+        Object.prototype.hasOwnProperty.call(existingRecipe.plan, mealVariant)
+      ) {
         existingRecipe.plan[mealVariant]++;
       } else {
         existingRecipe.plan[mealVariant] = 1;
