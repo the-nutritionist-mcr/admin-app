@@ -17,15 +17,15 @@ import {
 import Customer from "../domain/Customer";
 import CustomerRow from "../components/CustomerRow";
 import React from "react";
-import customerStore from "../stores/customerStore";
+import { customerStore } from "../lib/stores";
 
 const Customers: React.FC = () => {
   const [customers, setCustomers] = React.useState<Customer[]>(
-    customerStore.getCustomers()
+    customerStore.getAll()
   );
 
   const onChangeCustomers = (): void => {
-    setCustomers([...customerStore.getCustomers()]);
+    setCustomers([...customerStore.getAll()]);
   };
 
   React.useEffect(() => {

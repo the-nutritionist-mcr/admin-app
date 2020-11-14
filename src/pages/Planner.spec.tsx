@@ -1,16 +1,14 @@
+import { customerStore, recipeStore } from "../lib/stores";
 import { fireEvent, render } from "@testing-library/react";
 
 import Planner from "./Planner";
 import React from "react";
 
-import customerStore from "../stores/customerStore";
 import { getRecipes } from "../actions/recipes";
 import { mocked } from "ts-jest/utils";
-import recipeStore from "../stores/recipeStore";
 import recipes from "../fixtures/recipes";
 
-jest.mock("../stores/CustomerStore");
-jest.mock("../stores/recipeStore");
+jest.mock("../lib/stores");
 jest.mock("../actions/recipes");
 
 window.scrollTo = jest.fn();
@@ -22,11 +20,11 @@ describe("The planner page", () => {
       loaded ? recipes.find((recipe) => recipe.id === id) : undefined
     );
 
-    mocked(recipeStore.getRecipes, true).mockImplementation(() =>
+    mocked(recipeStore.getAll, true).mockImplementation(() =>
       loaded ? recipes : []
     );
 
-    mocked(customerStore.getCustomers, true).mockReturnValue([]);
+    mocked(customerStore.getAll, true).mockReturnValue([]);
 
     mocked(getRecipes, true).mockImplementation(() => {
       loaded = true;

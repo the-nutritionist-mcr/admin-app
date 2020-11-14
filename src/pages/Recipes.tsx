@@ -17,20 +17,18 @@ import {
 import React from "react";
 import Recipe from "../domain/Recipe";
 import RecipesRow from "../components/RecipesRow";
-import recipeStore from "../stores/recipeStore";
+import { recipeStore } from "../lib/stores";
 
 const Recipes: React.FC = () => {
-  const [recipes, setRecipes] = React.useState<Recipe[]>(
-    recipeStore.getRecipes()
-  );
+  const [recipes, setRecipes] = React.useState<Recipe[]>(recipeStore.getAll());
 
   const onChangeRecipes = (): void => {
-    setRecipes([...recipeStore.getRecipes()]);
+    setRecipes([...recipeStore.getAll()]);
   };
 
   React.useEffect(() => {
     recipeStore.addChangeListener(onChangeRecipes);
-    if (recipeStore.getRecipes().length === 0) {
+    if (recipeStore.getAll().length === 0) {
       getRecipes();
     }
     return (): void => recipeStore.removeChangeListener(onChangeRecipes);

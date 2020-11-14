@@ -4,6 +4,7 @@ import {
   LOCALSTORAGE_KEY_PLANNED,
 } from "../lib/constants";
 import { chooseMeals, makePlan } from "../lib/plan-meals";
+import { customerStore, recipeStore } from "../lib/stores";
 
 import Customer from "../domain/Customer";
 import DeliveryDay from "../types/DeliveryDay";
@@ -13,10 +14,8 @@ import Recipe from "../domain/Recipe";
 import ToCookTable from "../components/ToCookTable";
 import ToPackTable from "../components/ToPackTable";
 
-import customerStore from "../stores/customerStore";
 import { getCustomers } from "../actions/customers";
 import { getRecipes } from "../actions/recipes";
-import recipeStore from "../stores/recipeStore";
 import useDeepCompareEffect from "use-deep-compare-effect";
 
 const defaultPlans: DeliveryMealsSelection = [
@@ -42,23 +41,21 @@ const Planner: React.FC = () => {
     defaultPlans
   );
 
-  const [recipes, setRecipes] = React.useState<Recipe[]>(
-    recipeStore.getRecipes()
-  );
+  const [recipes, setRecipes] = React.useState<Recipe[]>(recipeStore.getAll());
 
   const [customers, setCustomers] = React.useState<Customer[]>(
-    customerStore.getCustomers()
+    customerStore.getAll()
   );
 
   const chosenMeals = chooseMeals(day, planned, customers);
   const cookPlan = makePlan(chosenMeals);
 
   const onChangeRecipes = (): void => {
-    setRecipes([...recipeStore.getRecipes()]);
+    setRecipes([...recipeStore.getAll()]);
   };
 
   const onChangeCustomers = (): void => {
-    setCustomers([...customerStore.getCustomers()]);
+    setCustomers([...customerStore.getAll()]);
   };
 
   useDeepCompareEffect((): (() => void) => {

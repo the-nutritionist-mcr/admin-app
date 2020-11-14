@@ -1,29 +1,18 @@
 import Customer, { Snack } from "../domain/Customer";
 import { daysPerWeekOptions, plans } from "../lib/config";
-import dispatcher from "../appDispatcher";
-
-export enum ActionTypes {
-  GetCustomers = "GetCustomers",
-  CreateBlankCustomer = "CreateBlankCustomer",
-  UpdateCustomer = "UpdateCustomer",
-  DeleteCustomer = "DeleteCustomer",
-}
+import dispatcher, { DispatchPayload } from "../appDispatcher";
+import ActionType from "../types/ActionType";
 
 const LOCALSTORAGE_KEY = "TnmCustomers";
-
-interface CustomerDispatchPayload {
-  actionTypes: ActionTypes;
-  customers: Customer[];
-}
 
 export const getCustomers = (): void => {
   const customers: Customer[] = JSON.parse(
     localStorage.getItem(LOCALSTORAGE_KEY) ?? "[]"
   );
 
-  const payload: CustomerDispatchPayload = {
-    actionTypes: ActionTypes.GetCustomers,
-    customers,
+  const payload: DispatchPayload = {
+    actionType: ActionType.GetCustomers,
+    data: customers,
   };
   dispatcher.dispatch(payload);
 };
@@ -48,9 +37,9 @@ export const createBlankCustomer = (): void => {
 
   localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(customers));
 
-  const payload: CustomerDispatchPayload = {
-    actionTypes: ActionTypes.CreateBlankCustomer,
-    customers,
+  const payload: DispatchPayload = {
+    actionType: ActionType.CreateBlankCustomer,
+    data: customers,
   };
 
   dispatcher.dispatch(payload);
@@ -71,9 +60,9 @@ export const updateCustomer = (
 
   localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(customers));
 
-  const payload: CustomerDispatchPayload = {
-    actionTypes: ActionTypes.UpdateCustomer,
-    customers,
+  const payload: DispatchPayload = {
+    actionType: ActionType.UpdateCustomer,
+    data: customers,
   };
 
   dispatcher.dispatch(payload);
@@ -90,9 +79,9 @@ export const deleteCustomer = (customer: Customer): void => {
   );
   localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(customers));
 
-  const payload: CustomerDispatchPayload = {
-    actionTypes: ActionTypes.DeleteCustomer,
-    customers,
+  const payload: DispatchPayload = {
+    actionType: ActionType.DeleteCustomer,
+    data: customers,
   };
 
   dispatcher.dispatch(payload);

@@ -57,6 +57,7 @@ function TableCellSelectField<
         multiple={props.multiple}
         closeOnChange={!props.multiple}
         plain={true}
+        dropProps={{}}
         name={props.name}
         options={props.options}
         onChange={onChange}

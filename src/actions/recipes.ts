@@ -1,27 +1,16 @@
+import dispatcher, { DispatchPayload } from "../appDispatcher";
+import ActionType from "../types/ActionType";
 import { LOCALSTORAGE_KEY_RECIPES } from "../lib/constants";
 import Recipe from "../domain/Recipe";
-import dispatcher from "../appDispatcher";
-
-export enum ActionTypes {
-  GetRecipes = "GetRecipe",
-  CreateBlankRecipe = "CreateBlankRecipe",
-  UpdateRecipe = "UpdateRecipe",
-  DeleteRecipe = "DeleteRecipe",
-}
-
-interface RecipeDispatchPayload {
-  actionTypes: ActionTypes;
-  recipes: Recipe[];
-}
 
 export const getRecipes = (): void => {
   const recipes: Recipe[] = JSON.parse(
     localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) ?? "[]"
   );
 
-  const payload: RecipeDispatchPayload = {
-    actionTypes: ActionTypes.GetRecipes,
-    recipes,
+  const payload: DispatchPayload = {
+    actionType: ActionType.GetRecipes,
+    data: recipes,
   };
 
   dispatcher.dispatch(payload);
@@ -38,9 +27,9 @@ export const createBlankRecipe = (): void => {
     allergens: [],
   };
 
-  const payload: RecipeDispatchPayload = {
-    actionTypes: ActionTypes.CreateBlankRecipe,
-    recipes,
+  const payload: DispatchPayload = {
+    actionType: ActionType.CreateBlankRecipe,
+    data: recipes,
   };
 
   recipes.push(blankRecipe);
@@ -61,9 +50,9 @@ export const updateRecipe = (oldRecipe: Recipe, recipe: Recipe): void => {
 
   localStorage.setItem(LOCALSTORAGE_KEY_RECIPES, JSON.stringify(recipes));
 
-  const payload: RecipeDispatchPayload = {
-    actionTypes: ActionTypes.UpdateRecipe,
-    recipes,
+  const payload: DispatchPayload = {
+    actionType: ActionType.UpdateRecipe,
+    data: recipes,
   };
 
   dispatcher.dispatch(payload);
@@ -79,9 +68,9 @@ export const deleteRecipe = (recipe: Recipe): void => {
 
   localStorage.setItem(LOCALSTORAGE_KEY_RECIPES, JSON.stringify(recipes));
 
-  const payload: RecipeDispatchPayload = {
-    actionTypes: ActionTypes.DeleteRecipe,
-    recipes,
+  const payload: DispatchPayload = {
+    actionType: ActionType.DeleteRecipe,
+    data: recipes,
   };
 
   dispatcher.dispatch(payload);
