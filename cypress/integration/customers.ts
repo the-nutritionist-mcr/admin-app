@@ -18,53 +18,92 @@ describe("The customers page", () => {
     cy.get("input[name='email']").should("be.empty");
     cy.get("input[name='daysPerWeek']").should("have.value", 6);
     cy.get("input[name='plan']").should("have.value", "Mass 1");
-    cy.get("input[name='allergicTo']").should("be.empty");
+    cy.get("input[name='exclusions']").should("be.empty");
   });
 
-  it("Should allow you to edit a couple of customers which then persist after page reload", () => {
+  const editUser = (
+    alias: string,
+    name: string,
+    email: string,
+    daysPerWeek: number,
+    plan: string
+  ) => {
+    cy.get(`@${alias}`).find("input[name='name']").type(name);
+    cy.get(`@${alias}`).find("input[name='email']").type(email);
+
+    cy.get(`@${alias}`).find("input[name='daysPerWeek']").click();
+    cy.get("div[data-g-portal-id='0']").as("dropPortal");
+
+    cy.get("@dropPortal").contains(String(daysPerWeek)).click();
+
+    cy.get(`@${alias}`).find("input[name='plan']").click();
+    cy.get("@dropPortal").contains(plan).click();
+  };
+
+  it("Should allow you to add and edit a couple of customers which then persist after page reload", () => {
     cy.visit("/customers");
     cy.contains("Create New").click();
 
-    cy.get("tbody")
-      .find("tr")
-      .within(() => {
-        cy.get("input[name='name']").type("Ben Wainwright");
-        cy.get("input[name='email']").type("bwainwright28@gmail.com");
-        cy.get("input[name='daysPerWeek']").click();
-      });
-    cy.get(".openDrop").contains("5");
-    // cy.get("input[name='plan']").click();
-    // cy.contains("EQ 2").click();
-    // cy.get("input[name='allergicTo']").click();
-    // cy.contains("Gluten Cereal").click();
-    // cy.contains("Fish").click();
-    // cy.get("input[name='allergicTo']").click();
-    // });
+    cy.get("tbody").find("tr").as("firstRow");
+    editUser(
+      "firstRow",
+      "Ben Wainwright",
+      "bwainwright28@gmail.com",
+      5,
+      "EQ 2"
+    );
 
-    // cy.contains("Create New").click();
+    cy.contains("Create New").click();
+    cy.get("tbody").find("tr").first().next().as("secondRow");
+    editUser(
+      "secondRow",
+      "Lawrence Davis",
+      "lawrence@lawrencedavis.me",
+      6,
+      "Ultra-Micro 1"
+    );
 
-    // cy.get("tbody")
-    // .find("tr")
-    // .eq(1)
-    // .within(() => {
-    // cy.get("input[name='name']").type("Ryan Walker");
-    // cy.get("input[name='email']").type("ryan@thenutritionistmcr.com");
-    // cy.get("input[name='daysPerWeek']").click();
-    // cy.contains("6").click();
-    // cy.get("input[name='plan']").click();
-    // cy.contains("Ultra-Micro 1").click();
-    // });
+    cy.contains("Create New").click();
+    cy.get("tbody").find("tr").first().next().next().as("thirdRow");
+    editUser("thirdRow", "Alice Springs", "alice@springs.com", 5, "Micro 1");
 
-    // cy.reload();
+    cy.reload();
 
-    // cy.get("table").find("tr").should("have.length", 2);
+    cy.get("@firstRow")
+      .find("input[name='name']")
+      .should("have.value", "Ben Wainwright");
+    cy.get("@firstRow")
+      .find("input[name='email']")
+      .should("have.value", "bwainwright28@gmail.com");
+    cy.get("@firstRow")
+      .find("input[name='daysPerWeek']")
+      .should("have.value", 5);
+    cy.get("@firstRow").find("input[name='plan']").should("have.value", "EQ 2");
 
-    // cy.get("input[name='name']").should("have.value", "Ben Wainwright");
-    // cy.get("input[name='email']").should(
-    // "have.value",
-    // "bwainwright28@gmail.com"
-    // );
-    // cy.get("input[name='plan']").should("have.value", "EQ 2");
-    // cy.get("input[name='allergicTo']").should("have.value", "multiple");
+    cy.get("@secondRow")
+      .find("input[name='name']")
+      .should("have.value", "Lawrence Davis");
+    cy.get("@secondRow")
+      .find("input[name='email']")
+      .should("have.value", "lawrence@lawrencedavis.me");
+    cy.get("@secondRow")
+      .find("input[name='daysPerWeek']")
+      .should("have.value", 6);
+    cy.get("@secondRow")
+      .find("input[name='plan']")
+      .should("have.value", "Ultra-Micro 1");
+
+    cy.get("@thirdRow")
+      .find("input[name='name']")
+      .should("have.value", "Alice Springs");
+    cy.get("@thirdRow")
+      .find("input[name='email']")
+      .should("have.value", "alice@springs.com");
+    cy.get("@thirdRow")
+      .find("input[name='daysPerWeek']")
+      .should("have.value", 5);
+    cy.get("@thirdRow")
+      .find("input[name='plan']")
+      .should("have.value", "Micro 1");
   });
 });
