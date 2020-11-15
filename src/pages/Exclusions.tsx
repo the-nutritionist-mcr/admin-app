@@ -38,7 +38,7 @@ const Exclusions: React.FC = () => {
   return (
     <React.Fragment>
       <Heading level={2}>Exclusions</Heading>
-      <Table>
+      <Table alignSelf="start">
         <TableHeader>
           <TableRow>
             <TableCell scope="col">Name</TableCell>

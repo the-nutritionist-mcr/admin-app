@@ -54,9 +54,9 @@ export const createVariantString = (
   customer: Customer,
   meal: Recipe
 ): string => {
-  const matchingExclusions = customer.exclusions.filter((allergen) =>
-    meal.potentialExclusions.includes(allergen)
-  );
+  const matchingExclusions = customer.exclusions.filter((allergen) => {
+    return meal.potentialExclusions.some((value) => value.id === allergen.id);
+  });
 
   return matchingExclusions.length > 0
     ? `${customer.plan.category} without ${matchingExclusions

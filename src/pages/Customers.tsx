@@ -37,7 +37,7 @@ const Customers: React.FC = () => {
   return (
     <React.Fragment>
       <Heading level={2}>Customers</Heading>
-      <Table>
+      <Table alignSelf="start">
         <TableHeader>
           <TableRow>
             <TableCell scope="col">Name</TableCell>

@@ -37,7 +37,7 @@ const Recipes: React.FC = () => {
   return (
     <React.Fragment>
       <Heading level={2}>Recipes</Heading>
-      <Table>
+      <Table alignSelf="start">
         <TableHeader>
           <TableRow>
             <TableCell>Name</TableCell>
