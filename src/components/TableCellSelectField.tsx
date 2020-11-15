@@ -33,9 +33,16 @@ function TableCellSelectField<
 ): React.ReactElement | null {
   const [selected, setSelected] = React.useState<V>(props.value);
 
+  const valueLabel =
+    Array.isArray(selected) && props.multiple ? selected.join(", ") : undefined;
+
   const theme = {
     global: {
       input: {
+        padding: {
+          horizontal: 0,
+          vertical: 0,
+        },
         font: {
           weight: 200,
         },
@@ -65,6 +72,7 @@ function TableCellSelectField<
         children={props.children}
         value={selected}
         labelKey={props.labelKey}
+        valueLabel={valueLabel}
         valueKey={props.valueKey}
         alignSelf="stretch"
       />

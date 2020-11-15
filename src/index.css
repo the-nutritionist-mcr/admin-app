@@ -2,10 +2,10 @@ body {
   margin: 0;
 }
 
-table select {
-  font-weight: 200 !important;
-}
-
 ul {
   margin: 0;
+}
+
+input[type="text" i] {
+  padding: 0;
 }
