@@ -1,13 +1,16 @@
 import { Button, TableCell, TableRow } from "grommet";
 import { daysPerWeekOptions, plans } from "../lib/config";
 import Customer from "../domain/Customer";
+import Exclusion from "../domain/Exclusion";
 import Plan from "../domain/Plan";
 import React from "react";
 import TableCellInputField from "./TableCellInputField";
 import TableCellSelectField from "./TableCellSelectField";
 import YesNoDialog from "./YesNoDialog";
-import { allergens } from "../domain/Recipe";
 import { deleteCustomer } from "../actions/customers";
+import { exclusionsStore } from "../lib/stores";
+import { getExclusions } from "../actions/exclusions";
+import useDeepCompareEffect from "use-deep-compare-effect";
 interface CustomerRowProps {
   customer: Customer;
   onChange: (oldCustomer: Customer, newCustomer: Customer) => void;
@@ -15,6 +18,22 @@ interface CustomerRowProps {
 
 const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
+
+  const [exclusions, setExclusions] = React.useState<Exclusion[]>(
+    exclusionsStore.getAll()
+  );
+
+  const onChangeExclusions = (): void => {
+    setExclusions([...exclusionsStore.getAll()]);
+  };
+
+  useDeepCompareEffect(() => {
+    exclusionsStore.addChangeListener(onChangeExclusions);
+    if (exclusionsStore.getAll().length === 0) {
+      getExclusions();
+    }
+    return (): void => exclusionsStore.removeChangeListener(onChangeExclusions);
+  }, [exclusions]);
 
   return (
     <TableRow>
@@ -87,12 +106,13 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
       <TableCell>
         <TableCellSelectField
           multiple
-          name="allergicTo"
+          name="exclusions"
           thing={props.customer}
-          options={allergens}
-          value={props.customer.allergicTo}
+          options={exclusions}
+          labelKey="name"
+          value={props.customer.exclusions}
           mutator={(newCustomer, item): void => {
-            newCustomer.allergicTo = item.value;
+            newCustomer.exclusions = item.value;
           }}
           onChange={props.onChange}
         />

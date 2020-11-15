@@ -1,40 +1,64 @@
 import Recipe from "../domain/Recipe";
 
+const nutsExclusion = {
+  id: 0,
+  name: "nuts",
+  allergen: true,
+};
+
+const fishExclusion = {
+  id: 1,
+  name: "fish",
+  allergen: false,
+};
+
+const mustardExclusion = {
+  id: 2,
+  name: "mustard",
+  allergen: true,
+};
+
+const riceExclusion = {
+  id: 3,
+  name: "rice",
+  allergen: false,
+};
+
 const recipes: Recipe[] = [
   {
     id: 0,
     name: "Stew",
-    allergens: ["nuts"],
+    potentialExclusions: [nutsExclusion],
   },
   {
     id: 1,
     name: "Fish",
-    allergens: ["fish"],
+    potentialExclusions: [fishExclusion],
   },
   {
     id: 2,
     name: "Beef Stroganof",
-    allergens: [],
+    potentialExclusions: [],
   },
   {
     id: 3,
     name: "Salad",
-    allergens: ["nuts", "mustard"],
+    potentialExclusions: [nutsExclusion, mustardExclusion],
   },
   {
     id: 4,
     name: "Sandwich",
-    allergens: [],
+    potentialExclusions: [],
   },
   {
     id: 5,
     name: "Casserole",
-    allergens: ["mustard"],
+    potentialExclusions: [mustardExclusion],
   },
   {
     id: 6,
     name: "Risotto",
-    allergens: ["rice"],
+    potentialExclusions: [riceExclusion],
   },
 ];
 

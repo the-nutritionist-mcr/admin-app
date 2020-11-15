@@ -7,6 +7,10 @@ enum ActionType {
   CreateBlankRecipe = "CreateBlankRecipe",
   UpdateRecipe = "UpdateRecipe",
   DeleteRecipe = "DeleteRecipe",
+  GetExclusions = "GetExclusions",
+  CreateBlankExclusion = "CreateBlankExclusion",
+  UpdateExclusion = "UpdateExclusion",
+  DeleteExclusion = "DeleteExclusion",
 }
 
 export default ActionType;

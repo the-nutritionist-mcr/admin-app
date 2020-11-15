@@ -8,7 +8,7 @@ interface TableCellSelectFieldProps<V> {
   value: V;
   children?: (value: V) => string;
   valueKey?: (value: V) => string;
-  labelKey?: (value: V) => string;
+  labelKey?: string | ((value: V) => string);
   name?: string;
   multiple?: boolean;
 }

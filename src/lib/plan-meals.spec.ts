@@ -13,12 +13,23 @@ describe("chooseMeals", () => {
       {
         id: 1,
         name: "foo",
-        allergens: ["fish", "rice"],
+        potentialExclusions: [
+          {
+            id: 0,
+            name: "fish",
+            allergen: false,
+          },
+          {
+            id: 1,
+            name: "rice",
+            allergen: true,
+          },
+        ],
       },
       {
         id: 2,
         name: "bar",
-        allergens: [],
+        potentialExclusions: [],
       },
     ];
 
@@ -60,6 +71,12 @@ describe("chooseMeals", () => {
         mealSix,
       ];
 
+      const fishExclusion = {
+        id: 0,
+        name: "fish",
+        allergen: false,
+      };
+
       const customerOne: Customer = {
         id: 1,
         name: "foo-customer",
@@ -72,7 +89,7 @@ describe("chooseMeals", () => {
           mealsPerDay: 2,
           costPerMeal: 885,
         },
-        allergicTo: [],
+        exclusions: [],
       };
 
       const customerTwo: Customer = {
@@ -87,7 +104,7 @@ describe("chooseMeals", () => {
           mealsPerDay,
           costPerMeal: 885,
         },
-        allergicTo: ["Fish"],
+        exclusions: [fishExclusion],
       };
 
       const customerThree: Customer = {
@@ -102,7 +119,7 @@ describe("chooseMeals", () => {
           mealsPerDay: 2,
           costPerMeal: 885,
         },
-        allergicTo: ["Fish"],
+        exclusions: [fishExclusion],
       };
 
       const customers = [customerOne, customerTwo, customerThree];
@@ -145,19 +162,19 @@ describe("makePlan", () => {
     const recipeOne: Recipe = {
       id: 0,
       name: "foo-recipe",
-      allergens: [],
+      potentialExclusions: [],
     };
 
     const recipeTwo: Recipe = {
       id: 1,
       name: "bar-recipe",
-      allergens: [],
+      potentialExclusions: [],
     };
 
     const recipeThree: Recipe = {
       id: 2,
       name: "baz-recipe",
-      allergens: [],
+      potentialExclusions: [],
     };
 
     const plan: CustomerMealsSelection = [
@@ -175,7 +192,7 @@ describe("makePlan", () => {
             costPerMeal: 850,
             category: "Mass",
           },
-          allergicTo: [],
+          exclusions: [],
         },
       },
       {
@@ -192,7 +209,7 @@ describe("makePlan", () => {
             costPerMeal: 850,
             category: "Mass",
           },
-          allergicTo: [],
+          exclusions: [],
         },
       },
       {
@@ -209,7 +226,7 @@ describe("makePlan", () => {
             costPerMeal: 850,
             category: "Mass",
           },
-          allergicTo: [],
+          exclusions: [],
         },
       },
     ];
@@ -238,22 +255,28 @@ describe("makePlan", () => {
   });
 
   it("Groups matching allergens together as a 'variant'", () => {
+    const fishExclusion = {
+      id: 0,
+      name: "fish",
+      allergen: false,
+    };
+
     const recipeOne: Recipe = {
       id: 0,
       name: "foo-recipe",
-      allergens: ["fish"],
+      potentialExclusions: [fishExclusion],
     };
 
     const recipeTwo: Recipe = {
       id: 1,
       name: "bar-recipe",
-      allergens: [],
+      potentialExclusions: [],
     };
 
     const recipeThree: Recipe = {
       id: 2,
       name: "baz-recipe",
-      allergens: [],
+      potentialExclusions: [],
     };
 
     const plan: CustomerMealsSelection = [
@@ -271,7 +294,7 @@ describe("makePlan", () => {
             costPerMeal: 850,
             category: "Mass",
           },
-          allergicTo: [],
+          exclusions: [],
         },
       },
       {
@@ -288,7 +311,7 @@ describe("makePlan", () => {
             costPerMeal: 850,
             category: "Mass",
           },
-          allergicTo: ["fish"],
+          exclusions: [fishExclusion],
         },
       },
       {
@@ -305,7 +328,7 @@ describe("makePlan", () => {
             costPerMeal: 850,
             category: "Mass",
           },
-          allergicTo: [],
+          exclusions: [],
         },
       },
     ];

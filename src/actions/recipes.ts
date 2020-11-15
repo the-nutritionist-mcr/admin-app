@@ -24,7 +24,8 @@ export const createBlankRecipe = (): void => {
   const blankRecipe: Recipe = {
     id: recipes.length > 0 ? recipes[recipes.length - 1].id + 1 : 1,
     name: "",
-    allergens: [],
+    description: "",
+    potentialExclusions: [],
   };
 
   const payload: DispatchPayload = {

@@ -1,3 +1,4 @@
+import Exclusion from "./Exclusion";
 import Plan from "./Plan";
 
 export enum Snack {
@@ -14,5 +15,5 @@ export default interface Customer {
   plan: Plan;
   snack: Snack;
   breakfast: boolean;
-  allergicTo: string[];
+  exclusions: Exclusion[];
 }

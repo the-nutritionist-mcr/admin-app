@@ -7,6 +7,18 @@ import React from "react";
 
 describe("The <CustomerRow> component", () => {
   it("Renders customer data in row fields", () => {
+    const fishExclusion = {
+      id: 1,
+      name: "fish",
+      allergen: false,
+    };
+
+    const catsExclusion = {
+      id: 0,
+      name: "cats",
+      allergen: false,
+    };
+
     const fakeCustomer: Customer = {
       id: 1,
       name: "Ben",
@@ -14,7 +26,7 @@ describe("The <CustomerRow> component", () => {
       email: "a@b.c",
       breakfast: false,
       snack: Snack.None,
-      allergicTo: ["fish", "cats"],
+      exclusions: [fishExclusion, catsExclusion],
       plan: {
         category: "Mass",
         costPerMeal: 200,
@@ -59,7 +71,7 @@ describe("The <CustomerRow> component", () => {
       email: "a@b.c",
       breakfast: false,
       snack: Snack.None,
-      allergicTo: [],
+      exclusions: [],
       plan: {
         category: "Mass",
         costPerMeal: 200,

@@ -30,7 +30,7 @@ export const createBlankCustomer = (): void => {
     plan: plans[0],
     snack: Snack.None,
     breakfast: false,
-    allergicTo: [],
+    exclusions: [],
   };
 
   customers.push(blankCustomer);

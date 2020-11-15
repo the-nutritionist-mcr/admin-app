@@ -54,12 +54,14 @@ export const createVariantString = (
   customer: Customer,
   meal: Recipe
 ): string => {
-  const matchingAllergens = customer.allergicTo.filter((allergen) =>
-    meal.allergens.includes(allergen)
+  const matchingExclusions = customer.exclusions.filter((allergen) =>
+    meal.potentialExclusions.includes(allergen)
   );
 
-  return matchingAllergens.length > 0
-    ? `${customer.plan.category} without ${matchingAllergens.join(", ")}`
+  return matchingExclusions.length > 0
+    ? `${customer.plan.category} without ${matchingExclusions
+        .map((exclusion) => exclusion.name)
+        .join(", ")}`
     : `${customer.plan.category}`;
 };
 

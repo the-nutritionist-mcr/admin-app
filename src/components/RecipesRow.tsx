@@ -1,11 +1,15 @@
 import { Button, TableCell, TableRow } from "grommet";
-import Recipe, { allergens } from "../domain/Recipe";
+import Exclusion from "../domain/Exclusion";
 import React from "react";
+import Recipe from "../domain/Recipe";
 
 import TableCellInputField from "./TableCellInputField";
 import TableCellSelectField from "./TableCellSelectField";
 import YesNoDialog from "./YesNoDialog";
 import { deleteRecipe } from "../actions/recipes";
+import { exclusionsStore } from "../lib/stores";
+import { getExclusions } from "../actions/exclusions";
+import useDeepCompareEffect from "use-deep-compare-effect";
 
 interface RecipesRowProps {
   recipe: Recipe;
@@ -14,6 +18,23 @@ interface RecipesRowProps {
 
 const RecipesRow: React.FC<RecipesRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
+
+  const [exclusions, setExclusions] = React.useState<Exclusion[]>(
+    exclusionsStore.getAll()
+  );
+
+  const onChangeExclusions = (): void => {
+    setExclusions([...exclusionsStore.getAll()]);
+  };
+
+  useDeepCompareEffect(() => {
+    exclusionsStore.addChangeListener(onChangeExclusions);
+    if (exclusionsStore.getAll().length === 0) {
+      getExclusions();
+    }
+    return (): void => exclusionsStore.removeChangeListener(onChangeExclusions);
+  }, [exclusions]);
+
   return (
     <TableRow>
       <TableCell>
@@ -40,10 +61,11 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
         <TableCellSelectField
           multiple
           thing={props.recipe}
-          options={allergens}
-          value={props.recipe.allergens}
+          options={exclusions}
+          labelKey="name"
+          value={props.recipe.potentialExclusions}
           mutator={(newRecipe, item): void => {
-            newRecipe.allergens = item.value;
+            newRecipe.potentialExclusions = item.value;
           }}
           onChange={props.onChange}
         />

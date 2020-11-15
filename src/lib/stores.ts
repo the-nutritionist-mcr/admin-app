@@ -1,5 +1,6 @@
 import ActionType from "../types/ActionType";
 import Customer from "../domain/Customer";
+import Exclusion from "../domain/Exclusion";
 import Recipe from "../domain/Recipe";
 import Store from "./Store";
 import appDispatcher from "../appDispatcher";
@@ -27,3 +28,18 @@ export const recipeStore = new Store<Recipe>(appDispatcher, (payload) => {
       return null;
   }
 });
+
+export const exclusionsStore = new Store<Exclusion>(
+  appDispatcher,
+  (payload) => {
+    switch (payload.actionType) {
+      case ActionType.GetExclusions:
+      case ActionType.CreateBlankExclusion:
+      case ActionType.UpdateExclusion:
+      case ActionType.DeleteExclusion:
+        return payload.data as Exclusion[];
+      default:
+        return null;
+    }
+  }
+);
