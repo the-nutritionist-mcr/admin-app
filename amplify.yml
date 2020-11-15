@@ -28,7 +28,7 @@ test:
         - yarn install
     test:
       commands:
-        - yarn start & yarn wait-on http://172.17.0.2:3000 && test:cypress:record
+        - yarn start-test-server-and-test 'yarn start' 3000 'yarn test:cypress:record'
     postTest:
       commands:
         - yarn mochawesome-merge@4 cypress/report/mochawesome-report/*.json > cypress/report/mochawesome.json
