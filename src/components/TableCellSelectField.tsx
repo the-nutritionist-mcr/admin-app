@@ -54,10 +54,22 @@ function TableCellSelectField<
     setSelected(item.value);
   };
 
-  const valueLabel =
-    Array.isArray(selected) && props.renderLabel
-      ? selected.map(props.renderLabel).join(", ")
-      : props.renderLabel?.(selected);
+  const getValueLabel = (selectedValues: V): string | undefined => {
+    if (Array.isArray(selectedValues) && props.renderLabel) {
+      return selectedValues.map(props.renderLabel).join(", ");
+    }
+
+    const labelKey = props.labelKey;
+
+    if (Array.isArray(selectedValues) && labelKey) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return selectedValues.map((item) => (item as any)[labelKey]).join(", ");
+    }
+
+    if (props.renderLabel) {
+      return props.renderLabel(selectedValues);
+    }
+  };
 
   return (
     <ThemeContext.Extend value={theme}>
@@ -75,7 +87,7 @@ function TableCellSelectField<
         labelKey={props.labelKey}
         // eslint-disable-next-line react/no-children-prop
         children={props.renderLabel}
-        valueLabel={valueLabel}
+        valueLabel={getValueLabel(selected)}
         alignSelf="stretch"
       />
     </ThemeContext.Extend>

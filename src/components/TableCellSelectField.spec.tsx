@@ -8,6 +8,42 @@ window.scrollTo = jest.fn();
 describe("The <TableCellSelectField /> component", () => {
   describe("In multiple mode", () => {
     describe("when options is an array of objects", () => {
+      it("should concatanate values with a comma when no renderLabel prop is present", () => {
+        const options = [
+          { id: 1, name: "foo-name", otherThing: "bash" },
+          { id: 2, name: "bar-name", otherThing: "bop" },
+          { id: 3, name: "baz-name", otherThing: "bip" },
+        ];
+
+        const thing = {
+          field1: "baz",
+          field2: [
+            { id: 2, name: "bar-name", otherThing: "bop" },
+            { id: 3, name: "baz-name", otherThing: "bip" },
+          ],
+        };
+
+        const { getByText } = render(
+          <Grommet plain>
+            <TableCellSelectField
+              multiple
+              thing={thing}
+              value={thing.field2}
+              options={options}
+              labelKey="name"
+              mutator={(): void => {
+                // NOOP
+              }}
+              onChange={(): void => {
+                // NOOP
+              }}
+            />
+          </Grommet>
+        );
+
+        expect(getByText("bar-name, baz-name")).not.toBeNull();
+      });
+
       it("should correctly render the value label using the renderLabel prop when it is present", () => {
         const options = [
           { id: 1, name: "foo-name", otherThing: "bash" },

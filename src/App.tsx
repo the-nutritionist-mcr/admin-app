@@ -35,11 +35,11 @@ const App: React.FC = () => {
             <Route path="/recipes">
               <Recipes />
             </Route>
-            <Route path="/planner">
-              <Planner />
-            </Route>
             <Route path="/exclusions">
               <Exclusions />
+            </Route>
+            <Route path="/planner">
+              <Planner />
             </Route>
           </Switch>
         </Main>
