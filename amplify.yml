@@ -5,6 +5,9 @@ frontend:
       commands:
         - nvm use $VERSION_NODE_12
         - yarn install
+        - yarn lint .
+        - yarn test:ci
+
     build:
       commands:
         - yarn run build
