@@ -6,9 +6,9 @@ interface TableCellSelectFieldProps<V> {
   // eslint-disable-next-line @typescript-eslint/ban-types
   options: (string | boolean | number | JSX.Element | object)[];
   value: V;
-  children?: (value: V) => string;
-  valueKey?: (value: V) => string;
-  labelKey?: ((value: V) => string) | string;
+  labelKey?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderLabel?: (value: any) => string;
   name?: string;
   multiple?: boolean;
 }
@@ -33,21 +33,6 @@ function TableCellSelectField<
 ): React.ReactElement | null {
   const [selected, setSelected] = React.useState<V>(props.value);
 
-  const valueLabel = (value: V): string | V => {
-    if (Array.isArray(value)) {
-      const mappedValue = value.map((element) =>
-        typeof element === "object" && typeof props.labelKey === "string"
-          ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (element as any)[props.labelKey]
-          : element
-      );
-
-      return mappedValue.join(", ");
-    }
-
-    return value;
-  };
-
   const theme = {
     global: {
       input: {
@@ -69,6 +54,11 @@ function TableCellSelectField<
     setSelected(item.value);
   };
 
+  const valueLabel =
+    Array.isArray(selected) && props.renderLabel
+      ? selected.map(props.renderLabel).join(", ")
+      : props.renderLabel?.(selected);
+
   return (
     <ThemeContext.Extend value={theme}>
       <Select
@@ -80,11 +70,12 @@ function TableCellSelectField<
         name={props.name}
         options={props.options}
         onChange={onChange}
-        // eslint-disable-next-line react/no-children-prop
-        children={props.children}
         value={selected}
+        valueKey={props.labelKey}
+        labelKey={props.labelKey}
+        // eslint-disable-next-line react/no-children-prop
+        children={props.renderLabel}
         valueLabel={valueLabel}
-        valueKey={props.valueKey}
         alignSelf="stretch"
       />
     </ThemeContext.Extend>

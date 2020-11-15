@@ -76,14 +76,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
           thing={props.customer}
           name="plan"
           options={plans}
-          valueKey={(plan: Plan): string =>
-            `${plan.category} ${plan.mealsPerDay}`
-          }
-          labelKey={(plan: Plan): string =>
-            `${plan.category} ${plan.mealsPerDay}`
-          }
-          // eslint-disable-next-line react/no-children-prop
-          children={(plan: Plan): string =>
+          renderLabel={(plan: Plan): string =>
             `${plan.category} ${plan.mealsPerDay}`
           }
           value={props.customer.plan}
