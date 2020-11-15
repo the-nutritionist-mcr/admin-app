@@ -106,4 +106,64 @@ describe("The customers page", () => {
       .find("input[name='plan']")
       .should("have.value", "Micro 1");
   });
+
+  describe("the delete button", () => {
+    it("Should allow you to delete a row after you've confirmed", () => {
+      cy.visit("/customers");
+
+      cy.contains("Create New").click();
+
+      cy.get("tbody").find("tr").as("firstRow");
+      editUser(
+        "firstRow",
+        "Ben Wainwright",
+        "bwainwright28@gmail.com",
+        5,
+        "EQ 2"
+      );
+
+      cy.contains("Create New").click();
+      cy.get("tbody").find("tr").first().next().as("secondRow");
+      editUser(
+        "secondRow",
+        "Lawrence Davis",
+        "lawrence@lawrencedavis.me",
+        6,
+        "Ultra-Micro 1"
+      );
+
+      cy.get("tbody").find("tr").first().next().contains("Delete").click();
+      cy.contains("Yes").click();
+      cy.get("tbody").find("tr").should("have.length", 1);
+    });
+
+    it("Does not delete a row if you click on the confirm dialog", () => {
+      cy.visit("/customers");
+
+      cy.contains("Create New").click();
+
+      cy.get("tbody").find("tr").as("firstRow");
+      editUser(
+        "firstRow",
+        "Ben Wainwright",
+        "bwainwright28@gmail.com",
+        5,
+        "EQ 2"
+      );
+
+      cy.contains("Create New").click();
+      cy.get("tbody").find("tr").first().next().as("secondRow");
+      editUser(
+        "secondRow",
+        "Lawrence Davis",
+        "lawrence@lawrencedavis.me",
+        6,
+        "Ultra-Micro 1"
+      );
+
+      cy.get("tbody").find("tr").first().next().contains("Delete").click();
+      cy.contains("No").click();
+      cy.get("tbody").find("tr").should("have.length", 2);
+    });
+  });
 });
