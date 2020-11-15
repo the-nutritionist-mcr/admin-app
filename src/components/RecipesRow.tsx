@@ -9,7 +9,6 @@ import YesNoDialog from "./YesNoDialog";
 import { deleteRecipe } from "../actions/recipes";
 import { exclusionsStore } from "../lib/stores";
 import { getExclusions } from "../actions/exclusions";
-import useDeepCompareEffect from "use-deep-compare-effect";
 
 interface RecipesRowProps {
   recipe: Recipe;
@@ -27,13 +26,13 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
     setExclusions([...exclusionsStore.getAll()]);
   };
 
-  useDeepCompareEffect(() => {
+  React.useEffect(() => {
     exclusionsStore.addChangeListener(onChangeExclusions);
     if (exclusionsStore.getAll().length === 0) {
       getExclusions();
     }
     return (): void => exclusionsStore.removeChangeListener(onChangeExclusions);
-  }, [exclusions]);
+  }, []);
 
   return (
     <TableRow>

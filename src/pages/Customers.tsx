@@ -44,7 +44,7 @@ const Customers: React.FC = () => {
             <TableCell scope="col">Email</TableCell>
             <TableCell scope="col">Days per week</TableCell>
             <TableCell scope="col">Plan</TableCell>
-            <TableCell scope="col">Allergic To</TableCell>
+            <TableCell scope="col">Exclusions</TableCell>
             <TableCell scope="col">Actions</TableCell>
           </TableRow>
         </TableHeader>

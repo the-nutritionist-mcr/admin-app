@@ -8,7 +8,7 @@ interface TableCellSelectFieldProps<V> {
   value: V;
   children?: (value: V) => string;
   valueKey?: (value: V) => string;
-  labelKey?: string | ((value: V) => string);
+  labelKey?: ((value: V) => string) | string;
   name?: string;
   multiple?: boolean;
 }
@@ -33,8 +33,20 @@ function TableCellSelectField<
 ): React.ReactElement | null {
   const [selected, setSelected] = React.useState<V>(props.value);
 
-  const valueLabel =
-    Array.isArray(selected) && props.multiple ? selected.join(", ") : undefined;
+  const valueLabel = (value: V): string | V => {
+    if (Array.isArray(value)) {
+      const mappedValue = value.map((element) =>
+        typeof element === "object" && typeof props.labelKey === "string"
+          ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (element as any)[props.labelKey]
+          : element
+      );
+
+      return mappedValue.join(", ");
+    }
+
+    return value;
+  };
 
   const theme = {
     global: {
@@ -71,7 +83,6 @@ function TableCellSelectField<
         // eslint-disable-next-line react/no-children-prop
         children={props.children}
         value={selected}
-        labelKey={props.labelKey}
         valueLabel={valueLabel}
         valueKey={props.valueKey}
         alignSelf="stretch"

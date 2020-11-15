@@ -2,6 +2,7 @@ import { Grommet, Main } from "grommet";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
 import Customers from "./pages/Customers";
+import Exclusions from "./pages/Exclusions";
 import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
 import Planner from "./pages/Planner";
@@ -36,6 +37,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/planner">
               <Planner />
+            </Route>
+            <Route path="/exclusions">
+              <Exclusions />
             </Route>
           </Switch>
         </Main>

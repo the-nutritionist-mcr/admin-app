@@ -10,7 +10,6 @@ import YesNoDialog from "./YesNoDialog";
 import { deleteCustomer } from "../actions/customers";
 import { exclusionsStore } from "../lib/stores";
 import { getExclusions } from "../actions/exclusions";
-import useDeepCompareEffect from "use-deep-compare-effect";
 interface CustomerRowProps {
   customer: Customer;
   onChange: (oldCustomer: Customer, newCustomer: Customer) => void;
@@ -27,13 +26,13 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
     setExclusions([...exclusionsStore.getAll()]);
   };
 
-  useDeepCompareEffect(() => {
+  React.useEffect(() => {
     exclusionsStore.addChangeListener(onChangeExclusions);
     if (exclusionsStore.getAll().length === 0) {
       getExclusions();
     }
     return (): void => exclusionsStore.removeChangeListener(onChangeExclusions);
-  }, [exclusions]);
+  }, []);
 
   return (
     <TableRow>

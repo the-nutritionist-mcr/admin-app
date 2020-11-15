@@ -42,7 +42,7 @@ const Recipes: React.FC = () => {
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell>Description</TableCell>
-            <TableCell>Allergens</TableCell>
+            <TableCell>Potential Exclusions</TableCell>
             <TableCell>Actions</TableCell>
           </TableRow>
         </TableHeader>
