@@ -24,7 +24,7 @@ const App: React.FC = () => {
     <Grommet theme={theme}>
       <Router>
         <NavBar />
-        <Main pad={{ horizontal: "small", vertical: "medium" }}>
+        <Main pad={{ horizontal: "large", vertical: "medium" }}>
           <Switch>
             <Route path="/" exact>
               <Home />

@@ -79,7 +79,7 @@ const Planner: React.FC = () => {
   return (
     <React.Fragment>
       <Heading level={2}>Planner</Heading>
-      <Paragraph>
+      <Paragraph fill>
         Planning for{" "}
         <Select
           placeholder="Select Day"
@@ -91,7 +91,7 @@ const Planner: React.FC = () => {
           }}
         />
       </Paragraph>
-      <Paragraph>Select the meals for this delivery:</Paragraph>
+      <Paragraph fill>Select the meals for this delivery:</Paragraph>
       <Box direction="row" gap="medium">
         {planned.map((plan, index) => (
           <Select
@@ -142,7 +142,7 @@ const Planner: React.FC = () => {
           />
         </React.Fragment>
       ) : (
-        <Paragraph>
+        <Paragraph fill>
           To calculate your delivery plan, please choose all{" "}
           {defaultPlans.length} recipes
         </Paragraph>

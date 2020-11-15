@@ -16,8 +16,8 @@ const NavBar: React.FC = () => (
       <MenuButton to="/">Home</MenuButton>
       <MenuButton to="/customers">Customers</MenuButton>
       <MenuButton to="/recipes">Recipes</MenuButton>
-      <MenuButton to="/planner">Planner</MenuButton>
       <MenuButton to="/exclusions">Exclusions</MenuButton>
+      <MenuButton to="/planner">Planner</MenuButton>
     </Box>
   </Header>
 );
