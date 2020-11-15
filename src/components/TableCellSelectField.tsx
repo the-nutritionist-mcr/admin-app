@@ -1,4 +1,4 @@
-import { Select, ThemeContext } from "grommet";
+import { Select, TextInput, ThemeContext } from "grommet";
 import MutatorFieldProps from "./MutatorFieldProps";
 import React from "react";
 
@@ -54,7 +54,7 @@ function TableCellSelectField<
     setSelected(item.value);
   };
 
-  const getValueLabel = (selectedValues: V): string | undefined => {
+  const getValueLabelString = (selectedValues: V): string | undefined => {
     if (Array.isArray(selectedValues) && props.renderLabel) {
       return selectedValues.map(props.renderLabel).join(", ");
     }
@@ -70,6 +70,8 @@ function TableCellSelectField<
       return props.renderLabel(selectedValues);
     }
   };
+
+  const valueLabelString = getValueLabelString(selected);
 
   return (
     <ThemeContext.Extend value={theme}>
@@ -87,7 +89,16 @@ function TableCellSelectField<
         labelKey={props.labelKey}
         // eslint-disable-next-line react/no-children-prop
         children={props.renderLabel}
-        valueLabel={getValueLabel(selected)}
+        valueLabel={
+          valueLabelString && (
+            <TextInput
+              name={props.name}
+              readOnly
+              value={valueLabelString}
+              plain="full"
+            />
+          )
+        }
         alignSelf="stretch"
       />
     </ThemeContext.Extend>

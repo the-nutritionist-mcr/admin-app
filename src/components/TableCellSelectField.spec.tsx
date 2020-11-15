@@ -23,7 +23,7 @@ describe("The <TableCellSelectField /> component", () => {
           ],
         };
 
-        const { getByText } = render(
+        const { getByDisplayValue } = render(
           <Grommet plain>
             <TableCellSelectField
               multiple
@@ -41,7 +41,7 @@ describe("The <TableCellSelectField /> component", () => {
           </Grommet>
         );
 
-        expect(getByText("bar-name, baz-name")).not.toBeNull();
+        expect(getByDisplayValue("bar-name, baz-name")).not.toBeNull();
       });
 
       it("should correctly render the value label using the renderLabel prop when it is present", () => {
@@ -59,7 +59,7 @@ describe("The <TableCellSelectField /> component", () => {
           ],
         };
 
-        const { getByText } = render(
+        const { getByDisplayValue } = render(
           <Grommet plain>
             <TableCellSelectField
               multiple
@@ -79,7 +79,7 @@ describe("The <TableCellSelectField /> component", () => {
           </Grommet>
         );
 
-        expect(getByText("bar-namebop, baz-namebip")).not.toBeNull();
+        expect(getByDisplayValue("bar-namebop, baz-namebip")).not.toBeNull();
       });
 
       it("should render the drop correctly using the renderLabel prop when it is present", () => {
@@ -97,7 +97,7 @@ describe("The <TableCellSelectField /> component", () => {
           ],
         };
 
-        const { getByText } = render(
+        const { getByText, getByDisplayValue } = render(
           <Grommet plain>
             <TableCellSelectField
               multiple
@@ -118,7 +118,7 @@ describe("The <TableCellSelectField /> component", () => {
         );
 
         act(() => {
-          const control = getByText("bar-namebop, baz-namebip");
+          const control = getByDisplayValue("bar-namebop, baz-namebip");
           fireEvent.click(control);
         });
 
@@ -142,7 +142,7 @@ describe("The <TableCellSelectField /> component", () => {
           field2: { id: 2, name: "bar-name", otherThing: "bop" },
         };
 
-        const { getByText } = render(
+        const { getByDisplayValue } = render(
           <Grommet plain>
             <TableCellSelectField
               thing={thing}
@@ -161,7 +161,7 @@ describe("The <TableCellSelectField /> component", () => {
           </Grommet>
         );
 
-        expect(getByText("bar-namebop")).not.toBeNull();
+        expect(getByDisplayValue("bar-namebop")).not.toBeNull();
       });
 
       it("should correctly render the option labels using the renderLabel prop when it is present", () => {
@@ -175,7 +175,7 @@ describe("The <TableCellSelectField /> component", () => {
           field2: { id: 2, name: "bar-name", otherThing: "bop" },
         };
 
-        const { getByText, getAllByText } = render(
+        const { getByText, getByDisplayValue, getAllByText } = render(
           <Grommet plain>
             <TableCellSelectField
               thing={thing}
@@ -195,7 +195,7 @@ describe("The <TableCellSelectField /> component", () => {
         );
 
         act(() => {
-          const control = getByText("bar-namebop");
+          const control = getByDisplayValue("bar-namebop");
           fireEvent.click(control);
         });
 
