@@ -40,4 +40,4 @@ test:
         - yarn start-server-and-test 'yarn start' 3000 'yarn test:cypress:record'
     postTest:
       commands:
-        - yarn mochawesome-merge@4 cypress/report/mochawesome-report/*.json > cypress/report/mochawesome.json
+        - yarn mochawesome-merge cypress/report/mochawesome-report/*.json > cypress/report/mochawesome.json
