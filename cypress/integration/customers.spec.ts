@@ -1,5 +1,5 @@
 describe("The customers page", () => {
-  it("Shoulder render a page with the correct title", () => {
+  it("Should render a page with the correct title", () => {
     cy.visit("/customers");
     cy.get("h2").contains("Customers");
   });

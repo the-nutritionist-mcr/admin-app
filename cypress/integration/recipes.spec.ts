@@ -53,7 +53,7 @@ describe("The recipes page", () => {
       .should("have.value", "A creamy chocolate bar");
   });
 
-  describe("", () => {
+  describe("the delete button", () => {
     it("should allow you to delete a row after you've confirmed", () => {
       cy.visit("/recipes");
 

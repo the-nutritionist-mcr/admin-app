@@ -37,9 +37,23 @@ declare namespace Cypress {
     ): void;
 
     createRecipe(name: string, description: string, exclusions: string[]): void;
+
+    createExclusion(name: string, allergen: boolean): void;
   }
 }
 /* eslint-enable @typescript-eslint/no-namespace */
+
+Cypress.Commands.add("createExclusion", (name: string, allergen: boolean) => {
+  cy.get("header").contains("Exclusions").click();
+  cy.contains("Create New").click();
+  cy.get("table").find("tr").last().as("lastRow");
+
+  cy.get("@lastRow").find("input[name='name']").type(name);
+
+  if (allergen) {
+    cy.get("@lastRow").find("input[name='allergen']").click({ force: true });
+  }
+});
 
 Cypress.Commands.add(
   "createCustomer",
@@ -83,6 +97,7 @@ Cypress.Commands.add(
     cy.get("@lastRow").find("input[name='name']").type(name);
     cy.get("@lastRow").find("input[name='description']").type(description);
     cy.get("@lastRow").find("input[name='exclusions']").click();
+    cy.get("div[data-g-portal-id='0']").as("dropPortal");
     exclusions.forEach((exclusion) => {
       cy.get("@dropPortal").contains(exclusion).click();
     });
