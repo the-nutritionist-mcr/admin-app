@@ -21,7 +21,7 @@ frontend:
       - "**/*"
   cache:
     paths:
-      - ~/.cache
+      - /root/.cache/Cypress
 
 test:
   artifacts:
