@@ -42,6 +42,7 @@ describe("The customers page", () => {
 
     cy.reload();
 
+    cy.get("tbody").find("tr").first().as("firstRow");
     cy.get("@firstRow")
       .find("input[name='name']")
       .should("have.value", "Ben Wainwright");
@@ -53,6 +54,7 @@ describe("The customers page", () => {
       .should("have.value", 5);
     cy.get("@firstRow").find("input[name='plan']").should("have.value", "EQ 2");
 
+    cy.get("tbody").find("tr").first().next().as("secondRow");
     cy.get("@secondRow")
       .find("input[name='name']")
       .should("have.value", "Lawrence Davis");
@@ -66,6 +68,7 @@ describe("The customers page", () => {
       .find("input[name='plan']")
       .should("have.value", "Ultra-Micro 1");
 
+    cy.get("tbody").find("tr").last().as("thirdRow");
     cy.get("@thirdRow")
       .find("input[name='name']")
       .should("have.value", "Alice Springs");
@@ -84,25 +87,20 @@ describe("The customers page", () => {
     it("Should allow you to delete a row after you've confirmed", () => {
       cy.visit("/customers");
 
-      cy.contains("Create New").click();
-
-      cy.get("tbody").find("tr").as("firstRow");
-      editUser(
-        "firstRow",
+      cy.createCustomer(
         "Ben Wainwright",
         "bwainwright28@gmail.com",
         5,
-        "EQ 2"
+        "EQ 2",
+        []
       );
 
-      cy.contains("Create New").click();
-      cy.get("tbody").find("tr").first().next().as("secondRow");
-      editUser(
-        "secondRow",
+      cy.createCustomer(
         "Lawrence Davis",
         "lawrence@lawrencedavis.me",
         6,
-        "Ultra-Micro 1"
+        "Ultra-Micro 1",
+        []
       );
 
       cy.get("tbody").find("tr").first().next().contains("Delete").click();
@@ -113,25 +111,20 @@ describe("The customers page", () => {
     it("Does not delete a row if you click on the confirm dialog", () => {
       cy.visit("/customers");
 
-      cy.contains("Create New").click();
-
-      cy.get("tbody").find("tr").as("firstRow");
-      editUser(
-        "firstRow",
+      cy.createCustomer(
         "Ben Wainwright",
         "bwainwright28@gmail.com",
         5,
-        "EQ 2"
+        "EQ 2",
+        []
       );
 
-      cy.contains("Create New").click();
-      cy.get("tbody").find("tr").first().next().as("secondRow");
-      editUser(
-        "secondRow",
+      cy.createCustomer(
         "Lawrence Davis",
         "lawrence@lawrencedavis.me",
         6,
-        "Ultra-Micro 1"
+        "Ultra-Micro 1",
+        []
       );
 
       cy.get("tbody").find("tr").first().next().contains("Delete").click();
