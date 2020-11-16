@@ -15,13 +15,13 @@ const theme = {
   },
 };
 
-interface LoadedRoute {
+interface LoadableRoute {
   path: string;
   route: React.FC;
 }
 
 const App: React.FC = () => {
-  const [routes, setRoutes] = React.useState<LoadedRoute[]>([]);
+  const [routes, setRoutes] = React.useState<LoadableRoute[]>([]);
 
   React.useEffect(() => {
     (async (): Promise<void> => {
