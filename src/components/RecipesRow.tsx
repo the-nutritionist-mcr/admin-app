@@ -77,7 +77,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
       <TableCell>
         <Button
           onClick={(): void => setShowDoDelete(true)}
-          icon={<Trash />}
+          icon={<Trash color="brand" />}
           a11yTitle="Delete"
         />
         <OkCancelDialog

@@ -8,6 +8,8 @@ import {
   Layer,
 } from "grommet";
 
+import { Checkmark, Close } from "grommet-icons";
+
 import React from "react";
 
 interface OkCancelDialogProps {
@@ -30,8 +32,16 @@ const OkCancelDialog: React.FC<OkCancelDialogProps> = (props) =>
           {props.children}
         </CardBody>
         <CardFooter pad="medium" alignSelf="center">
-          <Button onClick={props.onOk} label="Ok" />
-          <Button onClick={props.onCancel} label="Cancel" />
+          <Button
+            icon={<Checkmark color="brand" size="small" />}
+            onClick={props.onOk}
+            label="Ok"
+          />
+          <Button
+            icon={<Close color="brand" size="small" />}
+            onClick={props.onCancel}
+            label="Cancel"
+          />
         </CardFooter>
       </Card>
     </Layer>
