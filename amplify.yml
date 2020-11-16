@@ -21,6 +21,7 @@ frontend:
 test:
   artifacts:
     baseDirectory: cypress
+    configFilePath: "**/mochawesome.json"
     files:
       - "**/*.png"
       - "**/*.mp4"
