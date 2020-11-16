@@ -35,6 +35,7 @@ test:
       commands:
         - nvm use $VERSION_NODE_12
         - yarn install --frozen-lockfile
+        - yarn cypress install
     test:
       commands:
         - yarn start-server-and-test 'yarn start' 3000 'yarn test:cypress:record'
