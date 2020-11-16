@@ -1,9 +1,9 @@
 import Customer, { Snack } from "../domain/Customer";
-import { act, fireEvent, render } from "@testing-library/react";
 
 import CustomerRow from "./CustomerRow";
 import { Grommet } from "grommet";
 import React from "react";
+import { render } from "@testing-library/react";
 
 describe("The <CustomerRow> component", () => {
   it("Renders customer data in row fields", () => {
