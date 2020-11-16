@@ -84,7 +84,7 @@ const Planner: React.FC = () => {
         <Select
           placeholder="Select Day"
           name="selectDay"
-          options={["", "Monday", "Thursday"]}
+          options={["Monday", "Thursday"]}
           value={day}
           onChange={(event: { value: DeliveryDay }): void => {
             setDay(event.value);
@@ -103,10 +103,6 @@ const Planner: React.FC = () => {
             value={plan ?? ""}
             labelKey={(labelPlan: undefined | Recipe): string | undefined =>
               labelPlan?.name
-            }
-            // eslint-disable-next-line react/no-children-prop
-            children={(childPlan: undefined | Recipe): string =>
-              childPlan?.name ?? "None"
             }
             onChange={(event: { value: Recipe | undefined }): void => {
               const newPlanned = [...planned];
