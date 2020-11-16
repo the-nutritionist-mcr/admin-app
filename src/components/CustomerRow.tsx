@@ -7,6 +7,7 @@ import Plan from "../domain/Plan";
 import React from "react";
 import TableCellInputField from "./TableCellInputField";
 import TableCellSelectField from "./TableCellSelectField";
+import { Trash } from "grommet-icons";
 import { deleteCustomer } from "../actions/customers";
 import { exclusionsStore } from "../lib/stores";
 import { getExclusions } from "../actions/exclusions";
@@ -114,12 +115,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
         <Button
           secondary
           onClick={(): void => setShowDoDelete(true)}
-          label="Delete"
-        />
-        <Button
-          secondary
-          onClick={(): void => setShowPause(true)}
-          label="Pause"
+          icon={<Trash />}
         />
         <OkCancelDialog
           show={showDoDelete}
