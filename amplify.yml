@@ -8,7 +8,7 @@ frontend:
     preBuild:
       commands:
         - nvm use $VERSION_NODE_12
-        - yarn install
+        - yarn install --frozen-lockfile
         - yarn lint .
         - yarn test:ci
 
@@ -34,7 +34,7 @@ test:
     preTest:
       commands:
         - nvm use $VERSION_NODE_12
-        - yarn install
+        - yarn install --frozen-lockfile
     test:
       commands:
         - yarn start-server-and-test 'yarn start' 3000 'yarn test:cypress:record'
