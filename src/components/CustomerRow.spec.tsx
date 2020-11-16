@@ -1,5 +1,5 @@
 import Customer, { Snack } from "../domain/Customer";
-import { fireEvent, render } from "@testing-library/react";
+import { act, fireEvent, render } from "@testing-library/react";
 
 import CustomerRow from "./CustomerRow";
 import { Grommet } from "grommet";
@@ -61,50 +61,5 @@ describe("The <CustomerRow> component", () => {
     ) as HTMLInputElement | undefined;
 
     expect(daysPerWeekSelector?.value).toEqual("5");
-  });
-
-  it("calls onChange with an edited customer when edited", () => {
-    const fakeCustomer: Customer = {
-      id: 1,
-      name: "Ben",
-      daysPerWeek: 5,
-      email: "a@b.c",
-      breakfast: false,
-      snack: Snack.None,
-      exclusions: [],
-      plan: {
-        category: "Mass",
-        costPerMeal: 200,
-        mealsPerDay: 3,
-      },
-    };
-
-    const mockOnChange = jest.fn();
-
-    render(
-      <Grommet plain>
-        <table>
-          <tbody>
-            <CustomerRow customer={fakeCustomer} onChange={mockOnChange} />
-          </tbody>
-        </table>
-      </Grommet>
-    );
-
-    const nameInput = document.querySelector("input[name='name']") as
-      | HTMLInputElement
-      | undefined;
-
-    expect(nameInput).toBeDefined();
-    if (nameInput) {
-      fireEvent.change(nameInput, { target: { value: "another-name" } });
-
-      expect(mockOnChange).toHaveBeenCalledWith(
-        fakeCustomer,
-        expect.objectContaining({
-          name: "another-name",
-        })
-      );
-    }
   });
 });
