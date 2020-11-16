@@ -36,7 +36,11 @@ declare namespace Cypress {
       exclusions: string[]
     ) => void;
 
-    createRecipe: (name: string, description: string, exclusions: string[]) => void;
+    createRecipe: (
+      name: string,
+      description: string,
+      exclusions: string[]
+    ) => void;
 
     createExclusion: (name: string, allergen: boolean) => void;
   }
@@ -81,7 +85,7 @@ Cypress.Commands.add(
 
     cy.get("@lastRow").find("input[name='exclusions']").click();
     exclusions.forEach((exclusion) => {
-      cy.get("@dropPortal").contains(exclusion).click();
+      cy.get("@dropPortal").contains(exclusion).click({ force: true });
     });
     cy.get("@lastRow").find("input[name='exclusions']").click();
   }
@@ -99,7 +103,10 @@ Cypress.Commands.add(
     cy.get("@lastRow").find("input[name='exclusions']").click();
     cy.get("div[data-g-portal-id='0']").as("dropPortal");
     exclusions.forEach((exclusion) => {
-      cy.get("@dropPortal").contains(exclusion).click();
+      cy.get("@dropPortal")
+        .find("div[role='menubar']")
+        .contains(exclusion)
+        .click({ force: true });
     });
     cy.get("@lastRow").find("input[name='exclusions']").click();
   }

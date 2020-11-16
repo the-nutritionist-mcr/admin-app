@@ -83,6 +83,7 @@ const Planner: React.FC = () => {
         Planning for{" "}
         <Select
           placeholder="Select Day"
+          name="selectDay"
           options={["", "Monday", "Thursday"]}
           value={day}
           onChange={(event: { value: DeliveryDay }): void => {
@@ -96,6 +97,7 @@ const Planner: React.FC = () => {
         {planned.map((plan, index) => (
           <Select
             key={index}
+            name={`meal-${index}`}
             options={recipes}
             placeholder="None"
             value={plan ?? ""}
