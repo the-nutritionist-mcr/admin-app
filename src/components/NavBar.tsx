@@ -1,5 +1,5 @@
 import { Alert, Cafeteria, Home, Plan, User } from "grommet-icons";
-import { Box, Header, Heading } from "grommet";
+import { Box, Header, Heading, Text } from "grommet";
 import MenuButton from "./MenuButton";
 import React from "react";
 
@@ -13,7 +13,13 @@ const NavBar: React.FC = () => (
     <Heading level={1} size="small">
       TNM Admin
     </Heading>
-    <Box gap="large" justify="stretch" direction="row" alignContent="stretch">
+    <Box
+      flex="grow"
+      gap="large"
+      justify="stretch"
+      direction="row"
+      alignContent="stretch"
+    >
       <MenuButton icon={<Home />} to="/">
         Home
       </MenuButton>
@@ -30,6 +36,7 @@ const NavBar: React.FC = () => (
         Planner
       </MenuButton>
     </Box>
+    <Text size="small">Version {process.env.REACT_APP_VERSION_NUMBER}</Text>
   </Header>
 );
 export default NavBar;

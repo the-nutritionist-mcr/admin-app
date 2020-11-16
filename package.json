@@ -57,8 +57,8 @@
     "web-vitals": "^0.2.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) react-scripts start",
+    "build": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) react-scripts build",
     "lint": "eslint .",
     "test": "react-scripts test",
     "start:and-wait": "yarn start & yarn wait-on http://localhost:3000",
