@@ -21,51 +21,24 @@ describe("The customers page", () => {
     cy.get("input[name='exclusions']").should("be.empty");
   });
 
-  const editUser = (
-    alias: string,
-    name: string,
-    email: string,
-    daysPerWeek: number,
-    plan: string
-  ) => {
-    cy.get(`@${alias}`).find("input[name='name']").type(name);
-    cy.get(`@${alias}`).find("input[name='email']").type(email);
-
-    cy.get(`@${alias}`).find("input[name='daysPerWeek']").click();
-    cy.get("div[data-g-portal-id='0']").as("dropPortal");
-
-    cy.get("@dropPortal").contains(String(daysPerWeek)).click();
-
-    cy.get(`@${alias}`).find("input[name='plan']").click();
-    cy.get("@dropPortal").contains(plan).click();
-  };
-
   it("Should allow you to add and edit a couple of customers which then persist after page reload", () => {
-    cy.visit("/customers");
-    cy.contains("Create New").click();
-
-    cy.get("tbody").find("tr").as("firstRow");
-    editUser(
-      "firstRow",
+    cy.createCustomer(
       "Ben Wainwright",
       "bwainwright28@gmail.com",
       5,
-      "EQ 2"
+      "EQ 2",
+      []
     );
 
-    cy.contains("Create New").click();
-    cy.get("tbody").find("tr").first().next().as("secondRow");
-    editUser(
-      "secondRow",
+    cy.createCustomer(
       "Lawrence Davis",
       "lawrence@lawrencedavis.me",
       6,
-      "Ultra-Micro 1"
+      "Ultra-Micro 1",
+      []
     );
 
-    cy.contains("Create New").click();
-    cy.get("tbody").find("tr").first().next().next().as("thirdRow");
-    editUser("thirdRow", "Alice Springs", "alice@springs.com", 5, "Micro 1");
+    cy.createCustomer("Alice Springs", "alice@springs.com", 5, "Micro 1", []);
 
     cy.reload();
 

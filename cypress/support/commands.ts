@@ -22,4 +22,49 @@
 //
 //
 // -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... }
+
+/// <reference types="cypress" />
+declare namespace Cypress {
+  interface Chainable {
+    createCustomer(
+      name: string,
+      email: string,
+      daysPerWeek: number,
+      plan: string,
+      exclusions: string[]
+    ): void;
+  }
+}
+
+Cypress.Commands.add(
+  "createCustomer",
+  (
+    name: string,
+    email: string,
+    daysPerWeek: number,
+    plan: string,
+    exclusions: string[]
+  ): void => {
+    cy.visit("/customers");
+    cy.contains("Create New").click();
+    cy.get("table").find("tr").last().as("lastRow");
+
+    cy.get("@lastRow").find("input[name='name']").type(name);
+    cy.get("@lastRow").find("input[name='email']").type(email);
+
+    cy.get("@lastRow").find("input[name='daysPerWeek']").click();
+    cy.get("div[data-g-portal-id='0']").as("dropPortal");
+
+    cy.get("@dropPortal").contains(String(daysPerWeek)).click();
+
+    cy.get("@lastRow").find("input[name='plan']").click();
+
+    exclusions.forEach((exclusion) => {
+      cy.get("@lastRow").find("input[name='exclusions']").click();
+      cy.get("@dropPortal").contains(exclusion).click();
+    });
+
+    cy.get("@dropPortal").contains(plan).click();
+  }
+);
