@@ -116,6 +116,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
           secondary
           onClick={(): void => setShowDoDelete(true)}
           icon={<Trash />}
+          a11yTitle="Delete"
         />
         <OkCancelDialog
           show={showDoDelete}

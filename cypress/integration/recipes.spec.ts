@@ -60,7 +60,11 @@ describe("The recipes page", () => {
       cy.createRecipe("Sandwich", "A delicious sandwich", []);
       cy.createRecipe("Salad", "A beautiful salad", []);
 
-      cy.get("tbody").find("tr").last().contains("Delete").click();
+      cy.get("tbody")
+        .find("tr")
+        .last()
+        .find("button[aria-label='Delete']")
+        .click();
       cy.contains("Ok").click();
       cy.get("tbody").find("tr").should("have.length", 1);
     });
@@ -71,7 +75,11 @@ describe("The recipes page", () => {
       cy.createRecipe("Sandwich", "A delicious sandwich", []);
       cy.createRecipe("Salad", "A beautiful salad", []);
 
-      cy.get("tbody").find("tr").last().contains("Delete").click();
+      cy.get("tbody")
+        .find("tr")
+        .last()
+        .find("button[aria-label='Delete']")
+        .click();
       cy.contains("Cancel").click();
       cy.get("tbody").find("tr").should("have.length", 2);
     });

@@ -75,7 +75,11 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
       </TableCell>
 
       <TableCell>
-        <Button onClick={(): void => setShowDoDelete(true)} icon={<Trash />} />
+        <Button
+          onClick={(): void => setShowDoDelete(true)}
+          icon={<Trash />}
+          a11yTitle="Delete"
+        />
         <OkCancelDialog
           show={showDoDelete}
           header="Are you sure?"

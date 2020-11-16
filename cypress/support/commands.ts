@@ -78,10 +78,10 @@ Cypress.Commands.add(
     cy.get("@lastRow").find("input[name='daysPerWeek']").click();
     cy.get("div[data-g-portal-id='0']").as("dropPortal");
 
-    cy.get("@dropPortal").contains(String(daysPerWeek)).click();
+    cy.get("@dropPortal").contains(String(daysPerWeek)).click({ force: true });
 
     cy.get("@lastRow").find("input[name='plan']").click();
-    cy.get("@dropPortal").contains(plan).click();
+    cy.get("@dropPortal").contains(plan).click({ force: true });
 
     cy.get("@lastRow").find("input[name='exclusions']").click();
     exclusions.forEach((exclusion) => {
