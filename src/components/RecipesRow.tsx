@@ -39,6 +39,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
       <TableCell>
         <TableCellInputField
           thing={props.recipe}
+          name="name"
           value={props.recipe.name}
           mutator={(newRecipe, event): void => {
             newRecipe.name = event.target.value;
@@ -49,6 +50,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
       <TableCell>
         <TableCellInputField
           thing={props.recipe}
+          name="description"
           value={props.recipe.description}
           mutator={(newRecipe, event): void => {
             newRecipe.description = event.target.value;
@@ -59,6 +61,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
       <TableCell>
         <TableCellSelectField
           multiple
+          name="exclusions"
           thing={props.recipe}
           options={exclusions}
           labelKey="name"

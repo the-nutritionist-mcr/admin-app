@@ -25,6 +25,7 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... }
 
 /// <reference types="cypress" />
+/* eslint-disable @typescript-eslint/no-namespace */
 declare namespace Cypress {
   interface Chainable {
     createCustomer(
@@ -34,8 +35,11 @@ declare namespace Cypress {
       plan: string,
       exclusions: string[]
     ): void;
+
+    createRecipe(name: string, description: string, exclusions: string[]): void;
   }
 }
+/* eslint-enable @typescript-eslint/no-namespace */
 
 Cypress.Commands.add(
   "createCustomer",
@@ -46,7 +50,7 @@ Cypress.Commands.add(
     plan: string,
     exclusions: string[]
   ): void => {
-    cy.visit("/customers");
+    cy.get("header").contains("Customers").click();
     cy.contains("Create New").click();
     cy.get("table").find("tr").last().as("lastRow");
 
@@ -59,12 +63,29 @@ Cypress.Commands.add(
     cy.get("@dropPortal").contains(String(daysPerWeek)).click();
 
     cy.get("@lastRow").find("input[name='plan']").click();
+    cy.get("@dropPortal").contains(plan).click();
 
+    cy.get("@lastRow").find("input[name='exclusions']").click();
     exclusions.forEach((exclusion) => {
-      cy.get("@lastRow").find("input[name='exclusions']").click();
       cy.get("@dropPortal").contains(exclusion).click();
     });
+    cy.get("@lastRow").find("input[name='exclusions']").click();
+  }
+);
 
-    cy.get("@dropPortal").contains(plan).click();
+Cypress.Commands.add(
+  "createRecipe",
+  (name: string, description: string, exclusions: string[]): void => {
+    cy.get("header").contains("Recipes").click();
+    cy.contains("Create New").click();
+    cy.get("table").find("tr").last().as("lastRow");
+
+    cy.get("@lastRow").find("input[name='name']").type(name);
+    cy.get("@lastRow").find("input[name='description']").type(description);
+    cy.get("@lastRow").find("input[name='exclusions']").click();
+    exclusions.forEach((exclusion) => {
+      cy.get("@dropPortal").contains(exclusion).click();
+    });
+    cy.get("@lastRow").find("input[name='exclusions']").click();
   }
 );
