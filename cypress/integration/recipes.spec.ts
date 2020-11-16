@@ -61,7 +61,7 @@ describe("The recipes page", () => {
       cy.createRecipe("Salad", "A beautiful salad", []);
 
       cy.get("tbody").find("tr").last().contains("Delete").click();
-      cy.contains("Yes").click();
+      cy.contains("Ok").click();
       cy.get("tbody").find("tr").should("have.length", 1);
     });
 
@@ -72,7 +72,7 @@ describe("The recipes page", () => {
       cy.createRecipe("Salad", "A beautiful salad", []);
 
       cy.get("tbody").find("tr").last().contains("Delete").click();
-      cy.contains("No").click();
+      cy.contains("Cancel").click();
       cy.get("tbody").find("tr").should("have.length", 2);
     });
   });

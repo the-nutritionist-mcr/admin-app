@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 
 interface MenuLinkProps {
   to: string;
+  icon?: JSX.Element;
 }
 
 const MenuButton: React.FC<MenuLinkProps> = (props) => {
@@ -18,6 +19,7 @@ const MenuButton: React.FC<MenuLinkProps> = (props) => {
       plain={true}
       onClick={onClick}
       hoverIndicator
+      icon={props.icon}
       label={props.children}
     />
   );

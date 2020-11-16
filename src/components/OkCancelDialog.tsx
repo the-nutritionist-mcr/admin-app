@@ -10,14 +10,14 @@ import {
 
 import React from "react";
 
-interface YesNoDialogProps {
+interface OkCancelDialogProps {
   show?: boolean;
   header: string;
-  onYes: () => void;
-  onNo: () => void;
+  onOk: () => void;
+  onCancel: () => void;
 }
 
-const YesNoDialog: React.FC<YesNoDialogProps> = (props) =>
+const OkCancelDialog: React.FC<OkCancelDialogProps> = (props) =>
   props?.show ? (
     <Layer>
       <Card>
@@ -30,11 +30,11 @@ const YesNoDialog: React.FC<YesNoDialogProps> = (props) =>
           {props.children}
         </CardBody>
         <CardFooter pad="medium" alignSelf="center">
-          <Button onClick={props.onYes} label="Yes" />
-          <Button onClick={props.onNo} label="No" />
+          <Button onClick={props.onOk} label="Ok" />
+          <Button onClick={props.onCancel} label="Cancel" />
         </CardFooter>
       </Card>
     </Layer>
   ) : null;
 
-export default YesNoDialog;
+export default OkCancelDialog;

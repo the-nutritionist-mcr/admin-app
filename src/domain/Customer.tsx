@@ -11,6 +11,8 @@ export default interface Customer {
   id: number;
   name: string;
   email: string;
+  pauseStart?: Date;
+  pauseEnd?: Date;
   daysPerWeek: number;
   plan: Plan;
   snack: Snack;

@@ -1,10 +1,10 @@
 import { Button, TableCell, TableRow } from "grommet";
 
 import Exclusion from "../domain/Exclusion";
+import OkCancelDialog from "./OkCancelDialog";
 import React from "react";
 import TableCellCheckbox from "./TableCellCheckbox";
 import TableCellInputField from "./TableCellInputField";
-import YesNoDialog from "./YesNoDialog";
 
 import { deleteExclusion } from "../actions/exclusions";
 
@@ -45,17 +45,17 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
           onClick={(): void => setShowDoDelete(true)}
           label="Delete"
         />
-        <YesNoDialog
+        <OkCancelDialog
           show={showDoDelete}
           header="Are you sure?"
-          onYes={(): void => {
+          onOk={(): void => {
             deleteExclusion(props.exclusion);
             setShowDoDelete(false);
           }}
-          onNo={(): void => setShowDoDelete(false)}
+          onCancel={(): void => setShowDoDelete(false)}
         >
           Are you sure you want to delete this exclusion?
-        </YesNoDialog>
+        </OkCancelDialog>
       </TableCell>
     </TableRow>
   );

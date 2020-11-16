@@ -1,3 +1,4 @@
+import { Alert, Cafeteria, Home, Plan, User } from "grommet-icons";
 import { Box, Header, Heading } from "grommet";
 import MenuButton from "./MenuButton";
 import React from "react";
@@ -13,11 +14,21 @@ const NavBar: React.FC = () => (
       TNM Admin
     </Heading>
     <Box gap="large" justify="stretch" direction="row" alignContent="stretch">
-      <MenuButton to="/">Home</MenuButton>
-      <MenuButton to="/customers">Customers</MenuButton>
-      <MenuButton to="/recipes">Recipes</MenuButton>
-      <MenuButton to="/exclusions">Exclusions</MenuButton>
-      <MenuButton to="/planner">Planner</MenuButton>
+      <MenuButton icon={<Home />} to="/">
+        Home
+      </MenuButton>
+      <MenuButton icon={<User />} to="/customers">
+        Customers
+      </MenuButton>
+      <MenuButton icon={<Cafeteria />} to="/recipes">
+        Recipes
+      </MenuButton>
+      <MenuButton icon={<Alert />} to="/exclusions">
+        Exclusions
+      </MenuButton>
+      <MenuButton icon={<Plan />} to="/planner">
+        Planner
+      </MenuButton>
     </Box>
   </Header>
 );

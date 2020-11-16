@@ -1,11 +1,11 @@
 import { Button, TableCell, TableRow } from "grommet";
 import Exclusion from "../domain/Exclusion";
+import OkCancelDialog from "./OkCancelDialog";
 import React from "react";
 import Recipe from "../domain/Recipe";
 
 import TableCellInputField from "./TableCellInputField";
 import TableCellSelectField from "./TableCellSelectField";
-import YesNoDialog from "./YesNoDialog";
 import { deleteRecipe } from "../actions/recipes";
 import { exclusionsStore } from "../lib/stores";
 import { getExclusions } from "../actions/exclusions";
@@ -75,17 +75,17 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
 
       <TableCell>
         <Button onClick={(): void => setShowDoDelete(true)} label="Delete" />
-        <YesNoDialog
+        <OkCancelDialog
           show={showDoDelete}
           header="Are you sure?"
-          onYes={(): void => {
+          onOk={(): void => {
             deleteRecipe(props.recipe);
             setShowDoDelete(false);
           }}
-          onNo={(): void => setShowDoDelete(false)}
+          onCancel={(): void => setShowDoDelete(false)}
         >
           Are you sure you want to delete this recipe?
-        </YesNoDialog>
+        </OkCancelDialog>
       </TableCell>
     </TableRow>
   );

@@ -1,12 +1,12 @@
-import { Button, TableCell, TableRow } from "grommet";
+import { Button, DateInput, FormField, TableCell, TableRow } from "grommet";
 import { daysPerWeekOptions, plans } from "../lib/config";
 import Customer from "../domain/Customer";
 import Exclusion from "../domain/Exclusion";
+import OkCancelDialog from "./OkCancelDialog";
 import Plan from "../domain/Plan";
 import React from "react";
 import TableCellInputField from "./TableCellInputField";
 import TableCellSelectField from "./TableCellSelectField";
-import YesNoDialog from "./YesNoDialog";
 import { deleteCustomer } from "../actions/customers";
 import { exclusionsStore } from "../lib/stores";
 import { getExclusions } from "../actions/exclusions";
@@ -17,6 +17,7 @@ interface CustomerRowProps {
 
 const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
+  const [showPause, setShowPause] = React.useState(false);
 
   const [exclusions, setExclusions] = React.useState<Exclusion[]>(
     exclusionsStore.getAll()
@@ -115,17 +116,44 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
           onClick={(): void => setShowDoDelete(true)}
           label="Delete"
         />
-        <YesNoDialog
+        <Button
+          secondary
+          onClick={(): void => setShowPause(true)}
+          label="Pause"
+        />
+        <OkCancelDialog
           show={showDoDelete}
           header="Are you sure?"
-          onYes={(): void => {
+          onOk={(): void => {
             deleteCustomer(props.customer);
             setShowDoDelete(false);
           }}
-          onNo={(): void => setShowDoDelete(false)}
+          onCancel={(): void => setShowDoDelete(false)}
         >
           Are you sure you want to delete this customer?
-        </YesNoDialog>
+        </OkCancelDialog>
+        <OkCancelDialog
+          show={showPause}
+          header="Add Pause"
+          onOk={(): void => {
+            setShowPause(false);
+          }}
+          onCancel={(): void => setShowPause(false)}
+        >
+          <FormField label="Pause Start">
+            <DateInput
+              value={"2019-09-26T07:58:30.996+0200"}
+              format="dd/mm/yyyy"
+            />
+          </FormField>
+
+          <FormField label="Pause End">
+            <DateInput
+              value={"2019-09-26T07:58:30.996+0200"}
+              format="dd/mm/yyyy"
+            />
+          </FormField>
+        </OkCancelDialog>
       </TableCell>
     </TableRow>
   );
