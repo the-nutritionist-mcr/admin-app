@@ -36,6 +36,7 @@
     "grommet-icons": "^4.5.0",
     "jest-mock-extended": "^1.0.10",
     "jest-when": "^3.0.1",
+    "lighthouse": "^6.4.1",
     "lodash": "^4.17.20",
     "lodash.debounce": "^4.0.8",
     "mocha": "^8.2.1",
