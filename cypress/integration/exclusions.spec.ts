@@ -4,9 +4,10 @@ describe("The exclusions page", () => {
     cy.get("h2").contains("Exclusions");
   });
 
-  it("should contain an empty table on first load", () => {
+  it("should render the empty data message on first page load", () => {
     cy.visit("/exclusions");
-    cy.get("table").find("tr").should("have.length", 1);
+    cy.get("body").should("not.contain", "table");
+    cy.contains("You've not added any exclusions yet...");
   });
 
   it("should allow you to add and edit a couple of exclusions which persist after page reload", () => {

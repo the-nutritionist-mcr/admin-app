@@ -4,9 +4,10 @@ describe("The customers page", () => {
     cy.get("h2").contains("Customers");
   });
 
-  it("Should contain an empty table on first load", () => {
+  it("Should render the empty data message on first page load", () => {
     cy.visit("/customers");
-    cy.get("table").find("tr").should("have.length", 1);
+    cy.get("body").should("not.contain", "table");
+    cy.contains("You've not added any customers yet...");
   });
 
   it("Should add a blank row when you click the 'New' button", () => {

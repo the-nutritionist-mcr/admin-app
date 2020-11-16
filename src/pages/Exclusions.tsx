@@ -7,6 +7,7 @@ import {
   TableCell,
   TableHeader,
   TableRow,
+  Text,
 } from "grommet";
 import {
   createBlankExclusion,
@@ -47,33 +48,40 @@ const Exclusions: React.FC = () => {
           a11yTitle="New Customer"
         />
       </Header>
-      <Table alignSelf="start">
-        <TableHeader>
-          <TableRow>
-            <TableCell scope="col">
-              <strong>Name</strong>
-            </TableCell>
-            <TableCell scope="col">
-              <strong>Allergen</strong>
-            </TableCell>
-            <TableCell scope="col">
-              <strong>Actions</strong>
-            </TableCell>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {exclusions
-            // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-            .sort((a: Exclusion, b: Exclusion) => (a.id > b.id ? -1 : 1))
-            .map((exclusion) => (
-              <ExclusionRow
-                key={exclusion.id}
-                exclusion={exclusion}
-                onChange={updateExclusion}
-              />
-            ))}
-        </TableBody>
-      </Table>
+      {exclusions.length > 0 ? (
+        <Table alignSelf="start">
+          <TableHeader>
+            <TableRow>
+              <TableCell scope="col">
+                <strong>Name</strong>
+              </TableCell>
+              <TableCell scope="col">
+                <strong>Allergen</strong>
+              </TableCell>
+              <TableCell scope="col">
+                <strong>Actions</strong>
+              </TableCell>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {exclusions
+              // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+              .sort((a: Exclusion, b: Exclusion) => (a.id > b.id ? -1 : 1))
+              .map((exclusion) => (
+                <ExclusionRow
+                  key={exclusion.id}
+                  exclusion={exclusion}
+                  onChange={updateExclusion}
+                />
+              ))}
+          </TableBody>
+        </Table>
+      ) : (
+        <Text>
+          You&apos;ve not added any exclusions yet... Click the &apos;new&apos;
+          button above to get started!
+        </Text>
+      )}
     </React.Fragment>
   );
 };

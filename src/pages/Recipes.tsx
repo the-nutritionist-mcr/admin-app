@@ -7,6 +7,7 @@ import {
   TableCell,
   TableHeader,
   TableRow,
+  Text,
 } from "grommet";
 
 import {
@@ -46,36 +47,43 @@ const Recipes: React.FC = () => {
           a11yTitle="New Customer"
         />
       </Header>
-      <Table alignSelf="start">
-        <TableHeader>
-          <TableRow>
-            <TableCell>
-              <strong>Name</strong>
-            </TableCell>
-            <TableCell>
-              <strong>Description</strong>
-            </TableCell>
-            <TableCell>
-              <strong>Potential Exclusions</strong>
-            </TableCell>
-            <TableCell>
-              <strong>Actions</strong>
-            </TableCell>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {recipes
-            // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-            .sort((a: Recipe, b: Recipe) => (a.id > b.id ? -1 : 1))
-            .map((recipe) => (
-              <RecipesRow
-                key={recipe.id}
-                recipe={recipe}
-                onChange={updateRecipe}
-              />
-            ))}
-        </TableBody>
-      </Table>
+      {recipes.length > 0 ? (
+        <Table alignSelf="start">
+          <TableHeader>
+            <TableRow>
+              <TableCell>
+                <strong>Name</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Description</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Potential Exclusions</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Actions</strong>
+              </TableCell>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {recipes
+              // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+              .sort((a: Recipe, b: Recipe) => (a.id > b.id ? -1 : 1))
+              .map((recipe) => (
+                <RecipesRow
+                  key={recipe.id}
+                  recipe={recipe}
+                  onChange={updateRecipe}
+                />
+              ))}
+          </TableBody>
+        </Table>
+      ) : (
+        <Text>
+          You&apos;ve not added any recipes yet... Click the &apos;new&apos;
+          button above to get started!
+        </Text>
+      )}
     </React.Fragment>
   );
 };
