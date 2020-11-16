@@ -40,6 +40,7 @@ describe("The customers page", () => {
 
     cy.createCustomer("Alice Springs", "alice@springs.com", 5, "Micro 1", []);
 
+    cy.wait(1000);
     cy.reload();
 
     cy.get("tbody").find("tr").first().as("firstRow");

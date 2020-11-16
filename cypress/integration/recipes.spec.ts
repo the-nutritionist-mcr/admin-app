@@ -26,6 +26,7 @@ describe("The recipes page", () => {
     cy.createRecipe("Salad", "A beautiful salad", []);
     cy.createRecipe("Chocolate", "A creamy chocolate bar", []);
 
+    cy.wait(1000);
     cy.reload();
 
     cy.get("tbody").find("tr").first().as("firstRow");

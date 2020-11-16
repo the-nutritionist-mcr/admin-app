@@ -15,6 +15,7 @@ describe("The exclusions page", () => {
     cy.createExclusion("Nuts", true);
     cy.createExclusion("Fish", false);
 
+    cy.wait(1000);
     cy.reload();
 
     cy.get("tbody").find("tr").first().as("firstRow");
