@@ -5,6 +5,7 @@ import OkCancelDialog from "./OkCancelDialog";
 import React from "react";
 import TableCellCheckbox from "./TableCellCheckbox";
 import TableCellInputField from "./TableCellInputField";
+import { Trash } from "grommet-icons";
 
 import { deleteExclusion } from "../actions/exclusions";
 
@@ -43,7 +44,7 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
         <Button
           secondary
           onClick={(): void => setShowDoDelete(true)}
-          label="Delete"
+          icon={<Trash />}
         />
         <OkCancelDialog
           show={showDoDelete}

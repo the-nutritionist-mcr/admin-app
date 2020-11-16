@@ -6,6 +6,7 @@ import Recipe from "../domain/Recipe";
 
 import TableCellInputField from "./TableCellInputField";
 import TableCellSelectField from "./TableCellSelectField";
+import { Trash } from "grommet-icons";
 import { deleteRecipe } from "../actions/recipes";
 import { exclusionsStore } from "../lib/stores";
 import { getExclusions } from "../actions/exclusions";
@@ -74,7 +75,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
       </TableCell>
 
       <TableCell>
-        <Button onClick={(): void => setShowDoDelete(true)} label="Delete" />
+        <Button onClick={(): void => setShowDoDelete(true)} icon={<Trash />} />
         <OkCancelDialog
           show={showDoDelete}
           header="Are you sure?"
