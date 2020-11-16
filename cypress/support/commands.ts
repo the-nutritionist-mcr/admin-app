@@ -28,17 +28,17 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 declare namespace Cypress {
   interface Chainable {
-    createCustomer(
+    createCustomer: (
       name: string,
       email: string,
       daysPerWeek: number,
       plan: string,
       exclusions: string[]
-    ): void;
+    ) => void;
 
-    createRecipe(name: string, description: string, exclusions: string[]): void;
+    createRecipe: (name: string, description: string, exclusions: string[]) => void;
 
-    createExclusion(name: string, allergen: boolean): void;
+    createExclusion: (name: string, allergen: boolean) => void;
   }
 }
 /* eslint-enable @typescript-eslint/no-namespace */
