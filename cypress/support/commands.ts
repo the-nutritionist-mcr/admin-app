@@ -49,13 +49,13 @@ declare namespace Cypress {
 
 Cypress.Commands.add("createExclusion", (name: string, allergen: boolean) => {
   cy.get("header").contains("Exclusions").click();
-  cy.contains("Create New").click();
-  cy.get("table").find("tr").last().as("lastRow");
+  cy.contains("New").click();
+  cy.get("table").find("tbody").find("tr").first().as("firstRow");
 
-  cy.get("@lastRow").find("input[name='name']").type(name);
+  cy.get("@firstRow").find("input[name='name']").type(name);
 
   if (allergen) {
-    cy.get("@lastRow").find("input[name='allergen']").click({ force: true });
+    cy.get("@firstRow").find("input[name='allergen']").click({ force: true });
   }
 });
 
@@ -69,25 +69,25 @@ Cypress.Commands.add(
     exclusions: string[]
   ): void => {
     cy.get("header").contains("Customers").click();
-    cy.contains("Create New").click();
-    cy.get("table").find("tr").last().as("lastRow");
+    cy.contains("New").click();
+    cy.get("table").find("tbody").find("tr").first().as("firstRow");
 
-    cy.get("@lastRow").find("input[name='name']").type(name);
-    cy.get("@lastRow").find("input[name='email']").type(email);
+    cy.get("@firstRow").find("input[name='name']").type(name);
+    cy.get("@firstRow").find("input[name='email']").type(email);
 
-    cy.get("@lastRow").find("input[name='daysPerWeek']").click();
+    cy.get("@firstRow").find("input[name='daysPerWeek']").click();
     cy.get("div[data-g-portal-id='0']").as("dropPortal");
 
     cy.get("@dropPortal").contains(String(daysPerWeek)).click({ force: true });
 
-    cy.get("@lastRow").find("input[name='plan']").click();
+    cy.get("@firstRow").find("input[name='plan']").click();
     cy.get("@dropPortal").contains(plan).click({ force: true });
 
-    cy.get("@lastRow").find("input[name='exclusions']").click();
+    cy.get("@firstRow").find("input[name='exclusions']").click();
     exclusions.forEach((exclusion) => {
       cy.get("@dropPortal").contains(exclusion).click({ force: true });
     });
-    cy.get("@lastRow").find("input[name='exclusions']").click();
+    cy.get("@firstRow").find("input[name='exclusions']").click();
   }
 );
 
@@ -95,12 +95,12 @@ Cypress.Commands.add(
   "createRecipe",
   (name: string, description: string, exclusions: string[]): void => {
     cy.get("header").contains("Recipes").click();
-    cy.contains("Create New").click();
-    cy.get("table").find("tr").last().as("lastRow");
+    cy.contains("New").click();
+    cy.get("table").find("tbody").find("tr").first().as("firstRow");
 
-    cy.get("@lastRow").find("input[name='name']").type(name);
-    cy.get("@lastRow").find("input[name='description']").type(description);
-    cy.get("@lastRow").find("input[name='exclusions']").click();
+    cy.get("@firstRow").find("input[name='name']").type(name);
+    cy.get("@firstRow").find("input[name='description']").type(description);
+    cy.get("@firstRow").find("input[name='exclusions']").click();
     cy.get("div[data-g-portal-id='0']").as("dropPortal");
     exclusions.forEach((exclusion) => {
       cy.get("@dropPortal")
@@ -108,6 +108,6 @@ Cypress.Commands.add(
         .contains(exclusion)
         .click({ force: true });
     });
-    cy.get("@lastRow").find("input[name='exclusions']").click();
+    cy.get("@firstRow").find("input[name='exclusions']").click();
   }
 );

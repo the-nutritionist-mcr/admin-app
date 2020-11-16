@@ -9,9 +9,9 @@ describe("The recipes page", () => {
     cy.get("table").find("tr").should("have.length", 1);
   });
 
-  it("should add a blank row when you click the 'Create New' button", () => {
+  it("should add a blank row when you click the 'New' button", () => {
     cy.visit("/recipes");
-    cy.contains("Create New").click();
+    cy.contains("New").click();
 
     cy.get("table").find("tr").should("have.length", 2);
     cy.get("input[name='name']").should("be.empty");
@@ -29,11 +29,11 @@ describe("The recipes page", () => {
     cy.wait(1000);
     cy.reload();
 
-    cy.get("tbody").find("tr").first().as("firstRow");
-    cy.get("@firstRow")
+    cy.get("tbody").find("tr").last().as("lastRow");
+    cy.get("@lastRow")
       .find("input[name='name']")
       .should("have.value", "Sandwich");
-    cy.get("@firstRow")
+    cy.get("@lastRow")
       .find("input[name='description']")
       .should("have.value", "A delicious sandwich");
 
@@ -45,11 +45,11 @@ describe("The recipes page", () => {
       .find("input[name='description']")
       .should("have.value", "A beautiful salad");
 
-    cy.get("tbody").find("tr").last().as("thirdRow");
-    cy.get("@thirdRow")
+    cy.get("tbody").find("tr").first().as("firstRow");
+    cy.get("@firstRow")
       .find("input[name='name']")
       .should("have.value", "Chocolate");
-    cy.get("@thirdRow")
+    cy.get("@firstRow")
       .find("input[name='description']")
       .should("have.value", "A creamy chocolate bar");
   });

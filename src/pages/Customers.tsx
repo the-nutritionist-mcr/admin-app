@@ -1,6 +1,6 @@
 import {
-  Box,
   Button,
+  Header,
   Heading,
   Table,
   TableBody,
@@ -36,36 +36,52 @@ const Customers: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Heading level={2}>Customers</Heading>
+      <Header align="center" justify="start" gap="small">
+        <Heading level={2}>Customers</Heading>
+        <Button
+          primary
+          size="small"
+          onClick={createBlankCustomer}
+          label="New"
+          a11yTitle="New Customer"
+        />
+      </Header>
       <Table alignSelf="start">
         <TableHeader>
           <TableRow>
-            <TableCell scope="col">Name</TableCell>
-            <TableCell scope="col">Email</TableCell>
-            <TableCell scope="col">Days per week</TableCell>
-            <TableCell scope="col">Plan</TableCell>
-            <TableCell scope="col">Exclusions</TableCell>
-            <TableCell scope="col">Actions</TableCell>
+            <TableCell scope="col">
+              <strong>Name</strong>
+            </TableCell>
+            <TableCell scope="col">
+              <strong>Email</strong>
+            </TableCell>
+            <TableCell scope="col">
+              <strong>Days per week</strong>
+            </TableCell>
+            <TableCell scope="col">
+              <strong>Plan</strong>
+            </TableCell>
+            <TableCell scope="col">
+              <strong>Exclusions</strong>
+            </TableCell>
+            <TableCell scope="col">
+              <strong>Actions</strong>
+            </TableCell>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {customers.map((customer) => (
-            <CustomerRow
-              key={customer.id}
-              customer={customer}
-              onChange={updateCustomer}
-            />
-          ))}
+          {customers
+            // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+            .sort((a: Customer, b: Customer) => (a.id > b.id ? -1 : 1))
+            .map((customer) => (
+              <CustomerRow
+                key={customer.id}
+                customer={customer}
+                onChange={updateCustomer}
+              />
+            ))}
         </TableBody>
       </Table>
-      <Box direction="row" pad="medium">
-        <Button
-          size="large"
-          primary
-          onClick={createBlankCustomer}
-          label="Create New"
-        />
-      </Box>
     </React.Fragment>
   );
 };

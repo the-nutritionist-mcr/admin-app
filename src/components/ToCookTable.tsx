@@ -23,8 +23,12 @@ const ToCookTable: React.FC<ToCookTableProps> = (props) => (
     <Table alignSelf="start">
       <TableHeader>
         <TableRow>
-          <TableCell>Meal</TableCell>
-          <TableCell>Quantities</TableCell>
+          <TableCell>
+            <strong>Meal</strong>
+          </TableCell>
+          <TableCell>
+            <strong>Quantities</strong>
+          </TableCell>
         </TableRow>
       </TableHeader>
       <TableBody>

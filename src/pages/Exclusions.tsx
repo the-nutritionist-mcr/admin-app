@@ -1,6 +1,6 @@
 import {
-  Box,
   Button,
+  Header,
   Heading,
   Table,
   TableBody,
@@ -37,34 +37,43 @@ const Exclusions: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Heading level={2}>Exclusions</Heading>
+      <Header align="center" justify="start" gap="small">
+        <Heading level={2}>Exclusions</Heading>
+        <Button
+          primary
+          size="small"
+          onClick={createBlankExclusion}
+          label="New"
+          a11yTitle="New Customer"
+        />
+      </Header>
       <Table alignSelf="start">
         <TableHeader>
           <TableRow>
-            <TableCell scope="col">Name</TableCell>
-            <TableCell scope="col">Allergen</TableCell>
-            <TableCell scope="col">Actions</TableCell>
+            <TableCell scope="col">
+              <strong>Name</strong>
+            </TableCell>
+            <TableCell scope="col">
+              <strong>Allergen</strong>
+            </TableCell>
+            <TableCell scope="col">
+              <strong>Actions</strong>
+            </TableCell>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {exclusions.map((exclusion) => (
-            <ExclusionRow
-              key={exclusion.id}
-              exclusion={exclusion}
-              onChange={updateExclusion}
-            />
-          ))}
+          {exclusions
+            // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+            .sort((a: Exclusion, b: Exclusion) => (a.id > b.id ? -1 : 1))
+            .map((exclusion) => (
+              <ExclusionRow
+                key={exclusion.id}
+                exclusion={exclusion}
+                onChange={updateExclusion}
+              />
+            ))}
         </TableBody>
       </Table>
-
-      <Box direction="row" pad="medium">
-        <Button
-          size="large"
-          primary
-          onClick={createBlankExclusion}
-          label="Create New"
-        />
-      </Box>
     </React.Fragment>
   );
 };

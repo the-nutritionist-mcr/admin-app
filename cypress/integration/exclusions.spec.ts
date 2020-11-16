@@ -18,12 +18,12 @@ describe("The exclusions page", () => {
     cy.wait(1000);
     cy.reload();
 
-    cy.get("tbody").find("tr").first().as("firstRow");
+    cy.get("tbody").find("tr").last().as("lastRow");
 
-    cy.get("@firstRow")
+    cy.get("@lastRow")
       .find("input[name='name']")
       .should("have.value", "Chillis");
-    cy.get("@firstRow")
+    cy.get("@lastRow")
       .find("input[name='allergen']")
       .should("not.have.attr", "checked");
 
@@ -35,9 +35,9 @@ describe("The exclusions page", () => {
       .find("input[name='allergen']")
       .should("have.attr", "checked");
 
-    cy.get("tbody").find("tr").last().as("thirdRow");
-    cy.get("@thirdRow").find("input[name='name']").should("have.value", "Fish");
-    cy.get("@thirdRow")
+    cy.get("tbody").find("tr").first().as("firstRow");
+    cy.get("@firstRow").find("input[name='name']").should("have.value", "Fish");
+    cy.get("@firstRow")
       .find("input[name='allergen']")
       .should("not.have.attr", "checked");
   });

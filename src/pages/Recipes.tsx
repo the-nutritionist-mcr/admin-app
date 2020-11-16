@@ -1,6 +1,6 @@
 import {
-  Box,
   Button,
+  Header,
   Heading,
   Table,
   TableBody,
@@ -36,34 +36,46 @@ const Recipes: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Heading level={2}>Recipes</Heading>
+      <Header align="center" justify="start" gap="small">
+        <Heading level={2}>Recipes</Heading>
+        <Button
+          primary
+          size="small"
+          onClick={createBlankRecipe}
+          label="New"
+          a11yTitle="New Customer"
+        />
+      </Header>
       <Table alignSelf="start">
         <TableHeader>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Potential Exclusions</TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell>
+              <strong>Name</strong>
+            </TableCell>
+            <TableCell>
+              <strong>Description</strong>
+            </TableCell>
+            <TableCell>
+              <strong>Potential Exclusions</strong>
+            </TableCell>
+            <TableCell>
+              <strong>Actions</strong>
+            </TableCell>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {recipes.map((recipe) => (
-            <RecipesRow
-              key={recipe.id}
-              recipe={recipe}
-              onChange={updateRecipe}
-            />
-          ))}
+          {recipes
+            // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+            .sort((a: Recipe, b: Recipe) => (a.id > b.id ? -1 : 1))
+            .map((recipe) => (
+              <RecipesRow
+                key={recipe.id}
+                recipe={recipe}
+                onChange={updateRecipe}
+              />
+            ))}
         </TableBody>
       </Table>
-      <Box direction="row" pad="medium">
-        <Button
-          primary
-          size="large"
-          onClick={createBlankRecipe}
-          label="Create New"
-        />
-      </Box>
     </React.Fragment>
   );
 };

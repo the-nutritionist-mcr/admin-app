@@ -46,9 +46,13 @@ const ToPackTable: React.FC<ToPackTableProps> = (props) => {
       <Heading level={2}>To Pack</Heading>
       <Table alignSelf="start">
         <TableHeader>
-          <TableCell>Customer Name</TableCell>
+          <TableCell>
+            <strong>Customer Name</strong>
+          </TableCell>
           {props.deliveryMeals.map((_item, index) => (
-            <TableCell key={index}>Meal {index + 1}</TableCell>
+            <TableCell key={index}>
+              <strong>Meal {index + 1}</strong>
+            </TableCell>
           ))}
         </TableHeader>
         <TableBody>

@@ -9,9 +9,9 @@ describe("The customers page", () => {
     cy.get("table").find("tr").should("have.length", 1);
   });
 
-  it("Should add a blank row when you click the 'Create New' button", () => {
+  it("Should add a blank row when you click the 'New' button", () => {
     cy.visit("/customers");
-    cy.contains("Create New").click();
+    cy.contains("New").click();
     cy.get("table").find("tr").should("have.length", 2);
 
     cy.get("input[name='name']").should("be.empty");
@@ -43,17 +43,17 @@ describe("The customers page", () => {
     cy.wait(1000);
     cy.reload();
 
-    cy.get("tbody").find("tr").first().as("firstRow");
-    cy.get("@firstRow")
+    cy.get("tbody").find("tr").last().as("lastRow");
+    cy.get("@lastRow")
       .find("input[name='name']")
       .should("have.value", "Ben Wainwright");
-    cy.get("@firstRow")
+    cy.get("@lastRow")
       .find("input[name='email']")
       .should("have.value", "bwainwright28@gmail.com");
-    cy.get("@firstRow")
+    cy.get("@lastRow")
       .find("input[name='daysPerWeek']")
       .should("have.value", 5);
-    cy.get("@firstRow").find("input[name='plan']").should("have.value", "EQ 2");
+    cy.get("@lastRow").find("input[name='plan']").should("have.value", "EQ 2");
 
     cy.get("tbody").find("tr").first().next().as("secondRow");
     cy.get("@secondRow")
@@ -69,17 +69,17 @@ describe("The customers page", () => {
       .find("input[name='plan']")
       .should("have.value", "Ultra-Micro 1");
 
-    cy.get("tbody").find("tr").last().as("thirdRow");
-    cy.get("@thirdRow")
+    cy.get("tbody").find("tr").first().as("firstRow");
+    cy.get("@firstRow")
       .find("input[name='name']")
       .should("have.value", "Alice Springs");
-    cy.get("@thirdRow")
+    cy.get("@firstRow")
       .find("input[name='email']")
       .should("have.value", "alice@springs.com");
-    cy.get("@thirdRow")
+    cy.get("@firstRow")
       .find("input[name='daysPerWeek']")
       .should("have.value", 5);
-    cy.get("@thirdRow")
+    cy.get("@firstRow")
       .find("input[name='plan']")
       .should("have.value", "Micro 1");
   });
