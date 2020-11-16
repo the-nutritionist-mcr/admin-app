@@ -1,6 +1,7 @@
 import { TextInput, ThemeContext } from "grommet";
 import MutatorFieldProps from "./MutatorFieldProps";
 import React from "react";
+import { useDebouncedCallback } from "use-debounce";
 
 interface InputFieldProps {
   value?: string | number | (string & readonly string[]) | undefined;
@@ -10,8 +11,8 @@ interface InputFieldProps {
 }
 
 const BoldWeight = 600;
-
 const NormalWeight = 200;
+const DebounceTime = 500;
 
 function assertFC<P>(
   _component: React.FC<P>
@@ -22,6 +23,8 @@ function TableCellInputField<T>(
   props: MutatorFieldProps<T, React.ChangeEvent<HTMLInputElement>> &
     InputFieldProps
 ): React.ReactElement | null {
+  const [value, setValue] = React.useState(props.value);
+
   const theme = {
     global: {
       input: {
@@ -38,13 +41,19 @@ function TableCellInputField<T>(
     props.onChange(props.thing, newThing);
   };
 
+  const onChangeDebounced = useDebouncedCallback(onChange, DebounceTime);
+
   return (
     <ThemeContext.Extend value={theme}>
       <TextInput
         type={props.type}
         name={props.name}
-        value={props.value}
-        onChange={onChange}
+        value={value}
+        onChange={(event): void => {
+          onChangeDebounced.callback(event);
+          setValue(event.target.value);
+        }}
+        onBlur={onChange}
         placeholder="None"
         plain="full"
       />
