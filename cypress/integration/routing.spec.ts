@@ -30,11 +30,10 @@ describe("The navbar", () => {
     cy.get("h2").contains("Planner");
   });
 
-  it(
-    "should take you back to the homepage when you click on the 'home' button"
-  );
-  cy.visit("/");
-  cy.get("header").contains("Planner").click();
-  cy.get("header").contains("Home").click();
-  cy.get("h2").contains("Welcome");
+  it("should take you back to the homepage when you click on the 'home' button", () => {
+    cy.visit("/");
+    cy.get("header").contains("Planner").click();
+    cy.get("header").contains("Home").click();
+    cy.get("h2").contains("Welcome");
+  });
 });
