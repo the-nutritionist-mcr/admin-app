@@ -1,4 +1,8 @@
 version: 1
+env:
+  variables:
+    CHOKIDAR_USEPOLLING: 1
+
 frontend:
   phases:
     preBuild:
