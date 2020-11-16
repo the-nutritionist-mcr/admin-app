@@ -27,25 +27,37 @@ describe("The planner", () => {
     cy.createCustomer("Mary", "a@b.c", 6, "Mass 2", ["Nuts"]);
 
     cy.get("Header").contains("Planner").click({ force: true });
-    cy.get("input[name='selectDay']").click();
-    cy.get("div[data-g-portal-id='0']").contains("Monday").click();
+    cy.get("input[name='selectDay']").click({ force: true });
+    cy.get("div[data-g-portal-id='0']")
+      .contains("Monday")
+      .click({ force: true });
 
-    cy.get("input[name='meal-0']").click();
-    cy.get("div[data-g-portal-id='0']").contains("Salad").click();
+    cy.get("input[name='meal-0']").click({ force: true });
+    cy.get("div[data-g-portal-id='0']")
+      .contains("Salad")
+      .click({ force: true });
 
-    cy.get("input[name='meal-1']").click();
-    cy.get("div[data-g-portal-id='0']").contains("Soup").click();
+    cy.get("input[name='meal-1']").click({ force: true });
+    cy.get("div[data-g-portal-id='0']").contains("Soup").click({ force: true });
 
-    cy.get("input[name='meal-2']").click();
-    cy.get("div[data-g-portal-id='0']").contains("Risotto").click();
+    cy.get("input[name='meal-2']").click({ force: true });
+    cy.get("div[data-g-portal-id='0']")
+      .contains("Risotto")
+      .click({ force: true });
 
-    cy.get("input[name='meal-3']").click();
-    cy.get("div[data-g-portal-id='0']").contains("Pasta").click();
+    cy.get("input[name='meal-3']").click({ force: true });
+    cy.get("div[data-g-portal-id='0']")
+      .contains("Pasta")
+      .click({ force: true });
 
-    cy.get("input[name='meal-4']").click();
-    cy.get("div[data-g-portal-id='0']").contains("Sandwich").click();
+    cy.get("input[name='meal-4']").click({ force: true });
+    cy.get("div[data-g-portal-id='0']")
+      .contains("Sandwich")
+      .click({ force: true });
 
-    cy.get("input[name='meal-5'").click();
-    cy.get("div[data-g-portal-id='0']").contains("Steak").click();
+    cy.get("input[name='meal-5'").click({ force: true });
+    cy.get("div[data-g-portal-id='0']")
+      .contains("Steak")
+      .click({ force: true });
   });
 });
