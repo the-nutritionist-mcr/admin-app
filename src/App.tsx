@@ -44,6 +44,7 @@ const App: React.FC = () => {
         setRoutes([...otherRoutesResolved, ...routes]);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routes.length]);
 
   return (
