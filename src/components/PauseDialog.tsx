@@ -58,7 +58,7 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
         customer indefinitely, select a start date only.
       </Paragraph>
       <Box direction="row" gap="medium" margin="medium" alignSelf="center">
-        <Box direction="column" gap="small">
+        <Box direction="column" gap="small" a11yTitle="Start Pause">
           <Calendar
             size="small"
             date={pauseStart}
@@ -75,10 +75,11 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
             <strong>{friendlyStart}</strong>
           </Text>
         </Box>
-        <Box direction="column" gap="small">
+        <Box direction="column" gap="small" a11yTitle="End Pause">
           <Calendar
             size="small"
             date={pauseEnd}
+            a11yTitle="End Pause"
             onSelect={(
               date:
                 | (string | string[])
