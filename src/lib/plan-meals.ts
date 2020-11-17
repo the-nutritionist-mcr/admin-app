@@ -4,6 +4,7 @@ import CustomerMealsSelection from "../types/CustomerMealsSelection";
 import DeliveryDay from "../types/DeliveryDay";
 import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
 import Recipe from "../domain/Recipe";
+import isActive from "./isActive";
 
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 const getDeliveryMeals = (
@@ -34,7 +35,7 @@ export const chooseMeals = (
   customers: Customer[]
 ): CustomerMealsSelection => {
   const chosenPlans = plans.filter(Boolean) as Recipe[];
-  return customers.map((customer) => ({
+  return customers.filter(isActive).map((customer) => ({
     customer,
     meals: [
       ...new Array(

@@ -8,6 +8,83 @@ import Recipe from "../domain/Recipe";
 import { mock as mockExtended } from "jest-mock-extended";
 
 describe("chooseMeals", () => {
+  it("ignores inactive customers", () => {
+    const mealOne = mockExtended<Recipe>();
+    const mealTwo = mockExtended<Recipe>();
+
+    const mealsSelection: DeliveryMealsSelection = [mealOne, mealTwo];
+
+    const fishExclusion = {
+      id: 0,
+      name: "fish",
+      allergen: false,
+    };
+
+    const customerOne: Customer = {
+      id: 1,
+      name: "foo-customer",
+      email: "foo-email",
+      daysPerWeek: 6,
+      snack: Snack.None,
+      breakfast: false,
+      plan: {
+        category: "Mass",
+        mealsPerDay: 2,
+        costPerMeal: 885,
+      },
+      exclusions: [],
+    };
+
+    const customerTwo: Customer = {
+      id: 2,
+      name: "bar-customer",
+      email: "bar-email",
+      daysPerWeek: 1,
+      snack: Snack.None,
+      breakfast: true,
+
+      // 1st of March 2020
+      pauseStart: new Date(1583020800000),
+
+      // 1st of December 2020
+      pauseEnd: new Date(1606780800000),
+      plan: {
+        category: "Mass",
+        mealsPerDay: 5,
+        costPerMeal: 885,
+      },
+      exclusions: [fishExclusion],
+    };
+
+    const customerThree: Customer = {
+      id: 3,
+      name: "baz-customer",
+      email: "baz-email",
+      daysPerWeek: 6,
+      snack: Snack.None,
+      breakfast: true,
+      plan: {
+        category: "Mass",
+        mealsPerDay: 2,
+        costPerMeal: 885,
+      },
+      exclusions: [fishExclusion],
+    };
+
+    const customers = [customerOne, customerTwo, customerThree];
+
+    const oldDateNow = Date.now.bind(global.Date);
+    // 17th November 2020
+    const dateNowStub = jest.fn(() => 1605635814000);
+    global.Date.now = dateNowStub;
+
+    const actual = planMeals.chooseMeals("Monday", mealsSelection, customers);
+
+    expect(actual).toHaveLength(2);
+
+    global.Date.now = oldDateNow;
+  });
+
   it("returns an empty array if there are no customers", () => {
     const mealsSelection: DeliveryMealsSelection = [
       {
