@@ -1,4 +1,4 @@
-import { Heading, List, Paragraph } from "grommet";
+import { Anchor, Heading, List, Paragraph } from "grommet";
 import React from "react";
 
 const Home: React.FC = () => (
@@ -41,10 +41,10 @@ const Home: React.FC = () => (
               </li>
               <li>
                 I&apos;ve changed the component framework from{" "}
-                <a href="https://evergreen.segment.com/">Evergreen</a> to{" "}
-                <a href="https://v2.grommet.io/">Grommet</a> because I was
-                finding the former to be quite limiting. This is why the app now
-                looks completely different
+                <Anchor href="https://evergreen.segment.com/">Evergreen</Anchor>{" "}
+                to <Anchor href="https://v2.grommet.io/">Grommet</Anchor>{" "}
+                because I was finding the former to be quite limiting. This is
+                why the app now looks completely different
               </li>
             </ul>
           ),
@@ -53,9 +53,9 @@ const Home: React.FC = () => (
     />
     <Paragraph fill>
       For more information on what&apos;s still to come, checkout the{" "}
-      <a href="https://github.com/benwainwright/tnm/projects/1">
+      <Anchor href="https://github.com/benwainwright/tnm/projects/1">
         project board
-      </a>{" "}
+      </Anchor>{" "}
       on the GitHub repository for this site. If you have any ideas or bug
       reports, please raise it there.
     </Paragraph>
