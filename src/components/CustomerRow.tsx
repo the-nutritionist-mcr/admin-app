@@ -12,41 +12,11 @@ import TableCellInputField from "./TableCellInputField";
 import TableCellSelectField from "./TableCellSelectField";
 import { exclusionsStore } from "../lib/stores";
 import { getExclusions } from "../actions/exclusions";
+import isActive from "../lib/isActive";
 interface CustomerRowProps {
   customer: Customer;
   onChange: (oldCustomer: Customer, newCustomer: Customer) => void;
 }
-
-const isActive = (customer: Customer): boolean => {
-  const now = new Date();
-
-  if (customer.pauseEnd && now > customer.pauseEnd) {
-    return true;
-  }
-
-  if (customer.pauseStart && now < customer.pauseStart) {
-    return true;
-  }
-
-  if (
-    customer.pauseStart &&
-    now > customer.pauseStart &&
-    customer.pauseEnd &&
-    now < customer.pauseEnd
-  ) {
-    return false;
-  }
-
-  if (!customer.pauseStart && customer.pauseEnd && now < customer.pauseEnd) {
-    return false;
-  }
-
-  if (customer.pauseStart && now > customer.pauseStart && !customer.pauseEnd) {
-    return false;
-  }
-
-  return true;
-};
 
 const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
