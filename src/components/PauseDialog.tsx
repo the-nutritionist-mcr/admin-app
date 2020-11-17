@@ -2,6 +2,8 @@ import { Box, Button, Calendar, Paragraph, Text } from "grommet";
 import Customer from "../domain/Customer";
 import OkCancelDialog from "./OkCancelDialog";
 import React from "react";
+import calendarFormat from "../lib/calendarFormat";
+import moment from "moment";
 
 interface PauseDialogProps {
   show: boolean;
@@ -19,11 +21,11 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
   );
 
   const friendlyStart = pauseStart
-    ? `from ${new Date(pauseStart).toLocaleDateString("en-GB")}`
+    ? `from ${moment(new Date(pauseStart)).calendar(null, calendarFormat)}`
     : "No pause start";
 
   const friendlyEnd = pauseEnd
-    ? `until ${new Date(pauseEnd).toLocaleDateString("en-GB")}`
+    ? `until ${moment(new Date(pauseEnd)).calendar(null, calendarFormat)}`
     : "No pause end";
 
   return (

@@ -10,9 +10,12 @@ import Plan from "../domain/Plan";
 import React from "react";
 import TableCellInputField from "./TableCellInputField";
 import TableCellSelectField from "./TableCellSelectField";
+
+import calendarFormat from "../lib/calendarFormat";
 import { exclusionsStore } from "../lib/stores";
 import { getExclusions } from "../actions/exclusions";
 import isActive from "../lib/isActive";
+import moment from "moment";
 interface CustomerRowProps {
   customer: Customer;
   onChange: (oldCustomer: Customer, newCustomer: Customer) => void;
@@ -31,7 +34,10 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   };
 
   const untilString = props.customer.pauseEnd
-    ? ` until ${props.customer.pauseEnd.toLocaleDateString("en-GB")}`
+    ? ` until ${moment(new Date(props.customer.pauseEnd)).calendar(
+        null,
+        calendarFormat
+      )}`
     : "";
 
   const statusString = isActive(props.customer)

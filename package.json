@@ -43,6 +43,7 @@
     "mochawesome": "^6.2.1",
     "mochawesome-merge": "^4.2.0",
     "mochawesome-report-generator": "^5.1.0",
+    "moment": "^2.29.1",
     "polished": "^4.0.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

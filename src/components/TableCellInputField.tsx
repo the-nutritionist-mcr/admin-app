@@ -46,6 +46,7 @@ function TableCellInputField<T>(
   return (
     <ThemeContext.Extend value={theme}>
       <TextInput
+        color="red"
         type={props.type}
         name={props.name}
         value={value}
