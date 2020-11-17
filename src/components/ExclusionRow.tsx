@@ -45,7 +45,7 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
           secondary
           onClick={(): void => setShowDoDelete(true)}
           a11yTitle="Delete"
-          icon={<Trash color="brand" />}
+          icon={<Trash color="neutral-4" />}
         />
         <OkCancelDialog
           show={showDoDelete}
