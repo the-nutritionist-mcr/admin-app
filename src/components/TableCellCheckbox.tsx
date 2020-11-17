@@ -25,6 +25,7 @@ function TableCellCheckbox<T>(
 
   return (
     <CheckBox
+      toggle
       name={props.name}
       onChange={onChange}
       checked={props.checked}
