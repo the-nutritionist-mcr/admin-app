@@ -5,16 +5,10 @@ import ActionType from "../types/ActionType";
 
 const LOCALSTORAGE_KEY = "TnmCustomers";
 
-export const getCustomers = (): void => {
-  const customers: Customer[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY) ?? "[]"
-  );
-
-  const payload: DispatchPayload = {
-    actionType: ActionType.GetCustomers,
-    data: customers.map((customer) => ({
+const getFromLocalStorage = (): Customer[] =>
+  JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY) ?? "[]").map(
+    (customer: Customer) => ({
       ...customer,
-
       pauseStart:
         typeof customer.pauseStart === "string"
           ? new Date(customer.pauseStart)
@@ -24,15 +18,21 @@ export const getCustomers = (): void => {
         typeof customer.pauseEnd === "string"
           ? new Date(customer.pauseEnd)
           : customer.pauseEnd,
-    })),
+    })
+  );
+
+export const getCustomers = (): void => {
+  const customers = getFromLocalStorage();
+
+  const payload: DispatchPayload = {
+    actionType: ActionType.GetCustomers,
+    data: customers,
   };
   dispatcher.dispatch(payload);
 };
 
 export const createBlankCustomer = (): void => {
-  const customers: Customer[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY) ?? "[]"
-  );
+  const customers = getFromLocalStorage();
 
   const blankCustomer: Customer = {
     id: customers.length > 0 ? customers[customers.length - 1].id + 1 : 1,
@@ -61,9 +61,7 @@ export const updateCustomer = (
   oldCustomer: Customer,
   customer: Customer
 ): void => {
-  const customers: Customer[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY) ?? "[]"
-  );
+  const customers = getFromLocalStorage();
 
   const index = customers.findIndex(
     (customerAtPosition) => customerAtPosition.id === oldCustomer.id
@@ -82,9 +80,7 @@ export const updateCustomer = (
 
 export const deleteCustomer = (customer: Customer): void => {
   // eslint-disable-next-line fp/no-let
-  let customers: Customer[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY) ?? "[]"
-  );
+  let customers = getFromLocalStorage();
 
   customers = customers.filter(
     (searchedCustomer) => searchedCustomer.id !== customer.id
