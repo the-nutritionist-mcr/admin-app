@@ -17,13 +17,14 @@ interface OkCancelDialogProps {
   header: string;
   onOk: () => void;
   onCancel: () => void;
+  extraFooterItems?: JSX.Element | JSX.Element[];
 }
 
 const OkCancelDialog: React.FC<OkCancelDialogProps> = (props) =>
   props?.show ? (
     <Layer>
       <Card>
-        <CardHeader pad="medium" alignSelf="center">
+        <CardHeader margin="none" pad="medium" alignSelf="center">
           <Heading margin="none" level={3}>
             {props.header}
           </Heading>
@@ -42,6 +43,7 @@ const OkCancelDialog: React.FC<OkCancelDialogProps> = (props) =>
             onClick={props.onCancel}
             label="Cancel"
           />
+          {props.extraFooterItems}
         </CardFooter>
       </Card>
     </Layer>

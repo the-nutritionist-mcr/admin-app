@@ -22,6 +22,10 @@ const pages: LoadableRoute[] = [
     path: "/planner",
     route: import("./Planner"),
   },
+  {
+    path: "/test",
+    route: import("./Test"),
+  },
 ];
 
 export default pages;

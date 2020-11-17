@@ -12,7 +12,19 @@ export const getCustomers = (): void => {
 
   const payload: DispatchPayload = {
     actionType: ActionType.GetCustomers,
-    data: customers,
+    data: customers.map((customer) => ({
+      ...customer,
+
+      pauseStart:
+        typeof customer.pauseStart === "string"
+          ? new Date(customer.pauseStart)
+          : customer.pauseStart,
+
+      pauseEnd:
+        typeof customer.pauseEnd === "string"
+          ? new Date(customer.pauseEnd)
+          : customer.pauseEnd,
+    })),
   };
   dispatcher.dispatch(payload);
 };

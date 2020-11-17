@@ -57,6 +57,9 @@ const Customers: React.FC = () => {
               <TableCell scope="col">
                 <strong>Email</strong>
               </TableCell>
+              <TableCell>
+                <strong>Status</strong>
+              </TableCell>
               <TableCell scope="col">
                 <strong>Days per week</strong>
               </TableCell>

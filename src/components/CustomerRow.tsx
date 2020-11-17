@@ -1,20 +1,52 @@
-import { Button, DateInput, FormField, TableCell, TableRow } from "grommet";
+import { Button, TableCell, TableRow } from "grommet";
+import { Pause, Trash } from "grommet-icons";
 import { daysPerWeekOptions, plans } from "../lib/config";
+import { deleteCustomer, updateCustomer } from "../actions/customers";
 import Customer from "../domain/Customer";
 import Exclusion from "../domain/Exclusion";
 import OkCancelDialog from "./OkCancelDialog";
+import PauseDialog from "./PauseDialog";
 import Plan from "../domain/Plan";
 import React from "react";
 import TableCellInputField from "./TableCellInputField";
 import TableCellSelectField from "./TableCellSelectField";
-import { Trash } from "grommet-icons";
-import { deleteCustomer } from "../actions/customers";
 import { exclusionsStore } from "../lib/stores";
 import { getExclusions } from "../actions/exclusions";
 interface CustomerRowProps {
   customer: Customer;
   onChange: (oldCustomer: Customer, newCustomer: Customer) => void;
 }
+
+const isActive = (customer: Customer): boolean => {
+  const now = new Date();
+
+  if (customer.pauseEnd && now > customer.pauseEnd) {
+    return true;
+  }
+
+  if (customer.pauseStart && now < customer.pauseStart) {
+    return true;
+  }
+
+  if (
+    customer.pauseStart &&
+    now > customer.pauseStart &&
+    customer.pauseEnd &&
+    now < customer.pauseEnd
+  ) {
+    return false;
+  }
+
+  if (!customer.pauseStart && customer.pauseEnd && now < customer.pauseEnd) {
+    return false;
+  }
+
+  if (customer.pauseStart && now > customer.pauseStart && !customer.pauseEnd) {
+    return false;
+  }
+
+  return true;
+};
 
 const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
@@ -27,6 +59,14 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const onChangeExclusions = (): void => {
     setExclusions([...exclusionsStore.getAll()]);
   };
+
+  const untilString = props.customer.pauseEnd
+    ? ` until ${props.customer.pauseEnd.toLocaleDateString("en-GB")}`
+    : "";
+
+  const statusString = isActive(props.customer)
+    ? "Active"
+    : `Paused${untilString}`;
 
   React.useEffect(() => {
     exclusionsStore.addChangeListener(onChangeExclusions);
@@ -61,6 +101,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
           onChange={props.onChange}
         />
       </TableCell>
+      <TableCell>{statusString}</TableCell>
       <TableCell>
         <TableCellSelectField
           name="daysPerWeek"
@@ -129,28 +170,23 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
         >
           Are you sure you want to delete this customer?
         </OkCancelDialog>
-        <OkCancelDialog
+        <Button
+          secondary
+          icon={<Pause color="brand" />}
+          a11yTitle="Pause"
+          onClick={(): void => setShowPause(true)}
+        />
+        <PauseDialog
+          customer={props.customer}
           show={showPause}
-          header="Add Pause"
-          onOk={(): void => {
+          onCancel={(): void => {
             setShowPause(false);
           }}
-          onCancel={(): void => setShowPause(false)}
-        >
-          <FormField label="Pause Start">
-            <DateInput
-              value={"2019-09-26T07:58:30.996+0200"}
-              format="dd/mm/yyyy"
-            />
-          </FormField>
-
-          <FormField label="Pause End">
-            <DateInput
-              value={"2019-09-26T07:58:30.996+0200"}
-              format="dd/mm/yyyy"
-            />
-          </FormField>
-        </OkCancelDialog>
+          onOk={(newCustomer: Customer): void => {
+            updateCustomer(props.customer, newCustomer);
+            setShowPause(false);
+          }}
+        />
       </TableCell>
     </TableRow>
   );
