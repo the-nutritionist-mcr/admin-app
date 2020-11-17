@@ -11,11 +11,10 @@ import React from "react";
 import TableCellInputField from "./TableCellInputField";
 import TableCellSelectField from "./TableCellSelectField";
 
-import calendarFormat from "../lib/calendarFormat";
 import { exclusionsStore } from "../lib/stores";
 import { getExclusions } from "../actions/exclusions";
-import isActive from "../lib/isActive";
-import moment from "moment";
+import getStatusString from "../lib/getStatusString";
+
 interface CustomerRowProps {
   customer: Customer;
   onChange: (oldCustomer: Customer, newCustomer: Customer) => void;
@@ -32,17 +31,6 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const onChangeExclusions = (): void => {
     setExclusions([...exclusionsStore.getAll()]);
   };
-
-  const untilString = props.customer.pauseEnd
-    ? ` until ${moment(new Date(props.customer.pauseEnd)).calendar(
-        null,
-        calendarFormat
-      )}`
-    : "";
-
-  const statusString = isActive(props.customer)
-    ? "Active"
-    : `Paused${untilString}`;
 
   React.useEffect(() => {
     exclusionsStore.addChangeListener(onChangeExclusions);
@@ -77,7 +65,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
           onChange={props.onChange}
         />
       </TableCell>
-      <TableCell>{statusString}</TableCell>
+      <TableCell>{getStatusString(props.customer)}</TableCell>
       <TableCell>
         <TableCellSelectField
           name="daysPerWeek"
