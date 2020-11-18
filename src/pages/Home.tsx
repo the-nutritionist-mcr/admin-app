@@ -20,7 +20,7 @@ const Home: React.FC = () => (
       a message, but I reserve the right to tell you to be patient.
     </Paragraph>
     <Heading level={3}>Changes</Heading>
-    <Heading level={4}>17th of November 2020</Heading>
+    <Heading level={4}>18th of November 2020</Heading>
     <ul>
       <li>
         <Text>
@@ -33,6 +33,10 @@ const Home: React.FC = () => (
           There is now a &apos;pause&apos; button the customers page. This can
           be used to set either a time limited, indefinite, or future pause
           depending on whether you set a pause start, pause end or both.
+        </Text>
+        <Text>
+          You can now visit individual pages without opening the browser on the
+          homepage first
         </Text>
       </li>
     </ul>
