@@ -1,4 +1,4 @@
-import { Anchor, Heading, List, Paragraph } from "grommet";
+import { Anchor, Heading, Paragraph, Text } from "grommet";
 import React from "react";
 
 const Home: React.FC = () => (
@@ -19,43 +19,53 @@ const Home: React.FC = () => (
       this doesn&apos;t work, try waiting a few days. You are welcome to drop me
       a message, but I reserve the right to tell you to be patient.
     </Paragraph>
-    <Heading level={3}>Latest Changes</Heading>
-    <List
-      primaryKey="date"
-      secondaryKey="changes"
-      alignSelf="start"
-      data={[
-        {
-          date: "15th of November 2020",
-          changes: (
-            <ul>
-              <li>
-                Delete buttons now display a dialog asking you to confirm
-                deletion
-              </li>
-              <li>
-                There is now an &apos;exclusions&apos; page that you can use to
-                add custom exclusions which you can then select on both
-                customers and recipes. (<strong>Note</strong> that the
-                &apos;allergen&apos; checkbox doesn&apos;t do anything yet)
-              </li>
-              <li>
-                I&apos;ve changed the component framework from{" "}
-                <Anchor href="https://evergreen.segment.com/">Evergreen</Anchor>{" "}
-                to <Anchor href="https://v2.grommet.io/">Grommet</Anchor>{" "}
-                because I was finding the former to be quite limiting. This is
-                why the app now looks completely different
-              </li>
-            </ul>
-          ),
-        },
-      ]}
-    />
-    <Paragraph fill>
+    <Heading level={3}>Changes</Heading>
+    <Heading level={4}>17th of November 2020</Heading>
+    <ul>
+      <li>
+        <Text>
+          I&apos;ve made some behind the scenes changes which means the app
+          loads slightly faster.
+        </Text>
+      </li>
+      <li>
+        <Text>
+          There is now a &apos;pause&apos; button the customers page. This can
+          be used to set either a time limited, indefinite, or future pause
+          depending on whether you set a pause start, pause end or both.
+        </Text>
+      </li>
+    </ul>
+    <Heading level={4}>15th of November 2020</Heading>
+    <ul>
+      <li>
+        <Text>
+          Delete buttons now display a dialog asking you to confirm deletion
+        </Text>
+      </li>
+      <li>
+        <Text>
+          There is now an &apos;exclusions&apos; page that you can use to add
+          custom exclusions which you can then select on both customers and
+          recipes. (<strong>Note</strong> that the &apos;allergen&apos; checkbox
+          doesn&apos;t do anything yet)
+        </Text>
+      </li>
+      <li>
+        <Text>
+          I&apos;ve changed the component framework from{" "}
+          <Anchor href="https://evergreen.segment.com/">Evergreen</Anchor> to{" "}
+          <Anchor href="https://v2.grommet.io/">Grommet</Anchor> because I was
+          finding the former to be quite limiting. This is why the app now looks
+          completely different
+        </Text>
+      </li>
+    </ul>
+    <Paragraph>
       For more information on what&apos;s still to come, checkout the{" "}
-      <Anchor href="https://github.com/benwainwright/tnm/projects/1">
+      <a href="https://github.com/benwainwright/tnm/projects/1">
         project board
-      </Anchor>{" "}
+      </a>{" "}
       on the GitHub repository for this site. If you have any ideas or bug
       reports, please raise it there.
     </Paragraph>

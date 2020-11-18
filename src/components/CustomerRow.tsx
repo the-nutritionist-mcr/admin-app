@@ -120,7 +120,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
         <Button
           secondary
           onClick={(): void => setShowDoDelete(true)}
-          icon={<Trash color="neutral-4" />}
+          icon={<Trash color="light-6" />}
           a11yTitle="Delete"
         />
         <OkCancelDialog
@@ -136,15 +136,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
         </OkCancelDialog>
         <Button
           secondary
-          icon={
-            <Pause
-              color={
-                props.customer.pauseEnd || props.customer.pauseStart
-                  ? "brand"
-                  : "status-unknown"
-              }
-            />
-          }
+          icon={<Pause color="light-6" />}
           a11yTitle="Pause"
           onClick={(): void => setShowPause(true)}
         />
