@@ -47,9 +47,9 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
           name="name"
           thing={props.customer}
           mutator={(newCustomer, event): void => {
-            newCustomer.name = event.target.value;
+            newCustomer.firstName = event.target.value;
           }}
-          value={props.customer.name}
+          value={props.customer.firstName}
           onChange={props.onChange}
         />
       </TableCell>

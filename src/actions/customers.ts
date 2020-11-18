@@ -36,7 +36,12 @@ export const createBlankCustomer = (): void => {
 
   const blankCustomer: Customer = {
     id: customers.length > 0 ? customers[customers.length - 1].id + 1 : 1,
-    name: "",
+    firstName: "",
+    surname: "",
+    salutation: "",
+    telephone: "",
+    address: "",
+    notes: "",
     email: "",
     daysPerWeek: daysPerWeekOptions[0],
     plan: plans[0],

@@ -9,7 +9,14 @@ export enum Snack {
 
 export default interface Customer {
   id: number;
-  name: string;
+  firstName: string;
+  surname: string;
+  salutation: string;
+  address: string;
+  telephone: string;
+  startDate?: Date;
+  paymentDayOfMonth?: number;
+  notes?: string;
   email: string;
   pauseStart?: Date;
   pauseEnd?: Date;

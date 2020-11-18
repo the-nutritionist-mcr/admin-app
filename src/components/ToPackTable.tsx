@@ -59,7 +59,7 @@ const ToPackTable: React.FC<ToPackTableProps> = (props) => {
           {props.customerMeals.map((customerPlan) => (
             <TableRow key={customerPlan.customer.id}>
               <TableCell>
-                <Text>{customerPlan.customer.name}</Text>
+                <Text>{customerPlan.customer.firstName}</Text>
               </TableCell>
               {props.deliveryMeals.map((_item, index) => (
                 <TableCell key={index}>
