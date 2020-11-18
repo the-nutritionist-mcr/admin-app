@@ -1,4 +1,4 @@
-import { Button, TableCell, TableRow } from "grommet";
+import { Box, Button, TableCell, TableRow } from "grommet";
 import { Pause, Trash } from "grommet-icons";
 import { daysPerWeekOptions, plans } from "../lib/config";
 import { deleteCustomer, updateCustomer } from "../actions/customers";
@@ -117,40 +117,42 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
         />
       </TableCell>
       <TableCell>
-        <Button
-          secondary
-          onClick={(): void => setShowDoDelete(true)}
-          icon={<Trash color="light-6" />}
-          a11yTitle="Delete"
-        />
-        <OkCancelDialog
-          show={showDoDelete}
-          header="Are you sure?"
-          onOk={(): void => {
-            deleteCustomer(props.customer);
-            setShowDoDelete(false);
-          }}
-          onCancel={(): void => setShowDoDelete(false)}
-        >
-          Are you sure you want to delete this customer?
-        </OkCancelDialog>
-        <Button
-          secondary
-          icon={<Pause color="light-6" />}
-          a11yTitle="Pause"
-          onClick={(): void => setShowPause(true)}
-        />
-        <PauseDialog
-          customer={props.customer}
-          show={showPause}
-          onCancel={(): void => {
-            setShowPause(false);
-          }}
-          onOk={(newCustomer: Customer): void => {
-            updateCustomer(props.customer, newCustomer);
-            setShowPause(false);
-          }}
-        />
+        <Box direction="row">
+          <Button
+            secondary
+            onClick={(): void => setShowDoDelete(true)}
+            icon={<Trash color="light-6" />}
+            a11yTitle="Delete"
+          />
+          <OkCancelDialog
+            show={showDoDelete}
+            header="Are you sure?"
+            onOk={(): void => {
+              deleteCustomer(props.customer);
+              setShowDoDelete(false);
+            }}
+            onCancel={(): void => setShowDoDelete(false)}
+          >
+            Are you sure you want to delete this customer?
+          </OkCancelDialog>
+          <Button
+            secondary
+            icon={<Pause color="light-6" />}
+            a11yTitle="Pause"
+            onClick={(): void => setShowPause(true)}
+          />
+          <PauseDialog
+            customer={props.customer}
+            show={showPause}
+            onCancel={(): void => {
+              setShowPause(false);
+            }}
+            onOk={(newCustomer: Customer): void => {
+              updateCustomer(props.customer, newCustomer);
+              setShowPause(false);
+            }}
+          />
+        </Box>
       </TableCell>
     </TableRow>
   );
