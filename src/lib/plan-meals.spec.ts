@@ -116,6 +116,33 @@ describe("chooseMeals", () => {
     expect(actual).toHaveLength(0);
   });
 
+  it("Throws an error if a plans contains an unsupported number of meals per day", () => {
+    const mealOne = mockExtended<Recipe>();
+
+    const mealsSelection: DeliveryMealsSelection = [mealOne];
+
+    const customerOne: Customer = {
+      id: 1,
+      name: "foo-customer",
+      email: "foo-email",
+      daysPerWeek: 2,
+      snack: Snack.None,
+      breakfast: false,
+      plan: {
+        category: "Mass",
+        mealsPerDay: 2,
+        costPerMeal: 885,
+      },
+      exclusions: [],
+    };
+
+    const customers = [customerOne];
+
+    expect(() =>
+      planMeals.chooseMeals("Monday", mealsSelection, customers)
+    ).toThrow(new Error("4 meals per week is not currently supported"));
+  });
+
   it.each([
     [9, "Monday", 3, 6],
     [9, "Monday", 3, 5],

@@ -25,7 +25,7 @@ const getDeliveryMeals = (
     case 18:
       return 9;
   }
-  return 0;
+  throw new Error(`${mealsPerDay} meals per week is not currently supported`);
 };
 /* eslint-enable @typescript-eslint/no-magic-numbers */
 
