@@ -61,7 +61,7 @@ const Home: React.FC = () => (
         </Text>
       </li>
     </ul>
-    <Paragraph>
+    <Paragraph fill>
       For more information on what&apos;s still to come, checkout the{" "}
       <Anchor href="https://github.com/benwainwright/tnm/projects/1">
         project board
