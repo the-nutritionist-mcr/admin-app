@@ -63,9 +63,9 @@ const Home: React.FC = () => (
     </ul>
     <Paragraph>
       For more information on what&apos;s still to come, checkout the{" "}
-      <a href="https://github.com/benwainwright/tnm/projects/1">
+      <Anchor href="https://github.com/benwainwright/tnm/projects/1">
         project board
-      </a>{" "}
+      </Anchor>{" "}
       on the GitHub repository for this site. If you have any ideas or bug
       reports, please raise it there.
     </Paragraph>
