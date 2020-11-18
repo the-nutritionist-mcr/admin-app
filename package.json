@@ -94,10 +94,13 @@
       "*.{yml,yaml}": [
         "yamllint"
       ],
-      "*.{js,ts}": [
+      "*.{js,ts,jsx,tsx}": [
         "eslint",
         "prettier --write",
         "react-scripts test --watchAll=false --findRelatedTests"
+      ],
+      "*.{ts,tsx}": [
+        "tsc"
       ],
       "*.json": [
         "jsonlint",
