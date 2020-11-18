@@ -7,7 +7,7 @@ const Home: React.FC = () => (
     <Paragraph fill>
       Welcome to the TNM admin app. Please have a play around, but please note
       that <strong>this app is not ready to be used with real data</strong>, as
-      its missing critical features like authentication (login) and a backend
+      it is missing critical features like authentication (login) and a backend
       (somewhere to store data that isn&apos;t your browser). Please note that I
       am actively developing this version of the application which means things{" "}
       <strong>might occasionally break</strong>.
