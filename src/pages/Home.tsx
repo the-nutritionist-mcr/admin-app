@@ -34,6 +34,8 @@ const Home: React.FC = () => (
           be used to set either a time limited, indefinite, or future pause
           depending on whether you set a pause start, pause end or both.
         </Text>
+      </li>
+      <li>
         <Text>
           You can now visit individual pages without opening the browser on the
           homepage first
