@@ -95,6 +95,7 @@
         "yamllint"
       ],
       "*.{js,ts,jsx,tsx}": [
+        "prettier --write",
         "eslint",
         "react-scripts test --watchAll=false --findRelatedTests"
       ],
