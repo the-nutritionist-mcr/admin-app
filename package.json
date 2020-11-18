@@ -97,7 +97,7 @@
       "*.{js,ts}": [
         "eslint",
         "prettier --write",
-        "react-scripts test --findRelatedTests"
+        "react-scripts test --watchAll=false --findRelatedTests"
       ],
       "*.json": [
         "jsonlint",
