@@ -1,9 +1,9 @@
 import Customer, { Snack } from "../domain/Customer";
-import getStatusString from "./getStatusString";
-import { mock } from "jest-mock-extended";
-import isActive from "./isActive";
-import { mocked } from "ts-jest/utils";
 import moment, { Moment } from "moment";
+import getStatusString from "./getStatusString";
+import isActive from "./isActive";
+import { mock } from "jest-mock-extended";
+import { mocked } from "ts-jest/utils";
 
 jest.mock("./isActive");
 jest.mock("moment");
