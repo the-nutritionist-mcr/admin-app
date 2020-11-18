@@ -94,17 +94,16 @@
       "*.{yml,yaml}": [
         "yamllint"
       ],
-      "*.{js,ts,jsx,tsx}": [
-        "eslint",
-        "prettier --write",
-        "react-scripts test --watchAll=false --findRelatedTests"
-      ],
-      "*.{ts,tsx}": [
-        "tsc"
-      ],
+      "*.{js,ts,jsx,tsx}": {
+        "prettier --write": true,
+        "concurrent": [
+          "eslint",
+          "react-scripts test --watchAll=false --findRelatedTests"
+        ]
+      },
       "*.json": [
-        "jsonlint",
-        "prettier --write"
+        "prettier --write",
+        "jsonlint"
       ]
     }
   },
