@@ -24,7 +24,7 @@ Parameters:
     Description: Domain name to host application
     Default: ""
 
-Conditions: 
+Conditions:
   UseCustomDomain: !Not [!Equals [!Ref Domain, ""]]
 
 Resources:
