@@ -161,6 +161,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
                 <FormField name="exclusions" label="Exclusions">
                   <Select
                     multiple
+                    closeOnChange={false}
                     name="exclusions"
                     options={exclusions}
                     labelKey="name"
