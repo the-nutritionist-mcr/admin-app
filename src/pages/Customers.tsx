@@ -9,14 +9,16 @@ import {
   TableRow,
   Text,
 } from "grommet";
+import Customer, { Snack } from "../domain/Customer";
 import {
-  createBlankCustomer,
+  createNewCustomer,
   getCustomers,
   updateCustomer,
 } from "../actions/customers";
+import { daysPerWeekOptions, plans } from "../lib/config";
 
-import Customer from "../domain/Customer";
 import CustomerRow from "../components/CustomerRow";
+import EditCustomerDialog from "../components/EditCustomerDialog";
 import React from "react";
 import { customerStore } from "../lib/stores";
 
@@ -24,6 +26,8 @@ const Customers: React.FC = () => {
   const [customers, setCustomers] = React.useState<Customer[]>(
     customerStore.getAll()
   );
+
+  const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
 
   const onChangeCustomers = (): void => {
     setCustomers([...customerStore.getAll()]);
@@ -42,10 +46,38 @@ const Customers: React.FC = () => {
         <Button
           primary
           size="small"
-          onClick={createBlankCustomer}
+          onClick={(): void => setShowCreateCustomer(true)}
           label="New"
           a11yTitle="New Customer"
         />
+        {showCreateCustomer && (
+          <EditCustomerDialog
+            title="Create New Customer"
+            customer={{
+              id: 0,
+              firstName: "",
+              surname: "",
+              salutation: "",
+              telephone: "",
+              address: "",
+              notes: "",
+              email: "",
+              daysPerWeek: daysPerWeekOptions[0],
+              plan: plans[0],
+              snack: Snack.None,
+              breakfast: false,
+              exclusions: [],
+            }}
+            show={showCreateCustomer}
+            onOk={(customer: Customer): void => {
+              createNewCustomer(customer);
+              setShowCreateCustomer(false);
+            }}
+            onCancel={(): void => {
+              setShowCreateCustomer(false);
+            }}
+          />
+        )}
       </Header>
       {customers.length > 0 ? (
         <Table alignSelf="start">

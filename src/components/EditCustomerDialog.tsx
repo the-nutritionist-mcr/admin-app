@@ -11,8 +11,9 @@ import {
   Heading,
   Layer,
   Select,
-  Text,
+  TextArea,
   TextInput,
+  ThemeContext,
 } from "grommet";
 import { Checkmark, Close } from "grommet-icons";
 import Customer, { Snack } from "../domain/Customer";
@@ -27,13 +28,9 @@ interface EditCustomerDialogProps {
   customer: Customer;
   show?: boolean;
   onOk: (newCustomer: Customer) => void;
+  title: string;
   onCancel: () => void;
 }
-
-const getPlanValueLabel = (thisCustomer?: Customer): string =>
-  thisCustomer
-    ? `${thisCustomer.plan.category} ${thisCustomer.plan.mealsPerDay}`
-    : "";
 
 const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
   const [customer, setCustomer] = React.useState(props.customer);
@@ -53,10 +50,6 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
     return (): void => exclusionsStore.removeChangeListener(onChangeExclusions);
   }, []);
 
-  const SelectValue = styled(Text)`
-    padding: 11px;
-  `;
-
   const SelectButton = styled(Button)`
     padding: 11px;
   `;
@@ -67,21 +60,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
         <Form
           value={customer}
           onReset={(): void => {
-            setCustomer({
-              id: 0,
-              firstName: "",
-              surname: "",
-              salutation: "",
-              telephone: "",
-              address: "",
-              notes: "",
-              email: "",
-              daysPerWeek: daysPerWeekOptions[0],
-              plan: plans[0],
-              snack: Snack.None,
-              breakfast: false,
-              exclusions: [],
-            });
+            setCustomer(props.customer);
           }}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onChange={(nextCustomerData: any): void => {
@@ -101,7 +80,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
         >
           <CardHeader margin="none" pad="medium" alignSelf="center">
             <Heading margin="none" level={3}>
-              Edit Customer
+              {props.title}
             </Heading>
           </CardHeader>
           <CardBody pad="medium" alignSelf="center">
@@ -149,16 +128,9 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
                   <Select
                     name="plan"
                     options={plans}
-                    valueLabel={
-                      <SelectValue>
-                        <strong>{getPlanValueLabel(customer)}</strong>
-                      </SelectValue>
-                    }
-                  >
-                    {(plan): React.ReactElement => (
-                      <SelectButton>{`${plan.category} ${plan.mealsPerDay}`}</SelectButton>
-                    )}
-                  </Select>
+                    labelKey="name"
+                    valueKey="name"
+                  />
                 </FormField>
               </Box>
 
@@ -186,27 +158,55 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
                   />
                 </FormField>
 
-                <FormField name="exclusions" label="exclusions">
+                <FormField name="exclusions" label="Exclusions">
                   <Select
                     multiple
                     name="exclusions"
                     options={exclusions}
-                    valueLabel={
-                      <SelectButton>
-                        {customer.exclusions.length > 0
-                          ? customer.exclusions
-                              .map((item) => item.name)
-                              .join(", ")
-                          : "None"}
-                      </SelectButton>
-                    }
-                  >
-                    {(exclusion): React.ReactElement => (
-                      <SelectButton>{exclusion.name}</SelectButton>
-                    )}
-                  </Select>
+                    labelKey="name"
+                    valueKey="name"
+                  />
                 </FormField>
               </Box>
+            </Box>
+            <Box direction="row" fill="horizontal" justify="stretch">
+              <ThemeContext.Extend
+                value={{
+                  formField: {
+                    extend: `
+                    flex-grow: 2
+                    `,
+                  },
+                }}
+              >
+                <FormField
+                  name="address"
+                  label="Address"
+                  contentProps={{ fill: true }}
+                >
+                  <TextArea fill={true} name="address" />
+                </FormField>
+              </ThemeContext.Extend>
+            </Box>
+
+            <Box direction="row" fill="horizontal" justify="stretch">
+              <ThemeContext.Extend
+                value={{
+                  formField: {
+                    extend: `
+                    flex-grow: 2
+                    `,
+                  },
+                }}
+              >
+                <FormField
+                  name="notes"
+                  label="Notes"
+                  contentProps={{ fill: true }}
+                >
+                  <TextArea fill={true} name="notes" />
+                </FormField>
+              </ThemeContext.Extend>
             </Box>
           </CardBody>
 

@@ -62,6 +62,24 @@ export const createBlankCustomer = (): void => {
   dispatcher.dispatch(payload);
 };
 
+export const createNewCustomer = (customer: Customer): void => {
+  const customers = getFromLocalStorage();
+
+  customers.push({
+    ...customer,
+    id: customers.length > 0 ? customers[customers.length - 1].id + 1 : 1,
+  });
+
+  localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(customers));
+
+  const payload: DispatchPayload = {
+    actionType: ActionType.CreateBlankCustomer,
+    data: customers,
+  };
+
+  dispatcher.dispatch(payload);
+};
+
 export const updateCustomer = (
   oldCustomer: Customer,
   customer: Customer
