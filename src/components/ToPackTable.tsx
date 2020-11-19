@@ -43,7 +43,9 @@ const makePackTableCellText = (
 const ToPackTable: React.FC<ToPackTableProps> = (props) => {
   return (
     <React.Fragment>
-      <Heading level={2}>To Pack</Heading>
+      <Heading level={2} is="h2">
+        To Pack
+      </Heading>
       <Table alignSelf="start">
         <TableHeader>
           <TableCell>
@@ -59,7 +61,10 @@ const ToPackTable: React.FC<ToPackTableProps> = (props) => {
           {props.customerMeals.map((customerPlan) => (
             <TableRow key={customerPlan.customer.id}>
               <TableCell>
-                <Text>{customerPlan.customer.firstName}</Text>
+                <Text>
+                  {customerPlan.customer.firstName}{" "}
+                  {customerPlan.customer.surname}
+                </Text>
               </TableCell>
               {props.deliveryMeals.map((_item, index) => (
                 <TableCell key={index}>

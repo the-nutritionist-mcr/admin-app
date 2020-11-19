@@ -22,6 +22,7 @@ export default interface Customer {
   pauseEnd?: Date;
   daysPerWeek: number;
   plan: Plan;
+  legacyPrice?: number;
   snack: Snack;
   breakfast: boolean;
   exclusions: Exclusion[];
