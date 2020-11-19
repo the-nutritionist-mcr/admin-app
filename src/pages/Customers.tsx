@@ -98,6 +98,12 @@ const Customers: React.FC = () => {
               <TableCell scope="col">
                 <strong>Extras</strong>
               </TableCell>
+              <TableCell>
+                <strong>Per Week</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Per Month</strong>
+              </TableCell>
               <TableCell scope="col">
                 <strong>Exclusions</strong>
               </TableCell>

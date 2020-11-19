@@ -8,6 +8,10 @@ import PauseDialog from "./PauseDialog";
 import React from "react";
 import getStatusString from "../lib/getStatusString";
 
+const WEEKS_IN_YEAR = 52;
+const MONTHS_IN_YEAR = 12;
+const PENCE_IN_POUND = 100;
+
 interface CustomerRowProps {
   customer: Customer;
   onChange: (oldCustomer: Customer, newCustomer: Customer) => void;
@@ -27,6 +31,12 @@ const extrasString = (customer: Customer): string => {
   return returnVal.length > 0 ? returnVal.join(", ") : "None";
 };
 
+const pricePerWeek = (customer: Customer): number =>
+  customer.plan.mealsPerDay * customer.plan.costPerMeal * customer.daysPerWeek;
+
+const pricePerMonth = (customer: Customer): number =>
+  (pricePerWeek(customer) * WEEKS_IN_YEAR) / MONTHS_IN_YEAR;
+
 const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showPause, setShowPause] = React.useState(false);
@@ -45,6 +55,24 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
         {props.customer.daysPerWeek} days)
       </TableCell>
       <TableCell>{extrasString(props.customer)}</TableCell>
+      <TableCell>
+        {
+          // eslint-disable-next-line new-cap
+          Intl.NumberFormat("en-GB", {
+            style: "currency",
+            currency: "GBP",
+          }).format(pricePerWeek(props.customer) / PENCE_IN_POUND)
+        }
+      </TableCell>
+      <TableCell>
+        {
+          // eslint-disable-next-line new-cap
+          Intl.NumberFormat("en-GB", {
+            style: "currency",
+            currency: "GBP",
+          }).format(pricePerMonth(props.customer) / PENCE_IN_POUND)
+        }
+      </TableCell>
 
       <TableCell>
         {props.customer.exclusions.length > 0
