@@ -2,9 +2,9 @@ import Exclusion from "./Exclusion";
 import Plan from "./Plan";
 
 export enum Snack {
-  None,
-  Standard,
-  Large,
+  None = "None",
+  Standard = "Standard",
+  Large = "Large",
 }
 
 export default interface Customer {

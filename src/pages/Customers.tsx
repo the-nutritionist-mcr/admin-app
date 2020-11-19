@@ -61,10 +61,10 @@ const Customers: React.FC = () => {
                 <strong>Status</strong>
               </TableCell>
               <TableCell scope="col">
-                <strong>Days per week</strong>
+                <strong>Plan</strong>
               </TableCell>
               <TableCell scope="col">
-                <strong>Plan</strong>
+                <strong>Extras</strong>
               </TableCell>
               <TableCell scope="col">
                 <strong>Exclusions</strong>

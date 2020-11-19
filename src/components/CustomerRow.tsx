@@ -1,18 +1,11 @@
 import { Box, Button, TableCell, TableRow } from "grommet";
-import { Pause, Trash } from "grommet-icons";
-import { daysPerWeekOptions, plans } from "../lib/config";
+import Customer, { Snack } from "../domain/Customer";
+import { Edit, Pause, Trash } from "grommet-icons";
 import { deleteCustomer, updateCustomer } from "../actions/customers";
-import Customer from "../domain/Customer";
-import Exclusion from "../domain/Exclusion";
+import EditCustomerDialog from "./EditCustomerDialog";
 import OkCancelDialog from "./OkCancelDialog";
 import PauseDialog from "./PauseDialog";
-import Plan from "../domain/Plan";
 import React from "react";
-import TableCellInputField from "./TableCellInputField";
-import TableCellSelectField from "./TableCellSelectField";
-
-import { exclusionsStore } from "../lib/stores";
-import { getExclusions } from "../actions/exclusions";
 import getStatusString from "../lib/getStatusString";
 
 interface CustomerRowProps {
@@ -20,101 +13,45 @@ interface CustomerRowProps {
   onChange: (oldCustomer: Customer, newCustomer: Customer) => void;
 }
 
+const extrasString = (customer: Customer): string => {
+  const returnVal = [];
+
+  if (customer.breakfast) {
+    returnVal.push("Breakfast");
+  }
+
+  if (customer.snack !== Snack.None) {
+    returnVal.push(`${customer.snack} Snack`);
+  }
+
+  return returnVal.length > 0 ? returnVal.join(", ") : "None";
+};
+
 const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showPause, setShowPause] = React.useState(false);
-
-  const [exclusions, setExclusions] = React.useState<Exclusion[]>(
-    exclusionsStore.getAll()
-  );
-
-  const onChangeExclusions = (): void => {
-    setExclusions([...exclusionsStore.getAll()]);
-  };
-
-  React.useEffect(() => {
-    exclusionsStore.addChangeListener(onChangeExclusions);
-    if (exclusionsStore.getAll().length === 0) {
-      getExclusions();
-    }
-    return (): void => exclusionsStore.removeChangeListener(onChangeExclusions);
-  }, []);
+  const [showEdit, setShowEdit] = React.useState(false);
 
   return (
     <TableRow>
       <TableCell scope="row">
-        <TableCellInputField
-          name="name"
-          thing={props.customer}
-          mutator={(newCustomer, event): void => {
-            newCustomer.firstName = event.target.value;
-          }}
-          value={props.customer.firstName}
-          onChange={props.onChange}
-        />
+        {props.customer.salutation} {props.customer.firstName}{" "}
+        {props.customer.surname}
       </TableCell>
-      <TableCell>
-        <TableCellInputField
-          thing={props.customer}
-          name="email"
-          type="email"
-          mutator={(newCustomer, event): void => {
-            newCustomer.email = event.target.value;
-          }}
-          value={props.customer.email}
-          onChange={props.onChange}
-        />
-      </TableCell>
+      <TableCell>{props.customer.email}</TableCell>
       <TableCell>{getStatusString(props.customer)}</TableCell>
       <TableCell>
-        <TableCellSelectField
-          name="daysPerWeek"
-          thing={props.customer}
-          options={daysPerWeekOptions.map(String)}
-          value={String(props.customer.daysPerWeek)}
-          mutator={(newCustomer, event): void => {
-            newCustomer.daysPerWeek = Number.parseInt(event.value, 10);
-          }}
-          onChange={props.onChange}
-        />
+        {props.customer.plan.category} {props.customer.plan.mealsPerDay} (
+        {props.customer.daysPerWeek} days)
       </TableCell>
-      <TableCell>
-        <TableCellSelectField
-          thing={props.customer}
-          name="plan"
-          options={plans}
-          renderLabel={(plan: Plan): string =>
-            `${plan.category} ${plan.mealsPerDay}`
-          }
-          value={props.customer.plan}
-          mutator={(newCustomer, event): void => {
-            const plan = plans.find((planAtPosition) => {
-              return (
-                event.value.category === planAtPosition.category &&
-                event.value.mealsPerDay === planAtPosition.mealsPerDay
-              );
-            });
-            if (plan) {
-              newCustomer.plan = plan;
-            }
-          }}
-          onChange={props.onChange}
-        />
-      </TableCell>
+      <TableCell>{extrasString(props.customer)}</TableCell>
 
       <TableCell>
-        <TableCellSelectField
-          multiple
-          name="exclusions"
-          thing={props.customer}
-          options={exclusions}
-          labelKey="name"
-          value={props.customer.exclusions}
-          mutator={(newCustomer, item): void => {
-            newCustomer.exclusions = item.value;
-          }}
-          onChange={props.onChange}
-        />
+        {props.customer.exclusions.length > 0
+          ? props.customer.exclusions
+              .map((exclusion) => exclusion.name)
+              .join(", ")
+          : "None"}
       </TableCell>
       <TableCell>
         <Box direction="row">
@@ -151,6 +88,24 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
               updateCustomer(props.customer, newCustomer);
               setShowPause(false);
             }}
+          />
+          <EditCustomerDialog
+            customer={props.customer}
+            show={showEdit}
+            onOk={(customer: Customer): void => {
+              updateCustomer(props.customer, customer);
+              setShowEdit(false);
+            }}
+            onCancel={(): void => {
+              setShowEdit(false);
+            }}
+          />
+
+          <Button
+            secondary
+            icon={<Edit color="light-6" />}
+            a11yTitle="Edit"
+            onClick={(): void => setShowEdit(true)}
           />
         </Box>
       </TableCell>
