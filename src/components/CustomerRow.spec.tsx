@@ -1,16 +1,18 @@
 import Customer, { Snack } from "../domain/Customer";
+import { act, fireEvent, render } from "@testing-library/react";
 
 import CustomerRow from "./CustomerRow";
 import { Grommet } from "grommet";
 import React from "react";
+import { deleteCustomer } from "../actions/customers";
 import getExtrasString from "../lib/getExtrasString";
 import getStatusString from "../lib/getStatusString";
 import { mocked } from "ts-jest/utils";
-import { render } from "@testing-library/react";
 import { when } from "jest-when";
 
 jest.mock("../lib/getStatusString");
 jest.mock("../lib/getExtrasString");
+jest.mock("../actions/customers");
 
 const getFakeCustomer = (): Customer => {
   const fishExclusion = {
@@ -153,10 +155,6 @@ describe("The <CustomerRow> component", () => {
   it("Calculates the correct price per week", () => {
     const fakeCustomer = getFakeCustomer();
 
-    when(mocked(getExtrasString, true))
-      .calledWith(fakeCustomer)
-      .mockReturnValue("Extras!");
-
     render(
       <Grommet plain>
         <table>
@@ -176,10 +174,6 @@ describe("The <CustomerRow> component", () => {
   it("Calculates the correct price per month", () => {
     const fakeCustomer = getFakeCustomer();
 
-    when(mocked(getExtrasString, true))
-      .calledWith(fakeCustomer)
-      .mockReturnValue("Extras!");
-
     render(
       <Grommet plain>
         <table>
@@ -194,5 +188,190 @@ describe("The <CustomerRow> component", () => {
     const sixth = cells.item(5);
 
     expect(sixth).toHaveTextContent("£130.00");
+  });
+
+  it("Renders the exclusions correctly when there are some", () => {
+    const fakeCustomer = getFakeCustomer();
+
+    render(
+      <Grommet plain>
+        <table>
+          <tbody>
+            <CustomerRow customer={fakeCustomer} onChange={jest.fn()} />
+          </tbody>
+        </table>
+      </Grommet>
+    );
+
+    const cells = document.querySelectorAll("td");
+    const seventh = cells.item(6);
+
+    expect(seventh).toHaveTextContent("fish, cats");
+  });
+
+  it("Renders the exclusions correctly when there aren't any", () => {
+    const fakeCustomer = getFakeCustomer();
+
+    fakeCustomer.exclusions = [];
+
+    render(
+      <Grommet plain>
+        <table>
+          <tbody>
+            <CustomerRow customer={fakeCustomer} onChange={jest.fn()} />
+          </tbody>
+        </table>
+      </Grommet>
+    );
+
+    const cells = document.querySelectorAll("td");
+    const seventh = cells.item(6);
+
+    expect(seventh).toHaveTextContent("None");
+  });
+
+  it("Shows the delete dialog when the delete button is clicked", () => {
+    const fakeCustomer = getFakeCustomer();
+
+    const { getByText } = render(
+      <Grommet plain>
+        <table>
+          <tbody>
+            <CustomerRow customer={fakeCustomer} onChange={jest.fn()} />
+          </tbody>
+        </table>
+      </Grommet>
+    );
+
+    const deleteButton = document.querySelector("button[aria-label='Delete']");
+    expect(deleteButton).toBeDefined();
+    if (deleteButton) {
+      fireEvent.click(deleteButton);
+      expect(getByText("Are you sure?")).not.toBeNull();
+    }
+  });
+
+  it("Hides the delete button when the Ok button is clicked in the delete dialog", () => {
+    const fakeCustomer = getFakeCustomer();
+
+    const { queryByText, getByText } = render(
+      <Grommet plain>
+        <table>
+          <tbody>
+            <CustomerRow customer={fakeCustomer} onChange={jest.fn()} />
+          </tbody>
+        </table>
+      </Grommet>
+    );
+
+    const deleteButton = document.querySelector("button[aria-label='Delete']");
+    expect(deleteButton).toBeDefined();
+    if (deleteButton) {
+      act(() => {
+        fireEvent.click(deleteButton);
+      });
+      act(() => {
+        fireEvent.click(getByText("Ok"));
+      });
+      expect(queryByText("Are you sure?")).toBeNull();
+    }
+  });
+
+  it("Calls 'delete customer' when the delete dialog is confirmed", () => {
+    const fakeCustomer = getFakeCustomer();
+
+    const { getByText } = render(
+      <Grommet plain>
+        <table>
+          <tbody>
+            <CustomerRow customer={fakeCustomer} onChange={jest.fn()} />
+          </tbody>
+        </table>
+      </Grommet>
+    );
+
+    const deleteButton = document.querySelector("button[aria-label='Delete']");
+    expect(deleteButton).toBeDefined();
+    if (deleteButton) {
+      act(() => {
+        fireEvent.click(deleteButton);
+      });
+      act(() => {
+        fireEvent.click(getByText("Ok"));
+      });
+      expect(mocked(deleteCustomer)).toHaveBeenCalledWith(fakeCustomer);
+    }
+  });
+
+  it("Does not call 'delete customer' if you click cancel in the delete dialog", () => {
+    const fakeCustomer = getFakeCustomer();
+
+    const { getByText } = render(
+      <Grommet plain>
+        <table>
+          <tbody>
+            <CustomerRow customer={fakeCustomer} onChange={jest.fn()} />
+          </tbody>
+        </table>
+      </Grommet>
+    );
+
+    const deleteButton = document.querySelector("button[aria-label='Delete']");
+    expect(deleteButton).toBeDefined();
+    if (deleteButton) {
+      act(() => {
+        fireEvent.click(deleteButton);
+      });
+      act(() => {
+        fireEvent.click(getByText("Cancel"));
+      });
+      expect(mocked(deleteCustomer)).not.toHaveBeenCalled();
+    }
+  });
+
+  it("Shows the 'pause' dialog if you click the pause button", () => {
+    const fakeCustomer = getFakeCustomer();
+
+    const { getByText } = render(
+      <Grommet plain>
+        <table>
+          <tbody>
+            <CustomerRow customer={fakeCustomer} onChange={jest.fn()} />
+          </tbody>
+        </table>
+      </Grommet>
+    );
+
+    const pauseButton = document.querySelector("button[aria-label='Pause']");
+    expect(pauseButton).toBeDefined();
+    if (pauseButton) {
+      act(() => {
+        fireEvent.click(pauseButton);
+      });
+      expect(getByText("Add Pause")).not.toBeNull();
+    }
+  });
+
+  it("Shows the 'edit' dialog if you click the edit button", () => {
+    const fakeCustomer = getFakeCustomer();
+
+    const { getByText } = render(
+      <Grommet plain>
+        <table>
+          <tbody>
+            <CustomerRow customer={fakeCustomer} onChange={jest.fn()} />
+          </tbody>
+        </table>
+      </Grommet>
+    );
+
+    const editButton = document.querySelector("button[aria-label='Edit']");
+    expect(editButton).toBeDefined();
+    if (editButton) {
+      act(() => {
+        fireEvent.click(editButton);
+      });
+      expect(getByText("Edit Customer")).not.toBeNull();
+    }
   });
 });

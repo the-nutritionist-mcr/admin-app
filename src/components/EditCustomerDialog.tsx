@@ -32,7 +32,7 @@ interface EditCustomerDialogProps {
   onCancel: () => void;
 }
 
-const SelectButton = styled(Button)`
+const SelectButton = styled.div`
   padding: 11px;
 `;
 
