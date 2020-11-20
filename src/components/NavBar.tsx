@@ -2,9 +2,16 @@ import { Alert, Cafeteria, Home, Plan, User } from "grommet-icons";
 import { Box, Header, Heading, Text } from "grommet";
 import MenuButton from "./MenuButton";
 import React from "react";
+import styled from "styled-components";
+
+const NonPrintableHeader = styled(Header)`
+  @media print {
+    display: none;
+  }
+`;
 
 const NavBar: React.FC = () => (
-  <Header
+  <NonPrintableHeader
     align="center"
     justify="start"
     background="brand"
@@ -37,6 +44,6 @@ const NavBar: React.FC = () => (
       </MenuButton>
     </Box>
     <Text size="small">Version {process.env.REACT_APP_VERSION_NUMBER}</Text>
-  </Header>
+  </NonPrintableHeader>
 );
 export default NavBar;

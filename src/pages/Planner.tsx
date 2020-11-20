@@ -16,6 +16,7 @@ import ToPackTable from "../components/ToPackTable";
 
 import { getCustomers } from "../actions/customers";
 import { getRecipes } from "../actions/recipes";
+import styled from "styled-components";
 import useDeepCompareEffect from "use-deep-compare-effect";
 
 const defaultPlans: DeliveryMealsSelection = [
@@ -26,6 +27,18 @@ const defaultPlans: DeliveryMealsSelection = [
   undefined,
   undefined,
 ];
+
+const HiddenFromPrintBox = styled(Box)`
+  @media print {
+    display: none;
+  }
+`;
+
+const PrintableBox = styled(Box)`
+  @media print {
+    display: block;
+  }
+`;
 
 const Planner: React.FC = () => {
   const savedPlanIds: (undefined | number)[] = JSON.parse(
@@ -79,72 +92,76 @@ const Planner: React.FC = () => {
   return (
     <React.Fragment>
       <Heading level={2}>Planner</Heading>
-      <Paragraph fill>
-        Planning for{" "}
-        <Select
-          placeholder="Select Day"
-          name="selectDay"
-          options={["Monday", "Thursday"]}
-          value={day}
-          onChange={(event: { value: DeliveryDay }): void => {
-            setDay(event.value);
-            localStorage.setItem(LOCALSTORAGE_KEY_DAY, event.value);
-          }}
-        />
-      </Paragraph>
-      <Paragraph fill>Select the meals for this delivery:</Paragraph>
-      <Box direction="row" gap="medium">
-        {planned.map((plan, index) => (
-          <Select
-            key={index}
-            name={`meal-${index}`}
-            options={recipes}
-            placeholder="None"
-            value={plan ?? ""}
-            labelKey={(labelPlan: undefined | Recipe): string | undefined =>
-              labelPlan?.name
-            }
-            onChange={(event: { value: Recipe | undefined }): void => {
-              const newPlanned = [...planned];
-              newPlanned[index] = recipes.find(
-                (recipe) => recipe.id === event?.value?.id
-              );
-              localStorage.setItem(
-                LOCALSTORAGE_KEY_PLANNED,
-                JSON.stringify(newPlanned.map((item) => item?.id))
-              );
-              setPlanned(newPlanned);
-            }}
-          />
-        ))}
-        {activeSelections.length > 0 || day !== "" ? (
-          <Button
-            onClick={(): void => {
-              setDay("");
-              setPlanned(defaultPlans);
-              localStorage.setItem(
-                LOCALSTORAGE_KEY_PLANNED,
-                JSON.stringify(defaultPlans)
-              );
-            }}
-            label="Clear"
-          />
-        ) : null}
-      </Box>
-      {activeSelections.length === defaultPlans.length && day !== "" ? (
-        <React.Fragment>
-          <ToCookTable plan={cookPlan} />
-          <ToPackTable
-            customerMeals={chosenMeals}
-            deliveryMeals={defaultPlans}
-          />
-        </React.Fragment>
-      ) : (
+      <HiddenFromPrintBox>
         <Paragraph fill>
-          To calculate your delivery plan, please choose all{" "}
-          {defaultPlans.length} recipes
+          Planning for{" "}
+          <Select
+            placeholder="Select Day"
+            name="selectDay"
+            options={["Monday", "Thursday"]}
+            value={day}
+            onChange={(event: { value: DeliveryDay }): void => {
+              setDay(event.value);
+              localStorage.setItem(LOCALSTORAGE_KEY_DAY, event.value);
+            }}
+          />
         </Paragraph>
-      )}
+        <Paragraph fill>Select the meals for this delivery:</Paragraph>
+        <Box direction="row" gap="medium">
+          {planned.map((plan, index) => (
+            <Select
+              key={index}
+              name={`meal-${index}`}
+              options={recipes}
+              placeholder="None"
+              value={plan ?? ""}
+              labelKey={(labelPlan: undefined | Recipe): string | undefined =>
+                labelPlan?.name
+              }
+              onChange={(event: { value: Recipe | undefined }): void => {
+                const newPlanned = [...planned];
+                newPlanned[index] = recipes.find(
+                  (recipe) => recipe.id === event?.value?.id
+                );
+                localStorage.setItem(
+                  LOCALSTORAGE_KEY_PLANNED,
+                  JSON.stringify(newPlanned.map((item) => item?.id))
+                );
+                setPlanned(newPlanned);
+              }}
+            />
+          ))}
+          {activeSelections.length > 0 || day !== "" ? (
+            <Button
+              onClick={(): void => {
+                setDay("");
+                setPlanned(defaultPlans);
+                localStorage.setItem(
+                  LOCALSTORAGE_KEY_PLANNED,
+                  JSON.stringify(defaultPlans)
+                );
+              }}
+              label="Clear"
+            />
+          ) : null}
+        </Box>
+      </HiddenFromPrintBox>
+      <PrintableBox>
+        {activeSelections.length === defaultPlans.length && day !== "" ? (
+          <React.Fragment>
+            <ToCookTable plan={cookPlan} />
+            <ToPackTable
+              customerMeals={chosenMeals}
+              deliveryMeals={defaultPlans}
+            />
+          </React.Fragment>
+        ) : (
+          <Paragraph fill>
+            To calculate your delivery plan, please choose all{" "}
+            {defaultPlans.length} recipes
+          </Paragraph>
+        )}
+      </PrintableBox>
     </React.Fragment>
   );
 };

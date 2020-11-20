@@ -21,8 +21,14 @@ const UlWithNoPadding = styled.ul`
   list-style: none;
 `;
 
+const SectionWithPageBreak = styled.section`
+  @media print {
+    page-break-after: always;
+  }
+`;
+
 const ToCookTable: React.FC<ToCookTableProps> = (props) => (
-  <React.Fragment>
+  <SectionWithPageBreak>
     <Heading is="h2" level={2}>
       To Cook
     </Heading>
@@ -30,7 +36,7 @@ const ToCookTable: React.FC<ToCookTableProps> = (props) => (
       <TableHeader>
         <TableRow>
           {props.plan.map((item, index) => (
-            <TableCell key={index} pad="small">
+            <TableCell key={index} pad="medium">
               <strong>{item.recipe.name}</strong>
             </TableCell>
           ))}
@@ -56,7 +62,7 @@ const ToCookTable: React.FC<ToCookTableProps> = (props) => (
         </TableRow>
       </TableBody>
     </Table>
-  </React.Fragment>
+  </SectionWithPageBreak>
 );
 
 export default ToCookTable;

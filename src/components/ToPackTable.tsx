@@ -1,12 +1,11 @@
+import { Heading, Table, Text } from "grommet";
+
 import {
-  Heading,
-  Table,
-  TableBody,
-  TableCell,
-  TableHeader,
-  TableRow,
-  Text,
-} from "grommet";
+  PrintableTableCell,
+  PrintableTableRow,
+  PrintableTbody,
+  PrintableThead,
+} from "./printable-table";
 
 import Customer from "../domain/Customer";
 import CustomerMealsSelection from "../types/CustomerMealsSelection";
@@ -14,11 +13,18 @@ import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
 import React from "react";
 import Recipe from "../domain/Recipe";
 import { createVariantString } from "../lib/plan-meals";
+import styled from "styled-components";
 
 interface ToPackTableProps {
   deliveryMeals: DeliveryMealsSelection;
   customerMeals: CustomerMealsSelection;
 }
+
+export const SectionWithPageBreak = styled.section`
+  @media print {
+    page-break-before: always;
+  }
+`;
 
 const makePackTableCellText = (
   index: number,
@@ -42,44 +48,46 @@ const makePackTableCellText = (
 
 const ToPackTable: React.FC<ToPackTableProps> = (props) => {
   return (
-    <React.Fragment>
+    <SectionWithPageBreak>
       <Heading level={2} is="h2">
         To Pack
       </Heading>
       <Table alignSelf="start">
-        <TableHeader>
-          <TableCell>
-            <strong>Customer Name</strong>
-          </TableCell>
-          {props.deliveryMeals.map((_item, index) => (
-            <TableCell key={index}>
-              <strong>Meal {index + 1}</strong>
-            </TableCell>
-          ))}
-        </TableHeader>
-        <TableBody>
+        <PrintableThead>
+          <PrintableTableRow>
+            <PrintableTableCell>
+              <strong>Customer Name</strong>
+            </PrintableTableCell>
+            {props.deliveryMeals.map((_item, index) => (
+              <PrintableTableCell key={index}>
+                <strong>Meal {index + 1}</strong>
+              </PrintableTableCell>
+            ))}
+          </PrintableTableRow>
+        </PrintableThead>
+        <PrintableTbody>
           {props.customerMeals.map((customerPlan) => (
-            <TableRow key={customerPlan.customer.id}>
-              <TableCell>
+            <PrintableTableRow key={customerPlan.customer.id}>
+              <PrintableTableCell>
                 <Text>
                   {customerPlan.customer.firstName}{" "}
                   {customerPlan.customer.surname}
                 </Text>
-              </TableCell>
+              </PrintableTableCell>
               {props.deliveryMeals.map((_item, index) => (
-                <TableCell key={index}>
+                <PrintableTableCell key={index}>
                   {makePackTableCellText(
                     index,
                     customerPlan.meals,
                     customerPlan.customer
                   )}
-                </TableCell>
+                </PrintableTableCell>
               ))}
-            </TableRow>
+            </PrintableTableRow>
           ))}
-        </TableBody>
+        </PrintableTbody>
       </Table>
-    </React.Fragment>
+    </SectionWithPageBreak>
   );
 };
 
