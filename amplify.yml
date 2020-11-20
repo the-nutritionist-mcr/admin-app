@@ -24,9 +24,6 @@ frontend:
     baseDirectory: build
     files:
       - "**/*"
-  cache:
-    paths:
-      - node_modules/**/*
 
 test:
   artifacts:
