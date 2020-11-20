@@ -1,11 +1,12 @@
 import { Box, Button, TableCell, TableRow } from "grommet";
-import Customer, { Snack } from "../domain/Customer";
 import { Edit, Pause, Trash } from "grommet-icons";
 import { deleteCustomer, updateCustomer } from "../actions/customers";
+import Customer from "../domain/Customer";
 import EditCustomerDialog from "./EditCustomerDialog";
 import OkCancelDialog from "./OkCancelDialog";
 import PauseDialog from "./PauseDialog";
 import React from "react";
+import getExtrasString from "../lib/getExtrasString";
 import getStatusString from "../lib/getStatusString";
 
 const WEEKS_IN_YEAR = 52;
@@ -16,20 +17,6 @@ interface CustomerRowProps {
   customer: Customer;
   onChange: (oldCustomer: Customer, newCustomer: Customer) => void;
 }
-
-const extrasString = (customer: Customer): string => {
-  const returnVal = [];
-
-  if (customer.breakfast) {
-    returnVal.push("Breakfast");
-  }
-
-  if (customer.snack !== Snack.None) {
-    returnVal.push(`${customer.snack} Snack`);
-  }
-
-  return returnVal.length > 0 ? returnVal.join(", ") : "None";
-};
 
 const pricePerWeek = (customer: Customer): number =>
   customer.plan.mealsPerDay * customer.plan.costPerMeal * customer.daysPerWeek;
@@ -54,7 +41,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
         {props.customer.plan.category} {props.customer.plan.mealsPerDay} (
         {props.customer.daysPerWeek} days)
       </TableCell>
-      <TableCell>{extrasString(props.customer)}</TableCell>
+      <TableCell>{getExtrasString(props.customer)}</TableCell>
       <TableCell>
         {
           // eslint-disable-next-line new-cap
