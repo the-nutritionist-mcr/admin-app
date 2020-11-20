@@ -29,11 +29,20 @@
 declare namespace Cypress {
   interface Chainable {
     createCustomer: (
-      name: string,
+      salutation: string,
+      firstName: string,
+      surname: string,
+      startDate: number,
       email: string,
-      daysPerWeek: number,
       plan: string,
-      exclusions: string[]
+      daysPerWeek: number,
+      snack: string,
+      breakfast: boolean,
+      address: string,
+      exclusions: string[],
+      notes?: string,
+      paymentDay?: number,
+      telephone?: string
     ) => void;
 
     createRecipe: (
@@ -62,32 +71,62 @@ Cypress.Commands.add("createExclusion", (name: string, allergen: boolean) => {
 Cypress.Commands.add(
   "createCustomer",
   (
-    name: string,
+    salutation: string,
+    firstName: string,
+    surname: string,
+    startDate: number,
     email: string,
-    daysPerWeek: number,
     plan: string,
-    exclusions: string[]
+    daysPerWeek: number,
+    snack: string,
+    breakfast: boolean,
+    address: string,
+    exclusions: string[],
+    notes?: string,
+    paymentDay?: number,
+    telephone?: string
   ): void => {
     cy.get("header").contains("Customers").click();
     cy.contains("New").click();
-    cy.get("table").find("tbody").find("tr").first().as("firstRow");
 
-    cy.get("@firstRow").find("input[name='name']").type(name);
-    cy.get("@firstRow").find("input[name='email']").type(email);
+    cy.get("input[name='salutation']").click();
+    cy.get("div[data-g-portal-id='0']").contains(salutation).click();
+    cy.get("input[name='firstName']").type(firstName);
+    cy.get("input[name='surname']").type(surname);
+    cy.get("input[name='startDate']").click();
+    cy.get("div[data-g-portal-id='0']").contains(String(startDate)).click();
+    cy.get("input[name='email']").type(email);
+    cy.get("input[name='daysPerWeek']").click();
+    cy.get("div[data-g-portal-id='0']").contains(String(daysPerWeek)).click();
+    cy.get("input[name='snack']").click();
+    cy.get("div[data-g-portal-id='0']").contains(snack).click();
+    cy.get("button[name='breakfast']").click();
+    cy.get("div[data-g-portal-id='0']")
+      .contains(breakfast ? "Yes" : "No")
+      .click();
+    cy.get("textarea[name='address']").type(address);
+    cy.get("input[name='plan']").click();
+    cy.get("div[data-g-portal-id='0']").contains(plan).click();
 
-    cy.get("@firstRow").find("input[name='daysPerWeek']").click();
-    cy.get("div[data-g-portal-id='0']").as("dropPortal");
-
-    cy.get("@dropPortal").contains(String(daysPerWeek)).click({ force: true });
-
-    cy.get("@firstRow").find("input[name='plan']").click();
-    cy.get("@dropPortal").contains(plan).click({ force: true });
-
-    cy.get("@firstRow").find("input[name='exclusions']").click();
+    cy.get("input[name='exclusions']").click();
     exclusions.forEach((exclusion) => {
-      cy.get("@dropPortal").contains(exclusion).click({ force: true });
+      cy.get("div[data-g-portal-id='0']")
+        .contains(exclusion)
+        .click({ force: true });
     });
-    cy.get("@firstRow").find("input[name='exclusions']").click();
+
+    if (notes) {
+      cy.get("textarea[name='notes']").type(notes);
+    }
+
+    if (paymentDay) {
+      cy.get("input[name='paymentDayOfMonth']").type(String(paymentDay));
+    }
+
+    if (telephone) {
+      cy.get("input[name='telephone']").type(telephone);
+    }
+    cy.contains("Ok").click();
   }
 );
 

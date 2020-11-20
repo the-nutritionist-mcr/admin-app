@@ -10,79 +10,49 @@ describe("The customers page", () => {
     cy.contains("You've not added any customers yet...");
   });
 
-  it("Should add a blank row when you click the 'New' button", () => {
-    cy.visit("/customers");
-    cy.contains("New").click();
-    cy.get("table").find("tr").should("have.length", 2);
-
-    cy.get("input[name='name']").should("be.empty");
-    cy.get("input[name='email']").should("be.empty");
-    cy.get("input[name='daysPerWeek']").should("have.value", 6);
-    cy.get("input[name='plan']").should("have.value", "Mass 1");
-    cy.get("input[name='exclusions']").should("be.empty");
-  });
-
   it("Should allow you to add and edit a couple of customers which then persist after page reload", () => {
     cy.createCustomer(
-      "Ben Wainwright",
+      "Mr",
+      "Ben",
+      "Wainwright",
+      1,
       "bwainwright28@gmail.com",
+      "Mass 3",
       5,
-      "EQ 2",
-      []
+      "Large",
+      true,
+      "Somewhere",
+      [],
+      "Some notes",
+      4,
+      "0123456789"
     );
 
     cy.createCustomer(
-      "Lawrence Davis",
-      "lawrence@lawrencedavis.me",
+      "Mrs",
+      "Alice",
+      "Springs",
+      1,
+      "a@b.c",
+      "Micro 1",
       6,
-      "Ultra-Micro 1",
-      []
+      "Standard",
+      false,
+      "I live in an an attic",
+      [],
+      "More notes",
+      4,
+      "1232342342"
     );
-
-    cy.createCustomer("Alice Springs", "alice@springs.com", 5, "Micro 1", []);
 
     cy.wait(1000);
     cy.reload();
 
     cy.get("tbody").find("tr").last().as("lastRow");
-    cy.get("@lastRow")
-      .find("input[name='name']")
-      .should("have.value", "Ben Wainwright");
-    cy.get("@lastRow")
-      .find("input[name='email']")
-      .should("have.value", "bwainwright28@gmail.com");
-    cy.get("@lastRow")
-      .find("input[name='daysPerWeek']")
-      .should("have.value", 5);
-    cy.get("@lastRow").find("input[name='plan']").should("have.value", "EQ 2");
-
-    cy.get("tbody").find("tr").first().next().as("secondRow");
-    cy.get("@secondRow")
-      .find("input[name='name']")
-      .should("have.value", "Lawrence Davis");
-    cy.get("@secondRow")
-      .find("input[name='email']")
-      .should("have.value", "lawrence@lawrencedavis.me");
-    cy.get("@secondRow")
-      .find("input[name='daysPerWeek']")
-      .should("have.value", 6);
-    cy.get("@secondRow")
-      .find("input[name='plan']")
-      .should("have.value", "Ultra-Micro 1");
-
-    cy.get("tbody").find("tr").first().as("firstRow");
-    cy.get("@firstRow")
-      .find("input[name='name']")
-      .should("have.value", "Alice Springs");
-    cy.get("@firstRow")
-      .find("input[name='email']")
-      .should("have.value", "alice@springs.com");
-    cy.get("@firstRow")
-      .find("input[name='daysPerWeek']")
-      .should("have.value", 5);
-    cy.get("@firstRow")
-      .find("input[name='plan']")
-      .should("have.value", "Micro 1");
+    cy.get("@lastRow").contains("Mr Ben Wainwright");
+    cy.get("@lastRow").contains("Active");
+    cy.get("@lastRow").contains("Mass 3 (5 days)");
+    cy.get("@lastRow").contains("None");
   });
 
   describe("the delete button", () => {
@@ -90,19 +60,37 @@ describe("The customers page", () => {
       cy.visit("/customers");
 
       cy.createCustomer(
-        "Ben Wainwright",
+        "Mr",
+        "Ben",
+        "Wainwright",
+        1,
         "bwainwright28@gmail.com",
+        "Mass 3",
         5,
-        "EQ 2",
-        []
+        "Large",
+        true,
+        "Somewhere",
+        [],
+        "Some notes",
+        4,
+        "0123456789"
       );
 
       cy.createCustomer(
-        "Lawrence Davis",
-        "lawrence@lawrencedavis.me",
+        "Mrs",
+        "Alice",
+        "Springs",
+        1,
+        "a@b.c",
+        "Micro 1",
         6,
-        "Ultra-Micro 1",
-        []
+        "Standard",
+        false,
+        "I live in an an attic",
+        [],
+        "More notes",
+        4,
+        "1232342342"
       );
 
       cy.get("tbody")
@@ -120,19 +108,37 @@ describe("The customers page", () => {
       cy.visit("/customers");
 
       cy.createCustomer(
-        "Ben Wainwright",
+        "Mr",
+        "Ben",
+        "Wainwright",
+        1,
         "bwainwright28@gmail.com",
+        "Mass 3",
         5,
-        "EQ 2",
-        []
+        "Large",
+        true,
+        "Somewhere",
+        [],
+        "Some notes",
+        4,
+        "0123456789"
       );
 
       cy.createCustomer(
-        "Lawrence Davis",
-        "lawrence@lawrencedavis.me",
+        "Mrs",
+        "Alice",
+        "Springs",
+        1,
+        "a@b.c",
+        "Micro 1",
         6,
-        "Ultra-Micro 1",
-        []
+        "Standard",
+        false,
+        "I live in an an attic",
+        [],
+        "More notes",
+        4,
+        "1232342342"
       );
 
       cy.get("tbody")
