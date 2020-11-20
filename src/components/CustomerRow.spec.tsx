@@ -21,13 +21,18 @@ describe("The <CustomerRow> component", () => {
 
     const fakeCustomer: Customer = {
       id: 1,
-      name: "Ben",
+      salutation: "Mr",
+      telephone: "0123451",
+      firstName: "Ben",
+      surname: "Wainwright",
+      address: "Foobar",
       daysPerWeek: 5,
       email: "a@b.c",
       breakfast: false,
       snack: Snack.None,
       exclusions: [fishExclusion, catsExclusion],
       plan: {
+        name: "Mass 3",
         category: "Mass",
         costPerMeal: 200,
         mealsPerDay: 3,
@@ -44,22 +49,9 @@ describe("The <CustomerRow> component", () => {
       </Grommet>
     );
 
-    const nameSelector = document.querySelector("input[name='name']") as
-      | HTMLInputElement
-      | undefined;
+    const cells = document.querySelectorAll("th");
+    const first = cells.item(0);
 
-    expect(nameSelector?.value).toEqual("Ben");
-
-    const emailSelector = document.querySelector("input[name='email']") as
-      | HTMLInputElement
-      | undefined;
-
-    expect(emailSelector?.value).toEqual("a@b.c");
-
-    const daysPerWeekSelector = document.querySelector(
-      "input[name='daysPerWeek']"
-    ) as HTMLInputElement | undefined;
-
-    expect(daysPerWeekSelector?.value).toEqual("5");
+    expect(first).toHaveTextContent("Mr Ben Wainwright");
   });
 });

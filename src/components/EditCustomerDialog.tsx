@@ -32,6 +32,10 @@ interface EditCustomerDialogProps {
   onCancel: () => void;
 }
 
+const SelectButton = styled(Button)`
+  padding: 11px;
+`;
+
 const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
   const [customer, setCustomer] = React.useState(props.customer);
   const [exclusions, setExclusions] = React.useState<Exclusion[]>(
@@ -49,10 +53,6 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
     }
     return (): void => exclusionsStore.removeChangeListener(onChangeExclusions);
   }, []);
-
-  const SelectButton = styled(Button)`
-    padding: 11px;
-  `;
 
   return props?.show ? (
     <Layer>
