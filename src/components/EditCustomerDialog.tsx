@@ -151,7 +151,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
                     name="breakfast"
                     options={["Yes", "No"]}
                     valueLabel={
-                      <SelectButton name="breakfast">
+                      <SelectButton aria-label="breakfast">
                         {customer.breakfast ? "Yes" : "No"}
                       </SelectButton>
                     }
