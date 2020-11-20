@@ -16,15 +16,39 @@ describe("The planner", () => {
     cy.createRecipe("Soup", "A lovely rich soup", ["Milk"]);
     cy.createRecipe("Pasta", "Beautiful Italian pasta", ["Milk", "Nuts"]);
 
-    cy.createCustomer("Fred", "a@b.c", 5, "Mass 1", []);
-    cy.createCustomer("Alice", "a@b.c", 6, "Micro 2", ["Nuts"]);
-    cy.createCustomer("James", "a@b.c", 5, "Micro 2", []);
-    cy.createCustomer("Mark", "a@b.c", 6, "Ultra-Micro 2", ["Fish"]);
-    cy.createCustomer("Michael", "a@b.c", 6, "EQ 2", []);
-    cy.createCustomer("Stewart", "a@b.c", 6, "EQ 2", []);
-    cy.createCustomer("Leon", "a@b.c", 6, "EQ 2", ["Celery", "Pork"]);
-    cy.createCustomer("Michelle", "a@b.c", 6, "EQ 2", []);
-    cy.createCustomer("Mary", "a@b.c", 6, "Mass 2", ["Nuts"]);
+    cy.createCustomer(
+      "Mr",
+      "Ben",
+      "Wainwright",
+      1,
+      "bwainwright28@gmail.com",
+      "Mass 3",
+      5,
+      "Large",
+      true,
+      "Somewhere",
+      [],
+      "Some notes",
+      4,
+      "0123456789"
+    );
+
+    cy.createCustomer(
+      "Mrs",
+      "Alice",
+      "Springs",
+      1,
+      "a@b.c",
+      "Micro 1",
+      6,
+      "Standard",
+      false,
+      "I live in an an attic",
+      [],
+      "More notes",
+      4,
+      "1232342342"
+    );
 
     cy.get("Header").contains("Planner").click({ force: true });
     cy.get("input[name='selectDay']").click({ force: true });

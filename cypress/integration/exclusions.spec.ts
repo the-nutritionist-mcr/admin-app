@@ -62,15 +62,22 @@ describe("The exclusions page", () => {
     cy.createExclusion("Fish", true);
 
     cy.createCustomer(
-      "Ben Wainwright",
+      "Mr",
+      "Ben",
+      "Wainwright",
+      1,
       "bwainwright28@gmail.com",
+      "Mass 3",
       5,
-      "Mass 1",
-      ["Nuts", "Fish"]
+      "Large",
+      true,
+      "Somewhere",
+      ["Nuts", "Fish"],
+      "Some notes",
+      4,
+      "0123456789"
     );
 
-    cy.get("tbody")
-      .find("input[name='exclusions']")
-      .should("have.value", "Nuts, Fish");
+    cy.get("tbody").find("tr").contains("Nuts, Fish");
   });
 });
