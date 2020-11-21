@@ -108,6 +108,7 @@
   },
   "eslintConfig": {
     "ignorePatterns": [
+      "src/generated",
       "src/aws-exports.js",
       "coverage",
       "build"

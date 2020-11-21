@@ -1,0 +1,18 @@
+projects:
+  tnmadminapi:
+    schemaPath: amplify/backend/api/tnmadminapi/build/schema.graphql
+    includes:
+      - src/generated/amplify/**/*.ts
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: typescript
+        generatedFileName: src/generated/amplify/API.ts
+        docsFilePath: src/graphql
+        region: us-east-1
+        apiId: null
+        maxDepth: 2
+extensions:
+  amplify:
+    version: 3

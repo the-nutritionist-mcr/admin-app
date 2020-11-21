@@ -1,6 +1,6 @@
 {
   "api": {
-    "tnmAdminApi": {
+    "tnmadmin": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
