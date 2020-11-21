@@ -9,8 +9,8 @@ import {
   TableRow,
   Text,
 } from "grommet";
+import { Customer, CustomerExclusion } from "../models";
 import { daysPerWeekOptions, plans } from "../lib/config";
-import { Customer } from "../models";
 import CustomerRow from "../components/CustomerRow";
 import { DataStore } from "@aws-amplify/datastore";
 
@@ -64,8 +64,34 @@ const Customers: React.FC = () => {
               })
             }
             show={showCreateCustomer}
-            onOk={async (customer: Customer): Promise<void> => {
-              await DataStore.save(customer);
+            onOk={async (customer): Promise<void> => {
+              const newCustomer = new Customer({
+                ...customer,
+                exclusions: [],
+              });
+
+              try {
+                await DataStore.save(newCustomer);
+                await Promise.all(
+                  customer.exclusions.map(
+                    async (exclusion): Promise<void> => {
+                      if (exclusion) {
+                        await DataStore.save(exclusion);
+                        await DataStore.save(
+                          new CustomerExclusion({
+                            customer: newCustomer,
+                            exclusion,
+                          })
+                        );
+                      }
+                    }
+                  )
+                );
+              } catch (error) {
+                // eslint-disable-next-line no-console
+                console.log(error);
+              }
+
               setShowCreateCustomer(false);
             }}
             onCancel={(): void => {

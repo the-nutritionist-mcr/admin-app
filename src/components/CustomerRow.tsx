@@ -1,6 +1,6 @@
 import { Box, Button, TableCell, TableRow } from "grommet";
+import { Customer, CustomerExclusion, Exclusion } from "../models";
 import { Edit, Pause, Trash } from "grommet-icons";
-import { Customer } from "../models";
 import { DataStore } from "@aws-amplify/datastore";
 import EditCustomerDialog from "./EditCustomerDialog";
 import OkCancelDialog from "./OkCancelDialog";
@@ -28,6 +28,29 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showPause, setShowPause] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
+  const [customerExclusions, setCustomerExclusions] = React.useState<
+    (Exclusion | undefined)[]
+  >([]);
+
+  const loadCustomerExclusions = async (): Promise<void> => {
+    const newCustomerExclusions = (
+      await DataStore.query(CustomerExclusion)
+    ).filter(
+      (customerExclusion) =>
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        customerExclusion.customer!.id === props.customer.id
+    );
+
+    setCustomerExclusions(
+      newCustomerExclusions
+        .map((customerExclusion) => customerExclusion.exclusion)
+        .filter(Boolean)
+    );
+  };
+
+  React.useEffect(() => {
+    loadCustomerExclusions();
+  }, []);
 
   return (
     <TableRow>
@@ -62,9 +85,10 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
       </TableCell>
 
       <TableCell>
-        {props.customer.exclusions.length > 0
-          ? props.customer.exclusions
-              .map((exclusion) => exclusion.exclusion?.name)
+        {customerExclusions.length > 0
+          ? customerExclusions
+              .filter(Boolean)
+              .map((exclusion) => exclusion?.name ?? "")
               .join(", ")
           : "None"}
       </TableCell>
@@ -104,18 +128,67 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
               setShowPause(false);
             }}
           />
-          <EditCustomerDialog
-            title="Edit Customer"
-            customer={props.customer}
-            show={showEdit}
-            onOk={async (customer: Customer): Promise<void> => {
-              await DataStore.save(customer);
-              setShowEdit(false);
-            }}
-            onCancel={(): void => {
-              setShowEdit(false);
-            }}
-          />
+          {showEdit && (
+            <EditCustomerDialog
+              title="Edit Customer"
+              customer={props.customer}
+              show={showEdit}
+              onOk={async (customer): Promise<void> => {
+                const newCustomer = Customer.copyOf(props.customer, (draft) => {
+                  draft.firstName = customer.firstName;
+                  draft.surname = customer.surname;
+                  draft.salutation = customer.salutation;
+                  draft.address = customer.address;
+                  draft.telephone = customer.telephone;
+                  draft.startDate = customer.startDate;
+                  draft.paymentDateOfMonth = customer.paymentDateOfMonth;
+                  draft.notes = customer.notes;
+                  draft.email = customer.email;
+                  draft.pauseStart = customer.pauseStart;
+                  draft.pauseEnd = customer.pauseEnd;
+                  draft.daysPerWeek = customer.daysPerWeek;
+                  draft.plan = customer.plan;
+                  draft.legacyPrice = customer.legacyPrice;
+                  draft.snack = customer.snack;
+                  draft.breakfast = customer.breakfast;
+                });
+
+                await DataStore.save(newCustomer);
+
+                const existingExclusions = (
+                  await DataStore.query(CustomerExclusion)
+                ).filter(
+                  (existingExclusion) =>
+                    existingExclusion.customer?.id === newCustomer.id
+                );
+                await Promise.all(
+                  existingExclusions.map(async (exclusion) =>
+                    DataStore.delete(exclusion)
+                  )
+                );
+                await Promise.all(
+                  customer.exclusions.map(
+                    async (exclusion): Promise<void> => {
+                      if (exclusion) {
+                        await DataStore.save(exclusion);
+                        await DataStore.save(
+                          new CustomerExclusion({
+                            customer: newCustomer,
+                            exclusion,
+                          })
+                        );
+                      }
+                    }
+                  )
+                );
+
+                setShowEdit(false);
+              }}
+              onCancel={(): void => {
+                setShowEdit(false);
+              }}
+            />
+          )}
 
           <Button
             secondary

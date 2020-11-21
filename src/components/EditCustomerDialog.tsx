@@ -16,17 +16,21 @@ import {
   ThemeContext,
 } from "grommet";
 import { Checkmark, Close } from "grommet-icons";
-import { Customer, Exclusion } from "../models";
+import { Customer, CustomerExclusion, Exclusion } from "../models";
 import { daysPerWeekOptions, plans } from "../lib/config";
 import { DataStore } from "@aws-amplify/datastore";
 import React from "react";
 import { Snack } from "../domain/Customer";
 import styled from "styled-components";
 
+interface SimpleCustomer extends Omit<Customer, "exclusions" | "id"> {
+  exclusions: (Exclusion | undefined)[];
+}
+
 interface EditCustomerDialogProps {
   customer: Customer;
   show?: boolean;
-  onOk: (newCustomer: Customer) => void;
+  onOk: (newCustomer: SimpleCustomer) => void;
   title: string;
   onCancel: () => void;
 }
@@ -36,7 +40,14 @@ const SelectButton = styled.div`
 `;
 
 const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
-  const [customer, setCustomer] = React.useState(props.customer);
+  const safeCustomer: SimpleCustomer = {
+    ...props.customer,
+    exclusions: props.customer.exclusions.map(
+      (exclusion) => exclusion.exclusion
+    ),
+  };
+
+  const [customer, setCustomer] = React.useState(safeCustomer);
   const [exclusions, setExclusions] = React.useState<Exclusion[]>([]);
 
   const loadExclusions = async (): Promise<void> => {
@@ -44,8 +55,26 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
     setExclusions([...newExclusions]);
   };
 
+  const loadCustomerExclusions = async (): Promise<void> => {
+    const newCustomerExclusions = (
+      await DataStore.query(CustomerExclusion)
+    ).filter(
+      (customerExclusion) =>
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        customerExclusion.customer!.id === props.customer.id
+    );
+
+    setCustomer({
+      ...customer,
+      exclusions: newCustomerExclusions.map(
+        (customerExclusion) => customerExclusion.exclusion
+      ),
+    });
+  };
+
   React.useEffect(() => {
     const subscription = DataStore.observe(Exclusion).subscribe(loadExclusions);
+    loadCustomerExclusions();
     loadExclusions();
     return (): void => subscription.unsubscribe();
   }, []);
@@ -56,31 +85,14 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
         <Form
           value={customer}
           onReset={(): void => {
-            setCustomer(props.customer);
+            setCustomer(safeCustomer);
           }}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onChange={(nextCustomerData: any): void => {
-            const newCustomer = Customer.copyOf(customer, (draft) => {
-              draft.firstName = nextCustomerData.firstName;
-              draft.surname = nextCustomerData.surname;
-              draft.salutation = nextCustomerData.salutation;
-              draft.address = nextCustomerData.address;
-              draft.telephone = nextCustomerData.telephone;
-              draft.startDate = nextCustomerData.startDate;
-              draft.paymentDateOfMonth = nextCustomerData.paymentDateOfMonth;
-              draft.notes = nextCustomerData.notes;
-              draft.email = nextCustomerData.email;
-              draft.pauseStart = nextCustomerData.pauseStart;
-              draft.pauseEnd = nextCustomerData.pauseEnd;
-              draft.daysPerWeek = nextCustomerData.daysPerWeek;
-              draft.plan = nextCustomerData.plan;
-              draft.legacyPrice = nextCustomerData.legacyPrice;
-              draft.snack = nextCustomerData.snack;
-              draft.breakfast = nextCustomerData.breakfast === "Yes";
-              draft.exclusions = [];
+            setCustomer({
+              ...nextCustomerData,
+              breakfast: nextCustomerData === "Yes",
             });
-
-            setCustomer(newCustomer);
           }}
           onSubmit={(): void => {
             props.onOk(customer);
