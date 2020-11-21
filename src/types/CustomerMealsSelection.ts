@@ -1,5 +1,4 @@
-import Customer from "../domain/Customer";
-import Recipe from "../domain/Recipe";
+import { Customer, Recipe } from "../models";
 
 type CustomerMealsSelection = { customer: Customer; meals: Recipe[] }[];
 

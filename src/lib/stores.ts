@@ -1,7 +1,7 @@
 import ActionType from "../types/ActionType";
 import Customer from "../domain/Customer";
 import Exclusion from "../domain/Exclusion";
-import Recipe from "../domain/Recipe";
+import { Recipe } from "../models";
 import Store from "./Store";
 import appDispatcher from "../appDispatcher";
 

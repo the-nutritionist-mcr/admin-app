@@ -1,4 +1,5 @@
-import Customer, { Snack } from "../domain/Customer";
+import { Customer } from "../models";
+import { Snack } from "../domain/Customer";
 
 const getExtrasString = (customer: Customer): string => {
   const returnVal = [];

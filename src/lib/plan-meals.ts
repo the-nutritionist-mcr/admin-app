@@ -1,9 +1,8 @@
+import { Customer, Recipe } from "../models";
 import CookPlan from "../types/CookPlan";
-import Customer from "../domain/Customer";
 import CustomerMealsSelection from "../types/CustomerMealsSelection";
 import DeliveryDay from "../types/DeliveryDay";
 import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
-import Recipe from "../domain/Recipe";
 import isActive from "./isActive";
 
 /* eslint-disable @typescript-eslint/no-magic-numbers */
@@ -61,7 +60,8 @@ export const createVariantString = (
 
   return matchingExclusions.length > 0
     ? `${customer.plan.category} without ${matchingExclusions
-        .map((exclusion) => exclusion.name)
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        .map((exclusion) => exclusion.exclusion!.name)
         .join(", ")}`
     : `${customer.plan.category}`;
 };

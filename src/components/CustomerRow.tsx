@@ -1,7 +1,7 @@
 import { Box, Button, TableCell, TableRow } from "grommet";
 import { Edit, Pause, Trash } from "grommet-icons";
-import { deleteCustomer, updateCustomer } from "../actions/customers";
-import Customer from "../domain/Customer";
+import { Customer } from "../models";
+import { DataStore } from "@aws-amplify/datastore";
 import EditCustomerDialog from "./EditCustomerDialog";
 import OkCancelDialog from "./OkCancelDialog";
 import PauseDialog from "./PauseDialog";
@@ -15,7 +15,7 @@ const PENCE_IN_POUND = 100;
 
 interface CustomerRowProps {
   customer: Customer;
-  onChange: (oldCustomer: Customer, newCustomer: Customer) => void;
+  onChange: (newCustomer: Customer) => void;
 }
 
 const pricePerWeek = (customer: Customer): number =>
@@ -64,7 +64,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
       <TableCell>
         {props.customer.exclusions.length > 0
           ? props.customer.exclusions
-              .map((exclusion) => exclusion.name)
+              .map((exclusion) => exclusion.exclusion?.name)
               .join(", ")
           : "None"}
       </TableCell>
@@ -79,8 +79,8 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
           <OkCancelDialog
             show={showDoDelete}
             header="Are you sure?"
-            onOk={(): void => {
-              deleteCustomer(props.customer);
+            onOk={async (): Promise<void> => {
+              await DataStore.delete(props.customer);
               setShowDoDelete(false);
             }}
             onCancel={(): void => setShowDoDelete(false)}
@@ -99,8 +99,8 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
             onCancel={(): void => {
               setShowPause(false);
             }}
-            onOk={(newCustomer: Customer): void => {
-              updateCustomer(props.customer, newCustomer);
+            onOk={async (newCustomer: Customer): Promise<void> => {
+              await DataStore.save(newCustomer);
               setShowPause(false);
             }}
           />
@@ -108,8 +108,8 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
             title="Edit Customer"
             customer={props.customer}
             show={showEdit}
-            onOk={(customer: Customer): void => {
-              updateCustomer(props.customer, customer);
+            onOk={async (customer: Customer): Promise<void> => {
+              await DataStore.save(customer);
               setShowEdit(false);
             }}
             onCancel={(): void => {

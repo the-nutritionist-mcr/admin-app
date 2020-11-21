@@ -1,17 +1,14 @@
-import { Button, TableCell, TableRow } from "grommet";
-
-import Exclusion from "../domain/Exclusion";
+import { Button, CheckBox, TableCell, TableRow } from "grommet";
+import { DataStore } from "@aws-amplify/datastore";
+import { Exclusion } from "../models";
 import OkCancelDialog from "./OkCancelDialog";
 import React from "react";
-import TableCellCheckbox from "./TableCellCheckbox";
-import TableCellInputField from "./TableCellInputField";
+import SimpleTableCellInputField from "./SimpleTableCellInputField";
 import { Trash } from "grommet-icons";
-
-import { deleteExclusion } from "../actions/exclusions";
 
 interface ExclusionRowProps {
   exclusion: Exclusion;
-  onChange: (oldExclusion: Exclusion, newExclusion: Exclusion) => void;
+  onChange: (newExclusion: Exclusion) => void;
 }
 
 const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
@@ -19,25 +16,27 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
   return (
     <TableRow>
       <TableCell scope="row">
-        <TableCellInputField
+        <SimpleTableCellInputField
           name="name"
-          thing={props.exclusion}
-          mutator={(newExclusion, event): void => {
-            newExclusion.name = event.target.value;
-          }}
           value={props.exclusion.name}
-          onChange={props.onChange}
+          onChange={(event): void => {
+            const newExclusion = Exclusion.copyOf(props.exclusion, (draft) => {
+              draft.name = event.target.value;
+            });
+            props.onChange(newExclusion);
+          }}
         />
       </TableCell>
       <TableCell scope="row">
-        <TableCellCheckbox
+        <CheckBox
           name="allergen"
-          thing={props.exclusion}
-          mutator={(newExclusion, event): void => {
-            newExclusion.allergen = event.target.checked;
+          onChange={(event): void => {
+            const newExclusion = Exclusion.copyOf(props.exclusion, (draft) => {
+              draft.allergen = event.target.checked;
+            });
+            props.onChange(newExclusion);
           }}
           checked={props.exclusion.allergen}
-          onChange={props.onChange}
         />
       </TableCell>
       <TableCell scope="row">
@@ -50,8 +49,8 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
         <OkCancelDialog
           show={showDoDelete}
           header="Are you sure?"
-          onOk={(): void => {
-            deleteExclusion(props.exclusion);
+          onOk={async (): Promise<void> => {
+            await DataStore.delete(props.exclusion);
             setShowDoDelete(false);
           }}
           onCancel={(): void => setShowDoDelete(false)}

@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export const schema = {
   models: {
     Exclusion: {
@@ -436,4 +435,3 @@ export const schema = {
   },
   version: "0e73d07bd9a44c1ff32bc47f5551b689",
 };
-/* eslint-enable import/prefer-default-export */

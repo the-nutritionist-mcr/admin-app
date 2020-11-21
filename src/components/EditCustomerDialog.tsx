@@ -16,12 +16,11 @@ import {
   ThemeContext,
 } from "grommet";
 import { Checkmark, Close } from "grommet-icons";
-import Customer, { Snack } from "../domain/Customer";
+import { Customer, Exclusion } from "../models";
 import { daysPerWeekOptions, plans } from "../lib/config";
-import Exclusion from "../domain/Exclusion";
+import { DataStore } from "@aws-amplify/datastore";
 import React from "react";
-import { exclusionsStore } from "../lib/stores";
-import { getExclusions } from "../actions/exclusions";
+import { Snack } from "../domain/Customer";
 import styled from "styled-components";
 
 interface EditCustomerDialogProps {
@@ -38,20 +37,17 @@ const SelectButton = styled.div`
 
 const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
   const [customer, setCustomer] = React.useState(props.customer);
-  const [exclusions, setExclusions] = React.useState<Exclusion[]>(
-    exclusionsStore.getAll()
-  );
+  const [exclusions, setExclusions] = React.useState<Exclusion[]>([]);
 
-  const onChangeExclusions = (): void => {
-    setExclusions([...exclusionsStore.getAll()]);
+  const loadExclusions = async (): Promise<void> => {
+    const newExclusions = await DataStore.query(Exclusion);
+    setExclusions([...newExclusions]);
   };
 
   React.useEffect(() => {
-    exclusionsStore.addChangeListener(onChangeExclusions);
-    if (exclusionsStore.getAll().length === 0) {
-      getExclusions();
-    }
-    return (): void => exclusionsStore.removeChangeListener(onChangeExclusions);
+    const subscription = DataStore.observe(Exclusion).subscribe(loadExclusions);
+    loadExclusions();
+    return (): void => subscription.unsubscribe();
   }, []);
 
   return props?.show ? (
@@ -64,15 +60,27 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
           }}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onChange={(nextCustomerData: any): void => {
-            const nextCustomer = {
-              ...nextCustomerData,
-              breakfast: nextCustomerData.breakfast === "Yes",
-              startDate:
-                nextCustomerData.startDate &&
-                new Date(nextCustomerData.startDate),
-            } as Customer;
+            const newCustomer = Customer.copyOf(customer, (draft) => {
+              draft.firstName = nextCustomerData.firstName;
+              draft.surname = nextCustomerData.surname;
+              draft.salutation = nextCustomerData.salutation;
+              draft.address = nextCustomerData.address;
+              draft.telephone = nextCustomerData.telephone;
+              draft.startDate = nextCustomerData.startDate;
+              draft.paymentDateOfMonth = nextCustomerData.paymentDateOfMonth;
+              draft.notes = nextCustomerData.notes;
+              draft.email = nextCustomerData.email;
+              draft.pauseStart = nextCustomerData.pauseStart;
+              draft.pauseEnd = nextCustomerData.pauseEnd;
+              draft.daysPerWeek = nextCustomerData.daysPerWeek;
+              draft.plan = nextCustomerData.plan;
+              draft.legacyPrice = nextCustomerData.legacyPrice;
+              draft.snack = nextCustomerData.snack;
+              draft.breakfast = nextCustomerData.breakfast === "Yes";
+              draft.exclusions = [];
+            });
 
-            setCustomer(nextCustomer);
+            setCustomer(newCustomer);
           }}
           onSubmit={(): void => {
             props.onOk(customer);

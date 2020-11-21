@@ -1,12 +1,11 @@
 import dispatcher, { DispatchPayload } from "../appDispatcher";
 import ActionType from "../types/ActionType";
-import { LOCALSTORAGE_KEY_RECIPES } from "../lib/constants";
-import Recipe from "../domain/Recipe";
+import { DataStore } from "@aws-amplify/datastore";
+import { Recipe } from "../models";
 
-export const getRecipes = (): void => {
-  const recipes: Recipe[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) ?? "[]"
-  );
+// eslint-disable-next-line  import/prefer-default-export
+export const getRecipes = async (): Promise<void> => {
+  const recipes = await DataStore.query(Recipe);
 
   const payload: DispatchPayload = {
     actionType: ActionType.GetRecipes,
@@ -16,63 +15,52 @@ export const getRecipes = (): void => {
   dispatcher.dispatch(payload);
 };
 
-export const createBlankRecipe = (): void => {
-  const recipes: Recipe[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) ?? "[]"
-  );
+// eslint-disable-next-line capitalized-comments
+// export const createBlankRecipe = async (): Promise<void> => {
+//   const recipe = new AwsRecipe({
+//     name: "",
+//     description: "",
+//     potentialExclusions: [],
+//   });
 
-  const blankRecipe: Recipe = {
-    id: recipes.length > 0 ? recipes[recipes.length - 1].id + 1 : 1,
-    name: "",
-    description: "",
-    potentialExclusions: [],
-  };
+//   await DataStore.save(recipe);
+//   await getRecipes();
+// };
 
-  const payload: DispatchPayload = {
-    actionType: ActionType.CreateBlankRecipe,
-    data: recipes,
-  };
+// export const updateRecipe = (oldRecipe: Recipe, recipe: Recipe): void => {
+//   const recipes: Recipe[] = JSON.parse(
+//     localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) ?? "[]"
+//   );
 
-  recipes.push(blankRecipe);
+//   const index = recipes.findIndex(
+//     (searchedRecipe) => searchedRecipe.id === oldRecipe.id
+//   );
+//   recipes[index] = recipe;
 
-  localStorage.setItem(LOCALSTORAGE_KEY_RECIPES, JSON.stringify(recipes));
-  dispatcher.dispatch(payload);
-};
+//   localStorage.setItem(LOCALSTORAGE_KEY_RECIPES, JSON.stringify(recipes));
 
-export const updateRecipe = (oldRecipe: Recipe, recipe: Recipe): void => {
-  const recipes: Recipe[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) ?? "[]"
-  );
+//   const payload: DispatchPayload = {
+//     actionType: ActionType.UpdateRecipe,
+//     data: recipes,
+//   };
 
-  const index = recipes.findIndex(
-    (searchedRecipe) => searchedRecipe.id === oldRecipe.id
-  );
-  recipes[index] = recipe;
+//   dispatcher.dispatch(payload);
+// };
 
-  localStorage.setItem(LOCALSTORAGE_KEY_RECIPES, JSON.stringify(recipes));
+// export const deleteRecipe = (recipe: Recipe): void => {
+//   // eslint-disable-next-line fp/no-let
+//   let recipes: Recipe[] = JSON.parse(
+//     localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) ?? "[]"
+//   );
 
-  const payload: DispatchPayload = {
-    actionType: ActionType.UpdateRecipe,
-    data: recipes,
-  };
+//   recipes = recipes.filter((searchedRecipe) => searchedRecipe.id !== recipe.id);
 
-  dispatcher.dispatch(payload);
-};
+//   localStorage.setItem(LOCALSTORAGE_KEY_RECIPES, JSON.stringify(recipes));
 
-export const deleteRecipe = (recipe: Recipe): void => {
-  // eslint-disable-next-line fp/no-let
-  let recipes: Recipe[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY_RECIPES) ?? "[]"
-  );
+//   const payload: DispatchPayload = {
+//     actionType: ActionType.DeleteRecipe,
+//     data: recipes,
+//   };
 
-  recipes = recipes.filter((searchedRecipe) => searchedRecipe.id !== recipe.id);
-
-  localStorage.setItem(LOCALSTORAGE_KEY_RECIPES, JSON.stringify(recipes));
-
-  const payload: DispatchPayload = {
-    actionType: ActionType.DeleteRecipe,
-    data: recipes,
-  };
-
-  dispatcher.dispatch(payload);
-};
+//   dispatcher.dispatch(payload);
+// };

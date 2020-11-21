@@ -1,5 +1,5 @@
 import { Box, Button, Calendar, Paragraph, Text } from "grommet";
-import Customer from "../domain/Customer";
+import { Customer } from "../models";
 import OkCancelDialog from "./OkCancelDialog";
 import React from "react";
 import calendarFormat from "../lib/calendarFormat";
@@ -14,10 +14,10 @@ interface PauseDialogProps {
 
 const PauseDialog: React.FC<PauseDialogProps> = (props) => {
   const [pauseStart, setPauseStart] = React.useState<string | undefined>(
-    props.customer.pauseStart?.toISOString()
+    props.customer.pauseStart
   );
   const [pauseEnd, setPauseEnd] = React.useState<string | undefined>(
-    props.customer.pauseEnd?.toISOString()
+    props.customer.pauseEnd
   );
 
   const friendlyStart = pauseStart
@@ -33,11 +33,10 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
       show={props.show}
       header="Add Pause"
       onOk={(): void => {
-        const newCustomer = {
-          ...props.customer,
-          pauseStart: pauseStart ? new Date(pauseStart) : undefined,
-          pauseEnd: pauseEnd ? new Date(pauseEnd) : undefined,
-        };
+        const newCustomer = Customer.copyOf(props.customer, (draft) => {
+          draft.pauseStart = pauseStart;
+          draft.pauseEnd = pauseEnd;
+        });
         props.onOk(newCustomer);
       }}
       extraFooterItems={

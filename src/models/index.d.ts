@@ -1,34 +1,36 @@
-/* eslint-disable max-classes-per-file */
-/* eslint-disable import/prefer-default-export */
-import { ModelInit, MutableModel } from "@aws-amplify/datastore";
+import {
+  ModelInit,
+  MutableModel,
+  PersistentModelConstructor,
+} from "@aws-amplify/datastore";
 
 export declare class Plan {
-  public readonly name: string;
-  public readonly mealsPerDay: number;
-  public readonly costPerMeal: number;
-  public readonly category: string;
-  public constructor(init: ModelInit<Plan>);
+  readonly name: string;
+  readonly mealsPerDay: number;
+  readonly costPerMeal: number;
+  readonly category: string;
+  constructor(init: ModelInit<Plan>);
 }
 
 export declare class Exclusion {
-  public readonly id: string;
-  public readonly name: string;
-  public readonly allergen: boolean;
-  public readonly customers: CustomerExclusion[];
-  public readonly recipes: RecipeExclusion[];
-  public constructor(init: ModelInit<Exclusion>);
-  public static copyOf(
+  readonly id: string;
+  readonly name: string;
+  readonly allergen: boolean;
+  readonly customers: CustomerExclusion[];
+  readonly recipes: RecipeExclusion[];
+  constructor(init: ModelInit<Exclusion>);
+  static copyOf(
     source: Exclusion,
     mutator: (draft: MutableModel<Exclusion>) => MutableModel<Exclusion> | void
   ): Exclusion;
 }
 
 export declare class CustomerExclusion {
-  public readonly id: string;
-  public readonly exclusion?: Exclusion;
-  public readonly customer?: Customer;
-  public constructor(init: ModelInit<CustomerExclusion>);
-  public static copyOf(
+  readonly id: string;
+  readonly exclusion?: Exclusion;
+  readonly customer?: Customer;
+  constructor(init: ModelInit<CustomerExclusion>);
+  static copyOf(
     source: CustomerExclusion,
     mutator: (
       draft: MutableModel<CustomerExclusion>
@@ -37,39 +39,39 @@ export declare class CustomerExclusion {
 }
 
 export declare class Customer {
-  public readonly id: string;
-  public readonly firstName: string;
-  public readonly surname: string;
-  public readonly salutation: string;
-  public readonly address: string;
-  public readonly telephone: string;
-  public readonly startDate?: string;
-  public readonly paymentDateOfMonth?: number;
-  public readonly notes?: string;
-  public readonly email: string;
-  public readonly pauseStart?: string;
-  public readonly pauseEnd?: string;
-  public readonly daysPerWeek: number;
-  public readonly plan: Plan;
-  public readonly legacyPrice?: number;
-  public readonly snack: string;
-  public readonly breakfast: boolean;
-  public readonly exclusions: CustomerExclusion[];
-  public constructor(init: ModelInit<Customer>);
-  public static copyOf(
+  readonly id: string;
+  readonly firstName: string;
+  readonly surname: string;
+  readonly salutation: string;
+  readonly address: string;
+  readonly telephone: string;
+  readonly startDate?: string;
+  readonly paymentDateOfMonth?: number;
+  readonly notes?: string;
+  readonly email: string;
+  readonly pauseStart?: string;
+  readonly pauseEnd?: string;
+  readonly daysPerWeek: number;
+  readonly plan: Plan;
+  readonly legacyPrice?: number;
+  readonly snack: string;
+  readonly breakfast: boolean;
+  readonly exclusions: CustomerExclusion[];
+  constructor(init: ModelInit<Customer>);
+  static copyOf(
     source: Customer,
     mutator: (draft: MutableModel<Customer>) => MutableModel<Customer> | void
   ): Customer;
 }
 
 export declare class RecipeExclusion {
-  public readonly id: string;
-  public readonly recipeId: string;
-  public readonly exclusion?: Exclusion;
-  public readonly recipe?: Recipe;
-  public readonly recipePotentialExclusionsId?: string;
-  public constructor(init: ModelInit<RecipeExclusion>);
-  public static copyOf(
+  readonly id: string;
+  readonly recipeId: string;
+  readonly exclusion?: Exclusion;
+  readonly recipe?: Recipe;
+  readonly recipePotentialExclusionsId?: string;
+  constructor(init: ModelInit<RecipeExclusion>);
+  static copyOf(
     source: RecipeExclusion,
     mutator: (
       draft: MutableModel<RecipeExclusion>
@@ -78,16 +80,13 @@ export declare class RecipeExclusion {
 }
 
 export declare class Recipe {
-  public readonly id: string;
-  public readonly name: string;
-  public readonly description?: string;
-  public readonly potentialExclusions: RecipeExclusion[];
-  public constructor(init: ModelInit<Recipe>);
-  public static copyOf(
+  readonly id: string;
+  readonly name: string;
+  readonly description?: string;
+  readonly potentialExclusions: RecipeExclusion[];
+  constructor(init: ModelInit<Recipe>);
+  static copyOf(
     source: Recipe,
     mutator: (draft: MutableModel<Recipe>) => MutableModel<Recipe> | void
   ): Recipe;
 }
-
-/* eslint-enable max-classes-per-file */
-/* eslint-enable import/prefer-default-export */

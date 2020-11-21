@@ -1,3 +1,4 @@
+import { Customer, Recipe } from "../models";
 import { Heading, Table, Text } from "grommet";
 
 import {
@@ -7,11 +8,9 @@ import {
   PrintableThead,
 } from "./printable-table";
 
-import Customer from "../domain/Customer";
 import CustomerMealsSelection from "../types/CustomerMealsSelection";
 import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
 import React from "react";
-import Recipe from "../domain/Recipe";
 import { createVariantString } from "../lib/plan-meals";
 import styled from "styled-components";
 

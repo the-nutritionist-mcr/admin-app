@@ -2,7 +2,7 @@ import { DispatchPayload } from "../appDispatcher";
 import { Dispatcher } from "flux";
 import { EventEmitter } from "events";
 
-type IdType = number;
+type IdType = number | string;
 
 const CHANGE_EVENT = "ChangeEvent";
 

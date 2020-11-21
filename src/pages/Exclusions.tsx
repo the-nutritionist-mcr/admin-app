@@ -9,31 +9,22 @@ import {
   TableRow,
   Text,
 } from "grommet";
-import {
-  createBlankExclusion,
-  getExclusions,
-  updateExclusion,
-} from "../actions/exclusions";
-import Exclusion from "../domain/Exclusion";
+import { DataStore } from "@aws-amplify/datastore";
+import { Exclusion } from "../models";
 import ExclusionRow from "../components/ExclusionRow";
 import React from "react";
-import { exclusionsStore } from "../lib/stores";
 
 const Exclusions: React.FC = () => {
-  const [exclusions, setExclusions] = React.useState<Exclusion[]>(
-    exclusionsStore.getAll()
-  );
+  const [exclusions, setExclusions] = React.useState<Exclusion[]>([]);
 
-  const onChangeExclusions = (): void => {
-    setExclusions([...exclusionsStore.getAll()]);
+  const loadExclusions = async (): Promise<void> => {
+    const newExclusions = await DataStore.query(Exclusion);
+    setExclusions([...newExclusions]);
   };
 
   React.useEffect(() => {
-    exclusionsStore.addChangeListener(onChangeExclusions);
-    if (exclusionsStore.getAll().length === 0) {
-      getExclusions();
-    }
-    return (): void => exclusionsStore.removeChangeListener(onChangeExclusions);
+    const subscription = DataStore.observe(Exclusion).subscribe(loadExclusions);
+    return (): void => subscription.unsubscribe();
   }, [exclusions]);
 
   return (
@@ -43,9 +34,17 @@ const Exclusions: React.FC = () => {
         <Button
           primary
           size="small"
-          onClick={createBlankExclusion}
+          onClick={async (): Promise<void> => {
+            const exclusion = new Exclusion({
+              name: "",
+              allergen: false,
+              customers: [],
+              recipes: [],
+            });
+            await DataStore.save(exclusion);
+          }}
           label="New"
-          a11yTitle="New Customer"
+          a11yTitle="New Exclusion"
         />
       </Header>
       {exclusions.length > 0 ? (
@@ -71,7 +70,9 @@ const Exclusions: React.FC = () => {
                 <ExclusionRow
                   key={exclusion.id}
                   exclusion={exclusion}
-                  onChange={updateExclusion}
+                  onChange={(): void => {
+                    // NOOP
+                  }}
                 />
               ))}
           </TableBody>

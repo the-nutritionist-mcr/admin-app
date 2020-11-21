@@ -1,21 +1,18 @@
 import { Box, Button, Heading, Paragraph, Select } from "grommet";
+import { Customer, Recipe } from "../models";
 import {
   LOCALSTORAGE_KEY_DAY,
   LOCALSTORAGE_KEY_PLANNED,
 } from "../lib/constants";
 import { chooseMeals, makePlan } from "../lib/plan-meals";
-import { customerStore, recipeStore } from "../lib/stores";
 
-import Customer from "../domain/Customer";
+import { DataStore } from "@aws-amplify/datastore";
 import DeliveryDay from "../types/DeliveryDay";
 import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
 import React from "react";
-import Recipe from "../domain/Recipe";
 import ToCookTable from "../components/ToCookTable";
 import ToPackTable from "../components/ToPackTable";
 
-import { getCustomers } from "../actions/customers";
-import { getRecipes } from "../actions/recipes";
 import styled from "styled-components";
 import useDeepCompareEffect from "use-deep-compare-effect";
 
@@ -41,7 +38,7 @@ const PrintableBox = styled(Box)`
 `;
 
 const Planner: React.FC = () => {
-  const savedPlanIds: (undefined | number)[] = JSON.parse(
+  const savedPlanIds: (undefined | string)[] = JSON.parse(
     localStorage.getItem(LOCALSTORAGE_KEY_PLANNED) ??
       JSON.stringify(defaultPlans)
   );
@@ -54,36 +51,42 @@ const Planner: React.FC = () => {
     defaultPlans
   );
 
-  const [recipes, setRecipes] = React.useState<Recipe[]>(recipeStore.getAll());
+  const [recipes, setRecipes] = React.useState<Recipe[]>([]);
 
-  const [customers, setCustomers] = React.useState<Customer[]>(
-    customerStore.getAll()
-  );
+  const [customers, setCustomers] = React.useState<Customer[]>([]);
 
   const chosenMeals = chooseMeals(day, planned, customers);
   const cookPlan = makePlan(chosenMeals);
 
-  const onChangeRecipes = (): void => {
-    setRecipes([...recipeStore.getAll()]);
+  const loadCustomers = async (): Promise<void> => {
+    const newCustomers = await DataStore.query(Customer);
+    setCustomers([...newCustomers]);
   };
 
-  const onChangeCustomers = (): void => {
-    setCustomers([...customerStore.getAll()]);
+  const loadRecipes = async (): Promise<void> => {
+    const newRecipes = await DataStore.query(Recipe);
+    setRecipes([...newRecipes]);
   };
 
   useDeepCompareEffect((): (() => void) => {
-    recipeStore.addChangeListener(onChangeRecipes);
-    customerStore.addChangeListener(onChangeCustomers);
-    getRecipes();
-    getCustomers();
-    setPlanned(
-      savedPlanIds.map((id) =>
-        id !== undefined ? recipeStore.getById(id) : undefined
-      )
+    const recipeSubscription = DataStore.observe(Recipe).subscribe(loadRecipes);
+    const customersSubscription = DataStore.observe(Customer).subscribe(
+      loadCustomers
     );
+    loadCustomers();
+    loadRecipes();
+    (async (): Promise<void> => {
+      setPlanned(
+        await Promise.all(
+          savedPlanIds.map((id) =>
+            id !== undefined ? DataStore.query(Recipe, id) : undefined
+          )
+        )
+      );
+    })();
     return (): void => {
-      recipeStore.removeChangeListener(onChangeRecipes);
-      customerStore.removeChangeListener(onChangeCustomers);
+      recipeSubscription.unsubscribe();
+      customersSubscription.unsubscribe();
     };
   }, [savedPlanIds]);
 

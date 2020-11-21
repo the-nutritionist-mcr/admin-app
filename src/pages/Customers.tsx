@@ -9,34 +9,28 @@ import {
   TableRow,
   Text,
 } from "grommet";
-import Customer, { Snack } from "../domain/Customer";
-import {
-  createNewCustomer,
-  getCustomers,
-  updateCustomer,
-} from "../actions/customers";
 import { daysPerWeekOptions, plans } from "../lib/config";
-
+import { Customer } from "../models";
 import CustomerRow from "../components/CustomerRow";
+import { DataStore } from "@aws-amplify/datastore";
+
 import EditCustomerDialog from "../components/EditCustomerDialog";
 import React from "react";
-import { customerStore } from "../lib/stores";
 
 const Customers: React.FC = () => {
-  const [customers, setCustomers] = React.useState<Customer[]>(
-    customerStore.getAll()
-  );
+  const [customers, setCustomers] = React.useState<Customer[]>([]);
 
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
 
-  const onChangeCustomers = (): void => {
-    setCustomers([...customerStore.getAll()]);
+  const loadCustomers = async (): Promise<void> => {
+    const newCustomers = await DataStore.query(Customer);
+    setCustomers([...newCustomers]);
   };
 
   React.useEffect(() => {
-    customerStore.addChangeListener(onChangeCustomers);
-    getCustomers();
-    return (): void => customerStore.removeChangeListener(onChangeCustomers);
+    const subscription = DataStore.observe(Customer).subscribe(loadCustomers);
+    loadCustomers();
+    return (): void => subscription.unsubscribe();
   }, []);
 
   return (
@@ -53,24 +47,25 @@ const Customers: React.FC = () => {
         {showCreateCustomer && (
           <EditCustomerDialog
             title="Create New Customer"
-            customer={{
-              id: 0,
-              firstName: "",
-              surname: "",
-              salutation: "",
-              telephone: "",
-              address: "",
-              notes: "",
-              email: "",
-              daysPerWeek: daysPerWeekOptions[0],
-              plan: plans[0],
-              snack: Snack.None,
-              breakfast: false,
-              exclusions: [],
-            }}
+            customer={
+              new Customer({
+                firstName: "",
+                surname: "",
+                salutation: "",
+                telephone: "",
+                address: "",
+                notes: "",
+                email: "",
+                daysPerWeek: daysPerWeekOptions[0],
+                plan: plans[0],
+                snack: "None",
+                breakfast: false,
+                exclusions: [],
+              })
+            }
             show={showCreateCustomer}
-            onOk={(customer: Customer): void => {
-              createNewCustomer(customer);
+            onOk={async (customer: Customer): Promise<void> => {
+              await DataStore.save(customer);
               setShowCreateCustomer(false);
             }}
             onCancel={(): void => {
@@ -120,7 +115,9 @@ const Customers: React.FC = () => {
                 <CustomerRow
                   key={customer.id}
                   customer={customer}
-                  onChange={updateCustomer}
+                  onChange={async (newCustomer: Customer): Promise<void> => {
+                    await DataStore.save(newCustomer);
+                  }}
                 />
               ))}
           </TableBody>

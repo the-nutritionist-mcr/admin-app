@@ -1,10 +1,10 @@
 import * as planMeals from "./plan-meals";
 
-import Customer, { Snack } from "../domain/Customer";
+import { Customer, Recipe } from "../models";
 import CustomerMealsSelection from "../types/CustomerMealsSelection";
 import DeliveryDay from "../types/DeliveryDay";
 import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
-import Recipe from "../domain/Recipe";
+import { Snack } from "../domain/Customer";
 import { mock as mockExtended } from "jest-mock-extended";
 
 describe("chooseMeals", () => {

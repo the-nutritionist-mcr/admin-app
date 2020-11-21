@@ -10,14 +10,11 @@ import {
   Text,
 } from "grommet";
 
-import {
-  createBlankRecipe,
-  getRecipes,
-  updateRecipe,
-} from "../actions/recipes";
 import React from "react";
-import Recipe from "../domain/Recipe";
+import { Recipe } from "../models";
 import RecipesRow from "../components/RecipesRow";
+
+import { getRecipes } from "../actions/recipes";
 import { recipeStore } from "../lib/stores";
 
 const Recipes: React.FC = () => {
@@ -42,7 +39,9 @@ const Recipes: React.FC = () => {
         <Button
           primary
           size="small"
-          onClick={createBlankRecipe}
+          onClick={(): void => {
+            // NOOP
+          }}
           label="New"
           a11yTitle="New Customer"
         />
@@ -73,7 +72,9 @@ const Recipes: React.FC = () => {
                 <RecipesRow
                   key={recipe.id}
                   recipe={recipe}
-                  onChange={updateRecipe}
+                  onChange={(): void => {
+                    // NOOP
+                  }}
                 />
               ))}
           </TableBody>
