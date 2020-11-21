@@ -10,26 +10,25 @@ import {
   Text,
 } from "grommet";
 
+import { DataStore } from "@aws-amplify/datastore";
 import React from "react";
 import { Recipe } from "../models";
 import RecipesRow from "../components/RecipesRow";
 
-import { getRecipes } from "../actions/recipes";
 import { recipeStore } from "../lib/stores";
 
 const Recipes: React.FC = () => {
   const [recipes, setRecipes] = React.useState<Recipe[]>(recipeStore.getAll());
 
-  const onChangeRecipes = (): void => {
-    setRecipes([...recipeStore.getAll()]);
+  const loadRecipes = async (): Promise<void> => {
+    const newRecipes = await DataStore.query(Recipe);
+    setRecipes([...newRecipes]);
   };
 
   React.useEffect(() => {
-    recipeStore.addChangeListener(onChangeRecipes);
-    if (recipeStore.getAll().length === 0) {
-      getRecipes();
-    }
-    return (): void => recipeStore.removeChangeListener(onChangeRecipes);
+    const subscription = DataStore.observe(Recipe).subscribe(loadRecipes);
+    loadRecipes();
+    return (): void => subscription.unsubscribe();
   }, []);
 
   return (
@@ -39,8 +38,14 @@ const Recipes: React.FC = () => {
         <Button
           primary
           size="small"
-          onClick={(): void => {
-            // NOOP
+          onClick={async (): Promise<void> => {
+            const newRecipe = new Recipe({
+              name: "",
+              description: "",
+              potentialExclusions: [],
+            });
+
+            await DataStore.save(newRecipe);
           }}
           label="New"
           a11yTitle="New Customer"
@@ -72,8 +77,8 @@ const Recipes: React.FC = () => {
                 <RecipesRow
                   key={recipe.id}
                   recipe={recipe}
-                  onChange={(): void => {
-                    // NOOP
+                  onChange={async (updatedRecipe): Promise<void> => {
+                    await DataStore.save(updatedRecipe);
                   }}
                 />
               ))}

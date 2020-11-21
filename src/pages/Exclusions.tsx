@@ -24,6 +24,7 @@ const Exclusions: React.FC = () => {
 
   React.useEffect(() => {
     const subscription = DataStore.observe(Exclusion).subscribe(loadExclusions);
+    loadExclusions();
     return (): void => subscription.unsubscribe();
   }, [exclusions]);
 
@@ -70,8 +71,8 @@ const Exclusions: React.FC = () => {
                 <ExclusionRow
                   key={exclusion.id}
                   exclusion={exclusion}
-                  onChange={(): void => {
-                    // NOOP
+                  onChange={async (newExclusion): Promise<void> => {
+                    await DataStore.save(newExclusion);
                   }}
                 />
               ))}

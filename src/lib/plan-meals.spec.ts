@@ -21,13 +21,14 @@ describe("chooseMeals", () => {
     };
 
     const customerOne: Customer = {
-      id: 1,
+      id: "1",
       name: "foo-customer",
       email: "foo-email",
       daysPerWeek: 6,
       snack: Snack.None,
       breakfast: false,
       plan: {
+        name: "Mass 2",
         category: "Mass",
         mealsPerDay: 2,
         costPerMeal: 885,
@@ -36,7 +37,7 @@ describe("chooseMeals", () => {
     };
 
     const customerTwo: Customer = {
-      id: 2,
+      id: "2",
       name: "bar-customer",
       email: "bar-email",
       daysPerWeek: 1,

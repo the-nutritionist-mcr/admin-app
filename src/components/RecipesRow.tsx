@@ -1,38 +1,32 @@
 import { Button, TableCell, TableRow } from "grommet";
+import { Exclusion, Recipe } from "../models";
 import { DataStore } from "@aws-amplify/datastore";
-import Exclusion from "../domain/Exclusion";
 import OkCancelDialog from "./OkCancelDialog";
 import React from "react";
-import { Recipe } from "../models";
 
 import SimpleTableCellInputField from "./SimpleTableCellInputField";
 import { Trash } from "grommet-icons";
-import { exclusionsStore } from "../lib/stores";
-import { getExclusions } from "../actions/exclusions";
 
 interface RecipesRowProps {
   recipe: Recipe;
-  onChange: (oldRecipe: Recipe, newRecipe: Recipe) => void;
+  onChange: (newRecipe: Recipe) => void;
 }
 
 const RecipesRow: React.FC<RecipesRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
 
-  const [, setExclusions] = React.useState<Exclusion[]>(
-    exclusionsStore.getAll()
-  );
+  const [exclusions, setExclusions] = React.useState<Exclusion[]>([]);
 
-  const onChangeExclusions = (): void => {
-    setExclusions([...exclusionsStore.getAll()]);
+  const loadExclusions = async (): Promise<void> => {
+    const newExclusions = await DataStore.query(Exclusion);
+    setExclusions([...newExclusions]);
   };
 
   React.useEffect(() => {
-    exclusionsStore.addChangeListener(onChangeExclusions);
-    if (exclusionsStore.getAll().length === 0) {
-      getExclusions();
-    }
-    return (): void => exclusionsStore.removeChangeListener(onChangeExclusions);
-  }, []);
+    const subscription = DataStore.observe(Exclusion).subscribe(loadExclusions);
+    loadExclusions();
+    return (): void => subscription.unsubscribe();
+  }, [exclusions]);
 
   return (
     <TableRow>
@@ -44,7 +38,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
             const newRecipe = Recipe.copyOf(props.recipe, (updated) => {
               updated.name = event.target.value;
             });
-            props.onChange(props.recipe, newRecipe);
+            props.onChange(newRecipe);
           }}
         />
       </TableCell>
@@ -56,7 +50,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
             const newRecipe = Recipe.copyOf(props.recipe, (updated) => {
               updated.description = event.target.value;
             });
-            props.onChange(props.recipe, newRecipe);
+            props.onChange(newRecipe);
           }}
         />
       </TableCell>
