@@ -8,19 +8,7 @@ const pages: LoadableRoute[] = [
   },
   {
     path: "/customers",
-    route: import("./Customers"),
-  },
-  {
-    path: "/recipes",
-    route: import("./Recipes"),
-  },
-  {
-    path: "/exclusions",
-    route: import("./Exclusions"),
-  },
-  {
-    path: "/planner",
-    route: import("./Planner"),
+    route: import("./Customers2"),
   },
 ];
 

@@ -14,12 +14,12 @@ export default interface Customer {
   salutation: string;
   address: string;
   telephone: string;
-  startDate?: Date;
+  startDate?: string;
   paymentDayOfMonth?: number;
   notes?: string;
   email: string;
-  pauseStart?: Date;
-  pauseEnd?: Date;
+  pauseStart?: string;
+  pauseEnd?: string;
   daysPerWeek: number;
   plan: Plan;
   legacyPrice?: number;

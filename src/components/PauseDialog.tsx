@@ -14,10 +14,10 @@ interface PauseDialogProps {
 
 const PauseDialog: React.FC<PauseDialogProps> = (props) => {
   const [pauseStart, setPauseStart] = React.useState<string | undefined>(
-    props.customer.pauseStart?.toISOString() ?? ""
+    props.customer.pauseStart
   );
   const [pauseEnd, setPauseEnd] = React.useState<string | undefined>(
-    props.customer.pauseEnd?.toISOString() ?? ""
+    props.customer.pauseEnd
   );
 
   const friendlyStart = pauseStart

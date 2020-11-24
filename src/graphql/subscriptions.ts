@@ -17,6 +17,12 @@ export const onCreateExclusion = /* GraphQL */ `
             id
             name
             allergen
+            customers {
+              nextToken
+            }
+            recipes {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -34,9 +40,18 @@ export const onCreateExclusion = /* GraphQL */ `
             pauseStart
             pauseEnd
             daysPerWeek
+            plan {
+              name
+              mealsPerDay
+              costPerMeal
+              category
+            }
             legacyPrice
             snack
             breakfast
+            exclusions {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -54,6 +69,12 @@ export const onCreateExclusion = /* GraphQL */ `
             id
             name
             allergen
+            customers {
+              nextToken
+            }
+            recipes {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -61,6 +82,9 @@ export const onCreateExclusion = /* GraphQL */ `
             id
             name
             description
+            potentialExclusions {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -89,6 +113,12 @@ export const onUpdateExclusion = /* GraphQL */ `
             id
             name
             allergen
+            customers {
+              nextToken
+            }
+            recipes {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -106,9 +136,18 @@ export const onUpdateExclusion = /* GraphQL */ `
             pauseStart
             pauseEnd
             daysPerWeek
+            plan {
+              name
+              mealsPerDay
+              costPerMeal
+              category
+            }
             legacyPrice
             snack
             breakfast
+            exclusions {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -126,6 +165,12 @@ export const onUpdateExclusion = /* GraphQL */ `
             id
             name
             allergen
+            customers {
+              nextToken
+            }
+            recipes {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -133,6 +178,9 @@ export const onUpdateExclusion = /* GraphQL */ `
             id
             name
             description
+            potentialExclusions {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -161,6 +209,12 @@ export const onDeleteExclusion = /* GraphQL */ `
             id
             name
             allergen
+            customers {
+              nextToken
+            }
+            recipes {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -178,9 +232,18 @@ export const onDeleteExclusion = /* GraphQL */ `
             pauseStart
             pauseEnd
             daysPerWeek
+            plan {
+              name
+              mealsPerDay
+              costPerMeal
+              category
+            }
             legacyPrice
             snack
             breakfast
+            exclusions {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -198,6 +261,12 @@ export const onDeleteExclusion = /* GraphQL */ `
             id
             name
             allergen
+            customers {
+              nextToken
+            }
+            recipes {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -205,6 +274,9 @@ export const onDeleteExclusion = /* GraphQL */ `
             id
             name
             description
+            potentialExclusions {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -233,6 +305,33 @@ export const onCreateCustomerExclusion = /* GraphQL */ `
             id
             customerId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            customer {
+              id
+              firstName
+              surname
+              salutation
+              address
+              telephone
+              startDate
+              paymentDateOfMonth
+              notes
+              email
+              pauseStart
+              pauseEnd
+              daysPerWeek
+              legacyPrice
+              snack
+              breakfast
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -243,6 +342,20 @@ export const onCreateCustomerExclusion = /* GraphQL */ `
             id
             recipeId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            recipe {
+              id
+              name
+              description
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -279,6 +392,33 @@ export const onCreateCustomerExclusion = /* GraphQL */ `
             id
             customerId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            customer {
+              id
+              firstName
+              surname
+              salutation
+              address
+              telephone
+              startDate
+              paymentDateOfMonth
+              notes
+              email
+              pauseStart
+              pauseEnd
+              daysPerWeek
+              legacyPrice
+              snack
+              breakfast
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -307,6 +447,33 @@ export const onUpdateCustomerExclusion = /* GraphQL */ `
             id
             customerId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            customer {
+              id
+              firstName
+              surname
+              salutation
+              address
+              telephone
+              startDate
+              paymentDateOfMonth
+              notes
+              email
+              pauseStart
+              pauseEnd
+              daysPerWeek
+              legacyPrice
+              snack
+              breakfast
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -317,6 +484,20 @@ export const onUpdateCustomerExclusion = /* GraphQL */ `
             id
             recipeId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            recipe {
+              id
+              name
+              description
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -353,6 +534,33 @@ export const onUpdateCustomerExclusion = /* GraphQL */ `
             id
             customerId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            customer {
+              id
+              firstName
+              surname
+              salutation
+              address
+              telephone
+              startDate
+              paymentDateOfMonth
+              notes
+              email
+              pauseStart
+              pauseEnd
+              daysPerWeek
+              legacyPrice
+              snack
+              breakfast
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -381,6 +589,33 @@ export const onDeleteCustomerExclusion = /* GraphQL */ `
             id
             customerId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            customer {
+              id
+              firstName
+              surname
+              salutation
+              address
+              telephone
+              startDate
+              paymentDateOfMonth
+              notes
+              email
+              pauseStart
+              pauseEnd
+              daysPerWeek
+              legacyPrice
+              snack
+              breakfast
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -391,6 +626,20 @@ export const onDeleteCustomerExclusion = /* GraphQL */ `
             id
             recipeId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            recipe {
+              id
+              name
+              description
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -427,6 +676,33 @@ export const onDeleteCustomerExclusion = /* GraphQL */ `
             id
             customerId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            customer {
+              id
+              firstName
+              surname
+              salutation
+              address
+              telephone
+              startDate
+              paymentDateOfMonth
+              notes
+              email
+              pauseStart
+              pauseEnd
+              daysPerWeek
+              legacyPrice
+              snack
+              breakfast
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -455,6 +731,33 @@ export const onCreateRecipeExclusion = /* GraphQL */ `
             id
             customerId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            customer {
+              id
+              firstName
+              surname
+              salutation
+              address
+              telephone
+              startDate
+              paymentDateOfMonth
+              notes
+              email
+              pauseStart
+              pauseEnd
+              daysPerWeek
+              legacyPrice
+              snack
+              breakfast
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -465,6 +768,20 @@ export const onCreateRecipeExclusion = /* GraphQL */ `
             id
             recipeId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            recipe {
+              id
+              name
+              description
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -482,6 +799,20 @@ export const onCreateRecipeExclusion = /* GraphQL */ `
             id
             recipeId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            recipe {
+              id
+              name
+              description
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -510,6 +841,33 @@ export const onUpdateRecipeExclusion = /* GraphQL */ `
             id
             customerId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            customer {
+              id
+              firstName
+              surname
+              salutation
+              address
+              telephone
+              startDate
+              paymentDateOfMonth
+              notes
+              email
+              pauseStart
+              pauseEnd
+              daysPerWeek
+              legacyPrice
+              snack
+              breakfast
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -520,6 +878,20 @@ export const onUpdateRecipeExclusion = /* GraphQL */ `
             id
             recipeId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            recipe {
+              id
+              name
+              description
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -537,6 +909,20 @@ export const onUpdateRecipeExclusion = /* GraphQL */ `
             id
             recipeId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            recipe {
+              id
+              name
+              description
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -565,6 +951,33 @@ export const onDeleteRecipeExclusion = /* GraphQL */ `
             id
             customerId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            customer {
+              id
+              firstName
+              surname
+              salutation
+              address
+              telephone
+              startDate
+              paymentDateOfMonth
+              notes
+              email
+              pauseStart
+              pauseEnd
+              daysPerWeek
+              legacyPrice
+              snack
+              breakfast
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -575,6 +988,20 @@ export const onDeleteRecipeExclusion = /* GraphQL */ `
             id
             recipeId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            recipe {
+              id
+              name
+              description
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -592,6 +1019,20 @@ export const onDeleteRecipeExclusion = /* GraphQL */ `
             id
             recipeId
             exclusionId
+            exclusion {
+              id
+              name
+              allergen
+              createdAt
+              updatedAt
+            }
+            recipe {
+              id
+              name
+              description
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
           }
@@ -620,6 +1061,12 @@ export const onCreateRecipe = /* GraphQL */ `
             id
             name
             allergen
+            customers {
+              nextToken
+            }
+            recipes {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -627,6 +1074,9 @@ export const onCreateRecipe = /* GraphQL */ `
             id
             name
             description
+            potentialExclusions {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -655,6 +1105,12 @@ export const onUpdateRecipe = /* GraphQL */ `
             id
             name
             allergen
+            customers {
+              nextToken
+            }
+            recipes {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -662,6 +1118,9 @@ export const onUpdateRecipe = /* GraphQL */ `
             id
             name
             description
+            potentialExclusions {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -690,6 +1149,12 @@ export const onDeleteRecipe = /* GraphQL */ `
             id
             name
             allergen
+            customers {
+              nextToken
+            }
+            recipes {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -697,6 +1162,9 @@ export const onDeleteRecipe = /* GraphQL */ `
             id
             name
             description
+            potentialExclusions {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -744,6 +1212,12 @@ export const onCreateCustomer = /* GraphQL */ `
             id
             name
             allergen
+            customers {
+              nextToken
+            }
+            recipes {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -761,9 +1235,18 @@ export const onCreateCustomer = /* GraphQL */ `
             pauseStart
             pauseEnd
             daysPerWeek
+            plan {
+              name
+              mealsPerDay
+              costPerMeal
+              category
+            }
             legacyPrice
             snack
             breakfast
+            exclusions {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -811,6 +1294,12 @@ export const onUpdateCustomer = /* GraphQL */ `
             id
             name
             allergen
+            customers {
+              nextToken
+            }
+            recipes {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -828,9 +1317,18 @@ export const onUpdateCustomer = /* GraphQL */ `
             pauseStart
             pauseEnd
             daysPerWeek
+            plan {
+              name
+              mealsPerDay
+              costPerMeal
+              category
+            }
             legacyPrice
             snack
             breakfast
+            exclusions {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -878,6 +1376,12 @@ export const onDeleteCustomer = /* GraphQL */ `
             id
             name
             allergen
+            customers {
+              nextToken
+            }
+            recipes {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -895,9 +1399,18 @@ export const onDeleteCustomer = /* GraphQL */ `
             pauseStart
             pauseEnd
             daysPerWeek
+            plan {
+              name
+              mealsPerDay
+              costPerMeal
+              category
+            }
             legacyPrice
             snack
             breakfast
+            exclusions {
+              nextToken
+            }
             createdAt
             updatedAt
           }

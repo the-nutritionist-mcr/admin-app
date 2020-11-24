@@ -61,7 +61,11 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
         }
       </TableCell>
 
-      <TableCell>(exclusions)</TableCell>
+      <TableCell>
+        {props.customer.exclusions
+          .map((exclusion) => exclusion.name)
+          .join(", ")}
+      </TableCell>
       <TableCell>
         <Box direction="row">
           <Button
