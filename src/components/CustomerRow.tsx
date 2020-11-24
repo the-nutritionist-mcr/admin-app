@@ -1,13 +1,11 @@
 import { Box, Button, TableCell, TableRow } from "grommet";
+import { Customer, deleteCustomerAction } from "../redux/reducers/customers";
 import { Edit, Pause, Trash } from "grommet-icons";
-import { deleteCustomer, updateCustomer } from "../actions/customers";
-import Customer from "../domain/Customer";
 import EditCustomerDialog from "./EditCustomerDialog";
 import OkCancelDialog from "./OkCancelDialog";
 import PauseDialog from "./PauseDialog";
 import React from "react";
-import getExtrasString from "../lib/getExtrasString";
-import getStatusString from "../lib/getStatusString";
+import { useAppDispatch } from "../redux";
 
 const WEEKS_IN_YEAR = 52;
 const MONTHS_IN_YEAR = 12;
@@ -25,6 +23,7 @@ const pricePerMonth = (customer: Customer): number =>
   (pricePerWeek(customer) * WEEKS_IN_YEAR) / MONTHS_IN_YEAR;
 
 const CustomerRow: React.FC<CustomerRowProps> = (props) => {
+  const dispatch = useAppDispatch();
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showPause, setShowPause] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
@@ -36,12 +35,12 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
         {props.customer.surname}
       </TableCell>
       <TableCell>{props.customer.email}</TableCell>
-      <TableCell>{getStatusString(props.customer)}</TableCell>
+      <TableCell>(status)</TableCell>
       <TableCell>
         {props.customer.plan.category} {props.customer.plan.mealsPerDay} (
         {props.customer.daysPerWeek} days)
       </TableCell>
-      <TableCell>{getExtrasString(props.customer)}</TableCell>
+      <TableCell>(extras)</TableCell>
       <TableCell>
         {
           // eslint-disable-next-line new-cap
@@ -61,11 +60,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
         }
       </TableCell>
 
-      <TableCell>
-        {props.customer.exclusions
-          .map((exclusion) => exclusion.name)
-          .join(", ")}
-      </TableCell>
+      <TableCell>(exclusions)</TableCell>
       <TableCell>
         <Box direction="row">
           <Button
@@ -78,7 +73,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
             show={showDoDelete}
             header="Are you sure?"
             onOk={(): void => {
-              deleteCustomer(props.customer);
+              dispatch(deleteCustomerAction(props.customer));
               setShowDoDelete(false);
             }}
             onCancel={(): void => setShowDoDelete(false)}
@@ -97,23 +92,22 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
             onCancel={(): void => {
               setShowPause(false);
             }}
-            onOk={(newCustomer: Customer): void => {
-              updateCustomer(props.customer, newCustomer);
+            onOk={(): void => {
               setShowPause(false);
             }}
           />
-          <EditCustomerDialog
-            title="Edit Customer"
-            customer={props.customer}
-            show={showEdit}
-            onOk={(customer: Customer): void => {
-              updateCustomer(props.customer, customer);
-              setShowEdit(false);
-            }}
-            onCancel={(): void => {
-              setShowEdit(false);
-            }}
-          />
+          {showEdit && (
+            <EditCustomerDialog
+              title="Edit Customer"
+              customer={props.customer}
+              onOk={(): void => {
+                setShowEdit(false);
+              }}
+              onCancel={(): void => {
+                setShowEdit(false);
+              }}
+            />
+          )}
 
           <Button
             secondary

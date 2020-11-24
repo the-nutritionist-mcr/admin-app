@@ -1,5 +1,5 @@
 import { Box, Button, Calendar, Paragraph, Text } from "grommet";
-import Customer from "../domain/Customer";
+import { Customer } from "../redux/reducers/customers";
 import OkCancelDialog from "./OkCancelDialog";
 import React from "react";
 import calendarFormat from "../lib/calendarFormat";
@@ -13,10 +13,10 @@ interface PauseDialogProps {
 }
 
 const PauseDialog: React.FC<PauseDialogProps> = (props) => {
-  const [pauseStart, setPauseStart] = React.useState<string | undefined>(
+  const [pauseStart, setPauseStart] = React.useState<string | null>(
     props.customer.pauseStart
   );
-  const [pauseEnd, setPauseEnd] = React.useState<string | undefined>(
+  const [pauseEnd, setPauseEnd] = React.useState<string | null>(
     props.customer.pauseEnd
   );
 
@@ -40,9 +40,9 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
           label="clear"
           onClick={(): void => {
             // eslint-disable-next-line unicorn/no-useless-undefined
-            setPauseStart(undefined);
+            setPauseStart(null);
             // eslint-disable-next-line unicorn/no-useless-undefined
-            setPauseEnd(undefined);
+            setPauseEnd(null);
           }}
         />
       }
@@ -56,7 +56,7 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
         <Box direction="column" gap="small" a11yTitle="Start Pause">
           <Calendar
             size="small"
-            date={pauseStart}
+            date={pauseStart ?? undefined}
             onSelect={(
               date:
                 | (string | string[])
@@ -73,7 +73,7 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
         <Box direction="column" gap="small" a11yTitle="End Pause">
           <Calendar
             size="small"
-            date={pauseEnd}
+            date={pauseEnd ?? undefined}
             a11yTitle="End Pause"
             onSelect={(
               date:

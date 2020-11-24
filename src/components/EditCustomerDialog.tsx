@@ -16,8 +16,8 @@ import {
   ThemeContext,
 } from "grommet";
 import { Checkmark, Close } from "grommet-icons";
-import Customer, { Snack } from "../domain/Customer";
 import { daysPerWeekOptions, plans } from "../lib/config";
+import { Customer } from "../redux/reducers/customers";
 import Exclusion from "../domain/Exclusion";
 import React from "react";
 import { exclusionsStore } from "../lib/stores";
@@ -26,7 +26,6 @@ import styled from "styled-components";
 
 interface EditCustomerDialogProps {
   customer: Customer;
-  show?: boolean;
   onOk: (newCustomer: Customer) => void;
   title: string;
   onCancel: () => void;
@@ -54,7 +53,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
     return (): void => exclusionsStore.removeChangeListener(onChangeExclusions);
   }, []);
 
-  return props?.show ? (
+  return (
     <Layer>
       <Card>
         <Form
@@ -67,9 +66,6 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
             const nextCustomer = {
               ...nextCustomerData,
               breakfast: nextCustomerData.breakfast === "Yes",
-              startDate:
-                nextCustomerData.startDate &&
-                new Date(nextCustomerData.startDate),
             } as Customer;
 
             setCustomer(nextCustomer);
@@ -142,7 +138,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
                 <FormField name="snack" label="Snack">
                   <Select
                     name="snack"
-                    options={[Snack.None, Snack.Standard, Snack.Large]}
+                    options={["None", "Standard", "Large"]}
                   />
                 </FormField>
 
@@ -228,7 +224,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
         </Form>
       </Card>
     </Layer>
-  ) : null;
+  );
 };
 
 export default EditCustomerDialog;

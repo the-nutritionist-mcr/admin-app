@@ -8,7 +8,7 @@ const pages: LoadableRoute[] = [
   },
   {
     path: "/customers",
-    route: import("./Customers2"),
+    route: import("./Customers"),
   },
 ];
 

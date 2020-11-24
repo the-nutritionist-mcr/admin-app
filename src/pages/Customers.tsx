@@ -1,3 +1,4 @@
+import { AppState, useAppDispatch } from "../redux";
 import {
   Button,
   Header,
@@ -9,36 +10,21 @@ import {
   TableRow,
   Text,
 } from "grommet";
-import Customer, { Snack } from "../domain/Customer";
-import {
-  createNewCustomer,
-  getCustomers,
-  updateCustomer,
-} from "../actions/customers";
-import { daysPerWeekOptions, plans } from "../lib/config";
 
+import { Customer, createCustomerAction } from "../redux/reducers/customers";
 import CustomerRow from "../components/CustomerRow";
 import EditCustomerDialog from "../components/EditCustomerDialog";
 import React from "react";
-import { customerStore } from "../lib/stores";
+import { connect } from "react-redux";
+import { plans } from "../lib/config";
 
-const Customers: React.FC = () => {
-  const [customers, setCustomers] = React.useState<Customer[]>(
-    customerStore.getAll()
-  );
+interface CustomersProps {
+  customers: Customer[];
+}
 
-  const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
-
-  const onChangeCustomers = (): void => {
-    setCustomers([...customerStore.getAll()]);
-  };
-
-  React.useEffect(() => {
-    customerStore.addChangeListener(onChangeCustomers);
-    getCustomers();
-    return (): void => customerStore.removeChangeListener(onChangeCustomers);
-  }, []);
-
+const RawCustomers: React.FC<CustomersProps> = (props) => {
+  const dispatch = useAppDispatch();
+  const [showEditCustomer, setShowEditCustomer] = React.useState(false);
   return (
     <React.Fragment>
       <Header align="center" justify="start" gap="small">
@@ -46,40 +32,49 @@ const Customers: React.FC = () => {
         <Button
           primary
           size="small"
-          onClick={(): void => setShowCreateCustomer(true)}
+          onClick={(): void => {
+            setShowEditCustomer(true);
+          }}
           label="New"
           a11yTitle="New Customer"
         />
-        {showCreateCustomer && (
+        {showEditCustomer && (
           <EditCustomerDialog
             title="Create New Customer"
-            customer={{
-              id: "0",
-              firstName: "",
-              surname: "",
-              salutation: "",
-              telephone: "",
-              address: "",
-              notes: "",
-              email: "",
-              daysPerWeek: daysPerWeekOptions[0],
-              plan: plans[0],
-              snack: Snack.None,
-              breakfast: false,
-              exclusions: [],
-            }}
-            show={showCreateCustomer}
-            onOk={(customer: Customer): void => {
-              createNewCustomer(customer);
-              setShowCreateCustomer(false);
+            onOk={(customer): void => {
+              dispatch(createCustomerAction(customer));
+              setShowEditCustomer(false);
             }}
             onCancel={(): void => {
-              setShowCreateCustomer(false);
+              setShowEditCustomer(false);
+            }}
+            customer={{
+              id: "",
+              startDate: null,
+              notes: null,
+              createdAt: "",
+              updatedAt: "",
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              exclusions: [] as any,
+              pauseEnd: null,
+              pauseStart: null,
+              paymentDateOfMonth: null,
+              legacyPrice: null,
+              address: "",
+              firstName: "",
+              surname: "",
+              telephone: "",
+              email: "",
+              daysPerWeek: 1,
+              plan: plans[0],
+              salutation: "",
+              snack: "None",
+              breakfast: false,
             }}
           />
         )}
       </Header>
-      {customers.length > 0 ? (
+      {props.customers.length > 0 ? (
         <Table alignSelf="start">
           <TableHeader>
             <TableRow>
@@ -113,16 +108,15 @@ const Customers: React.FC = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {customers
-              // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-              .sort((a: Customer, b: Customer) => (a.id > b.id ? -1 : 1))
-              .map((customer) => (
-                <CustomerRow
-                  key={customer.id}
-                  customer={customer}
-                  onChange={updateCustomer}
-                />
-              ))}
+            {props.customers.map((customer) => (
+              <CustomerRow
+                key={customer.id}
+                customer={customer}
+                onChange={(): void => {
+                  // NOOP
+                }}
+              />
+            ))}
           </TableBody>
         </Table>
       ) : (
@@ -134,5 +128,11 @@ const Customers: React.FC = () => {
     </React.Fragment>
   );
 };
+
+const mapStateToProps = (state: AppState): CustomersProps => {
+  return { customers: state.customers.customers };
+};
+
+const Customers = connect(mapStateToProps)(RawCustomers);
 
 export default Customers;
