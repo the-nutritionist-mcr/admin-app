@@ -7,6 +7,28 @@ import { PlanCategory } from "../lib/config";
 import { graphqlOperation } from "aws-amplify";
 import { listCustomers } from "../graphql/queries";
 
+type ExcludesNull = <T>(x: T | null) => x is T;
+
+type RawCustomer = Omit<
+  Exclude<tAPI.GetCustomerQuery["getCustomer"], null>,
+  "__typename" | "exclusions"
+>;
+
+const mapCustomer = (item: RawCustomer): Customer => ({
+  ...item,
+  startDate: item.startDate ? new Date(item.startDate) : undefined,
+  pauseStart: item.pauseStart ? new Date(item.pauseStart) : undefined,
+  pauseEnd: item.pauseEnd ? new Date(item.pauseEnd) : undefined,
+  notes: item.notes ?? undefined,
+  legacyPrice: item.legacyPrice ?? undefined,
+  snack: item.snack as Snack,
+  exclusions: [],
+  plan: {
+    ...item.plan,
+    category: item.plan.category as PlanCategory,
+  },
+});
+
 export const getCustomers = async (): Promise<void> => {
   const queryVariables: tAPI.ListCustomersQueryVariables = {};
   const result: GraphQLResult<tAPI.ListCustomersQuery> = (await API.graphql(
@@ -15,25 +37,10 @@ export const getCustomers = async (): Promise<void> => {
 
   if (result.data?.listCustomers) {
     const items = result.data.listCustomers.items;
-    type ExcludesFalse = <T>(x: T | null) => x is T;
 
-    const customers: Customer[] =
-      items !== null
-        ? items.filter((Boolean as unknown) as ExcludesFalse).map((item) => ({
-            ...item,
-            startDate: item.startDate ? new Date(item.startDate) : undefined,
-            pauseStart: item.pauseStart ? new Date(item.pauseStart) : undefined,
-            pauseEnd: item.pauseEnd ? new Date(item.pauseEnd) : undefined,
-            notes: item.notes ?? undefined,
-            legacyPrice: item.legacyPrice ?? undefined,
-            snack: item.snack as Snack,
-            exclusions: [],
-            plan: {
-              ...item.plan,
-              category: item.plan.category as PlanCategory,
-            },
-          }))
-        : [];
+    const customers: Customer[] = (items ?? [])
+      .filter((Boolean as unknown) as ExcludesNull)
+      .map(mapCustomer);
 
     const payload: DispatchPayload = {
       actionType: ActionType.GetCustomers,

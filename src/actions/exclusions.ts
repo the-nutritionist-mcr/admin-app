@@ -17,7 +17,7 @@ export const getExclusions = (): void => {
 };
 
 export const createBlankExclusion = (): void => {
-  // const exclusions: Exclusion[] = JSON.parse(
+  // Const exclusions: Exclusion[] = JSON.parse(
   //   localStorage.getItem(LOCALSTORAGE_KEY) ?? "[]"
   // );
   // const blankExclusion: Exclusion = {
@@ -35,10 +35,12 @@ export const createBlankExclusion = (): void => {
 };
 
 export const updateExclusion = (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   oldExclusion: Exclusion,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   exclusion: Exclusion
 ): void => {
-  // const exclusions: Exclusion[] = JSON.parse(
+  // Const exclusions: Exclusion[] = JSON.parse(
   //   localStorage.getItem(LOCALSTORAGE_KEY) ?? "[]"
   // );
   // const index = exclusions.findIndex(
@@ -53,8 +55,9 @@ export const updateExclusion = (
   // dispatcher.dispatch(payload);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const deleteExclusion = (customer: Exclusion): void => {
-  // // eslint-disable-next-line fp/no-let
+  // // Eslint-disable-next-line fp/no-let
   // let exclusions: Exclusion[] = JSON.parse(
   //   localStorage.getItem(LOCALSTORAGE_KEY) ?? "[]"
   // );
