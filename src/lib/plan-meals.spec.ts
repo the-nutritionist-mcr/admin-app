@@ -15,19 +15,24 @@ describe("chooseMeals", () => {
     const mealsSelection: DeliveryMealsSelection = [mealOne, mealTwo];
 
     const fishExclusion = {
-      id: 0,
+      id: "0",
       name: "fish",
       allergen: false,
     };
 
     const customerOne: Customer = {
-      id: 1,
-      name: "foo-customer",
+      telephone: "123123",
+      id: "1",
+      salutation: "Mr",
+      address: "somewhere",
+      firstName: "Ben",
+      surname: "Wainwright",
       email: "foo-email",
       daysPerWeek: 6,
       snack: Snack.None,
       breakfast: false,
       plan: {
+        name: "Mass 2",
         category: "Mass",
         mealsPerDay: 2,
         costPerMeal: 885,
@@ -36,8 +41,12 @@ describe("chooseMeals", () => {
     };
 
     const customerTwo: Customer = {
-      id: 2,
-      name: "bar-customer",
+      id: "2",
+      salutation: "mr",
+      address: "Somewhere",
+      telephone: "023",
+      firstName: "bar-customer",
+      surname: "baz",
       email: "bar-email",
       daysPerWeek: 1,
       snack: Snack.None,
@@ -49,6 +58,7 @@ describe("chooseMeals", () => {
       // 1st of December 2020
       pauseEnd: new Date(1606780800000),
       plan: {
+        name: "Mass 5",
         category: "Mass",
         mealsPerDay: 5,
         costPerMeal: 885,
@@ -57,13 +67,18 @@ describe("chooseMeals", () => {
     };
 
     const customerThree: Customer = {
-      id: 3,
-      name: "baz-customer",
+      id: "3",
+      salutation: "Mr",
+      address: "Foobar",
+      telephone: "123",
+      firstName: "baz-customer",
+      surname: "bash",
       email: "baz-email",
       daysPerWeek: 6,
       snack: Snack.None,
       breakfast: true,
       plan: {
+        name: "Mass 2",
         category: "Mass",
         mealsPerDay: 2,
         costPerMeal: 885,
@@ -92,12 +107,12 @@ describe("chooseMeals", () => {
         name: "foo",
         potentialExclusions: [
           {
-            id: 0,
+            id: "0",
             name: "fish",
             allergen: false,
           },
           {
-            id: 1,
+            id: "1",
             name: "rice",
             allergen: true,
           },
@@ -122,13 +137,18 @@ describe("chooseMeals", () => {
     const mealsSelection: DeliveryMealsSelection = [mealOne];
 
     const customerOne: Customer = {
-      id: 1,
-      name: "foo-customer",
+      id: "1",
+      firstName: "foo-customer",
+      surname: "baz",
+      telephone: "0123",
+      salutation: "Mr",
+      address: "Foo",
       email: "foo-email",
       daysPerWeek: 2,
       snack: Snack.None,
       breakfast: false,
       plan: {
+        name: "Mass 2",
         category: "Mass",
         mealsPerDay: 2,
         costPerMeal: 885,
@@ -176,19 +196,24 @@ describe("chooseMeals", () => {
       ];
 
       const fishExclusion = {
-        id: 0,
+        id: "0",
         name: "fish",
         allergen: false,
       };
 
       const customerOne: Customer = {
-        id: 1,
-        name: "foo-customer",
+        id: "1",
+        salutation: "Mr",
+        firstName: "foo-customer",
+        surname: "foo",
+        telephone: "123",
+        address: "123123",
         email: "foo-email",
         daysPerWeek: 6,
         snack: Snack.None,
         breakfast: false,
         plan: {
+          name: "Mass 2",
           category: "Mass",
           mealsPerDay: 2,
           costPerMeal: 885,
@@ -197,14 +222,19 @@ describe("chooseMeals", () => {
       };
 
       const customerTwo: Customer = {
-        id: 2,
-        name: "bar-customer",
+        id: "2",
+        salutation: "Mr",
+        address: "asdasd",
+        telephone: "1231",
+        firstName: "bar-customer",
+        surname: "asdasd",
         email: "bar-email",
         daysPerWeek,
         snack: Snack.None,
         breakfast: true,
         plan: {
           category: "Mass",
+          name: "Mass 5",
           mealsPerDay,
           costPerMeal: 885,
         },
@@ -212,13 +242,18 @@ describe("chooseMeals", () => {
       };
 
       const customerThree: Customer = {
-        id: 3,
-        name: "baz-customer",
+        id: "3",
+        telephone: "123",
+        firstName: "baz-customer",
+        surname: "asd",
+        address: "asdasd",
+        salutation: "Mr",
         email: "baz-email",
         daysPerWeek: 6,
         snack: Snack.None,
         breakfast: true,
         plan: {
+          name: "Mass 2",
           category: "Mass",
           mealsPerDay: 2,
           costPerMeal: 885,
@@ -285,13 +320,18 @@ describe("makePlan", () => {
       {
         meals: [recipeOne, recipeTwo],
         customer: {
-          id: 0,
-          name: "foo",
+          id: "0",
+          firstName: "foo",
+          surname: "bar",
+          salutation: "Mr",
+          address: "asdasd",
+          telephone: "123123",
           email: "foo-email",
           daysPerWeek: 6,
           breakfast: false,
           snack: Snack.None,
           plan: {
+            name: "Mas 2",
             mealsPerDay: 2,
             costPerMeal: 850,
             category: "Mass",
@@ -302,13 +342,18 @@ describe("makePlan", () => {
       {
         meals: [recipeOne],
         customer: {
-          id: 1,
-          name: "foo1",
+          id: "1",
+          firstName: "foo1",
+          surname: "foo1",
+          address: "asdasd",
+          telephone: "123123",
+          salutation: "Mr",
           email: "foo1-email",
           daysPerWeek: 6,
           breakfast: false,
           snack: Snack.None,
           plan: {
+            name: "Mass 2",
             mealsPerDay: 2,
             costPerMeal: 850,
             category: "Mass",
@@ -319,14 +364,19 @@ describe("makePlan", () => {
       {
         meals: [recipeOne, recipeTwo, recipeThree],
         customer: {
-          id: 2,
-          name: "foo2",
+          id: "2",
+          firstName: "foo2",
+          surname: "foo3",
+          address: "fasdasd",
+          telephone: "123123",
+          salutation: "Mr",
           email: "foo2-email",
           daysPerWeek: 6,
           breakfast: false,
           snack: Snack.None,
           plan: {
             mealsPerDay: 2,
+            name: "Mass 2",
             costPerMeal: 850,
             category: "Mass",
           },
@@ -360,7 +410,7 @@ describe("makePlan", () => {
 
   it("Groups matching allergens together as a 'variant'", () => {
     const fishExclusion = {
-      id: 0,
+      id: "0",
       name: "fish",
       allergen: false,
     };
@@ -387,14 +437,19 @@ describe("makePlan", () => {
       {
         meals: [recipeOne, recipeTwo],
         customer: {
-          id: 0,
-          name: "foo",
+          id: "0",
+          firstName: "foo",
+          surname: "foo",
+          address: "asdasd",
+          salutation: "Mr",
+          telephone: "123123",
           email: "foo-email",
           daysPerWeek: 6,
           breakfast: false,
           snack: Snack.None,
           plan: {
             mealsPerDay: 2,
+            name: "Mass 2",
             costPerMeal: 850,
             category: "Mass",
           },
@@ -404,13 +459,18 @@ describe("makePlan", () => {
       {
         meals: [recipeOne],
         customer: {
-          id: 1,
-          name: "foo1",
+          id: "1",
+          firstName: "Ben",
+          surname: "foo1",
+          address: "asdasd",
+          salutation: "Mr",
+          telephone: "231",
           email: "foo1-email",
           daysPerWeek: 6,
           breakfast: false,
           snack: Snack.None,
           plan: {
+            name: "Mass 2",
             mealsPerDay: 2,
             costPerMeal: 850,
             category: "Mass",
@@ -421,13 +481,18 @@ describe("makePlan", () => {
       {
         meals: [recipeOne, recipeTwo, recipeThree],
         customer: {
-          id: 2,
-          name: "foo2",
+          id: "2",
+          firstName: "foo",
+          surname: "foo2",
+          address: "asdasd",
+          telephone: "123123",
+          salutation: "Mr",
           email: "foo2-email",
           daysPerWeek: 6,
           breakfast: false,
           snack: Snack.None,
           plan: {
+            name: "Mass 2",
             mealsPerDay: 2,
             costPerMeal: 850,
             category: "Mass",

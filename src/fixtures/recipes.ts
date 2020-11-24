@@ -1,25 +1,25 @@
 import Recipe from "../domain/Recipe";
 
 const nutsExclusion = {
-  id: 0,
+  id: "0",
   name: "nuts",
   allergen: true,
 };
 
 const fishExclusion = {
-  id: 1,
+  id: "1",
   name: "fish",
   allergen: false,
 };
 
 const mustardExclusion = {
-  id: 2,
+  id: "2",
   name: "mustard",
   allergen: true,
 };
 
 const riceExclusion = {
-  id: 3,
+  id: "3",
   name: "rice",
   allergen: false,
 };

@@ -1,5 +1,5 @@
 export default interface Exclusion {
-  id: number;
+  id: string;
   name: string;
   allergen: boolean;
 }

@@ -8,7 +8,7 @@ export enum Snack {
 }
 
 export default interface Customer {
-  id: number;
+  id: string;
   firstName: string;
   surname: string;
   salutation: string;

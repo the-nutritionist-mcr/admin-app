@@ -16,19 +16,19 @@ jest.mock("../actions/customers");
 
 const getFakeCustomer = (): Customer => {
   const fishExclusion = {
-    id: 1,
+    id: "1",
     name: "fish",
     allergen: false,
   };
 
   const catsExclusion = {
-    id: 0,
+    id: "0",
     name: "cats",
     allergen: false,
   };
 
   return {
-    id: 1,
+    id: "1",
     salutation: "Mr",
     telephone: "0123451",
     firstName: "Ben",

@@ -15,11 +15,16 @@ describe("isActive", () => {
 
   it("Should return true if there is no pause start or end", () => {
     const customer: Customer = {
-      id: 0,
-      name: "",
+      address: "",
+      telephone: "",
+      salutation: "",
+      firstName: "",
+      surname: "",
+      id: "0",
       email: "",
       daysPerWeek: 1,
       plan: {
+        name: "Mass 1",
         category: "Mass",
         mealsPerDay: 1,
         costPerMeal: 1,
@@ -36,11 +41,16 @@ describe("isActive", () => {
 
   it("Should be active if there is a pause start date that is in the future", () => {
     const customer: Customer = {
-      id: 0,
-      name: "",
+      address: "",
+      telephone: "",
+      salutation: "",
+      firstName: "",
+      surname: "",
+      id: "0",
       email: "",
       daysPerWeek: 1,
       plan: {
+        name: "Mass 1",
         category: "Mass",
         mealsPerDay: 1,
         costPerMeal: 1,
@@ -59,11 +69,16 @@ describe("isActive", () => {
 
   it("Should be inactive if there is a pause start date that is in the past and no pause end", () => {
     const customer: Customer = {
-      id: 0,
-      name: "",
+      id: "0",
+      firstName: "",
+      surname: "",
+      salutation: "mr",
+      address: "",
+      telephone: "",
       email: "",
       daysPerWeek: 1,
       plan: {
+        name: "Mass 1",
         category: "Mass",
         mealsPerDay: 1,
         costPerMeal: 1,
@@ -82,11 +97,16 @@ describe("isActive", () => {
 
   it("Should be inactive if there is a pause end date that is in the future and no pause start", () => {
     const customer: Customer = {
-      id: 0,
-      name: "",
+      id: "0",
+      firstName: "",
+      surname: "",
+      address: "",
+      telephone: "",
       email: "",
+      salutation: "",
       daysPerWeek: 1,
       plan: {
+        name: "Mass 1",
         category: "Mass",
         mealsPerDay: 1,
         costPerMeal: 1,
@@ -105,11 +125,16 @@ describe("isActive", () => {
 
   it("Should be active if the pause has expired", () => {
     const customer: Customer = {
-      id: 0,
-      name: "",
+      id: "0",
+      firstName: "",
+      address: "",
+      telephone: "",
+      surname: "",
+      salutation: "",
       email: "",
       daysPerWeek: 1,
       plan: {
+        name: "Mass 1",
         category: "Mass",
         mealsPerDay: 1,
         costPerMeal: 1,
@@ -131,11 +156,16 @@ describe("isActive", () => {
 
   it("Should be inactive if the current date is between the pause start and end dates", () => {
     const customer: Customer = {
-      id: 0,
-      name: "",
+      id: "0",
+      address: "",
+      salutation: "",
+      surname: "",
+      firstName: "",
+      telephone: "",
       email: "",
       daysPerWeek: 1,
       plan: {
+        name: "Mass 1",
         category: "Mass",
         mealsPerDay: 1,
         costPerMeal: 1,

@@ -54,7 +54,7 @@ const Customers: React.FC = () => {
           <EditCustomerDialog
             title="Create New Customer"
             customer={{
-              id: 0,
+              id: "0",
               firstName: "",
               surname: "",
               salutation: "",
