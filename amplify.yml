@@ -13,6 +13,8 @@ frontend:
     preBuild:
       commands:
         - nvm use $VERSION_NODE_12
+        - rm -rf yarn.lock
+        - yarn cache clean
         - yarn install --frozen-lockfile --skip-integrity-check
         - yarn lint .
         - yarn test:ci
@@ -36,6 +38,8 @@ test:
     preTest:
       commands:
         - nvm use $VERSION_NODE_12
+        - rm -rf yarn.lock
+        - yarn cache clean
         - yarn install --frozen-lockfile --skip-integrity-check
         - yarn cypress install
     test:
