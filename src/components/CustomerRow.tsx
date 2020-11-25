@@ -1,6 +1,9 @@
 import { Box, Button, TableCell, TableRow } from "grommet";
 import { Edit, Pause, Trash } from "grommet-icons";
-import { deleteCustomer, updateCustomer } from "../actions/customers";
+import {
+  removeCustomer,
+  updateCustomer,
+} from "../features/customers/customersSlice";
 import Customer from "../domain/Customer";
 import EditCustomerDialog from "./EditCustomerDialog";
 import OkCancelDialog from "./OkCancelDialog";
@@ -8,6 +11,7 @@ import PauseDialog from "./PauseDialog";
 import React from "react";
 import getExtrasString from "../lib/getExtrasString";
 import getStatusString from "../lib/getStatusString";
+import { useDispatch } from "react-redux";
 
 const WEEKS_IN_YEAR = 52;
 const MONTHS_IN_YEAR = 12;
@@ -15,7 +19,6 @@ const PENCE_IN_POUND = 100;
 
 interface CustomerRowProps {
   customer: Customer;
-  onChange: (oldCustomer: Customer, newCustomer: Customer) => void;
 }
 
 const pricePerWeek = (customer: Customer): number =>
@@ -28,6 +31,8 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showPause, setShowPause] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
+
+  const dispatch = useDispatch();
 
   return (
     <TableRow>
@@ -80,7 +85,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
             show={showDoDelete}
             header="Are you sure?"
             onOk={(): void => {
-              deleteCustomer(props.customer);
+              dispatch(removeCustomer(props.customer));
               setShowDoDelete(false);
             }}
             onCancel={(): void => setShowDoDelete(false)}
@@ -100,7 +105,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
               setShowPause(false);
             }}
             onOk={(newCustomer: Customer): void => {
-              updateCustomer(props.customer, newCustomer);
+              dispatch(updateCustomer(newCustomer));
               setShowPause(false);
             }}
           />
@@ -109,7 +114,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
             customer={props.customer}
             show={showEdit}
             onOk={(customer: Customer): void => {
-              updateCustomer(props.customer, customer);
+              dispatch(updateCustomer(customer));
               setShowEdit(false);
             }}
             onCancel={(): void => {
