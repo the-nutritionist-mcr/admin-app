@@ -23,11 +23,11 @@ const recipesSlice = createSlice({
         state.items.push(action.payload);
       },
       prepare: (
-        customer: Recipe
+        recipe: Recipe
       ): { payload: PayloadAction<Recipe>["payload"] } => {
         return {
           payload: {
-            ...customer,
+            ...recipe,
             id: nanoid(),
           },
         };
@@ -36,13 +36,11 @@ const recipesSlice = createSlice({
 
     removeRecipe: (state, action: PayloadAction<Recipe>): typeof state => ({
       ...state,
-      items: state.items.filter(
-        (customer) => customer.id !== action.payload.id
-      ),
+      items: state.items.filter((recipe) => recipe.id !== action.payload.id),
     }),
     updateRecipe: (state, action: PayloadAction<Recipe>): void => {
       const index = state.items.findIndex(
-        (customer) => customer.id === action.payload.id
+        (recipe) => recipe.id === action.payload.id
       );
       state.items[index] = { ...action.payload };
     },

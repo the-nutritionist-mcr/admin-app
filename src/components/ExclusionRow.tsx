@@ -1,11 +1,16 @@
 import { Button, TableCell, TableRow } from "grommet";
 
+import {
+  removeExclusion,
+  updateExclusion,
+} from "../features/exclusions/exclusionsSlice";
 import Exclusion from "../domain/Exclusion";
 import OkCancelDialog from "./OkCancelDialog";
 import React from "react";
 import TableCellCheckbox from "./TableCellCheckbox";
 import TableCellInputField from "./TableCellInputField";
 import { Trash } from "grommet-icons";
+import { useDispatch } from "react-redux";
 
 interface ExclusionRowProps {
   exclusion: Exclusion;
@@ -13,6 +18,7 @@ interface ExclusionRowProps {
 
 const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
+  const dispatch = useDispatch();
   return (
     <TableRow>
       <TableCell scope="row">
@@ -23,8 +29,8 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
             newExclusion.name = event.target.value;
           }}
           value={props.exclusion.name}
-          onChange={(): void => {
-            // NOOP
+          onChange={(exclusion): void => {
+            dispatch(updateExclusion(exclusion));
           }}
         />
       </TableCell>
@@ -36,8 +42,8 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
             newExclusion.allergen = event.target.checked;
           }}
           checked={props.exclusion.allergen}
-          onChange={(): void => {
-            // NOOP
+          onChange={(exclusion): void => {
+            dispatch(updateExclusion(exclusion));
           }}
         />
       </TableCell>
@@ -53,6 +59,7 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
           header="Are you sure?"
           onOk={(): void => {
             setShowDoDelete(false);
+            dispatch(removeExclusion(props.exclusion));
           }}
           onCancel={(): void => setShowDoDelete(false)}
         >

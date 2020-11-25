@@ -18,7 +18,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 import React from "react";
-import Recipe from "../domain/Recipe";
 import RecipesRow from "../components/RecipesRow";
 
 const Recipes: React.FC = () => {
@@ -64,18 +63,15 @@ const Recipes: React.FC = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {recipes
-              // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-              .sort((a: Recipe, b: Recipe) => (a.id > b.id ? -1 : 1))
-              .map((recipe) => (
-                <RecipesRow
-                  key={recipe.id}
-                  recipe={recipe}
-                  onChange={(newRecipe): void => {
-                    dispatch(updateRecipe(newRecipe));
-                  }}
-                />
-              ))}
+            {recipes.map((recipe) => (
+              <RecipesRow
+                key={recipe.id}
+                recipe={recipe}
+                onChange={(newRecipe): void => {
+                  dispatch(updateRecipe(newRecipe));
+                }}
+              />
+            ))}
           </TableBody>
         </Table>
       ) : (

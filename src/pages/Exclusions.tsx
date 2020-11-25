@@ -9,17 +9,30 @@ import {
   TableRow,
   Text,
 } from "grommet";
-import Exclusion from "../domain/Exclusion";
+import {
+  allExclusionsSelector,
+  createExclusion,
+} from "../features/exclusions/exclusionsSlice";
+import { useDispatch, useSelector } from "react-redux";
 import ExclusionRow from "../components/ExclusionRow";
 import React from "react";
 
 const Exclusions: React.FC = () => {
-  const [exclusions] = React.useState<Exclusion[]>([]);
+  const exclusions = useSelector(allExclusionsSelector);
+  const dispatch = useDispatch();
   return (
     <React.Fragment>
       <Header align="center" justify="start" gap="small">
         <Heading level={2}>Exclusions</Heading>
-        <Button primary size="small" label="New" a11yTitle="New Customer" />
+        <Button
+          primary
+          size="small"
+          label="New"
+          a11yTitle="New Customer"
+          onClick={(): void => {
+            dispatch(createExclusion({ id: "0", name: "", allergen: false }));
+          }}
+        />
       </Header>
       {exclusions.length > 0 ? (
         <Table alignSelf="start">
@@ -39,7 +52,6 @@ const Exclusions: React.FC = () => {
           <TableBody>
             {exclusions
               // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-              .sort((a: Exclusion, b: Exclusion) => (a.id > b.id ? -1 : 1))
               .map((exclusion) => (
                 <ExclusionRow key={exclusion.id} exclusion={exclusion} />
               ))}

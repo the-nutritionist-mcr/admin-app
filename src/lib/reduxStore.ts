@@ -1,11 +1,13 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import customersSlice from "../features/customers/customersSlice";
+import exclusionsSlice from "../features/exclusions/exclusionsSlice";
 import recipesSlice from "../features/recipes/recipesSlice";
 
 const rootReducer = combineReducers({
   customers: customersSlice.reducer,
   recipes: recipesSlice.reducer,
+  exclusions: exclusionsSlice.reducer,
 });
 
 const reduxStore = configureStore({

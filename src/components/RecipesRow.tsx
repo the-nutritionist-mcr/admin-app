@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 
 interface RecipesRowProps {
   recipe: Recipe;
-  onChange: (oldRecipe: Recipe, newRecipe: Recipe) => void;
+  onChange: (newRecipe: Recipe) => void;
 }
 
 const RecipesRow: React.FC<RecipesRowProps> = (props) => {
