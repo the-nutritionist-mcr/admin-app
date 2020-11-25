@@ -8,7 +8,7 @@ const getStatusString = (customer: Customer): string => {
   const now = new Date(Date.now());
 
   const activeString =
-    customer.pauseStart && customer.pauseStart > now
+    customer.pauseStart && new Date(customer.pauseStart) > now
       ? ` until ${moment(new Date(customer.pauseStart)).calendar(
           null,
           calendarFormat

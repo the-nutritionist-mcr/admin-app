@@ -53,10 +53,10 @@ describe("chooseMeals", () => {
       breakfast: true,
 
       // 1st of March 2020
-      pauseStart: new Date(1583020800000),
+      pauseStart: new Date(1583020800000).toISOString(),
 
       // 1st of December 2020
-      pauseEnd: new Date(1606780800000),
+      pauseEnd: new Date(1606780800000).toISOString(),
       plan: {
         name: "Mass 5",
         category: "Mass",

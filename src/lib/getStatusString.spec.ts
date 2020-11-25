@@ -74,7 +74,7 @@ describe("Get status string", () => {
         costPerMeal: 1,
       },
       // 1st of June 2020
-      pauseStart: new Date(1590969600000),
+      pauseStart: new Date(1590969600000).toISOString(),
       snack: Snack.None,
       breakfast: false,
       exclusions: [],
@@ -107,7 +107,7 @@ describe("Get status string", () => {
       },
 
       // 1st February 2021
-      pauseStart: new Date(1612137600000),
+      pauseStart: new Date(1612137600000).toISOString(),
       snack: Snack.None,
       breakfast: false,
       exclusions: [],
@@ -170,7 +170,7 @@ describe("Get status string", () => {
         costPerMeal: 1,
       },
       // 1st February 2021
-      pauseEnd: new Date(1612137600000),
+      pauseEnd: new Date(1612137600000).toISOString(),
       snack: Snack.None,
       breakfast: false,
       exclusions: [],

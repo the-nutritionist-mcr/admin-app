@@ -14,10 +14,10 @@ interface PauseDialogProps {
 
 const PauseDialog: React.FC<PauseDialogProps> = (props) => {
   const [pauseStart, setPauseStart] = React.useState<string | undefined>(
-    props.customer.pauseStart?.toISOString()
+    props.customer.pauseStart
   );
   const [pauseEnd, setPauseEnd] = React.useState<string | undefined>(
-    props.customer.pauseEnd?.toISOString()
+    props.customer.pauseEnd
   );
 
   const friendlyStart = pauseStart
@@ -33,12 +33,7 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
       show={props.show}
       header="Add Pause"
       onOk={(): void => {
-        const newCustomer = {
-          ...props.customer,
-          pauseStart: pauseStart ? new Date(pauseStart) : undefined,
-          pauseEnd: pauseEnd ? new Date(pauseEnd) : undefined,
-        };
-        props.onOk(newCustomer);
+        props.onOk(props.customer);
       }}
       extraFooterItems={
         <Button

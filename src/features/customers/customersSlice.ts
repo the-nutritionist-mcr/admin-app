@@ -1,3 +1,7 @@
+import * as APITypes from "../../API";
+
+import API, { GraphQLResult, graphqlOperation } from "@aws-amplify/api";
+import Customer, { Snack } from "../../domain/Customer";
 import {
   PayloadAction,
   createAsyncThunk,
@@ -7,8 +11,10 @@ import {
 
 import type { AppState } from "../../lib/store";
 
-import Customer from "../../domain/Customer";
 import LoadingState from "../../types/LoadingState";
+import { PlanCategory } from "../../lib/config";
+import convertNullsToUndefined from "../../lib/convertNullsToUndefined";
+import { listCustomers } from "../../graphql/queries";
 
 interface CustomersState {
   items: Customer[];
@@ -22,6 +28,37 @@ const initialState: CustomersState = {
   page: 0,
   loadingState: LoadingState.Idle,
 };
+
+export const fetchCustomers = createAsyncThunk(
+  "posts/fetchCustomers",
+  async (): Promise<Customer[]> => {
+    const listCustomerVariables: APITypes.ListCustomersQueryVariables = {};
+    const listCustomersResult = (await API.graphql(
+      graphqlOperation(listCustomers, listCustomerVariables)
+    )) as GraphQLResult<APITypes.ListCustomersQuery>;
+
+    const items = listCustomersResult.data?.listCustomers?.items;
+
+    type NotNull = <T>(thing: T | null) => thing is T;
+
+    if (items) {
+      return items
+        .filter((Boolean as unknown) as NotNull)
+        .map(convertNullsToUndefined)
+        .map((item) => ({
+          ...item,
+          plan: {
+            ...item.plan,
+            category: item.plan.category as PlanCategory,
+          },
+          snack: item.snack as Snack,
+          exclusions: [],
+        }));
+    }
+
+    throw new Error("Response from backend was malformed");
+  }
+);
 
 const customersSlice = createSlice({
   name: "customers",
@@ -56,14 +93,23 @@ const customersSlice = createSlice({
       state.items[index] = { ...action.payload };
     },
   },
-});
 
-export const fetchCustomers = createAsyncThunk(
-  "posts/fetchCustomers",
-  async (): Promise<Customer[]> => {
-    return Promise.resolve([]);
-  }
-);
+  extraReducers: (builder) => {
+    builder.addCase(fetchCustomers.pending, (state): void => {
+      state.loadingState = LoadingState.Loading;
+    });
+
+    builder.addCase(fetchCustomers.fulfilled, (state, action): void => {
+      state.loadingState = LoadingState.Succeeeded;
+      state.items = action.payload;
+    });
+
+    builder.addCase(fetchCustomers.rejected, (state, action): void => {
+      state.loadingState = LoadingState.Failed;
+      state.error = action.error.message;
+    });
+  },
+});
 
 export default customersSlice;
 
