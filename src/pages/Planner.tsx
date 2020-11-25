@@ -4,7 +4,6 @@ import {
   LOCALSTORAGE_KEY_PLANNED,
 } from "../lib/constants";
 import { chooseMeals, makePlan } from "../lib/plan-meals";
-import { customerStore, recipeStore } from "../lib/stores";
 
 import Customer from "../domain/Customer";
 import DeliveryDay from "../types/DeliveryDay";
@@ -14,10 +13,7 @@ import Recipe from "../domain/Recipe";
 import ToCookTable from "../components/ToCookTable";
 import ToPackTable from "../components/ToPackTable";
 
-import { getCustomers } from "../actions/customers";
-import { getRecipes } from "../actions/recipes";
 import styled from "styled-components";
-import useDeepCompareEffect from "use-deep-compare-effect";
 
 const defaultPlans: DeliveryMealsSelection = [
   undefined,
@@ -41,11 +37,6 @@ const PrintableBox = styled(Box)`
 `;
 
 const Planner: React.FC = () => {
-  const savedPlanIds: (undefined | number)[] = JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_KEY_PLANNED) ??
-      JSON.stringify(defaultPlans)
-  );
-
   const [day, setDay] = React.useState<DeliveryDay>(
     (localStorage.getItem(LOCALSTORAGE_KEY_DAY) as DeliveryDay) ?? ""
   );
@@ -54,38 +45,12 @@ const Planner: React.FC = () => {
     defaultPlans
   );
 
-  const [recipes, setRecipes] = React.useState<Recipe[]>(recipeStore.getAll());
+  const [recipes] = React.useState<Recipe[]>([]);
 
-  const [customers, setCustomers] = React.useState<Customer[]>(
-    customerStore.getAll()
-  );
+  const [customers] = React.useState<Customer[]>([]);
 
   const chosenMeals = chooseMeals(day, planned, customers);
   const cookPlan = makePlan(chosenMeals);
-
-  const onChangeRecipes = (): void => {
-    setRecipes([...recipeStore.getAll()]);
-  };
-
-  const onChangeCustomers = (): void => {
-    setCustomers([...customerStore.getAll()]);
-  };
-
-  useDeepCompareEffect((): (() => void) => {
-    recipeStore.addChangeListener(onChangeRecipes);
-    customerStore.addChangeListener(onChangeCustomers);
-    getRecipes();
-    getCustomers();
-    setPlanned(
-      savedPlanIds.map((id) =>
-        id !== undefined ? recipeStore.getById(id) : undefined
-      )
-    );
-    return (): void => {
-      recipeStore.removeChangeListener(onChangeRecipes);
-      customerStore.removeChangeListener(onChangeCustomers);
-    };
-  }, [savedPlanIds]);
 
   const activeSelections = planned.filter(Boolean);
 

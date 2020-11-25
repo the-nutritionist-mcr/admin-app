@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit";
 
 import type { AppState } from "../../lib/reduxStore";
 
@@ -18,14 +18,26 @@ const customersSlice = createSlice({
   name: "customers",
   initialState,
   reducers: {
-    createCustomer: (state, action: PayloadAction<Customer>): void => {
-      state.items.push(action.payload);
+    createCustomer: {
+      reducer: (state, action: PayloadAction<Customer>): void => {
+        state.items.push(action.payload);
+      },
+      prepare: (
+        customer: Customer
+      ): { payload: PayloadAction<Customer>["payload"] } => {
+        return {
+          payload: {
+            ...customer,
+            id: nanoid(),
+          },
+        };
+      },
     },
 
     removeCustomer: (state, action: PayloadAction<Customer>): typeof state => ({
       ...state,
       items: state.items.filter(
-        (customer) => customer.id === action.payload.id
+        (customer) => customer.id !== action.payload.id
       ),
     }),
     updateCustomer: (state, action: PayloadAction<Customer>): void => {

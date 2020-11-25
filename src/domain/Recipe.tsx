@@ -1,7 +1,7 @@
 import Exclusion from "./Exclusion";
 
 export default interface Recipe {
-  id: number;
+  id: string;
   name: string;
   description?: string;
   potentialExclusions: Exclusion[];

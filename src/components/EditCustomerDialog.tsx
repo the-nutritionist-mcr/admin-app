@@ -18,10 +18,7 @@ import {
 import { Checkmark, Close } from "grommet-icons";
 import Customer, { Snack } from "../domain/Customer";
 import { daysPerWeekOptions, plans } from "../lib/config";
-import Exclusion from "../domain/Exclusion";
 import React from "react";
-import { exclusionsStore } from "../lib/stores";
-import { getExclusions } from "../actions/exclusions";
 import styled from "styled-components";
 
 interface EditCustomerDialogProps {
@@ -38,21 +35,6 @@ const SelectButton = styled.div`
 
 const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
   const [customer, setCustomer] = React.useState(props.customer);
-  const [exclusions, setExclusions] = React.useState<Exclusion[]>(
-    exclusionsStore.getAll()
-  );
-
-  const onChangeExclusions = (): void => {
-    setExclusions([...exclusionsStore.getAll()]);
-  };
-
-  React.useEffect(() => {
-    exclusionsStore.addChangeListener(onChangeExclusions);
-    if (exclusionsStore.getAll().length === 0) {
-      getExclusions();
-    }
-    return (): void => exclusionsStore.removeChangeListener(onChangeExclusions);
-  }, []);
 
   return props?.show ? (
     <Layer>
@@ -159,14 +141,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
                 </FormField>
 
                 <FormField name="exclusions" label="Exclusions">
-                  <Select
-                    multiple
-                    closeOnChange={false}
-                    name="exclusions"
-                    options={exclusions}
-                    labelKey="name"
-                    valueKey="name"
-                  />
+                  (exclusions)
                 </FormField>
               </Box>
             </Box>

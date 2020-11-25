@@ -7,11 +7,8 @@ import TableCellCheckbox from "./TableCellCheckbox";
 import TableCellInputField from "./TableCellInputField";
 import { Trash } from "grommet-icons";
 
-import { deleteExclusion } from "../actions/exclusions";
-
 interface ExclusionRowProps {
   exclusion: Exclusion;
-  onChange: (oldExclusion: Exclusion, newExclusion: Exclusion) => void;
 }
 
 const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
@@ -26,7 +23,9 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
             newExclusion.name = event.target.value;
           }}
           value={props.exclusion.name}
-          onChange={props.onChange}
+          onChange={(): void => {
+            // NOOP
+          }}
         />
       </TableCell>
       <TableCell scope="row">
@@ -37,7 +36,9 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
             newExclusion.allergen = event.target.checked;
           }}
           checked={props.exclusion.allergen}
-          onChange={props.onChange}
+          onChange={(): void => {
+            // NOOP
+          }}
         />
       </TableCell>
       <TableCell scope="row">
@@ -51,7 +52,6 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
           show={showDoDelete}
           header="Are you sure?"
           onOk={(): void => {
-            deleteExclusion(props.exclusion);
             setShowDoDelete(false);
           }}
           onCancel={(): void => setShowDoDelete(false)}
