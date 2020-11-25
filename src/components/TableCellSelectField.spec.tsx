@@ -406,7 +406,7 @@ describe("The <TableCellSelectField /> component", () => {
         );
 
         const onChangeFirstArg = onChange.mock.calls[0][0];
-        expect(onChangeFirstArg).toBe(thing);
+        expect(onChangeFirstArg).toEqual(thing);
 
         const onChangeSecondArg = onChange.mock.calls[0][1];
         expect(onChangeSecondArg).not.toBe(thing);
