@@ -113,6 +113,8 @@
   },
   "eslintConfig": {
     "ignorePatterns": [
+      "src/API.ts",
+      "graphql",
       "src/aws-exports.js",
       "coverage",
       "build"
