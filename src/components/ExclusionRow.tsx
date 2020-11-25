@@ -1,21 +1,24 @@
 import { Button, TableCell, TableRow } from "grommet";
 
+import {
+  removeExclusion,
+  updateExclusion,
+} from "../features/exclusions/exclusionsSlice";
 import Exclusion from "../domain/Exclusion";
 import OkCancelDialog from "./OkCancelDialog";
 import React from "react";
 import TableCellCheckbox from "./TableCellCheckbox";
 import TableCellInputField from "./TableCellInputField";
 import { Trash } from "grommet-icons";
-
-import { deleteExclusion } from "../actions/exclusions";
+import { useDispatch } from "react-redux";
 
 interface ExclusionRowProps {
   exclusion: Exclusion;
-  onChange: (oldExclusion: Exclusion, newExclusion: Exclusion) => void;
 }
 
 const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
+  const dispatch = useDispatch();
   return (
     <TableRow>
       <TableCell scope="row">
@@ -26,7 +29,9 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
             newExclusion.name = event.target.value;
           }}
           value={props.exclusion.name}
-          onChange={props.onChange}
+          onChange={(exclusion): void => {
+            dispatch(updateExclusion(exclusion));
+          }}
         />
       </TableCell>
       <TableCell scope="row">
@@ -37,7 +42,9 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
             newExclusion.allergen = event.target.checked;
           }}
           checked={props.exclusion.allergen}
-          onChange={props.onChange}
+          onChange={(exclusion): void => {
+            dispatch(updateExclusion(exclusion));
+          }}
         />
       </TableCell>
       <TableCell scope="row">
@@ -51,8 +58,8 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
           show={showDoDelete}
           header="Are you sure?"
           onOk={(): void => {
-            deleteExclusion(props.exclusion);
             setShowDoDelete(false);
+            dispatch(removeExclusion(props.exclusion));
           }}
           onCancel={(): void => setShowDoDelete(false)}
         >

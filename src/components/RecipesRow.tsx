@@ -1,5 +1,6 @@
 import { Button, TableCell, TableRow } from "grommet";
-import Exclusion from "../domain/Exclusion";
+import { useDispatch, useSelector } from "react-redux";
+
 import OkCancelDialog from "./OkCancelDialog";
 import React from "react";
 import Recipe from "../domain/Recipe";
@@ -7,33 +8,19 @@ import Recipe from "../domain/Recipe";
 import TableCellInputField from "./TableCellInputField";
 import TableCellSelectField from "./TableCellSelectField";
 import { Trash } from "grommet-icons";
-import { deleteRecipe } from "../actions/recipes";
-import { exclusionsStore } from "../lib/stores";
-import { getExclusions } from "../actions/exclusions";
+
+import { allExclusionsSelector } from "../features/exclusions/exclusionsSlice";
+import { removeRecipe } from "../features/recipes/recipesSlice";
 
 interface RecipesRowProps {
   recipe: Recipe;
-  onChange: (oldRecipe: Recipe, newRecipe: Recipe) => void;
+  onChange: (newRecipe: Recipe) => void;
 }
 
 const RecipesRow: React.FC<RecipesRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
-
-  const [exclusions, setExclusions] = React.useState<Exclusion[]>(
-    exclusionsStore.getAll()
-  );
-
-  const onChangeExclusions = (): void => {
-    setExclusions([...exclusionsStore.getAll()]);
-  };
-
-  React.useEffect(() => {
-    exclusionsStore.addChangeListener(onChangeExclusions);
-    if (exclusionsStore.getAll().length === 0) {
-      getExclusions();
-    }
-    return (): void => exclusionsStore.removeChangeListener(onChangeExclusions);
-  }, []);
+  const dispatch = useDispatch();
+  const exclusions = useSelector(allExclusionsSelector);
 
   return (
     <TableRow>
@@ -84,7 +71,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
           show={showDoDelete}
           header="Are you sure?"
           onOk={(): void => {
-            deleteRecipe(props.recipe);
+            dispatch(removeRecipe(props.recipe));
             setShowDoDelete(false);
           }}
           onCancel={(): void => setShowDoDelete(false)}

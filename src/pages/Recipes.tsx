@@ -11,29 +11,18 @@ import {
 } from "grommet";
 
 import {
-  createBlankRecipe,
-  getRecipes,
+  allRecipesSelector,
+  createRecipe,
   updateRecipe,
-} from "../actions/recipes";
+} from "../features/recipes/recipesSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 import React from "react";
-import Recipe from "../domain/Recipe";
 import RecipesRow from "../components/RecipesRow";
-import { recipeStore } from "../lib/stores";
 
 const Recipes: React.FC = () => {
-  const [recipes, setRecipes] = React.useState<Recipe[]>(recipeStore.getAll());
-
-  const onChangeRecipes = (): void => {
-    setRecipes([...recipeStore.getAll()]);
-  };
-
-  React.useEffect(() => {
-    recipeStore.addChangeListener(onChangeRecipes);
-    if (recipeStore.getAll().length === 0) {
-      getRecipes();
-    }
-    return (): void => recipeStore.removeChangeListener(onChangeRecipes);
-  }, []);
+  const recipes = useSelector(allRecipesSelector);
+  const dispatch = useDispatch();
 
   return (
     <React.Fragment>
@@ -42,9 +31,17 @@ const Recipes: React.FC = () => {
         <Button
           primary
           size="small"
-          onClick={createBlankRecipe}
+          onClick={(): void => {
+            dispatch(
+              createRecipe({
+                id: "0",
+                name: "",
+                potentialExclusions: [],
+              })
+            );
+          }}
           label="New"
-          a11yTitle="New Customer"
+          a11yTitle="New Recipe"
         />
       </Header>
       {recipes.length > 0 ? (
@@ -67,13 +64,16 @@ const Recipes: React.FC = () => {
           </TableHeader>
           <TableBody>
             {recipes
-              // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-              .sort((a: Recipe, b: Recipe) => (a.id > b.id ? -1 : 1))
+
+              .slice()
+              .reverse()
               .map((recipe) => (
                 <RecipesRow
                   key={recipe.id}
                   recipe={recipe}
-                  onChange={updateRecipe}
+                  onChange={(newRecipe): void => {
+                    dispatch(updateRecipe(newRecipe));
+                  }}
                 />
               ))}
           </TableBody>

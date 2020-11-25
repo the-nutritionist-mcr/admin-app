@@ -38,7 +38,7 @@ function TableCellInputField<T>(
   const onChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const newThing = { ...props.thing };
     props.mutator(newThing, event);
-    props.onChange(props.thing, newThing);
+    props.onChange(newThing);
   };
 
   const onChangeDebounced = useDebouncedCallback(onChange, DebounceTime);

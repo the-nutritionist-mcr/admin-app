@@ -10,32 +10,16 @@ import {
   Text,
 } from "grommet";
 import {
-  createBlankExclusion,
-  getExclusions,
-  updateExclusion,
-} from "../actions/exclusions";
-import Exclusion from "../domain/Exclusion";
+  allExclusionsSelector,
+  createExclusion,
+} from "../features/exclusions/exclusionsSlice";
+import { useDispatch, useSelector } from "react-redux";
 import ExclusionRow from "../components/ExclusionRow";
 import React from "react";
-import { exclusionsStore } from "../lib/stores";
 
 const Exclusions: React.FC = () => {
-  const [exclusions, setExclusions] = React.useState<Exclusion[]>(
-    exclusionsStore.getAll()
-  );
-
-  const onChangeExclusions = (): void => {
-    setExclusions([...exclusionsStore.getAll()]);
-  };
-
-  React.useEffect(() => {
-    exclusionsStore.addChangeListener(onChangeExclusions);
-    if (exclusionsStore.getAll().length === 0) {
-      getExclusions();
-    }
-    return (): void => exclusionsStore.removeChangeListener(onChangeExclusions);
-  }, [exclusions]);
-
+  const exclusions = useSelector(allExclusionsSelector);
+  const dispatch = useDispatch();
   return (
     <React.Fragment>
       <Header align="center" justify="start" gap="small">
@@ -43,9 +27,11 @@ const Exclusions: React.FC = () => {
         <Button
           primary
           size="small"
-          onClick={createBlankExclusion}
           label="New"
           a11yTitle="New Customer"
+          onClick={(): void => {
+            dispatch(createExclusion({ id: "0", name: "", allergen: false }));
+          }}
         />
       </Header>
       {exclusions.length > 0 ? (
@@ -65,14 +51,10 @@ const Exclusions: React.FC = () => {
           </TableHeader>
           <TableBody>
             {exclusions
-              // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-              .sort((a: Exclusion, b: Exclusion) => (a.id > b.id ? -1 : 1))
+              .slice()
+              .reverse()
               .map((exclusion) => (
-                <ExclusionRow
-                  key={exclusion.id}
-                  exclusion={exclusion}
-                  onChange={updateExclusion}
-                />
+                <ExclusionRow key={exclusion.id} exclusion={exclusion} />
               ))}
           </TableBody>
         </Table>

@@ -18,11 +18,11 @@ import {
 import { Checkmark, Close } from "grommet-icons";
 import Customer, { Snack } from "../domain/Customer";
 import { daysPerWeekOptions, plans } from "../lib/config";
-import Exclusion from "../domain/Exclusion";
 import React from "react";
-import { exclusionsStore } from "../lib/stores";
-import { getExclusions } from "../actions/exclusions";
+import { allExclusionsSelector } from "../features/exclusions/exclusionsSlice";
 import styled from "styled-components";
+
+import { useSelector } from "react-redux";
 
 interface EditCustomerDialogProps {
   customer: Customer;
@@ -38,21 +38,7 @@ const SelectButton = styled.div`
 
 const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
   const [customer, setCustomer] = React.useState(props.customer);
-  const [exclusions, setExclusions] = React.useState<Exclusion[]>(
-    exclusionsStore.getAll()
-  );
-
-  const onChangeExclusions = (): void => {
-    setExclusions([...exclusionsStore.getAll()]);
-  };
-
-  React.useEffect(() => {
-    exclusionsStore.addChangeListener(onChangeExclusions);
-    if (exclusionsStore.getAll().length === 0) {
-      getExclusions();
-    }
-    return (): void => exclusionsStore.removeChangeListener(onChangeExclusions);
-  }, []);
+  const exclusions = useSelector(allExclusionsSelector);
 
   return props?.show ? (
     <Layer>

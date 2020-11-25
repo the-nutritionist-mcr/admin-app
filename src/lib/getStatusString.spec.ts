@@ -29,11 +29,16 @@ describe("Get status string", () => {
     mocked(isActive, true).mockReturnValue(true);
 
     const customer: Customer = {
-      id: 0,
-      name: "",
+      id: "0",
+      firstName: "",
+      surname: "",
+      address: "",
+      salutation: "",
+      telephone: "",
       email: "",
       daysPerWeek: 1,
       plan: {
+        name: "Mass 1",
         category: "Mass",
         mealsPerDay: 1,
         costPerMeal: 1,
@@ -54,11 +59,16 @@ describe("Get status string", () => {
     mocked(isActive, true).mockReturnValue(true);
 
     const customer: Customer = {
-      id: 0,
-      name: "",
+      id: "0",
+      surname: "",
+      firstName: "",
+      address: "",
+      telephone: "",
+      salutation: "",
       email: "",
       daysPerWeek: 1,
       plan: {
+        name: "Mass 1",
         category: "Mass",
         mealsPerDay: 1,
         costPerMeal: 1,
@@ -81,11 +91,16 @@ describe("Get status string", () => {
     mocked(isActive, true).mockReturnValue(true);
 
     const customer: Customer = {
-      id: 0,
-      name: "",
+      id: "0",
+      firstName: "",
+      surname: "",
+      address: "",
+      salutation: "",
+      telephone: "",
       email: "",
       daysPerWeek: 1,
       plan: {
+        name: "Mass 1",
         category: "Mass",
         mealsPerDay: 1,
         costPerMeal: 1,
@@ -109,11 +124,16 @@ describe("Get status string", () => {
     mocked(isActive, true).mockReturnValue(false);
 
     const customer: Customer = {
-      id: 0,
-      name: "",
+      id: "0",
+      firstName: "",
+      surname: "",
+      telephone: "",
+      address: "",
       email: "",
+      salutation: "",
       daysPerWeek: 1,
       plan: {
+        name: "Mass 1",
         category: "Mass",
         mealsPerDay: 1,
         costPerMeal: 1,
@@ -135,11 +155,16 @@ describe("Get status string", () => {
     mocked(isActive, true).mockReturnValue(false);
 
     const customer: Customer = {
-      id: 0,
-      name: "",
+      id: "0",
+      firstName: "",
+      surname: "",
+      salutation: "",
+      address: "",
+      telephone: "",
       email: "",
       daysPerWeek: 1,
       plan: {
+        name: "Mass 1",
         category: "Mass",
         mealsPerDay: 1,
         costPerMeal: 1,
