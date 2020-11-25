@@ -63,15 +63,19 @@ const Recipes: React.FC = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {recipes.map((recipe) => (
-              <RecipesRow
-                key={recipe.id}
-                recipe={recipe}
-                onChange={(newRecipe): void => {
-                  dispatch(updateRecipe(newRecipe));
-                }}
-              />
-            ))}
+            {recipes
+
+              .slice()
+              .reverse()
+              .map((recipe) => (
+                <RecipesRow
+                  key={recipe.id}
+                  recipe={recipe}
+                  onChange={(newRecipe): void => {
+                    dispatch(updateRecipe(newRecipe));
+                  }}
+                />
+              ))}
           </TableBody>
         </Table>
       ) : (

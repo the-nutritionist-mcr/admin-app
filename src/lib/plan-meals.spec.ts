@@ -15,13 +15,13 @@ describe("chooseMeals", () => {
     const mealsSelection: DeliveryMealsSelection = [mealOne, mealTwo];
 
     const fishExclusion = {
-      id: 0,
+      id: "0",
       name: "fish",
       allergen: false,
     };
 
     const customerOne: Customer = {
-      id: 1,
+      id: "1",
       name: "foo-customer",
       email: "foo-email",
       daysPerWeek: 6,
@@ -36,7 +36,7 @@ describe("chooseMeals", () => {
     };
 
     const customerTwo: Customer = {
-      id: 2,
+      id: "2",
       name: "bar-customer",
       email: "bar-email",
       daysPerWeek: 1,
@@ -57,7 +57,7 @@ describe("chooseMeals", () => {
     };
 
     const customerThree: Customer = {
-      id: 3,
+      id: "3",
       name: "baz-customer",
       email: "baz-email",
       daysPerWeek: 6,
@@ -88,23 +88,23 @@ describe("chooseMeals", () => {
   it("returns an empty array if there are no customers", () => {
     const mealsSelection: DeliveryMealsSelection = [
       {
-        id: 1,
+        id: "1",
         name: "foo",
         potentialExclusions: [
           {
-            id: 0,
+            id: "0",
             name: "fish",
             allergen: false,
           },
           {
-            id: 1,
+            id: "1",
             name: "rice",
             allergen: true,
           },
         ],
       },
       {
-        id: 2,
+        id: "2",
         name: "bar",
         potentialExclusions: [],
       },
@@ -122,7 +122,7 @@ describe("chooseMeals", () => {
     const mealsSelection: DeliveryMealsSelection = [mealOne];
 
     const customerOne: Customer = {
-      id: 1,
+      id: "1",
       name: "foo-customer",
       email: "foo-email",
       daysPerWeek: 2,
@@ -176,13 +176,13 @@ describe("chooseMeals", () => {
       ];
 
       const fishExclusion = {
-        id: 0,
+        id: "0",
         name: "fish",
         allergen: false,
       };
 
       const customerOne: Customer = {
-        id: 1,
+        id: "1",
         name: "foo-customer",
         email: "foo-email",
         daysPerWeek: 6,
@@ -197,7 +197,7 @@ describe("chooseMeals", () => {
       };
 
       const customerTwo: Customer = {
-        id: 2,
+        id: "2",
         name: "bar-customer",
         email: "bar-email",
         daysPerWeek,
@@ -212,7 +212,7 @@ describe("chooseMeals", () => {
       };
 
       const customerThree: Customer = {
-        id: 3,
+        id: "3",
         name: "baz-customer",
         email: "baz-email",
         daysPerWeek: 6,
@@ -264,19 +264,19 @@ describe("makePlan", () => {
 
   it("Collects together all recipes correctly when there is no variants and there is only one type of meal", () => {
     const recipeOne: Recipe = {
-      id: 0,
+      id: "0",
       name: "foo-recipe",
       potentialExclusions: [],
     };
 
     const recipeTwo: Recipe = {
-      id: 1,
+      id: "1",
       name: "bar-recipe",
       potentialExclusions: [],
     };
 
     const recipeThree: Recipe = {
-      id: 2,
+      id: "2",
       name: "baz-recipe",
       potentialExclusions: [],
     };
@@ -285,7 +285,7 @@ describe("makePlan", () => {
       {
         meals: [recipeOne, recipeTwo],
         customer: {
-          id: 0,
+          id: "0",
           name: "foo",
           email: "foo-email",
           daysPerWeek: 6,
@@ -302,7 +302,7 @@ describe("makePlan", () => {
       {
         meals: [recipeOne],
         customer: {
-          id: 1,
+          id: "1",
           name: "foo1",
           email: "foo1-email",
           daysPerWeek: 6,
@@ -319,7 +319,7 @@ describe("makePlan", () => {
       {
         meals: [recipeOne, recipeTwo, recipeThree],
         customer: {
-          id: 2,
+          id: "2",
           name: "foo2",
           email: "foo2-email",
           daysPerWeek: 6,
@@ -360,25 +360,25 @@ describe("makePlan", () => {
 
   it("Groups matching allergens together as a 'variant'", () => {
     const fishExclusion = {
-      id: 0,
+      id: "0",
       name: "fish",
       allergen: false,
     };
 
     const recipeOne: Recipe = {
-      id: 0,
+      id: "0",
       name: "foo-recipe",
       potentialExclusions: [fishExclusion],
     };
 
     const recipeTwo: Recipe = {
-      id: 1,
+      id: "1",
       name: "bar-recipe",
       potentialExclusions: [],
     };
 
     const recipeThree: Recipe = {
-      id: 2,
+      id: "2",
       name: "baz-recipe",
       potentialExclusions: [],
     };
@@ -387,7 +387,7 @@ describe("makePlan", () => {
       {
         meals: [recipeOne, recipeTwo],
         customer: {
-          id: 0,
+          id: "0",
           name: "foo",
           email: "foo-email",
           daysPerWeek: 6,
@@ -404,7 +404,7 @@ describe("makePlan", () => {
       {
         meals: [recipeOne],
         customer: {
-          id: 1,
+          id: "1",
           name: "foo1",
           email: "foo1-email",
           daysPerWeek: 6,
@@ -421,7 +421,7 @@ describe("makePlan", () => {
       {
         meals: [recipeOne, recipeTwo, recipeThree],
         customer: {
-          id: 2,
+          id: "2",
           name: "foo2",
           email: "foo2-email",
           daysPerWeek: 6,

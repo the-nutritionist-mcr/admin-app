@@ -51,7 +51,8 @@ const Exclusions: React.FC = () => {
           </TableHeader>
           <TableBody>
             {exclusions
-              // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+              .slice()
+              .reverse()
               .map((exclusion) => (
                 <ExclusionRow key={exclusion.id} exclusion={exclusion} />
               ))}

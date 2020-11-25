@@ -9,7 +9,6 @@ import {
   TableRow,
   Text,
 } from "grommet";
-import Customer, { Snack } from "../domain/Customer";
 
 import {
   allCustomersSelector,
@@ -20,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CustomerRow from "../components/CustomerRow";
 import EditCustomerDialog from "../components/EditCustomerDialog";
 import React from "react";
+import { Snack } from "../domain/Customer";
 
 const Customers: React.FC = () => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
@@ -103,8 +103,8 @@ const Customers: React.FC = () => {
           </TableHeader>
           <TableBody>
             {customers
-              // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-              .sort((a: Customer, b: Customer) => (a.id > b.id ? -1 : 1))
+              .slice()
+              .reverse()
               .map((customer) => (
                 <CustomerRow key={customer.id} customer={customer} />
               ))}
