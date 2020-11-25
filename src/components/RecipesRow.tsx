@@ -1,14 +1,16 @@
 import { Button, TableCell, TableRow } from "grommet";
+import { useDispatch, useSelector } from "react-redux";
 
 import OkCancelDialog from "./OkCancelDialog";
 import React from "react";
 import Recipe from "../domain/Recipe";
 
 import TableCellInputField from "./TableCellInputField";
+import TableCellSelectField from "./TableCellSelectField";
 import { Trash } from "grommet-icons";
 
+import { allExclusionsSelector } from "../features/exclusions/exclusionsSlice";
 import { removeRecipe } from "../features/recipes/recipesSlice";
-import { useDispatch } from "react-redux";
 
 interface RecipesRowProps {
   recipe: Recipe;
@@ -18,6 +20,7 @@ interface RecipesRowProps {
 const RecipesRow: React.FC<RecipesRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const dispatch = useDispatch();
+  const exclusions = useSelector(allExclusionsSelector);
 
   return (
     <TableRow>
@@ -43,7 +46,20 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
           onChange={props.onChange}
         />
       </TableCell>
-      <TableCell></TableCell>
+      <TableCell>
+        <TableCellSelectField
+          multiple
+          name="exclusions"
+          thing={props.recipe}
+          options={exclusions}
+          labelKey="name"
+          value={props.recipe.potentialExclusions}
+          mutator={(newRecipe, item): void => {
+            newRecipe.potentialExclusions = item.value;
+          }}
+          onChange={props.onChange}
+        />
+      </TableCell>
 
       <TableCell>
         <Button

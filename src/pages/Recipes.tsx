@@ -35,7 +35,7 @@ const Recipes: React.FC = () => {
             dispatch(
               createRecipe({
                 id: "0",
-                name: "Foo",
+                name: "",
                 potentialExclusions: [],
               })
             );

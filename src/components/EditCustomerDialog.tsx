@@ -19,7 +19,10 @@ import { Checkmark, Close } from "grommet-icons";
 import Customer, { Snack } from "../domain/Customer";
 import { daysPerWeekOptions, plans } from "../lib/config";
 import React from "react";
+import { allExclusionsSelector } from "../features/exclusions/exclusionsSlice";
 import styled from "styled-components";
+
+import { useSelector } from "react-redux";
 
 interface EditCustomerDialogProps {
   customer: Customer;
@@ -35,6 +38,7 @@ const SelectButton = styled.div`
 
 const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
   const [customer, setCustomer] = React.useState(props.customer);
+  const exclusions = useSelector(allExclusionsSelector);
 
   return props?.show ? (
     <Layer>
@@ -141,7 +145,14 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
                 </FormField>
 
                 <FormField name="exclusions" label="Exclusions">
-                  (exclusions)
+                  <Select
+                    multiple
+                    closeOnChange={false}
+                    name="exclusions"
+                    options={exclusions}
+                    labelKey="name"
+                    valueKey="name"
+                  />
                 </FormField>
               </Box>
             </Box>

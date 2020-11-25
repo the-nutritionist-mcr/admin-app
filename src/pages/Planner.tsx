@@ -5,15 +5,16 @@ import {
 } from "../lib/constants";
 import { chooseMeals, makePlan } from "../lib/plan-meals";
 
-import Customer from "../domain/Customer";
 import DeliveryDay from "../types/DeliveryDay";
 import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
 import React from "react";
 import Recipe from "../domain/Recipe";
 import ToCookTable from "../components/ToCookTable";
 import ToPackTable from "../components/ToPackTable";
-
+import { allCustomersSelector } from "../features/customers/customersSlice";
+import { allRecipesSelector } from "../features/recipes/recipesSlice";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const defaultPlans: DeliveryMealsSelection = [
   undefined,
@@ -45,9 +46,8 @@ const Planner: React.FC = () => {
     defaultPlans
   );
 
-  const [recipes] = React.useState<Recipe[]>([]);
-
-  const [customers] = React.useState<Customer[]>([]);
+  const customers = useSelector(allCustomersSelector);
+  const recipes = useSelector(allRecipesSelector);
 
   const chosenMeals = chooseMeals(day, planned, customers);
   const cookPlan = makePlan(chosenMeals);
