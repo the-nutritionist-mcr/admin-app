@@ -1,17 +1,26 @@
-import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit";
+import {
+  PayloadAction,
+  createAsyncThunk,
+  createSlice,
+  nanoid,
+} from "@reduxjs/toolkit";
 
 import type { AppState } from "../../lib/store";
 
 import Customer from "../../domain/Customer";
+import LoadingState from "../../types/LoadingState";
 
 interface CustomersState {
   items: Customer[];
   page: number;
+  loadingState: LoadingState;
+  error?: string;
 }
 
 const initialState: CustomersState = {
   items: [],
   page: 0,
+  loadingState: LoadingState.Idle,
 };
 
 const customersSlice = createSlice({
@@ -48,6 +57,13 @@ const customersSlice = createSlice({
     },
   },
 });
+
+export const fetchCustomers = createAsyncThunk(
+  "posts/fetchCustomers",
+  async (): Promise<Customer[]> => {
+    return Promise.resolve([]);
+  }
+);
 
 export default customersSlice;
 
