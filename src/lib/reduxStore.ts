@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import customersSlice from "../features/customers/customersSlice";
 import exclusionsSlice from "../features/exclusions/exclusionsSlice";
+import persistState from "redux-localstorage";
 import recipesSlice from "../features/recipes/recipesSlice";
 
 const rootReducer = combineReducers({
@@ -10,10 +11,12 @@ const rootReducer = combineReducers({
   exclusions: exclusionsSlice.reducer,
 });
 
+export type AppState = ReturnType<typeof rootReducer>;
+
 const reduxStore = configureStore({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  enhancers: [persistState() as any],
   reducer: rootReducer,
 });
 
 export default reduxStore;
-
-export type AppState = ReturnType<typeof rootReducer>;
