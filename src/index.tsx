@@ -5,12 +5,12 @@ import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
-import reduxStore from "./lib/reduxStore";
 import reportWebVitals from "./reportWebVitals";
+import store from "./lib/store";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={reduxStore}>
+    <Provider store={store}>
       <Router>
         <App />
       </Router>

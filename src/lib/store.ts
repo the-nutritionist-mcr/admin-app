@@ -13,10 +13,10 @@ const rootReducer = combineReducers({
 
 export type AppState = ReturnType<typeof rootReducer>;
 
-const reduxStore = configureStore({
+const store = configureStore({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   enhancers: [persistState() as any],
   reducer: rootReducer,
 });
 
-export default reduxStore;
+export default store;

@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit";
 
-import type { AppState } from "../../lib/reduxStore";
+import type { AppState } from "../../lib/store";
 
 import Recipe from "../../domain/Recipe";
 
