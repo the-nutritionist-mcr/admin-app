@@ -5,14 +5,14 @@ import {
   PrintableTableRow,
   PrintableTbody,
   PrintableThead,
-} from "./printable-table";
+} from "../../components/printable-table";
 
-import Customer from "../domain/Customer";
-import CustomerMealsSelection from "../types/CustomerMealsSelection";
-import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
+import Customer from "../../domain/Customer";
+import CustomerMealsSelection from "../../types/CustomerMealsSelection";
+import DeliveryMealsSelection from "../../types/DeliveryMealsSelection";
 import React from "react";
-import Recipe from "../domain/Recipe";
-import { createVariantString } from "../lib/plan-meals";
+import Recipe from "../../domain/Recipe";
+import { createVariantString } from "../../lib/plan-meals";
 import styled from "styled-components";
 
 interface ToPackTableProps {

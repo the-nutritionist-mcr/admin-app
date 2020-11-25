@@ -1,16 +1,13 @@
 import { Box, Button, TableCell, TableRow } from "grommet";
 import { Edit, Pause, Trash } from "grommet-icons";
-import {
-  removeCustomer,
-  updateCustomer,
-} from "../features/customers/customersSlice";
-import Customer from "../domain/Customer";
+import { removeCustomer, updateCustomer } from "./customersSlice";
+import Customer from "../../domain/Customer";
 import EditCustomerDialog from "./EditCustomerDialog";
-import OkCancelDialog from "./OkCancelDialog";
-import PauseDialog from "./PauseDialog";
+import OkCancelDialog from "../../components/OkCancelDialog";
+import PauseDialog from "./../../components/PauseDialog";
 import React from "react";
-import getExtrasString from "../lib/getExtrasString";
-import getStatusString from "../lib/getStatusString";
+import getExtrasString from "../../lib/getExtrasString";
+import getStatusString from "../../lib/getStatusString";
 import { useDispatch } from "react-redux";
 
 const WEEKS_IN_YEAR = 52;

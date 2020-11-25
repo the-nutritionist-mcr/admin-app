@@ -2,17 +2,17 @@ import { Box, Button, Heading, Paragraph, Select } from "grommet";
 import {
   LOCALSTORAGE_KEY_DAY,
   LOCALSTORAGE_KEY_PLANNED,
-} from "../lib/constants";
-import { chooseMeals, makePlan } from "../lib/plan-meals";
+} from "../../lib/constants";
+import { chooseMeals, makePlan } from "../../lib/plan-meals";
 
-import DeliveryDay from "../types/DeliveryDay";
-import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
+import DeliveryDay from "../../types/DeliveryDay";
+import DeliveryMealsSelection from "../../types/DeliveryMealsSelection";
 import React from "react";
-import Recipe from "../domain/Recipe";
-import ToCookTable from "../components/ToCookTable";
-import ToPackTable from "../components/ToPackTable";
-import { allCustomersSelector } from "../features/customers/customersSlice";
-import { allRecipesSelector } from "../features/recipes/recipesSlice";
+import Recipe from "../../domain/Recipe";
+import ToCookTable from "./ToCookTable";
+import ToPackTable from "./ToPackTable";
+import { allCustomersSelector } from "../../features/customers/customersSlice";
+import { allRecipesSelector } from "../../features/recipes/recipesSlice";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 

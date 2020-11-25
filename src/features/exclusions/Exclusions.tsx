@@ -9,12 +9,9 @@ import {
   TableRow,
   Text,
 } from "grommet";
-import {
-  allExclusionsSelector,
-  createExclusion,
-} from "../features/exclusions/exclusionsSlice";
+import { allExclusionsSelector, createExclusion } from "./exclusionsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import ExclusionRow from "../components/ExclusionRow";
+import ExclusionRow from "./ExclusionRow";
 import React from "react";
 
 const Exclusions: React.FC = () => {

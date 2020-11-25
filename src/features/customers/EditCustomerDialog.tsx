@@ -16,10 +16,10 @@ import {
   ThemeContext,
 } from "grommet";
 import { Checkmark, Close } from "grommet-icons";
-import Customer, { Snack } from "../domain/Customer";
-import { daysPerWeekOptions, plans } from "../lib/config";
+import Customer, { Snack } from "../../domain/Customer";
+import { daysPerWeekOptions, plans } from "../../lib/config";
 import React from "react";
-import { allExclusionsSelector } from "../features/exclusions/exclusionsSlice";
+import { allExclusionsSelector } from "../../features/exclusions/exclusionsSlice";
 import styled from "styled-components";
 
 import { useSelector } from "react-redux";

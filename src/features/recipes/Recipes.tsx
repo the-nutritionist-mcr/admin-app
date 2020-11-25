@@ -14,11 +14,11 @@ import {
   allRecipesSelector,
   createRecipe,
   updateRecipe,
-} from "../features/recipes/recipesSlice";
+} from "../recipes/recipesSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import React from "react";
-import RecipesRow from "../components/RecipesRow";
+import RecipesRow from "../recipes/RecipesRow";
 
 const Recipes: React.FC = () => {
   const recipes = useSelector(allRecipesSelector);

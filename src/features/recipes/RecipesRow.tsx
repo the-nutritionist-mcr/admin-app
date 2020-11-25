@@ -1,16 +1,16 @@
 import { Button, TableCell, TableRow } from "grommet";
 import { useDispatch, useSelector } from "react-redux";
 
-import OkCancelDialog from "./OkCancelDialog";
+import OkCancelDialog from "../../components/OkCancelDialog";
 import React from "react";
-import Recipe from "../domain/Recipe";
+import Recipe from "../../domain/Recipe";
 
-import TableCellInputField from "./TableCellInputField";
-import TableCellSelectField from "./TableCellSelectField";
+import TableCellInputField from "../../components/TableCellInputField";
+import TableCellSelectField from "../../components/TableCellSelectField";
 import { Trash } from "grommet-icons";
 
-import { allExclusionsSelector } from "../features/exclusions/exclusionsSlice";
-import { removeRecipe } from "../features/recipes/recipesSlice";
+import { allExclusionsSelector } from "../exclusions/exclusionsSlice";
+import { removeRecipe } from "../recipes/recipesSlice";
 
 interface RecipesRowProps {
   recipe: Recipe;

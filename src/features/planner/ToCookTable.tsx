@@ -8,7 +8,7 @@ import {
   Text,
 } from "grommet";
 
-import CookPlan from "../types/CookPlan";
+import CookPlan from "../../types/CookPlan";
 import React from "react";
 import styled from "styled-components";
 

@@ -1,14 +1,11 @@
 import { Button, TableCell, TableRow } from "grommet";
 
-import {
-  removeExclusion,
-  updateExclusion,
-} from "../features/exclusions/exclusionsSlice";
-import Exclusion from "../domain/Exclusion";
-import OkCancelDialog from "./OkCancelDialog";
+import { removeExclusion, updateExclusion } from "./exclusionsSlice";
+import Exclusion from "../../domain/Exclusion";
+import OkCancelDialog from "../../components/OkCancelDialog";
 import React from "react";
-import TableCellCheckbox from "./TableCellCheckbox";
-import TableCellInputField from "./TableCellInputField";
+import TableCellCheckbox from "../../components/TableCellCheckbox";
+import TableCellInputField from "../../components/TableCellInputField";
 import { Trash } from "grommet-icons";
 import { useDispatch } from "react-redux";
 

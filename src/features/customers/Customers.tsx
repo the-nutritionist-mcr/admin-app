@@ -10,16 +10,13 @@ import {
   Text,
 } from "grommet";
 
-import {
-  allCustomersSelector,
-  createCustomer,
-} from "../features/customers/customersSlice";
-import { daysPerWeekOptions, plans } from "../lib/config";
+import { allCustomersSelector, createCustomer } from "./customersSlice";
+import { daysPerWeekOptions, plans } from "../../lib/config";
 import { useDispatch, useSelector } from "react-redux";
-import CustomerRow from "../components/CustomerRow";
-import EditCustomerDialog from "../components/EditCustomerDialog";
+import CustomerRow from "./CustomerRow";
+import EditCustomerDialog from "./EditCustomerDialog";
 import React from "react";
-import { Snack } from "../domain/Customer";
+import { Snack } from "../../domain/Customer";
 
 const Customers: React.FC = () => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
