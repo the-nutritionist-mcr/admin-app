@@ -1,12 +1,12 @@
 import { Button, TableCell, TableRow } from "grommet";
-
+import { Edit, Trash } from "grommet-icons";
 import { removeExclusion, updateExclusion } from "./exclusionsSlice";
+import EditExclusionDialog from "./EditExclusionDialog";
 import Exclusion from "../../domain/Exclusion";
 import OkCancelDialog from "../../components/OkCancelDialog";
 import React from "react";
 import TableCellCheckbox from "../../components/TableCellCheckbox";
 import TableCellInputField from "../../components/TableCellInputField";
-import { Trash } from "grommet-icons";
 import { useDispatch } from "react-redux";
 
 interface ExclusionRowProps {
@@ -15,6 +15,7 @@ interface ExclusionRowProps {
 
 const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
+  const [showEdit, setShowEdit] = React.useState(false);
   const dispatch = useDispatch();
   return (
     <TableRow>
@@ -62,6 +63,26 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
         >
           Are you sure you want to delete this exclusion?
         </OkCancelDialog>
+
+        <Button
+          secondary
+          onClick={(): void => setShowEdit(true)}
+          a11yTitle="Edit"
+          icon={<Edit color="light-6" />}
+        />
+        {showEdit && (
+          <EditExclusionDialog
+            exclusion={props.exclusion}
+            title="Edit Exclusion"
+            thunk={updateExclusion}
+            onOk={(): void => {
+              setShowEdit(false);
+            }}
+            onCancel={(): void => {
+              setShowEdit(false);
+            }}
+          />
+        )}
       </TableCell>
     </TableRow>
   );

@@ -1,4 +1,9 @@
-import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit";
+import {
+  PayloadAction,
+  createAsyncThunk,
+  createSlice,
+  nanoid,
+} from "@reduxjs/toolkit";
 
 import type { AppState } from "../../lib/store";
 
@@ -13,6 +18,11 @@ const initialState: ExclusionsState = {
   items: [],
   page: 0,
 };
+
+export const updateExclusion = createAsyncThunk(
+  "exclusions/update",
+  async (exclusion: Exclusion): Promise<Exclusion> => Promise.resolve(exclusion)
+);
 
 const exclusionsSlice = createSlice({
   name: "exclusions",
@@ -54,13 +64,9 @@ const exclusionsSlice = createSlice({
 
 export default exclusionsSlice;
 
-const {
-  createExclusion,
-  removeExclusion,
-  updateExclusion,
-} = exclusionsSlice.actions;
+const { createExclusion, removeExclusion } = exclusionsSlice.actions;
 
 export const allExclusionsSelector = (state: AppState): Exclusion[] =>
   state.exclusions.items;
 
-export { createExclusion, removeExclusion, updateExclusion };
+export { createExclusion, removeExclusion };

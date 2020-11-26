@@ -66,8 +66,6 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
           }}
           onSubmit={async (): Promise<void> => {
             await dispatch(props.thunk(customer));
-            // eslint-disable-next-line no-console
-            console.log("Dispatched!");
             props.onOk();
           }}
         >
