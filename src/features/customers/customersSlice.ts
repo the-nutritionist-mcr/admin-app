@@ -30,15 +30,15 @@ const initialState: CustomersState = {
   loadingState: LoadingState.Idle,
 };
 
-const mapCustomer = (
-  customer: Exclude<
-    Exclude<
-      Exclude<APITypes.ListCustomersQuery["listCustomers"], null>["items"],
-      null
-    >[number],
+type RawCustomer = Exclude<
+  Exclude<
+    Exclude<APITypes.ListCustomersQuery["listCustomers"], null>["items"],
     null
-  >
-): Customer => {
+  >[number],
+  null
+>;
+
+const mapCustomer = (customer: RawCustomer): Customer => {
   const deNulledCustomer = convertNullsToUndefined(customer);
   return {
     ...deNulledCustomer,
