@@ -108,6 +108,20 @@ const customersSlice = createSlice({
   },
 
   extraReducers: (builder) => {
+    builder.addCase(createCustomer.pending, (state): void => {
+      state.loadingState = LoadingState.Loading;
+    });
+
+    builder.addCase(createCustomer.fulfilled, (state, action): void => {
+      state.loadingState = LoadingState.Succeeeded;
+      state.items.push(action.payload);
+    });
+
+    builder.addCase(createCustomer.rejected, (state, action): void => {
+      state.loadingState = LoadingState.Failed;
+      state.error = action.error.message;
+    });
+
     builder.addCase(fetchCustomers.pending, (state): void => {
       state.loadingState = LoadingState.Loading;
     });
