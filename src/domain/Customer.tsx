@@ -11,6 +11,8 @@ export default interface Customer {
   id: string;
   firstName: string;
   surname: string;
+  createdAt?: string;
+  updatedAt?: string;
   salutation: string;
   address: string;
   telephone: string;

@@ -3,13 +3,17 @@ import * as APITypes from "../../API";
 import API, { GraphQLResult, graphqlOperation } from "@aws-amplify/api";
 import Customer, { Snack } from "../../domain/Customer";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createCustomer as createCustomerMutation,
+  deleteCustomer as deleteCustomerMutation,
+  updateCustomer as updateCustomerMutation,
+} from "../../graphql/mutations";
 
 import type { AppState } from "../../lib/store";
 
 import LoadingState from "../../types/LoadingState";
 import { PlanCategory } from "../../lib/config";
 import convertNullsToUndefined from "../../lib/convertNullsToUndefined";
-import { createCustomer as createCustomerMutation } from "../../graphql/mutations";
 import { listCustomers } from "../../graphql/queries";
 
 interface CustomersState {
@@ -18,6 +22,8 @@ interface CustomersState {
   loadingState: LoadingState;
   error?: string;
 }
+
+const MALFORMED_RESPONSE = "Response from the server was malformed";
 
 const initialState: CustomersState = {
   items: [],
@@ -46,10 +52,49 @@ const mapCustomer = (customer: RawCustomer): Customer => {
   };
 };
 
+export const removeCustomer = createAsyncThunk(
+  "customers/remove",
+  async (customer: Customer): Promise<string> => {
+    const deleteCustomerVariables: APITypes.DeleteCustomerMutationVariables = {
+      input: {
+        id: customer.id,
+      },
+    };
+
+    await API.graphql(
+      graphqlOperation(deleteCustomerMutation, deleteCustomerVariables)
+    );
+
+    return customer.id;
+  }
+);
+
 export const updateCustomer = createAsyncThunk(
   "customers/update",
   async (customer: Customer): Promise<Customer> => {
-    return Promise.resolve(customer);
+    const {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      exclusions,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      createdAt,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      updatedAt,
+      ...customerWithoutExclusions
+    } = customer;
+    const updateCustomerVariables: APITypes.UpdateCustomerMutationVariables = {
+      input: customerWithoutExclusions,
+    };
+
+    const updateCustomerResult = (await API.graphql(
+      graphqlOperation(updateCustomerMutation, updateCustomerVariables)
+    )) as GraphQLResult<APITypes.UpdateCustomerMutation>;
+
+    const updatedCustomer = updateCustomerResult.data?.updateCustomer;
+
+    if (updatedCustomer) {
+      return mapCustomer(updatedCustomer);
+    }
+    throw new Error(MALFORMED_RESPONSE);
   }
 );
 
@@ -71,7 +116,7 @@ export const createCustomer = createAsyncThunk(
     if (createdCustomer) {
       return mapCustomer(createdCustomer);
     }
-    throw new Error("Response from backend was malformed");
+    throw new Error(MALFORMED_RESPONSE);
   }
 );
 
@@ -91,7 +136,7 @@ export const fetchCustomers = createAsyncThunk(
       return items.filter((Boolean as unknown) as NotNull).map(mapCustomer);
     }
 
-    throw new Error("Response from backend was malformed");
+    throw new Error(MALFORMED_RESPONSE);
   }
 );
 
@@ -108,6 +153,37 @@ const customersSlice = createSlice({
   },
 
   extraReducers: (builder) => {
+    builder.addCase(updateCustomer.pending, (state): void => {
+      state.loadingState = LoadingState.Loading;
+    });
+
+    builder.addCase(removeCustomer.pending, (state): void => {
+      state.loadingState = LoadingState.Loading;
+    });
+
+    builder.addCase(updateCustomer.rejected, (state, action): void => {
+      state.loadingState = LoadingState.Failed;
+      state.error = action.error.message;
+    });
+
+    builder.addCase(removeCustomer.rejected, (state, action): void => {
+      state.loadingState = LoadingState.Failed;
+      state.error = action.error.message;
+    });
+
+    builder.addCase(removeCustomer.fulfilled, (state, action): void => {
+      state.loadingState = LoadingState.Succeeeded;
+      state.items = state.items.filter((item) => item.id !== action.payload);
+    });
+
+    builder.addCase(updateCustomer.fulfilled, (state, action): void => {
+      state.loadingState = LoadingState.Succeeeded;
+      const index = state.items.findIndex(
+        (item) => action.payload.id === item.id
+      );
+      state.items[index] = action.payload;
+    });
+
     builder.addCase(createCustomer.pending, (state): void => {
       state.loadingState = LoadingState.Loading;
     });
@@ -140,9 +216,5 @@ const customersSlice = createSlice({
 
 export default customersSlice;
 
-const { removeCustomer } = customersSlice.actions;
-
 export const allCustomersSelector = (state: AppState): Customer[] =>
   state.customers.items;
-
-export { removeCustomer };

@@ -81,8 +81,8 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
           <OkCancelDialog
             show={showDoDelete}
             header="Are you sure?"
-            onOk={(): void => {
-              dispatch(removeCustomer(props.customer));
+            onOk={async (): Promise<void> => {
+              await dispatch(removeCustomer(props.customer));
               setShowDoDelete(false);
             }}
             onCancel={(): void => setShowDoDelete(false)}

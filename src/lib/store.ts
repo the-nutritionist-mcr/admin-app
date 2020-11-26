@@ -1,8 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
+import LoadingState from "../types/LoadingState";
 import customersSlice from "../features/customers/customersSlice";
 import exclusionsSlice from "../features/exclusions/exclusionsSlice";
-import persistState from "redux-localstorage";
 import recipesSlice from "../features/recipes/recipesSlice";
 
 const rootReducer = combineReducers({
@@ -14,9 +14,10 @@ const rootReducer = combineReducers({
 export type AppState = ReturnType<typeof rootReducer>;
 
 const store = configureStore({
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  enhancers: [persistState() as any],
   reducer: rootReducer,
 });
+
+export const loadingSelector = (state: AppState): LoadingState =>
+  state.customers.loadingState;
 
 export default store;
