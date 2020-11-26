@@ -50,7 +50,7 @@ type Customer @model {
   address: String!
   telephone: String!
   startDate: AWSDateTime
-  paymentDateOfMonth: Int
+  paymentDayOfMonth: Int
   notes: String
   email: String!
   pauseStart: AWSDate

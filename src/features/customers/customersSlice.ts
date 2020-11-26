@@ -14,6 +14,7 @@ import type { AppState } from "../../lib/store";
 import LoadingState from "../../types/LoadingState";
 import { PlanCategory } from "../../lib/config";
 import convertNullsToUndefined from "../../lib/convertNullsToUndefined";
+import { createCustomer as createCustomerMutation } from "../../graphql/mutations";
 import { listCustomers } from "../../graphql/queries";
 
 interface CustomersState {
@@ -29,8 +30,51 @@ const initialState: CustomersState = {
   loadingState: LoadingState.Idle,
 };
 
+const mapCustomer = (
+  customer: Exclude<
+    Exclude<
+      Exclude<APITypes.ListCustomersQuery["listCustomers"], null>["items"],
+      null
+    >[number],
+    null
+  >
+): Customer => {
+  const deNulledCustomer = convertNullsToUndefined(customer);
+  return {
+    ...deNulledCustomer,
+    plan: {
+      ...deNulledCustomer.plan,
+      category: deNulledCustomer.plan.category as PlanCategory,
+    },
+    snack: deNulledCustomer.snack as Snack,
+    exclusions: [],
+  };
+};
+
+export const createCustomer = createAsyncThunk(
+  "customers/create",
+  async (customer: Customer): Promise<Customer> => {
+    const createCustomerVariables: APITypes.CreateCustomerMutationVariables = {
+      input: {
+        ...customer,
+      },
+    };
+
+    const createCustomerResult = (await API.graphql(
+      graphqlOperation(createCustomerMutation, createCustomerVariables)
+    )) as GraphQLResult<APITypes.CreateCustomerMutation>;
+
+    const createdCustomer = createCustomerResult.data?.createCustomer;
+
+    if (createdCustomer) {
+      return mapCustomer(createdCustomer);
+    }
+    throw new Error("Response from backend was malformed");
+  }
+);
+
 export const fetchCustomers = createAsyncThunk(
-  "posts/fetchCustomers",
+  "customers/fetch",
   async (): Promise<Customer[]> => {
     const listCustomerVariables: APITypes.ListCustomersQueryVariables = {};
     const listCustomersResult = (await API.graphql(
@@ -42,18 +86,7 @@ export const fetchCustomers = createAsyncThunk(
     type NotNull = <T>(thing: T | null) => thing is T;
 
     if (items) {
-      return items
-        .filter((Boolean as unknown) as NotNull)
-        .map(convertNullsToUndefined)
-        .map((item) => ({
-          ...item,
-          plan: {
-            ...item.plan,
-            category: item.plan.category as PlanCategory,
-          },
-          snack: item.snack as Snack,
-          exclusions: [],
-        }));
+      return items.filter((Boolean as unknown) as NotNull).map(mapCustomer);
     }
 
     throw new Error("Response from backend was malformed");
@@ -113,13 +146,9 @@ const customersSlice = createSlice({
 
 export default customersSlice;
 
-const {
-  createCustomer,
-  removeCustomer,
-  updateCustomer,
-} = customersSlice.actions;
+const { removeCustomer, updateCustomer } = customersSlice.actions;
 
 export const allCustomersSelector = (state: AppState): Customer[] =>
   state.customers.items;
 
-export { createCustomer, removeCustomer, updateCustomer };
+export { removeCustomer, updateCustomer };

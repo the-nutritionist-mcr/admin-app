@@ -34,7 +34,7 @@ export const getExclusion = /* GraphQL */ `
             address
             telephone
             startDate
-            paymentDateOfMonth
+            paymentDayOfMonth
             notes
             email
             pauseStart
@@ -129,7 +129,7 @@ export const listExclusions = /* GraphQL */ `
               address
               telephone
               startDate
-              paymentDateOfMonth
+              paymentDayOfMonth
               notes
               email
               pauseStart
@@ -273,7 +273,7 @@ export const getCustomer = /* GraphQL */ `
       address
       telephone
       startDate
-      paymentDateOfMonth
+      paymentDayOfMonth
       notes
       email
       pauseStart
@@ -314,7 +314,7 @@ export const getCustomer = /* GraphQL */ `
             address
             telephone
             startDate
-            paymentDateOfMonth
+            paymentDayOfMonth
             notes
             email
             pauseStart
@@ -360,7 +360,7 @@ export const listCustomers = /* GraphQL */ `
         address
         telephone
         startDate
-        paymentDateOfMonth
+        paymentDayOfMonth
         notes
         email
         pauseStart
@@ -395,7 +395,7 @@ export const listCustomers = /* GraphQL */ `
               address
               telephone
               startDate
-              paymentDateOfMonth
+              paymentDayOfMonth
               notes
               email
               pauseStart

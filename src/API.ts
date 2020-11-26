@@ -170,7 +170,7 @@ export type CreateCustomerInput = {
   address: string;
   telephone: string;
   startDate?: string | null;
-  paymentDateOfMonth?: number | null;
+  paymentDayOfMonth?: number | null;
   notes?: string | null;
   email: string;
   pauseStart?: string | null;
@@ -196,7 +196,7 @@ export type ModelCustomerConditionInput = {
   address?: ModelStringInput | null;
   telephone?: ModelStringInput | null;
   startDate?: ModelStringInput | null;
-  paymentDateOfMonth?: ModelIntInput | null;
+  paymentDayOfMonth?: ModelIntInput | null;
   notes?: ModelStringInput | null;
   email?: ModelStringInput | null;
   pauseStart?: ModelStringInput | null;
@@ -230,7 +230,7 @@ export type UpdateCustomerInput = {
   address?: string | null;
   telephone?: string | null;
   startDate?: string | null;
-  paymentDateOfMonth?: number | null;
+  paymentDayOfMonth?: number | null;
   notes?: string | null;
   email?: string | null;
   pauseStart?: string | null;
@@ -272,7 +272,7 @@ export type ModelCustomerFilterInput = {
   address?: ModelStringInput | null;
   telephone?: ModelStringInput | null;
   startDate?: ModelStringInput | null;
-  paymentDateOfMonth?: ModelIntInput | null;
+  paymentDayOfMonth?: ModelIntInput | null;
   notes?: ModelStringInput | null;
   email?: ModelStringInput | null;
   pauseStart?: ModelStringInput | null;
@@ -329,7 +329,7 @@ export type CreateExclusionMutation = {
           address: string;
           telephone: string;
           startDate: string | null;
-          paymentDateOfMonth: number | null;
+          paymentDayOfMonth: number | null;
           notes: string | null;
           email: string;
           pauseStart: string | null;
@@ -445,7 +445,7 @@ export type UpdateExclusionMutation = {
           address: string;
           telephone: string;
           startDate: string | null;
-          paymentDateOfMonth: number | null;
+          paymentDayOfMonth: number | null;
           notes: string | null;
           email: string;
           pauseStart: string | null;
@@ -561,7 +561,7 @@ export type DeleteExclusionMutation = {
           address: string;
           telephone: string;
           startDate: string | null;
-          paymentDateOfMonth: number | null;
+          paymentDayOfMonth: number | null;
           notes: string | null;
           email: string;
           pauseStart: string | null;
@@ -674,7 +674,7 @@ export type CreateCustomerExclusionMutation = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -731,7 +731,7 @@ export type CreateCustomerExclusionMutation = {
       address: string;
       telephone: string;
       startDate: string | null;
-      paymentDateOfMonth: number | null;
+      paymentDayOfMonth: number | null;
       notes: string | null;
       email: string;
       pauseStart: string | null;
@@ -771,7 +771,7 @@ export type CreateCustomerExclusionMutation = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -836,7 +836,7 @@ export type UpdateCustomerExclusionMutation = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -893,7 +893,7 @@ export type UpdateCustomerExclusionMutation = {
       address: string;
       telephone: string;
       startDate: string | null;
-      paymentDateOfMonth: number | null;
+      paymentDayOfMonth: number | null;
       notes: string | null;
       email: string;
       pauseStart: string | null;
@@ -933,7 +933,7 @@ export type UpdateCustomerExclusionMutation = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -998,7 +998,7 @@ export type DeleteCustomerExclusionMutation = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -1055,7 +1055,7 @@ export type DeleteCustomerExclusionMutation = {
       address: string;
       telephone: string;
       startDate: string | null;
-      paymentDateOfMonth: number | null;
+      paymentDayOfMonth: number | null;
       notes: string | null;
       email: string;
       pauseStart: string | null;
@@ -1095,7 +1095,7 @@ export type DeleteCustomerExclusionMutation = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -1160,7 +1160,7 @@ export type CreateRecipeExclusionMutation = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -1289,7 +1289,7 @@ export type UpdateRecipeExclusionMutation = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -1418,7 +1418,7 @@ export type DeleteRecipeExclusionMutation = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -1690,7 +1690,7 @@ export type CreateCustomerMutation = {
     address: string;
     telephone: string;
     startDate: string | null;
-    paymentDateOfMonth: number | null;
+    paymentDayOfMonth: number | null;
     notes: string | null;
     email: string;
     pauseStart: string | null;
@@ -1738,7 +1738,7 @@ export type CreateCustomerMutation = {
           address: string;
           telephone: string;
           startDate: string | null;
-          paymentDateOfMonth: number | null;
+          paymentDayOfMonth: number | null;
           notes: string | null;
           email: string;
           pauseStart: string | null;
@@ -1786,7 +1786,7 @@ export type UpdateCustomerMutation = {
     address: string;
     telephone: string;
     startDate: string | null;
-    paymentDateOfMonth: number | null;
+    paymentDayOfMonth: number | null;
     notes: string | null;
     email: string;
     pauseStart: string | null;
@@ -1834,7 +1834,7 @@ export type UpdateCustomerMutation = {
           address: string;
           telephone: string;
           startDate: string | null;
-          paymentDateOfMonth: number | null;
+          paymentDayOfMonth: number | null;
           notes: string | null;
           email: string;
           pauseStart: string | null;
@@ -1882,7 +1882,7 @@ export type DeleteCustomerMutation = {
     address: string;
     telephone: string;
     startDate: string | null;
-    paymentDateOfMonth: number | null;
+    paymentDayOfMonth: number | null;
     notes: string | null;
     email: string;
     pauseStart: string | null;
@@ -1930,7 +1930,7 @@ export type DeleteCustomerMutation = {
           address: string;
           telephone: string;
           startDate: string | null;
-          paymentDateOfMonth: number | null;
+          paymentDayOfMonth: number | null;
           notes: string | null;
           email: string;
           pauseStart: string | null;
@@ -2005,7 +2005,7 @@ export type GetExclusionQuery = {
           address: string;
           telephone: string;
           startDate: string | null;
-          paymentDateOfMonth: number | null;
+          paymentDayOfMonth: number | null;
           notes: string | null;
           email: string;
           pauseStart: string | null;
@@ -2116,7 +2116,7 @@ export type ListExclusionsQuery = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -2286,7 +2286,7 @@ export type GetCustomerQuery = {
     address: string;
     telephone: string;
     startDate: string | null;
-    paymentDateOfMonth: number | null;
+    paymentDayOfMonth: number | null;
     notes: string | null;
     email: string;
     pauseStart: string | null;
@@ -2334,7 +2334,7 @@ export type GetCustomerQuery = {
           address: string;
           telephone: string;
           startDate: string | null;
-          paymentDateOfMonth: number | null;
+          paymentDayOfMonth: number | null;
           notes: string | null;
           email: string;
           pauseStart: string | null;
@@ -2385,7 +2385,7 @@ export type ListCustomersQuery = {
       address: string;
       telephone: string;
       startDate: string | null;
-      paymentDateOfMonth: number | null;
+      paymentDayOfMonth: number | null;
       notes: string | null;
       email: string;
       pauseStart: string | null;
@@ -2425,7 +2425,7 @@ export type ListCustomersQuery = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -2487,7 +2487,7 @@ export type OnCreateExclusionSubscription = {
           address: string;
           telephone: string;
           startDate: string | null;
-          paymentDateOfMonth: number | null;
+          paymentDayOfMonth: number | null;
           notes: string | null;
           email: string;
           pauseStart: string | null;
@@ -2598,7 +2598,7 @@ export type OnUpdateExclusionSubscription = {
           address: string;
           telephone: string;
           startDate: string | null;
-          paymentDateOfMonth: number | null;
+          paymentDayOfMonth: number | null;
           notes: string | null;
           email: string;
           pauseStart: string | null;
@@ -2709,7 +2709,7 @@ export type OnDeleteExclusionSubscription = {
           address: string;
           telephone: string;
           startDate: string | null;
-          paymentDateOfMonth: number | null;
+          paymentDayOfMonth: number | null;
           notes: string | null;
           email: string;
           pauseStart: string | null;
@@ -2817,7 +2817,7 @@ export type OnCreateCustomerExclusionSubscription = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -2874,7 +2874,7 @@ export type OnCreateCustomerExclusionSubscription = {
       address: string;
       telephone: string;
       startDate: string | null;
-      paymentDateOfMonth: number | null;
+      paymentDayOfMonth: number | null;
       notes: string | null;
       email: string;
       pauseStart: string | null;
@@ -2914,7 +2914,7 @@ export type OnCreateCustomerExclusionSubscription = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -2974,7 +2974,7 @@ export type OnUpdateCustomerExclusionSubscription = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -3031,7 +3031,7 @@ export type OnUpdateCustomerExclusionSubscription = {
       address: string;
       telephone: string;
       startDate: string | null;
-      paymentDateOfMonth: number | null;
+      paymentDayOfMonth: number | null;
       notes: string | null;
       email: string;
       pauseStart: string | null;
@@ -3071,7 +3071,7 @@ export type OnUpdateCustomerExclusionSubscription = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -3131,7 +3131,7 @@ export type OnDeleteCustomerExclusionSubscription = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -3188,7 +3188,7 @@ export type OnDeleteCustomerExclusionSubscription = {
       address: string;
       telephone: string;
       startDate: string | null;
-      paymentDateOfMonth: number | null;
+      paymentDayOfMonth: number | null;
       notes: string | null;
       email: string;
       pauseStart: string | null;
@@ -3228,7 +3228,7 @@ export type OnDeleteCustomerExclusionSubscription = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -3288,7 +3288,7 @@ export type OnCreateRecipeExclusionSubscription = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -3412,7 +3412,7 @@ export type OnUpdateRecipeExclusionSubscription = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -3536,7 +3536,7 @@ export type OnDeleteRecipeExclusionSubscription = {
             address: string;
             telephone: string;
             startDate: string | null;
-            paymentDateOfMonth: number | null;
+            paymentDayOfMonth: number | null;
             notes: string | null;
             email: string;
             pauseStart: string | null;
@@ -3788,7 +3788,7 @@ export type OnCreateCustomerSubscription = {
     address: string;
     telephone: string;
     startDate: string | null;
-    paymentDateOfMonth: number | null;
+    paymentDayOfMonth: number | null;
     notes: string | null;
     email: string;
     pauseStart: string | null;
@@ -3836,7 +3836,7 @@ export type OnCreateCustomerSubscription = {
           address: string;
           telephone: string;
           startDate: string | null;
-          paymentDateOfMonth: number | null;
+          paymentDayOfMonth: number | null;
           notes: string | null;
           email: string;
           pauseStart: string | null;
@@ -3879,7 +3879,7 @@ export type OnUpdateCustomerSubscription = {
     address: string;
     telephone: string;
     startDate: string | null;
-    paymentDateOfMonth: number | null;
+    paymentDayOfMonth: number | null;
     notes: string | null;
     email: string;
     pauseStart: string | null;
@@ -3927,7 +3927,7 @@ export type OnUpdateCustomerSubscription = {
           address: string;
           telephone: string;
           startDate: string | null;
-          paymentDateOfMonth: number | null;
+          paymentDayOfMonth: number | null;
           notes: string | null;
           email: string;
           pauseStart: string | null;
@@ -3970,7 +3970,7 @@ export type OnDeleteCustomerSubscription = {
     address: string;
     telephone: string;
     startDate: string | null;
-    paymentDateOfMonth: number | null;
+    paymentDayOfMonth: number | null;
     notes: string | null;
     email: string;
     pauseStart: string | null;
@@ -4018,7 +4018,7 @@ export type OnDeleteCustomerSubscription = {
           address: string;
           telephone: string;
           startDate: string | null;
-          paymentDateOfMonth: number | null;
+          paymentDayOfMonth: number | null;
           notes: string | null;
           email: string;
           pauseStart: string | null;
