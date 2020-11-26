@@ -2,12 +2,7 @@ import * as APITypes from "../../API";
 
 import API, { GraphQLResult, graphqlOperation } from "@aws-amplify/api";
 import Customer, { Snack } from "../../domain/Customer";
-import {
-  PayloadAction,
-  createAsyncThunk,
-  createSlice,
-  nanoid,
-} from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import type { AppState } from "../../lib/store";
 
@@ -51,13 +46,20 @@ const mapCustomer = (customer: RawCustomer): Customer => {
   };
 };
 
+export const updateCustomer = createAsyncThunk(
+  "customers/update",
+  async (customer: Customer): Promise<Customer> => {
+    return Promise.resolve(customer);
+  }
+);
+
 export const createCustomer = createAsyncThunk(
   "customers/create",
   async (customer: Customer): Promise<Customer> => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { exclusions, id, ...customerWithoutExclusions } = customer;
     const createCustomerVariables: APITypes.CreateCustomerMutationVariables = {
-      input: {
-        ...customer,
-      },
+      input: customerWithoutExclusions,
     };
 
     const createCustomerResult = (await API.graphql(
@@ -97,34 +99,12 @@ const customersSlice = createSlice({
   name: "customers",
   initialState,
   reducers: {
-    createCustomer: {
-      reducer: (state, action: PayloadAction<Customer>): void => {
-        state.items.push(action.payload);
-      },
-      prepare: (
-        customer: Customer
-      ): { payload: PayloadAction<Customer>["payload"] } => {
-        return {
-          payload: {
-            ...customer,
-            id: nanoid(),
-          },
-        };
-      },
-    },
-
     removeCustomer: (state, action: PayloadAction<Customer>): typeof state => ({
       ...state,
       items: state.items.filter(
         (customer) => customer.id !== action.payload.id
       ),
     }),
-    updateCustomer: (state, action: PayloadAction<Customer>): void => {
-      const index = state.items.findIndex(
-        (customer) => customer.id === action.payload.id
-      );
-      state.items[index] = { ...action.payload };
-    },
   },
 
   extraReducers: (builder) => {
@@ -146,9 +126,9 @@ const customersSlice = createSlice({
 
 export default customersSlice;
 
-const { removeCustomer, updateCustomer } = customersSlice.actions;
+const { removeCustomer } = customersSlice.actions;
 
 export const allCustomersSelector = (state: AppState): Customer[] =>
   state.customers.items;
 
-export { removeCustomer, updateCustomer };
+export { removeCustomer };

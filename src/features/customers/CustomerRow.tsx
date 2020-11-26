@@ -110,8 +110,8 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
             title="Edit Customer"
             customer={props.customer}
             show={showEdit}
-            onOk={(customer: Customer): void => {
-              dispatch(updateCustomer(customer));
+            thunk={updateCustomer}
+            onOk={(): void => {
               setShowEdit(false);
             }}
             onCancel={(): void => {

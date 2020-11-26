@@ -12,16 +12,14 @@ import {
 
 import { allCustomersSelector, createCustomer } from "./customersSlice";
 import { daysPerWeekOptions, plans } from "../../lib/config";
-import { useDispatch, useSelector } from "react-redux";
 import CustomerRow from "./CustomerRow";
 import EditCustomerDialog from "./EditCustomerDialog";
 import React from "react";
 import { Snack } from "../../domain/Customer";
+import { useSelector } from "react-redux";
 
 const Customers: React.FC = () => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
-
-  const dispatch = useDispatch();
 
   const customers = useSelector(allCustomersSelector);
 
@@ -39,6 +37,7 @@ const Customers: React.FC = () => {
         {showCreateCustomer && (
           <EditCustomerDialog
             title="Create New Customer"
+            thunk={createCustomer}
             customer={{
               id: "0",
               firstName: "",
@@ -55,8 +54,7 @@ const Customers: React.FC = () => {
               exclusions: [],
             }}
             show={showCreateCustomer}
-            onOk={(customer): void => {
-              dispatch(createCustomer(customer));
+            onOk={(): void => {
               setShowCreateCustomer(false);
             }}
             onCancel={(): void => {

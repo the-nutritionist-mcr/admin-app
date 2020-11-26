@@ -18,16 +18,18 @@ import {
 import { Checkmark, Close } from "grommet-icons";
 import Customer, { Snack } from "../../domain/Customer";
 import { daysPerWeekOptions, plans } from "../../lib/config";
+import { useDispatch, useSelector } from "react-redux";
+import { AsyncThunk } from "@reduxjs/toolkit";
 import React from "react";
 import { allExclusionsSelector } from "../../features/exclusions/exclusionsSlice";
 import styled from "styled-components";
 
-import { useSelector } from "react-redux";
-
 interface EditCustomerDialogProps {
   customer: Customer;
   show?: boolean;
-  onOk: (newCustomer: Customer) => void;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  thunk: AsyncThunk<Customer, Customer, {}>;
+  onOk: () => void;
   title: string;
   onCancel: () => void;
 }
@@ -39,6 +41,8 @@ const SelectButton = styled.div`
 const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
   const [customer, setCustomer] = React.useState(props.customer);
   const exclusions = useSelector(allExclusionsSelector);
+
+  const dispatch = useDispatch();
 
   return props?.show ? (
     <Layer>
@@ -60,8 +64,11 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
 
             setCustomer(nextCustomer);
           }}
-          onSubmit={(): void => {
-            props.onOk(customer);
+          onSubmit={async (): Promise<void> => {
+            await dispatch(props.thunk(customer));
+            // eslint-disable-next-line no-console
+            console.log("Dispatched!");
+            props.onOk();
           }}
         >
           <CardHeader margin="none" pad="medium" alignSelf="center">
