@@ -10,13 +10,14 @@ import {
   Text,
 } from "grommet";
 import { allExclusionsSelector, createExclusion } from "./exclusionsSlice";
-import { useDispatch, useSelector } from "react-redux";
+import EditExclusionDialog from "./EditExclusionDialog";
 import ExclusionRow from "./ExclusionRow";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const Exclusions: React.FC = () => {
   const exclusions = useSelector(allExclusionsSelector);
-  const dispatch = useDispatch();
+  const [showCreate, setShowCreate] = React.useState(false);
   return (
     <React.Fragment>
       <Header align="center" justify="start" gap="small">
@@ -27,9 +28,26 @@ const Exclusions: React.FC = () => {
           label="New"
           a11yTitle="New Customer"
           onClick={(): void => {
-            dispatch(createExclusion({ id: "0", name: "", allergen: false }));
+            setShowCreate(true);
           }}
         />
+        {showCreate && (
+          <EditExclusionDialog
+            exclusion={{
+              id: "0",
+              name: "",
+              allergen: false,
+            }}
+            title="Create Exclusion"
+            thunk={createExclusion}
+            onOk={(): void => {
+              setShowCreate(false);
+            }}
+            onCancel={(): void => {
+              setShowCreate(false);
+            }}
+          />
+        )}
       </Header>
       {exclusions.length > 0 ? (
         <Table alignSelf="start">

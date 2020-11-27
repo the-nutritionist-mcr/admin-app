@@ -20,8 +20,11 @@ import Customer, { Snack } from "../../domain/Customer";
 import { daysPerWeekOptions, plans } from "../../lib/config";
 import { useDispatch, useSelector } from "react-redux";
 import { AsyncThunk } from "@reduxjs/toolkit";
+import LoadingState from "../../types/LoadingState";
 import React from "react";
+import { Spinning } from "grommet-controls";
 import { allExclusionsSelector } from "../../features/exclusions/exclusionsSlice";
+import { customersLoadingSelector } from "./customersSlice";
 import styled from "styled-components";
 
 interface EditCustomerDialogProps {
@@ -41,6 +44,9 @@ const SelectButton = styled.div`
 const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
   const [customer, setCustomer] = React.useState(props.customer);
   const exclusions = useSelector(allExclusionsSelector);
+
+  const isLoading =
+    useSelector(customersLoadingSelector) === LoadingState.Loading;
 
   const dispatch = useDispatch();
 
@@ -204,13 +210,20 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
 
           <CardFooter pad="medium" alignSelf="center" justify="center">
             <Button
-              icon={<Checkmark color="brand" size="small" />}
+              icon={
+                isLoading ? (
+                  <Spinning size="small" />
+                ) : (
+                  <Checkmark size="small" color="brand" />
+                )
+              }
+              disabled={isLoading}
               label="Ok"
               type="submit"
               name="submit"
             />
             <Button
-              icon={<Close color="brand" size="small" />}
+              icon={<Close size="small" color="brand" />}
               onClick={props.onCancel}
               label="Cancel"
             />

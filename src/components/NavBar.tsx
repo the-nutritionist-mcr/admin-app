@@ -1,12 +1,8 @@
 import { Alert, Cafeteria, Home, Plan, User } from "grommet-icons";
 import { Box, Header, Heading, Text } from "grommet";
-import LoadingState from "../types/LoadingState";
 import MenuButton from "./MenuButton";
 import React from "react";
-import { Spinning } from "grommet-controls";
-import { loadingSelector } from "../lib/store";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 
 const NonPrintableHeader = styled(Header)`
   @media print {
@@ -15,7 +11,6 @@ const NonPrintableHeader = styled(Header)`
 `;
 
 const NavBar: React.FC = () => {
-  const loadingState = useSelector(loadingSelector);
   return (
     <NonPrintableHeader
       align="center"
@@ -49,7 +44,6 @@ const NavBar: React.FC = () => {
           Planner
         </MenuButton>
       </Box>
-      {loadingState === LoadingState.Loading && <Spinning />}
       <Text size="small">Version {process.env.REACT_APP_VERSION_NUMBER}</Text>
     </NonPrintableHeader>
   );

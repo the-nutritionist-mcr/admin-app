@@ -5,8 +5,6 @@ import EditExclusionDialog from "./EditExclusionDialog";
 import Exclusion from "../../domain/Exclusion";
 import OkCancelDialog from "../../components/OkCancelDialog";
 import React from "react";
-import TableCellCheckbox from "../../components/TableCellCheckbox";
-import TableCellInputField from "../../components/TableCellInputField";
 import { useDispatch } from "react-redux";
 
 interface ExclusionRowProps {
@@ -19,31 +17,9 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
   const dispatch = useDispatch();
   return (
     <TableRow>
+      <TableCell scope="row">{props.exclusion.name}</TableCell>
       <TableCell scope="row">
-        <TableCellInputField
-          name="name"
-          thing={props.exclusion}
-          mutator={(newExclusion, event): void => {
-            newExclusion.name = event.target.value;
-          }}
-          value={props.exclusion.name}
-          onChange={(exclusion): void => {
-            dispatch(updateExclusion(exclusion));
-          }}
-        />
-      </TableCell>
-      <TableCell scope="row">
-        <TableCellCheckbox
-          name="allergen"
-          thing={props.exclusion}
-          mutator={(newExclusion, event): void => {
-            newExclusion.allergen = event.target.checked;
-          }}
-          checked={props.exclusion.allergen}
-          onChange={(exclusion): void => {
-            dispatch(updateExclusion(exclusion));
-          }}
-        />
+        {props.exclusion.allergen ? "Yes" : "No"}
       </TableCell>
       <TableCell scope="row">
         <Button

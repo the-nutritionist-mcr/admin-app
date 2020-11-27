@@ -2,7 +2,7 @@ import * as APITypes from "../../API";
 
 import API, { GraphQLResult, graphqlOperation } from "@aws-amplify/api";
 import Customer, { Snack } from "../../domain/Customer";
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   createCustomer as createCustomerMutation,
   deleteCustomer as deleteCustomerMutation,
@@ -143,14 +143,7 @@ export const fetchCustomers = createAsyncThunk(
 const customersSlice = createSlice({
   name: "customers",
   initialState,
-  reducers: {
-    removeCustomer: (state, action: PayloadAction<Customer>): typeof state => ({
-      ...state,
-      items: state.items.filter(
-        (customer) => customer.id !== action.payload.id
-      ),
-    }),
-  },
+  reducers: {},
 
   extraReducers: (builder) => {
     builder.addCase(updateCustomer.pending, (state): void => {
@@ -218,3 +211,6 @@ export default customersSlice;
 
 export const allCustomersSelector = (state: AppState): Customer[] =>
   state.customers.items;
+
+export const customersLoadingSelector = (state: AppState): LoadingState =>
+  state.customers.loadingState;
