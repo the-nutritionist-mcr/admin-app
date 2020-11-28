@@ -1,16 +1,12 @@
 import { Button, TableCell, TableRow } from "grommet";
-import { useDispatch, useSelector } from "react-redux";
+import { Edit, Trash } from "grommet-icons";
+import { removeRecipe, updateRecipe } from "../recipes/recipesSlice";
 
+import EditRecipesDialog from "./EditRecipesDialog";
 import OkCancelDialog from "../../components/OkCancelDialog";
 import React from "react";
 import Recipe from "../../domain/Recipe";
-
-import TableCellInputField from "../../components/TableCellInputField";
-import TableCellSelectField from "../../components/TableCellSelectField";
-import { Trash } from "grommet-icons";
-
-import { allExclusionsSelector } from "../exclusions/exclusionsSlice";
-import { removeRecipe } from "../recipes/recipesSlice";
+import { useDispatch } from "react-redux";
 
 interface RecipesRowProps {
   recipe: Recipe;
@@ -19,46 +15,19 @@ interface RecipesRowProps {
 
 const RecipesRow: React.FC<RecipesRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
+  const [showEdit, setShowEdit] = React.useState(false);
   const dispatch = useDispatch();
-  const exclusions = useSelector(allExclusionsSelector);
 
   return (
     <TableRow>
+      <TableCell>{props.recipe.name}</TableCell>
+      <TableCell>{props.recipe.description}</TableCell>
       <TableCell>
-        <TableCellInputField
-          thing={props.recipe}
-          name="name"
-          value={props.recipe.name}
-          mutator={(newRecipe, event): void => {
-            newRecipe.name = event.target.value;
-          }}
-          onChange={props.onChange}
-        />
-      </TableCell>
-      <TableCell>
-        <TableCellInputField
-          thing={props.recipe}
-          name="description"
-          value={props.recipe.description}
-          mutator={(newRecipe, event): void => {
-            newRecipe.description = event.target.value;
-          }}
-          onChange={props.onChange}
-        />
-      </TableCell>
-      <TableCell>
-        <TableCellSelectField
-          multiple
-          name="exclusions"
-          thing={props.recipe}
-          options={exclusions}
-          labelKey="name"
-          value={props.recipe.potentialExclusions}
-          mutator={(newRecipe, item): void => {
-            newRecipe.potentialExclusions = item.value;
-          }}
-          onChange={props.onChange}
-        />
+        {props.recipe.potentialExclusions.length > 0
+          ? props.recipe.potentialExclusions
+              .map((exclusion) => exclusion.name)
+              .join(", ")
+          : "None"}
       </TableCell>
 
       <TableCell>
@@ -78,6 +47,26 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
         >
           Are you sure you want to delete this recipe?
         </OkCancelDialog>
+
+        <Button
+          secondary
+          onClick={(): void => setShowEdit(true)}
+          a11yTitle="Edit"
+          icon={<Edit color="light-6" />}
+        />
+        {showEdit && (
+          <EditRecipesDialog
+            recipe={props.recipe}
+            title="Edit Recipe"
+            thunk={updateRecipe}
+            onOk={(): void => {
+              setShowEdit(false);
+            }}
+            onCancel={(): void => {
+              setShowEdit(false);
+            }}
+          />
+        )}
       </TableCell>
     </TableRow>
   );

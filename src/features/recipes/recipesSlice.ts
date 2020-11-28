@@ -1,57 +1,227 @@
-import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit";
+import * as APITypes from "../../API";
+
+import API, { GraphQLResult, graphqlOperation } from "@aws-amplify/api";
+
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createRecipe as createRecipeMutation,
+  deleteRecipe as deleteRecipeMutation,
+  updateRecipe as updateRecipeMutation,
+} from "../../graphql/mutations";
 
 import type { AppState } from "../../lib/rootReducer";
 
+import LoadingState from "../../types/LoadingState";
 import Recipe from "../../domain/Recipe";
+
+import convertNullsToUndefined from "../../lib/convertNullsToUndefined";
+import { listRecipes } from "../../graphql/queries";
 
 interface RecipesState {
   items: Recipe[];
   page: number;
+  loadingState: LoadingState;
+  error?: string;
 }
 
 const initialState: RecipesState = {
   items: [],
   page: 0,
+  loadingState: LoadingState.Idle,
 };
+
+const MALFORMED_RESPONSE = "Response from the server was malformed";
+
+type RawRecipe = Exclude<
+  Exclude<
+    Exclude<APITypes.ListRecipesQuery["listRecipes"], null>["items"],
+    null
+  >[number],
+  null
+>;
+
+const mapRecipe = (recipe: RawRecipe): Recipe => {
+  const deNulledRecipe = convertNullsToUndefined(recipe);
+
+  return {
+    ...deNulledRecipe,
+    potentialExclusions: [],
+  };
+};
+
+export const updateRecipe = createAsyncThunk(
+  "recipes/update",
+  async (recipe: Recipe): Promise<Recipe> => {
+    const {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      createdAt,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      updatedAt,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      potentialExclusions,
+      ...recipeWithoutRecipes
+    } = recipe;
+    const updateRecipeVariables: APITypes.UpdateRecipeMutationVariables = {
+      input: recipeWithoutRecipes,
+    };
+
+    const updateRecipeResult = (await API.graphql(
+      graphqlOperation(updateRecipeMutation, updateRecipeVariables)
+    )) as GraphQLResult<APITypes.UpdateRecipeMutation>;
+
+    const updatedRecipe = updateRecipeResult.data?.updateRecipe;
+
+    if (updatedRecipe) {
+      return mapRecipe(updatedRecipe);
+    }
+    throw new Error(MALFORMED_RESPONSE);
+  }
+);
+
+export const createRecipe = createAsyncThunk(
+  "recipes/create",
+  async (recipe: Recipe): Promise<Recipe> => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id, potentialExclusions, ...recipeWithoutId } = recipe;
+
+    const createRecipeVariables: APITypes.CreateRecipeMutationVariables = {
+      input: recipeWithoutId,
+    };
+
+    const createRecipeResult = (await API.graphql(
+      graphqlOperation(createRecipeMutation, createRecipeVariables)
+    )) as GraphQLResult<APITypes.CreateRecipeMutation>;
+
+    const createdRecipe = createRecipeResult.data?.createRecipe;
+
+    if (createdRecipe) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      return mapRecipe(createdRecipe);
+    }
+
+    throw new Error(MALFORMED_RESPONSE);
+  }
+);
+
+export const fetchRecipes = createAsyncThunk(
+  "recipes/fetch",
+  async (): Promise<Recipe[]> => {
+    const listRecipesVariables: APITypes.ListRecipesQueryVariables = {};
+
+    const listRecipesResult = (await API.graphql(
+      graphqlOperation(listRecipes, listRecipesVariables)
+    )) as GraphQLResult<APITypes.ListRecipesQuery>;
+
+    const items = listRecipesResult.data?.listRecipes?.items;
+
+    type NotNull = <T>(thing: T | null) => thing is T;
+
+    if (items) {
+      return items
+        .filter((Boolean as unknown) as NotNull)
+        .map(mapRecipe)
+        .map((item) => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { ...newItem } = item;
+          return newItem;
+        });
+    }
+
+    throw new Error(MALFORMED_RESPONSE);
+  }
+);
+
+export const removeRecipe = createAsyncThunk(
+  "recipes/remove",
+  async (recipe: Recipe): Promise<string> => {
+    const deleteRecipeVariables: APITypes.DeleteRecipeMutationVariables = {
+      input: {
+        id: recipe.id,
+      },
+    };
+
+    await API.graphql(
+      graphqlOperation(deleteRecipeMutation, deleteRecipeVariables)
+    );
+
+    return recipe.id;
+  }
+);
 
 const recipesSlice = createSlice({
   name: "recipes",
   initialState,
   reducers: {
-    createRecipe: {
-      reducer: (state, action: PayloadAction<Recipe>): void => {
-        state.items.push(action.payload);
-      },
-      prepare: (
-        recipe: Recipe
-      ): { payload: PayloadAction<Recipe>["payload"] } => {
-        return {
-          payload: {
-            ...recipe,
-            id: nanoid(),
-          },
-        };
-      },
+    clearError: (state): void => {
+      state.error = undefined;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(updateRecipe.pending, (state): void => {
+      state.loadingState = LoadingState.Loading;
+    });
 
-    removeRecipe: (state, action: PayloadAction<Recipe>): typeof state => ({
-      ...state,
-      items: state.items.filter((recipe) => recipe.id !== action.payload.id),
-    }),
-    updateRecipe: (state, action: PayloadAction<Recipe>): void => {
+    builder.addCase(removeRecipe.pending, (state): void => {
+      state.loadingState = LoadingState.Loading;
+    });
+
+    builder.addCase(updateRecipe.rejected, (state, action): void => {
+      state.loadingState = LoadingState.Failed;
+      state.error = action.error.message;
+    });
+
+    builder.addCase(removeRecipe.rejected, (state, action): void => {
+      state.loadingState = LoadingState.Failed;
+      state.error = action.error.message;
+    });
+
+    builder.addCase(removeRecipe.fulfilled, (state, action): void => {
+      state.loadingState = LoadingState.Succeeeded;
+      state.items = state.items.filter((item) => item.id !== action.payload);
+    });
+
+    builder.addCase(updateRecipe.fulfilled, (state, action): void => {
+      state.loadingState = LoadingState.Succeeeded;
       const index = state.items.findIndex(
-        (recipe) => recipe.id === action.payload.id
+        (item) => action.payload.id === item.id
       );
-      state.items[index] = { ...action.payload };
-    },
+      state.items[index] = action.payload;
+    });
+
+    builder.addCase(createRecipe.pending, (state): void => {
+      state.loadingState = LoadingState.Loading;
+    });
+
+    builder.addCase(createRecipe.fulfilled, (state, action): void => {
+      state.loadingState = LoadingState.Succeeeded;
+      state.items.push(action.payload);
+    });
+
+    builder.addCase(createRecipe.rejected, (state, action): void => {
+      state.loadingState = LoadingState.Failed;
+      state.error = action.error.message;
+    });
+
+    builder.addCase(fetchRecipes.pending, (state): void => {
+      state.loadingState = LoadingState.Loading;
+    });
+
+    builder.addCase(fetchRecipes.fulfilled, (state, action): void => {
+      state.loadingState = LoadingState.Succeeeded;
+      state.items = action.payload;
+    });
+
+    builder.addCase(fetchRecipes.rejected, (state, action): void => {
+      state.loadingState = LoadingState.Failed;
+      state.error = action.error.message;
+    });
   },
 });
 
 export default recipesSlice;
 
-const { createRecipe, removeRecipe, updateRecipe } = recipesSlice.actions;
-
 export const allRecipesSelector = (state: AppState): Recipe[] =>
   state.recipes.items;
 
-export { createRecipe, removeRecipe, updateRecipe };
+export const errorSelector = (state: AppState): string | undefined =>
+  state.recipes.error;

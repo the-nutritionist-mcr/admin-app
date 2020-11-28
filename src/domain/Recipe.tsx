@@ -5,4 +5,6 @@ export default interface Recipe {
   name: string;
   description?: string;
   potentialExclusions: Exclusion[];
+  createdAt?: string;
+  updatedAt?: string;
 }

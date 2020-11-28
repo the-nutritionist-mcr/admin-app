@@ -13,37 +13,55 @@ import {
 import {
   allRecipesSelector,
   createRecipe,
+  errorSelector,
   updateRecipe,
 } from "../recipes/recipesSlice";
 import { useDispatch, useSelector } from "react-redux";
+import EditRecipesDialog from "./EditRecipesDialog";
 
 import React from "react";
 import RecipesRow from "../recipes/RecipesRow";
 
 const Recipes: React.FC = () => {
   const recipes = useSelector(allRecipesSelector);
+  const error = useSelector(errorSelector);
+  const [showCreate, setShowCreate] = React.useState(false);
   const dispatch = useDispatch();
 
   return (
     <React.Fragment>
       <Header align="center" justify="start" gap="small">
         <Heading level={2}>Recipes</Heading>
+
         <Button
           primary
           size="small"
-          onClick={(): void => {
-            dispatch(
-              createRecipe({
-                id: "0",
-                name: "",
-                potentialExclusions: [],
-              })
-            );
-          }}
           label="New"
-          a11yTitle="New Recipe"
+          a11yTitle="New Customer"
+          onClick={(): void => {
+            setShowCreate(true);
+          }}
         />
+        {showCreate && (
+          <EditRecipesDialog
+            recipe={{
+              id: "0",
+              name: "",
+              description: "",
+              potentialExclusions: [],
+            }}
+            title="Create Recipe"
+            thunk={createRecipe}
+            onOk={(): void => {
+              setShowCreate(false);
+            }}
+            onCancel={(): void => {
+              setShowCreate(false);
+            }}
+          />
+        )}
       </Header>
+      {error && <Text color="status-error">{error}</Text>}
       {recipes.length > 0 ? (
         <Table alignSelf="start">
           <TableHeader>
