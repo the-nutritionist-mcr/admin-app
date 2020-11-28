@@ -76,7 +76,9 @@ export const createExclusion = createAsyncThunk(
     const createdExclusion = createExclusionResult.data?.createExclusion;
 
     if (createdExclusion) {
-      return createdExclusion;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { customers, recipes, ...returnExclusion } = createdExclusion;
+      return returnExclusion;
     }
 
     throw new Error(MALFORMED_RESPONSE);
@@ -99,7 +101,12 @@ export const fetchExclusions = createAsyncThunk(
     if (items) {
       return items
         .filter((Boolean as unknown) as NotNull)
-        .map(convertNullsToUndefined);
+        .map(convertNullsToUndefined)
+        .map((item) => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { customers, recipes, ...newItem } = item;
+          return newItem;
+        });
     }
 
     throw new Error(MALFORMED_RESPONSE);
