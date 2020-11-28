@@ -3,14 +3,18 @@ import * as APITypes from "../../API";
 import API, { GraphQLResult, graphqlOperation } from "@aws-amplify/api";
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createExclusion as createExclusionMutation,
+  deleteExclusion as deleteExclusionMutation,
+  updateExclusion as updateExclusionMutation,
+} from "../../graphql/mutations";
 
-import type { AppState } from "../../lib/store";
+import type { AppState } from "../../lib/rootReducer";
 
 import Exclusion from "../../domain/Exclusion";
 import LoadingState from "../../types/LoadingState";
 
 import convertNullsToUndefined from "../../lib/convertNullsToUndefined";
-import { createExclusion as createExclusionMutation } from "../../graphql/mutations";
 import { listExclusions } from "../../graphql/queries";
 
 interface ExclusionsState {
@@ -30,7 +34,29 @@ const MALFORMED_RESPONSE = "Response from the server was malformed";
 
 export const updateExclusion = createAsyncThunk(
   "exclusions/update",
-  async (exclusion: Exclusion): Promise<Exclusion> => Promise.resolve(exclusion)
+  async (exclusion: Exclusion): Promise<Exclusion> => {
+    const {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      createdAt,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      updatedAt,
+      ...exclusionWithoutExclusions
+    } = exclusion;
+    const updateExclusionVariables: APITypes.UpdateExclusionMutationVariables = {
+      input: exclusionWithoutExclusions,
+    };
+
+    const updateExclusionResult = (await API.graphql(
+      graphqlOperation(updateExclusionMutation, updateExclusionVariables)
+    )) as GraphQLResult<APITypes.UpdateExclusionMutation>;
+
+    const updatedExclusion = updateExclusionResult.data?.updateExclusion;
+
+    if (updatedExclusion) {
+      return convertNullsToUndefined(updatedExclusion);
+    }
+    throw new Error(MALFORMED_RESPONSE);
+  }
 );
 
 export const createExclusion = createAsyncThunk(
@@ -82,13 +108,29 @@ export const fetchExclusions = createAsyncThunk(
 
 export const removeExclusion = createAsyncThunk(
   "exclusions/remove",
-  async (exclusion: Exclusion): Promise<string> => Promise.resolve(exclusion.id)
+  async (exclusion: Exclusion): Promise<string> => {
+    const deleteExclusionVariables: APITypes.DeleteExclusionMutationVariables = {
+      input: {
+        id: exclusion.id,
+      },
+    };
+
+    await API.graphql(
+      graphqlOperation(deleteExclusionMutation, deleteExclusionVariables)
+    );
+
+    return exclusion.id;
+  }
 );
 
 const exclusionsSlice = createSlice({
   name: "exclusions",
   initialState,
-  reducers: {},
+  reducers: {
+    clearError: (state): void => {
+      state.error = undefined;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(updateExclusion.pending, (state): void => {
       state.loadingState = LoadingState.Loading;

@@ -9,7 +9,7 @@ import {
   updateCustomer as updateCustomerMutation,
 } from "../../graphql/mutations";
 
-import type { AppState } from "../../lib/store";
+import type { AppState } from "../../lib/rootReducer";
 
 import LoadingState from "../../types/LoadingState";
 import { PlanCategory } from "../../lib/config";
@@ -102,7 +102,7 @@ export const createCustomer = createAsyncThunk(
   "customers/create",
   async (customer: Customer): Promise<Customer> => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { exclusions, id, ...customerWithoutExclusions } = customer;
+    const { exclusions, ...customerWithoutExclusions } = customer;
     const createCustomerVariables: APITypes.CreateCustomerMutationVariables = {
       input: customerWithoutExclusions,
     };

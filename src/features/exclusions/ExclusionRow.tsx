@@ -31,9 +31,9 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
         <OkCancelDialog
           show={showDoDelete}
           header="Are you sure?"
-          onOk={(): void => {
+          onOk={async (): Promise<void> => {
+            await dispatch(removeExclusion(props.exclusion));
             setShowDoDelete(false);
-            dispatch(removeExclusion(props.exclusion));
           }}
           onCancel={(): void => setShowDoDelete(false)}
         >
