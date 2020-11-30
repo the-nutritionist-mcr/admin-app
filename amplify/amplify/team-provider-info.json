@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-tnmadmin-dev-142708-authRole",
+      "UnauthRoleArn": "arn:aws:iam::661272765443:role/amplify-tnmadmin-dev-142708-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::661272765443:role/amplify-tnmadmin-dev-142708-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-tnmadmin-dev-142708-deployment",
+      "UnauthRoleName": "amplify-tnmadmin-dev-142708-unauthRole",
+      "StackName": "amplify-tnmadmin-dev-142708",
+      "StackId": "arn:aws:cloudformation:us-east-1:661272765443:stack/amplify-tnmadmin-dev-142708/7e40fd20-21ce-11eb-bede-12605691f9eb",
+      "AmplifyAppId": "dk1uvntjke2nr"
+    },
+    "categories": {
+      "auth": {
+        "userPoolGroups": {}
+      }
+    }
+  }
+}

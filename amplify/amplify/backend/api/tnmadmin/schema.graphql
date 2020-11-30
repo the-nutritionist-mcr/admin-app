@@ -1,0 +1,64 @@
+type Plan {
+  name: String!
+  mealsPerDay: Int!
+  costPerMeal: Int!
+  category: String!
+}
+
+type Exclusion @model {
+  id: ID!
+  name: String!
+  allergen: Boolean!
+  customers: [CustomerExclusion!]! @connection(keyName: "byExclusion", fields: ["id"])
+  recipes: [RecipeExclusion!]! @connection(keyName: "byExclusion", fields: ["id"])
+}
+
+type CustomerExclusion 
+  @model(queries: null) 
+  @key(name: "byCustomer", fields: ["customerId", "exclusionId"])
+  @key(name: "byExclusion", fields: ["exclusionId", "customerId"]) {
+  id: ID!
+  customerId: ID!
+  exclusionId: ID!
+  exclusion: Exclusion @connection(fields: ["exclusionId"])
+  customer: Customer @connection(fields: ["customerId"])
+}
+
+type RecipeExclusion 
+  @model(queries: null)
+  @key(name: "byRecipe", fields: ["recipeId", "exclusionId"])
+  @key(name: "byExclusion", fields: ["exclusionId", "recipeId"]) {
+  id: ID!
+  recipeId: ID!
+  exclusionId: ID!
+  exclusion: Exclusion @connection(fields: ["exclusionId"])
+  recipe: Recipe @connection(fields: ["recipeId"])
+}
+
+type Recipe @model {
+  id: ID!
+  name: String!
+  description: String
+  potentialExclusions: [RecipeExclusion!]! @connection(keyName: "byRecipe")
+}
+
+type Customer @model {
+  id: ID!
+  firstName: String!
+  surname: String!
+  salutation: String!
+  address: String!
+  telephone: String!
+  startDate: AWSDateTime
+  paymentDayOfMonth: Int
+  notes: String
+  email: String!
+  pauseStart: AWSDate
+  pauseEnd: AWSDate
+  daysPerWeek: Int!
+  plan: Plan!
+  legacyPrice: Int
+  snack: String!
+  breakfast: Boolean!
+  exclusions: [CustomerExclusion!]! @connection(keyName: "byCustomer", fields: ["id"])
+}
