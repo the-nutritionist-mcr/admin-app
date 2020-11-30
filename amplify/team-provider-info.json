@@ -10,6 +10,11 @@
       "StackName": "amplify-tnmadmin-dev-142708",
       "StackId": "arn:aws:cloudformation:us-east-1:661272765443:stack/amplify-tnmadmin-dev-142708/7e40fd20-21ce-11eb-bede-12605691f9eb",
       "AmplifyAppId": "dk1uvntjke2nr"
+    },
+    "categories": {
+      "auth": {
+        "tnmadmin80cb9c66": {}
+      }
     }
   },
   "prod": {

@@ -3,8 +3,15 @@ import { Route, Switch, useLocation } from "react-router-dom";
 
 import LoadableRoute from "./types/LoadableRoute";
 import NavBar from "./components/NavBar";
+import { Notification } from "grommet-controls";
 import React from "react";
+import { errorSelector } from "./lib/rootReducer";
+import { fetchCustomers } from "./features/customers/customersSlice";
+import { fetchExclusions } from "./features/exclusions/exclusionsSlice";
 import pages from "./pages";
+import store from "./lib/store";
+import { useSelector } from "react-redux";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 
 const theme = {
   global: {
@@ -16,8 +23,9 @@ const theme = {
   },
 };
 
-const App: React.FC = () => {
+const UnauthenticatedApp: React.FC = () => {
   const [routes, setRoutes] = React.useState<LoadableRoute[]>([]);
+  const error = useSelector(errorSelector);
   const location = useLocation();
 
   React.useEffect(() => {
@@ -30,6 +38,10 @@ const App: React.FC = () => {
 
     (async (): Promise<void> => {
       if (currentRoute && routes.length === 0) {
+        await Promise.all([
+          store.dispatch(fetchCustomers()),
+          store.dispatch(fetchExclusions()),
+        ]);
         currentRoute.resolvedRoute = (await currentRoute.route).default;
         setRoutes([currentRoute, ...routes]);
       }
@@ -50,6 +62,7 @@ const App: React.FC = () => {
   return (
     <Grommet theme={theme}>
       <NavBar />
+      {error && <Notification status="error" message="Error" state={error} />}
       <Main pad={{ horizontal: "large", vertical: "medium" }}>
         <Switch>
           {routes.map(
@@ -65,5 +78,7 @@ const App: React.FC = () => {
     </Grommet>
   );
 };
+
+const App = withAuthenticator(UnauthenticatedApp);
 
 export default App;

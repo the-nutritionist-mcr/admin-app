@@ -1,8 +1,10 @@
-import { Alert, Cafeteria, Home, Plan, User } from "grommet-icons";
+import { Alert, Cafeteria, Home, Logout, Plan, User } from "grommet-icons";
 import { Box, Header, Heading, Text } from "grommet";
+import { Auth } from "aws-amplify";
 import MenuButton from "./MenuButton";
 import React from "react";
 import styled from "styled-components";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 
 const NonPrintableHeader = styled(Header)`
   @media print {
@@ -10,7 +12,7 @@ const NonPrintableHeader = styled(Header)`
   }
 `;
 
-const NavBar: React.FC = () => {
+const UnauthenticatedNavBar: React.FC = () => {
   return (
     <NonPrintableHeader
       align="center"
@@ -43,9 +45,21 @@ const NavBar: React.FC = () => {
         <MenuButton icon={<Plan />} to="/planner">
           Planner
         </MenuButton>
+        <MenuButton
+          onClick={async (): Promise<void> => {
+            await Auth.signOut();
+            location.reload();
+          }}
+          icon={<Logout />}
+        >
+          Logout
+        </MenuButton>
       </Box>
       <Text size="small">Version {process.env.REACT_APP_VERSION_NUMBER}</Text>
     </NonPrintableHeader>
   );
 };
+
+const NavBar = withAuthenticator(UnauthenticatedNavBar);
+
 export default NavBar;

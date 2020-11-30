@@ -24,7 +24,7 @@ import LoadingState from "../../types/LoadingState";
 import React from "react";
 import { Spinning } from "grommet-controls";
 import { allExclusionsSelector } from "../../features/exclusions/exclusionsSlice";
-import { customersLoadingSelector } from "./customersSlice";
+import { loadingSelector } from "../../lib/rootReducer";
 import styled from "styled-components";
 
 interface EditCustomerDialogProps {
@@ -45,8 +45,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
   const [customer, setCustomer] = React.useState(props.customer);
   const exclusions = useSelector(allExclusionsSelector);
 
-  const isLoading =
-    useSelector(customersLoadingSelector) === LoadingState.Loading;
+  const isLoading = useSelector(loadingSelector) === LoadingState.Loading;
 
   const dispatch = useDispatch();
 

@@ -3,7 +3,8 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 interface MenuLinkProps {
-  to: string;
+  to?: string;
+  onClick?: () => void;
   icon?: JSX.Element;
 }
 
@@ -11,7 +12,11 @@ const MenuButton: React.FC<MenuLinkProps> = (props) => {
   const history = useHistory();
 
   const onClick = (): void => {
-    history.push(props.to);
+    if (props.to) {
+      history.push(props.to);
+    }
+
+    props.onClick?.();
   };
 
   return (

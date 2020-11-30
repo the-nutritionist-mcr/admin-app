@@ -13,7 +13,8 @@
     },
     "categories": {
       "auth": {
-        "userPoolGroups": {}
+        "userPoolGroups": {},
+        "tnmadmin80cb9c66": {}
       }
     }
   }

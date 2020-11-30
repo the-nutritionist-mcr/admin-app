@@ -8,7 +8,7 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authtnmadmin4a781b16"
+              "userPoolId": "authtnmadmin80cb9c66"
             }
           },
           "additionalAuthenticationProviders": []
@@ -16,5 +16,12 @@
       }
     }
   },
-  "auth": {}
+  "auth": {
+    "tnmadmin80cb9c66": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
 }
