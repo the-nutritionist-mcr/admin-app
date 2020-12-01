@@ -5,7 +5,9 @@ type Plan {
   category: String!
 }
 
-type Exclusion @model {
+type Exclusion
+  @model
+  @auth(rules: [{ allow: groups, groups: ["admin", "user"] }]) {
   id: ID!
   name: String!
   allergen: Boolean!
@@ -15,6 +17,7 @@ type Exclusion @model {
 
 type CustomerExclusion 
   @model(queries: null) 
+  @auth(rules: [{ allow: groups, groups: ["admin", "user"] }])
   @key(name: "byCustomer", fields: ["customerId", "exclusionId"])
   @key(name: "byExclusion", fields: ["exclusionId", "customerId"]) {
   id: ID!
@@ -26,6 +29,7 @@ type CustomerExclusion
 
 type RecipeExclusion 
   @model(queries: null)
+  @auth(rules: [{ allow: groups, groups: ["admin", "user"] }])
   @key(name: "byRecipe", fields: ["recipeId", "exclusionId"])
   @key(name: "byExclusion", fields: ["exclusionId", "recipeId"]) {
   id: ID!
@@ -35,14 +39,18 @@ type RecipeExclusion
   recipe: Recipe @connection(fields: ["recipeId"])
 }
 
-type Recipe @model {
+type Recipe
+  @model
+  @auth(rules: [{ allow: groups, groups: ["admin", "user"] }]) {
   id: ID!
   name: String!
   description: String
   potentialExclusions: [RecipeExclusion!]! @connection(keyName: "byRecipe")
 }
 
-type Customer @model {
+type Customer
+  @model 
+  @auth(rules: [{ allow: groups, groups: ["admin", "user"] }]) {
   id: ID!
   firstName: String!
   surname: String!
