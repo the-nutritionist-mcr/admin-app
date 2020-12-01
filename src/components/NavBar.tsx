@@ -12,6 +12,59 @@ const NonPrintableHeader = styled(Header)`
 `;
 
 const NavBar: React.FC = () => {
+  const buttons = [
+    <MenuButton
+      key="/"
+      to="/"
+      groups={["anonymous", "user", "admin"]}
+      icon={<Home />}
+    >
+      Home
+    </MenuButton>,
+    <MenuButton
+      key="/customers"
+      to="/customers"
+      groups={["user", "admin"]}
+      icon={<User />}
+    >
+      Customers
+    </MenuButton>,
+    <MenuButton
+      key="/recipes"
+      to="/recipes"
+      groups={["user", "admin"]}
+      icon={<Cafeteria />}
+    >
+      , Recipes
+    </MenuButton>,
+    <MenuButton
+      key="/planner"
+      to="/planner"
+      groups={["user", "admin"]}
+      icon={<Plan />}
+    >
+      Planner
+    </MenuButton>,
+    <MenuButton
+      key="/exclusions"
+      to="/exclusions"
+      groups={["user", "admin"]}
+      icon={<Alert />}
+    >
+      , Exclusions
+    </MenuButton>,
+    <MenuButton
+      key="logout"
+      groups={["anonymous", "user", "admin"]}
+      onClick={async (): Promise<void> => {
+        await Auth.signOut();
+        location.replace("/");
+      }}
+      icon={<Logout />}
+    >
+      Logout
+    </MenuButton>,
+  ].filter(Boolean);
   return (
     <NonPrintableHeader
       align="center"
@@ -29,30 +82,7 @@ const NavBar: React.FC = () => {
         direction="row"
         alignContent="stretch"
       >
-        <MenuButton to="/" icon={<Home />}>
-          Home
-        </MenuButton>
-        <MenuButton to="/customers" icon={<User />}>
-          Customers
-        </MenuButton>
-        <MenuButton to="/recipes" icon={<Cafeteria />}>
-          Recipes
-        </MenuButton>
-        <MenuButton to="/planner" icon={<Plan />}>
-          Planner
-        </MenuButton>
-        <MenuButton to="/exclusions" icon={<Alert />}>
-          Exclusions
-        </MenuButton>
-        <MenuButton
-          onClick={async (): Promise<void> => {
-            await Auth.signOut();
-            location.replace("/");
-          }}
-          icon={<Logout />}
-        >
-          Logout
-        </MenuButton>
+        {buttons}
       </Box>
       <Text size="small">Version {process.env.REACT_APP_VERSION_NUMBER}</Text>
     </NonPrintableHeader>

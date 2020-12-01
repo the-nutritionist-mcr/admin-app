@@ -1,8 +1,9 @@
 import { Auth, Hub } from "aws-amplify";
-import { Grommet, Main } from "grommet";
+import { Box, Grommet, Main } from "grommet";
 import { Notification, Spinning } from "grommet-controls";
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Switch, useLocation } from "react-router-dom";
 
+import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import NavBar from "./components/NavBar";
 import React from "react";
 import UserContext from "./lib/UserContext";
@@ -76,24 +77,34 @@ const UnauthenticatedApp: React.FC = () => {
         <NavBar />
         {error && <Notification status="error" message="Error" state={error} />}
         <Main pad={{ horizontal: "large", vertical: "medium" }}>
-          <React.Suspense fallback={<Spinning size="large" />}>
+          <React.Suspense
+            fallback={
+              <Box alignSelf="center" pad={{ vertical: "large" }}>
+                <Spinning size="large" />
+              </Box>
+            }
+          >
             <Switch>
-              <Route path="/">
+              <AuthenticatedRoute
+                exact
+                path="/"
+                groups={["anonymous", "user", "admin"]}
+              >
                 <LazyHome />
-              </Route>
-              <Route path="/customers">
+              </AuthenticatedRoute>
+              <AuthenticatedRoute path="/customers" groups={["user", "admin"]}>
                 <LazyCustomers />
-              </Route>
-              <Route path="/recipes">
+              </AuthenticatedRoute>
+              <AuthenticatedRoute path="/recipes" groups={["user", "admin"]}>
                 <LazyRecipes />
-              </Route>
+              </AuthenticatedRoute>
 
-              <Route path="/planner">
+              <AuthenticatedRoute path="/planner" groups={["user", "admin"]}>
                 <LazyPlanner />
-              </Route>
-              <Route path="/exclusions">
+              </AuthenticatedRoute>
+              <AuthenticatedRoute path="/exclusions" groups={["user", "admin"]}>
                 <LazyExclusions />
-              </Route>
+              </AuthenticatedRoute>
             </Switch>
           </React.Suspense>
         </Main>

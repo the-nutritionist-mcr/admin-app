@@ -10,18 +10,27 @@ import {
   Text,
 } from "grommet";
 
-import { allCustomersSelector, createCustomer } from "./customersSlice";
+import {
+  allCustomersSelector,
+  createCustomer,
+  fetchCustomers,
+} from "./customersSlice";
 import { daysPerWeekOptions, plans } from "../../lib/config";
 import CustomerRow from "./CustomerRow";
 import EditCustomerDialog from "./EditCustomerDialog";
 import React from "react";
 import { Snack } from "../../domain/Customer";
+import store from "../../lib/store";
 import { useSelector } from "react-redux";
 
 const Customers: React.FC = () => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
 
   const customers = useSelector(allCustomersSelector);
+
+  React.useEffect(() => {
+    store.dispatch(fetchCustomers());
+  }, []);
 
   return (
     <React.Fragment>
