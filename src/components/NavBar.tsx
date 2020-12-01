@@ -1,10 +1,11 @@
-import { Alert, Cafeteria, Home, Logout, Plan, User } from "grommet-icons";
 import { Box, Header, Heading, Text } from "grommet";
 import { Auth } from "aws-amplify";
+import LoadableRoute from "../types/LoadableRoute";
+import { Logout } from "grommet-icons";
 import MenuButton from "./MenuButton";
 import React from "react";
+import { getRoutePath } from "../pages";
 import styled from "styled-components";
-import { withAuthenticator } from "@aws-amplify/ui-react";
 
 const NonPrintableHeader = styled(Header)`
   @media print {
@@ -12,7 +13,11 @@ const NonPrintableHeader = styled(Header)`
   }
 `;
 
-const UnauthenticatedNavBar: React.FC = () => {
+interface NavBarProps {
+  routes: LoadableRoute[];
+}
+
+const NavBar: React.FC<NavBarProps> = (props) => {
   return (
     <NonPrintableHeader
       align="center"
@@ -30,25 +35,19 @@ const UnauthenticatedNavBar: React.FC = () => {
         direction="row"
         alignContent="stretch"
       >
-        <MenuButton icon={<Home />} to="/">
-          Home
-        </MenuButton>
-        <MenuButton icon={<User />} to="/customers">
-          Customers
-        </MenuButton>
-        <MenuButton icon={<Cafeteria />} to="/recipes">
-          Recipes
-        </MenuButton>
-        <MenuButton icon={<Alert />} to="/exclusions">
-          Exclusions
-        </MenuButton>
-        <MenuButton icon={<Plan />} to="/planner">
-          Planner
-        </MenuButton>
+        {props.routes.map((route) => (
+          <MenuButton
+            icon={<route.icon />}
+            key={route.name}
+            to={getRoutePath(route)}
+          >
+            {route.name}
+          </MenuButton>
+        ))}
         <MenuButton
           onClick={async (): Promise<void> => {
             await Auth.signOut();
-            location.reload();
+            location.replace("/");
           }}
           icon={<Logout />}
         >
@@ -59,7 +58,5 @@ const UnauthenticatedNavBar: React.FC = () => {
     </NonPrintableHeader>
   );
 };
-
-const NavBar = withAuthenticator(UnauthenticatedNavBar);
 
 export default NavBar;

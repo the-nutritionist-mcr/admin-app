@@ -1,8 +1,15 @@
 import React from "react";
 
 export default interface LoadableRoute {
-  path: string;
+  name: string;
+  icon: React.ElementType;
+  path?: string;
   exact?: boolean;
-  resolvedRoute?: React.FC;
-  route: Promise<{ default: React.FC }>;
+  groups: string[];
+  resolvedRoute?: React.FC<LoadableRouteProps>;
+  route: Promise<{ default: React.FC<LoadableRouteProps> }>;
+}
+
+interface LoadableRouteProps {
+  name: string;
 }
