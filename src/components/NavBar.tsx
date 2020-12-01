@@ -35,7 +35,7 @@ const NavBar: React.FC = () => {
       groups={["user", "admin"]}
       icon={<Cafeteria />}
     >
-      , Recipes
+      Recipes
     </MenuButton>,
     <MenuButton
       key="/planner"
@@ -51,7 +51,7 @@ const NavBar: React.FC = () => {
       groups={["user", "admin"]}
       icon={<Alert />}
     >
-      , Exclusions
+      Exclusions
     </MenuButton>,
     <MenuButton
       key="logout"

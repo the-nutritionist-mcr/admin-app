@@ -34,9 +34,7 @@ const MenuButton: React.FC<MenuLinkProps> = (props) => {
       hoverIndicator
       icon={props.icon}
       label={props.children}
-    >
-      {props.children}
-    </Button>
+    />
   ) : null;
 
   return returnVal;
