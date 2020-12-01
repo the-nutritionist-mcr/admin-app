@@ -1,4 +1,4 @@
 import App from "./app";
 
-// eslint-disable-next-line imports/prefer-default
+// eslint-disable-next-line import/prefer-default-export
 export { App };
