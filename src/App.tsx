@@ -1,3 +1,4 @@
+import { Auth, Hub } from "aws-amplify";
 import { Grommet, Main } from "grommet";
 import { Route, Switch, useLocation } from "react-router-dom";
 import { getPages, getRoutePath } from "./pages";
@@ -24,11 +25,22 @@ const theme = {
   },
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getUser = async (): Promise<any> => {
+  try {
+    return await Auth.currentAuthenticatedUser();
+  } catch {
+    // eslint-disable-next-line unicorn/no-useless-undefined
+    return undefined;
+  }
+};
+
 const UnauthenticatedApp: React.FC = () => {
   const [routes, setRoutes] = React.useState<LoadableRoute[]>([]);
+  // eslint-disable-next-line unicorn/no-useless-undefined
+  const [user, setUser] = React.useState<any>(undefined); // eslint-disable-line @typescript-eslint/no-explicit-any
   const error = useSelector(errorSelector);
   const location = useLocation();
-  const user = React.useContext(UserContext);
 
   const pages = React.useMemo(
     () =>
@@ -48,8 +60,16 @@ const UnauthenticatedApp: React.FC = () => {
       (route) => route.path !== location.pathname
     );
 
+    const listener = Hub.listen(
+      "auth",
+      async (): Promise<void> => {
+        setUser(await getUser());
+      }
+    );
+
     (async (): Promise<void> => {
       if (currentRoute && routes.length === 0) {
+        setUser(await getUser());
         await Promise.all([
           store.dispatch(fetchCustomers()),
           store.dispatch(fetchExclusions()),
@@ -68,30 +88,33 @@ const UnauthenticatedApp: React.FC = () => {
         setRoutes([...otherRoutesResolved, ...routes]);
       }
     })();
+    return (): void => Hub.remove("auth", listener);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [routes.length]);
+  }, [routes.length, pages]);
 
   return (
-    <Grommet theme={theme}>
-      <NavBar routes={routes} />
-      {error && <Notification status="error" message="Error" state={error} />}
-      <Main pad={{ horizontal: "large", vertical: "medium" }}>
-        <Switch>
-          {routes.map(
-            (route, index) =>
-              route.resolvedRoute && (
-                <Route
-                  exact={route.exact}
-                  key={index}
-                  path={getRoutePath(route)}
-                >
-                  {React.createElement(route.resolvedRoute)}
-                </Route>
-              )
-          )}
-        </Switch>
-      </Main>
-    </Grommet>
+    <UserContext.Provider value={user}>
+      <Grommet theme={theme}>
+        <NavBar routes={routes} />
+        {error && <Notification status="error" message="Error" state={error} />}
+        <Main pad={{ horizontal: "large", vertical: "medium" }}>
+          <Switch>
+            {routes.map(
+              (route, index) =>
+                route.resolvedRoute && (
+                  <Route
+                    exact={route.exact}
+                    key={index}
+                    path={getRoutePath(route)}
+                  >
+                    {React.createElement(route.resolvedRoute)}
+                  </Route>
+                )
+            )}
+          </Switch>
+        </Main>
+      </Grommet>
+    </UserContext.Provider>
   );
 };
 
