@@ -1,7 +1,7 @@
 import { act, fireEvent, render } from "@testing-library/react";
 import { Grommet } from "grommet";
 import React from "react";
-import TableCellSelectField from "./TableCellSelectField";
+import { TableCellSelectField } from ".";
 
 window.scrollTo = jest.fn();
 

@@ -1,5 +1,5 @@
 import { TextInput, ThemeContext } from "grommet";
-import MutatorFieldProps from "./MutatorFieldProps";
+import MutatorFieldProps from "../MutatorFieldProps";
 import React from "react";
 import { useDebouncedCallback } from "use-debounce";
 

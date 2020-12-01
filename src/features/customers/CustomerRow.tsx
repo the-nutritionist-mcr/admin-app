@@ -1,10 +1,9 @@
 import { Box, Button, TableCell, TableRow } from "grommet";
 import { Edit, Pause, Trash } from "grommet-icons";
+import { OkCancelDialog, PauseDialog } from "../../components";
 import { removeCustomer, updateCustomer } from "./customersSlice";
 import Customer from "../../domain/Customer";
 import EditCustomerDialog from "./EditCustomerDialog";
-import OkCancelDialog from "../../components/OkCancelDialog";
-import PauseDialog from "./../../components/PauseDialog";
 import React from "react";
 import getExtrasString from "../../lib/getExtrasString";
 import getStatusString from "../../lib/getStatusString";

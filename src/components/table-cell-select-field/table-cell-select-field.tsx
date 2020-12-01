@@ -1,5 +1,5 @@
 import { Select, TextInput, ThemeContext } from "grommet";
-import MutatorFieldProps from "./MutatorFieldProps";
+import MutatorFieldProps from "../MutatorFieldProps";
 import React from "react";
 
 interface TableCellSelectFieldProps<V> {

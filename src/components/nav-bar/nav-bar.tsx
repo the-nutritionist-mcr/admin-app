@@ -1,7 +1,7 @@
 import { Alert, Cafeteria, Home, Logout, Plan, User } from "grommet-icons";
 import { Box, Header, Heading, Text } from "grommet";
 import { Auth } from "aws-amplify";
-import MenuButton from "./MenuButton";
+import { MenuButton } from "..";
 import React from "react";
 import styled from "styled-components";
 

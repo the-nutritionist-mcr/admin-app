@@ -1,7 +1,7 @@
 import { act, fireEvent, render } from "@testing-library/react";
 
 import { History } from "history";
-import MenuButton from "./MenuButton";
+import { MenuButton } from "..";
 import React from "react";
 import { mock as mockExtended } from "jest-mock-extended";
 import { mocked } from "ts-jest/utils";
@@ -26,7 +26,9 @@ describe("<MenuLink>", () => {
     const mockHistoryArray = mockExtended<History>();
     mocked(useHistory, true).mockReturnValue(mockHistoryArray);
     const { getByText } = render(
-      <MenuButton to="/foo-route">Click Me</MenuButton>
+      <MenuButton groups={["anonymous"]} to="/foo-route">
+        Click Me
+      </MenuButton>
     );
     act(() => {
       fireEvent.click(getByText("Click Me"));

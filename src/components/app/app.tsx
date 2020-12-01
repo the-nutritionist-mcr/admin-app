@@ -1,13 +1,12 @@
 import { Auth, Hub } from "aws-amplify";
+import { AuthenticatedRoute, NavBar } from "..";
 import { Box, Grommet, Main } from "grommet";
 import { Notification, Spinning } from "grommet-controls";
 import { Switch, useLocation } from "react-router-dom";
 
-import AuthenticatedRoute from "./components/AuthenticatedRoute";
-import { NavBar } from "../";
 import React from "react";
-import UserContext from "./lib/UserContext";
-import { errorSelector } from "./lib/rootReducer";
+import UserContext from "../../lib/UserContext";
+import { errorSelector } from "../../lib/rootReducer";
 // Import { fetchCustomers } from "./features/customers/customersSlice";
 // Import { fetchExclusions } from "./features/exclusions/exclusionsSlice";
 // Import store from "./lib/store";
@@ -35,21 +34,21 @@ const getUser = async (): Promise<any> => {
   }
 };
 
-const LazyHome = React.lazy(async () => import("./features/home/Home"));
+const LazyHome = React.lazy(async () => import("../../features/home/Home"));
 const LazyCustomers = React.lazy(
-  async () => import("./features/customers/Customers")
+  async () => import("../../features/customers/Customers")
 );
 
 const LazyRecipes = React.lazy(
-  async () => import("./features/recipes/Recipes")
+  async () => import("../../features/recipes/Recipes")
 );
 
 const LazyPlanner = React.lazy(
-  async () => import("./features/planner/Planner")
+  async () => import("../../features/planner/Planner")
 );
 
 const LazyExclusions = React.lazy(
-  async () => import("./features/exclusions/Exclusions")
+  async () => import("../../features/exclusions/Exclusions")
 );
 
 const UnauthenticatedApp: React.FC = () => {

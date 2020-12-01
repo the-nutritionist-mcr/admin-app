@@ -3,7 +3,7 @@ import { Edit, Trash } from "grommet-icons";
 import { removeRecipe, updateRecipe } from "../recipes/recipesSlice";
 
 import EditRecipesDialog from "./EditRecipesDialog";
-import OkCancelDialog from "../../components/OkCancelDialog";
+import { OkCancelDialog } from "../../components";
 import React from "react";
 import Recipe from "../../domain/Recipe";
 import { useDispatch } from "react-redux";

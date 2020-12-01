@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import UserContext from "../lib/UserContext";
+import UserContext from "../../lib/UserContext";
 
 interface AuthenticatedrouteProps {
   path: string;

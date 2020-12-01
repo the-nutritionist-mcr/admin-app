@@ -3,7 +3,7 @@ import { Edit, Trash } from "grommet-icons";
 import { removeExclusion, updateExclusion } from "./exclusionsSlice";
 import EditExclusionDialog from "./EditExclusionDialog";
 import Exclusion from "../../domain/Exclusion";
-import OkCancelDialog from "../../components/OkCancelDialog";
+import { OkCancelDialog } from "../../components";
 import React from "react";
 import { useDispatch } from "react-redux";
 

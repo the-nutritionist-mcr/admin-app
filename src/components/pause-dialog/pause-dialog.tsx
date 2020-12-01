@@ -1,8 +1,8 @@
 import { Box, Button, Calendar, Paragraph, Text } from "grommet";
-import Customer from "../domain/Customer";
-import OkCancelDialog from "./OkCancelDialog";
+import Customer from "../../domain/Customer";
+import { OkCancelDialog } from "..";
 import React from "react";
-import calendarFormat from "../lib/calendarFormat";
+import calendarFormat from "../../lib/calendarFormat";
 import moment from "moment";
 
 interface PauseDialogProps {
