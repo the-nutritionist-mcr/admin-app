@@ -4,7 +4,7 @@ import { Notification, Spinning } from "grommet-controls";
 import { Switch, useLocation } from "react-router-dom";
 
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
-import NavBar from "./components/NavBar";
+import { NavBar } from "../";
 import React from "react";
 import UserContext from "./lib/UserContext";
 import { errorSelector } from "./lib/rootReducer";
