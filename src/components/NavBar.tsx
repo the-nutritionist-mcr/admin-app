@@ -35,15 +35,19 @@ const NavBar: React.FC<NavBarProps> = (props) => {
         direction="row"
         alignContent="stretch"
       >
-        {props.routes.map((route) => (
-          <MenuButton
-            icon={<route.icon />}
-            key={route.name}
-            to={getRoutePath(route)}
-          >
-            {route.name}
-          </MenuButton>
-        ))}
+        {props.routes
+          .slice()
+          // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+          .sort((a, b) => (a.sortKey > b.sortKey ? 1 : -1))
+          .map((route) => (
+            <MenuButton
+              icon={<route.icon />}
+              key={route.name}
+              to={getRoutePath(route)}
+            >
+              {route.name}
+            </MenuButton>
+          ))}
         <MenuButton
           onClick={async (): Promise<void> => {
             await Auth.signOut();

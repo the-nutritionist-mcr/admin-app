@@ -1,15 +1,21 @@
 import React from "react";
 
+export type DynamicComponent = Promise<{
+  default: React.FC<LoadableRouteProps>;
+}>;
+
 export default interface LoadableRoute {
-  name: string;
-  icon: React.ElementType;
-  path?: string;
-  exact?: boolean;
-  groups: string[];
-  resolvedRoute?: React.FC<LoadableRouteProps>;
-  route: Promise<{ default: React.FC<LoadableRouteProps> }>;
+  readonly sortKey: number;
+  readonly name: string;
+  readonly icon: React.ElementType;
+  readonly path?: string;
+  readonly exact?: boolean;
+  readonly groups: string[];
+  loadingRoute?: DynamicComponent;
+  loadedRoute?: React.FC<LoadableRouteProps>;
+  readonly loadRoute: () => DynamicComponent;
 }
 
-interface LoadableRouteProps {
+export interface LoadableRouteProps {
   name: string;
 }
