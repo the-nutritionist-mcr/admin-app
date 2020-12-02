@@ -2,12 +2,12 @@ import { Auth, Hub } from "aws-amplify";
 import { act, renderHook } from "@testing-library/react-hooks";
 import { HubPayload } from "@aws-amplify/core/lib-esm/Hub";
 import { errorSelector } from "../../../lib/rootReducer";
-import { when } from "jest-when";
 import { mock } from "jest-mock-extended";
 import { mocked } from "ts-jest/utils";
 import { useApp } from ".";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { when } from "jest-when";
 
 // eslint-disable-next-line no-console
 console.warn = (): void => {
@@ -48,7 +48,11 @@ describe("userApp", () => {
         },
       });
 
-      const { waitForNextUpdate, result } = renderHook(() => useApp());
+      const { waitFor, waitForNextUpdate, result } = renderHook(() => useApp());
+
+      await act(async () => {
+        await waitForNextUpdate();
+      });
 
       mocked(Auth, true).currentAuthenticatedUser.mockResolvedValue({
         signInUserSession: {
@@ -66,15 +70,13 @@ describe("userApp", () => {
         Hub.dispatch("auth", {} as HubPayload);
       });
 
-      await act(async () => {
-        await waitForNextUpdate();
-      });
-
-      expect(result.current.user).toEqual({
-        groups: ["baz"],
-        username: "baz-username",
-        email: "baz-email",
-      });
+      await waitFor(() =>
+        expect(result.current.user).toEqual({
+          groups: ["baz"],
+          username: "baz-username",
+          email: "baz-email",
+        })
+      );
     });
 
     it("returns the current user when returned by amplify", async () => {
@@ -122,19 +124,6 @@ describe("userApp", () => {
       mocked(useLocation, true).mockReturnValue(location);
       const { result, unmount } = renderHook(() => useApp());
       expect(result.current.error).toBe("foobar");
-      unmount();
-    });
-  });
-
-  describe("location", () => {
-    it("returns whatever the location hook returns", () => {
-      const location = mock<ReturnType<typeof useLocation>>();
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      jest.spyOn(Auth, "currentAuthenticatedUser").mockResolvedValue(undefined);
-      location.pathname = "foo";
-      mocked(useLocation, true).mockReturnValue(location);
-      const { result, unmount } = renderHook(() => useApp());
-      expect(result.current.location).toBe(location);
       unmount();
     });
   });

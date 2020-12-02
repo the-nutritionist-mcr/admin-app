@@ -1,17 +1,11 @@
-import { Auth, Hub } from "aws-amplify";
 import { AuthenticatedRoute, NavBar } from "..";
 import { Box, Grommet, Main } from "grommet";
 import { Notification, Spinning } from "grommet-controls";
-import { Switch, useLocation } from "react-router-dom";
-
 import React from "react";
+import { Switch } from "react-router-dom";
+
 import UserContext from "../../lib/UserContext";
-import { errorSelector } from "../../lib/rootReducer";
-// Import { fetchCustomers } from "./features/customers/customersSlice";
-// Import { fetchExclusions } from "./features/exclusions/exclusionsSlice";
-// Import store from "./lib/store";
-import useDeepCompareEffect from "use-deep-compare-effect";
-import { useSelector } from "react-redux";
+import { useApp } from "./hooks";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 
 const theme = {
@@ -22,16 +16,6 @@ const theme = {
       height: "20px",
     },
   },
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getUser = async (): Promise<any> => {
-  try {
-    return await Auth.currentAuthenticatedUser();
-  } catch {
-    // eslint-disable-next-line unicorn/no-useless-undefined
-    return undefined;
-  }
 };
 
 const LazyHome = React.lazy(async () => import("../../features/home/Home"));
@@ -52,23 +36,7 @@ const LazyExclusions = React.lazy(
 );
 
 const UnauthenticatedApp: React.FC = () => {
-  const [user, setUser] = React.useState<any>({}); // eslint-disable-line @typescript-eslint/no-explicit-any
-  const error = useSelector(errorSelector);
-  const location = useLocation();
-
-  useDeepCompareEffect(() => {
-    const listener = Hub.listen(
-      "auth",
-      async (): Promise<void> => {
-        setUser(await getUser());
-      }
-    );
-
-    (async (): Promise<void> => {
-      setUser(await getUser());
-    })();
-    return (): void => Hub.remove("auth", listener);
-  }, [location.pathname, user]);
+  const { user, error } = useApp();
 
   return (
     <UserContext.Provider value={user}>
