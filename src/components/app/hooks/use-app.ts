@@ -4,7 +4,7 @@ import { errorSelector } from "../../../lib/rootReducer";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import { useSelector } from "react-redux";
 
-interface User {
+export interface User {
   groups: string[];
   email: string;
   username: string;

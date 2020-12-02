@@ -10,6 +10,7 @@ import { MenuButton } from "./menu-button";
 import { NavBar } from "./nav-bar";
 import { OkCancelDialog } from "./ok-cancel-dialog";
 import { PauseDialog } from "./pause-dialog";
+import { Router } from "./router";
 import { TableCellCheckbox } from "./table-cell-checkbox";
 import { TableCellInputField } from "./table-cell-input-field";
 import { TableCellSelectField } from "./table-cell-select-field";
@@ -25,6 +26,7 @@ export {
   PrintableThead,
   PrintableTableRow,
   PrintableTableCell,
+  Router,
   TableCellCheckbox,
   TableCellInputField,
   TableCellSelectField,

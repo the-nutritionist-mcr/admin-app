@@ -9,6 +9,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import config from "./aws-exports";
 import reportWebVitals from "./reportWebVitals";
 import store from "./lib/store";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 
 const render = (): void => {
   Amplify.configure(config);
@@ -16,9 +17,7 @@ const render = (): void => {
   ReactDOM.render(
     <React.StrictMode>
       <Provider store={store}>
-        <Router>
-          <App />
-        </Router>
+        <Router>{withAuthenticator(App)}</Router>
       </Provider>
     </React.StrictMode>,
     document.querySelector("#root")

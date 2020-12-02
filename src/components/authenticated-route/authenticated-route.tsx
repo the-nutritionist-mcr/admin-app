@@ -10,11 +10,8 @@ interface AuthenticatedrouteProps {
 
 const AuthenticatedRoute: React.FC<AuthenticatedrouteProps> = (props) => {
   const user = React.useContext(UserContext);
-  const userGroups = user?.signInUserSession?.accessToken?.payload[
-    "cognito:groups"
-  ] ?? ["anonymous"];
 
-  return props.groups.some((group) => userGroups.includes(group)) ? (
+  return props.groups.some((group) => user?.groups.includes(group)) ? (
     <Route exact={props.exact} path={props.path}>
       {props.children}
     </Route>
