@@ -4,6 +4,8 @@ import { OkCancelDialog } from ".";
 import React from "react";
 import { act } from "react-dom/test-utils";
 
+jest.mock("react-redux");
+
 describe("The OkCancelDialog", () => {
   it("Is visible if show is true", () => {
     const wrapper = shallow(
@@ -32,7 +34,7 @@ describe("The OkCancelDialog", () => {
   });
 
   it("Renders everything inside a form of the 'thing' prop is present", () => {
-    const wrapper = shallow(
+    const wrapper = mount(
       <OkCancelDialog
         thing={{}}
         show={true}
@@ -42,7 +44,7 @@ describe("The OkCancelDialog", () => {
       />
     );
 
-    expect(wrapper.first().type()).toEqual(Form);
+    expect(wrapper.find(Form).exists()).toEqual(true);
   });
 
   it("Does not use a form if 'thing' prop is not present", () => {
@@ -92,7 +94,7 @@ describe("The OkCancelDialog", () => {
   });
 
   it("Displays a reset button if there is a 'thing' prop", () => {
-    const wrapper = shallow(
+    const wrapper = mount(
       <OkCancelDialog
         show={true}
         thing={{}}
@@ -131,7 +133,7 @@ describe("The OkCancelDialog", () => {
   it("Clicking the cancel button fires the onCancel handler", () => {
     const onCancel = jest.fn();
 
-    const wrapper = shallow(
+    const wrapper = mount(
       <OkCancelDialog
         show={true}
         thing={{}}

@@ -13,6 +13,7 @@ import { Checkmark, Close } from "grommet-icons";
 import { AsyncThunk } from "@reduxjs/toolkit";
 import React from "react";
 import assertFC from "../../lib/assertFC";
+import { useDispatch } from "react-redux";
 
 interface OkCancelDialogProps<T = undefined> {
   thing?: T;
@@ -23,10 +24,11 @@ interface OkCancelDialogProps<T = undefined> {
   onCancel: () => void;
 }
 
-function OkCancelDialog<T>(
+function OkCancelDialogContainer<T>(
   props: React.PropsWithChildren<OkCancelDialogProps<T>>
 ): React.ReactElement | null {
   const [thing, setThing] = React.useState<T | undefined>(props.thing);
+  const dispatch = useDispatch();
   const contents = (
     <Layer>
       <Card>
@@ -40,13 +42,16 @@ function OkCancelDialog<T>(
         </CardBody>
         <CardFooter pad="medium" alignSelf="center">
           <Button
-            type="submit"
+            type={props.thing ? "submit" : undefined}
             icon={<Checkmark color="brand" size="small" />}
             label="Ok"
           />
           <Button
             icon={<Close color="brand" size="small" />}
-            onClick={props.onCancel}
+            onClick={(): void => {
+              setThing(props.thing);
+              props.onCancel();
+            }}
             label="Cancel"
           />
           {props.thing && (
@@ -56,10 +61,13 @@ function OkCancelDialog<T>(
       </Card>
     </Layer>
   );
-  const formOrNot = props.thing ? (
+  return props.thing ? (
     <Form
       value={thing}
-      onSubmit={(): void => {
+      onSubmit={async (): Promise<void> => {
+        if (thing) {
+          await dispatch(props.thunk?.(thing));
+        }
         props.onOk();
       }}
       onChange={(nextData: unknown): void => {
@@ -74,9 +82,15 @@ function OkCancelDialog<T>(
   ) : (
     contents
   );
-  return props?.show ? formOrNot : null;
+}
+
+function OkCancelDialog<T>(
+  props: React.PropsWithChildren<OkCancelDialogProps<T>>
+): React.ReactElement | null {
+  return props?.show ? <OkCancelDialogContainer {...props} /> : null;
 }
 
 assertFC(OkCancelDialog);
+assertFC(OkCancelDialogContainer);
 
 export default OkCancelDialog;
