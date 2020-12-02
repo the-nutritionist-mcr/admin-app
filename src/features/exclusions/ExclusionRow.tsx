@@ -46,19 +46,18 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
           a11yTitle="Edit"
           icon={<Edit color="light-6" />}
         />
-        {showEdit && (
-          <EditExclusionDialog
-            exclusion={props.exclusion}
-            title="Edit Exclusion"
-            thunk={updateExclusion}
-            onOk={(): void => {
-              setShowEdit(false);
-            }}
-            onCancel={(): void => {
-              setShowEdit(false);
-            }}
-          />
-        )}
+        <EditExclusionDialog
+          exclusion={props.exclusion}
+          title="Edit Exclusion"
+          thunk={updateExclusion}
+          onOk={(): void => {
+            setShowEdit(false);
+          }}
+          show={showEdit}
+          onCancel={(): void => {
+            setShowEdit(false);
+          }}
+        />
       </TableCell>
     </TableRow>
   );

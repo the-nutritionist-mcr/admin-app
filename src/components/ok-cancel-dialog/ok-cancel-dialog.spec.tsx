@@ -207,17 +207,10 @@ describe("The OkCancelDialog", () => {
 
     wrapper.update();
 
-    /*
-     * I'd rather click the reset button in this test, but
-     * that just doesn't seem to work.
-     */
     act(() => {
-      const form = wrapper.find(Form);
-      const resetHandler = form.invoke("onReset");
-      expect(resetHandler).toBeDefined();
-      if (resetHandler) {
-        resetHandler({} as React.SyntheticEvent<Element, Event>);
-      }
+      wrapper.find(Form).invoke("onReset")?.(
+        {} as React.SyntheticEvent<Element, Event>
+      );
     });
 
     wrapper.update();

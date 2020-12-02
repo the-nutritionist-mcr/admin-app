@@ -31,23 +31,22 @@ const Exclusions: React.FC = () => {
             setShowCreate(true);
           }}
         />
-        {showCreate && (
-          <EditExclusionDialog
-            exclusion={{
-              id: "0",
-              name: "",
-              allergen: false,
-            }}
-            title="Create Exclusion"
-            thunk={createExclusion}
-            onOk={(): void => {
-              setShowCreate(false);
-            }}
-            onCancel={(): void => {
-              setShowCreate(false);
-            }}
-          />
-        )}
+        <EditExclusionDialog
+          exclusion={{
+            id: "0",
+            name: "",
+            allergen: false,
+          }}
+          show={showCreate}
+          title="Create Exclusion"
+          thunk={createExclusion}
+          onOk={(): void => {
+            setShowCreate(false);
+          }}
+          onCancel={(): void => {
+            setShowCreate(false);
+          }}
+        />
       </Header>
       {exclusions.length > 0 ? (
         <Table alignSelf="start">

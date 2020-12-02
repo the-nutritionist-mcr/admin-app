@@ -30,38 +30,36 @@ function OkCancelDialogContainer<T>(
   const [thing, setThing] = React.useState<T | undefined>(props.thing);
   const dispatch = useDispatch();
   const contents = (
-    <Layer>
-      <Card>
-        <CardHeader margin="none" pad="medium" alignSelf="center">
-          <Heading margin="none" level={2}>
-            {props.header}
-          </Heading>
-        </CardHeader>
-        <CardBody pad="medium" alignSelf="center">
-          {props.children}
-        </CardBody>
-        <CardFooter pad="medium" alignSelf="center">
-          <Button
-            type={props.thing ? "submit" : undefined}
-            icon={<Checkmark color="brand" size="small" />}
-            label="Ok"
-          />
-          <Button
-            icon={<Close color="brand" size="small" />}
-            onClick={(): void => {
-              setThing(props.thing);
-              props.onCancel();
-            }}
-            label="Cancel"
-          />
-          {props.thing && (
-            <Button label="Reset" type="reset" name="reset" id="reset-button" />
-          )}
-        </CardFooter>
-      </Card>
-    </Layer>
+    <React.Fragment>
+      <CardHeader margin="none" pad="medium" alignSelf="center">
+        <Heading margin="none" level={2}>
+          {props.header}
+        </Heading>
+      </CardHeader>
+      <CardBody pad="medium" alignSelf="center">
+        {props.children}
+      </CardBody>
+      <CardFooter pad="medium" alignSelf="center">
+        <Button
+          type={props.thing ? "submit" : undefined}
+          icon={<Checkmark color="brand" size="small" />}
+          label="Ok"
+        />
+        <Button
+          icon={<Close color="brand" size="small" />}
+          onClick={(): void => {
+            setThing(props.thing);
+            props.onCancel();
+          }}
+          label="Cancel"
+        />
+        {props.thing && (
+          <Button label="Reset" type="reset" name="reset" id="reset-button" />
+        )}
+      </CardFooter>
+    </React.Fragment>
   );
-  return props.thing ? (
+  const dialogWithOrWithoutForm = props.thing ? (
     <Form
       value={thing}
       onSubmit={async (): Promise<void> => {
@@ -81,6 +79,12 @@ function OkCancelDialogContainer<T>(
     </Form>
   ) : (
     contents
+  );
+
+  return (
+    <Layer>
+      <Card>{dialogWithOrWithoutForm}</Card>
+    </Layer>
   );
 }
 

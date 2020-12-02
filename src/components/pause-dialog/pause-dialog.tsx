@@ -1,4 +1,4 @@
-import { Box, Button, Calendar, Paragraph, Text } from "grommet";
+import { Box, Calendar, Paragraph, Text } from "grommet";
 import Customer from "../../domain/Customer";
 import { OkCancelDialog } from "..";
 import React from "react";
@@ -35,17 +35,6 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
       onOk={(): void => {
         props.onOk(props.customer);
       }}
-      extraFooterItems={
-        <Button
-          label="clear"
-          onClick={(): void => {
-            // eslint-disable-next-line unicorn/no-useless-undefined
-            setPauseStart(undefined);
-            // eslint-disable-next-line unicorn/no-useless-undefined
-            setPauseEnd(undefined);
-          }}
-        />
-      }
       onCancel={props.onCancel}
     >
       <Paragraph margin="none" textAlign="center">
