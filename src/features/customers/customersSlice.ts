@@ -108,7 +108,7 @@ export const createCustomer = createAsyncThunk(
   async (customer: Customer, api): Promise<Customer> => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { exclusions, ...customerWithoutExclusions } = customer;
+      const { id, exclusions, ...customerWithoutExclusions } = customer;
       const createCustomerVariables: APITypes.CreateCustomerMutationVariables = {
         input: customerWithoutExclusions,
       };
