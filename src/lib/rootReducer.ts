@@ -63,7 +63,10 @@ const rootReducer: Reducer<AppState> = (state, action) => {
 
   if (rejectedActions.has(action.type)) {
     globalState.loadingState = LoadingState.Failed;
-    globalState.error = action.payload?.message;
+    globalState.error =
+      typeof action.payload === "string"
+        ? action.payload
+        : action.error.message;
   }
 
   return {

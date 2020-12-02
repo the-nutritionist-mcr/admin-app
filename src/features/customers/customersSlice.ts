@@ -130,10 +130,17 @@ export const createCustomer = createAsyncThunk(
   }
 );
 
-export const fetchCustomers = createAsyncThunk(
+export const fetchCustomers = createAsyncThunk<
+  Customer[],
+  void,
+  { rejectValue: Error | string }
+>(
   "customers/fetch",
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async (data, api): Promise<Customer[]> => {
+  async (
+    data,
+    api
+  ): Promise<Customer[] | ReturnType<typeof api["rejectWithValue"]>> => {
     try {
       const listCustomerVariables: APITypes.ListCustomersQueryVariables = {};
       const listCustomersResult = (await API.graphql(
@@ -148,8 +155,11 @@ export const fetchCustomers = createAsyncThunk(
         return items.filter((Boolean as unknown) as NotNull).map(mapCustomer);
       }
     } catch (error) {
+      if (error instanceof Error) {
+        return api.rejectWithValue(error.message);
+      }
       const graphQlError = error as { errors: Error[] };
-      api.rejectWithValue(graphQlError.errors[0]);
+      return api.rejectWithValue(graphQlError.errors[0].message);
     }
 
     throw new Error(MALFORMED_RESPONSE);
