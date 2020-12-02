@@ -106,9 +106,6 @@
   "lint-prepush": {
     "base": "master",
     "tasks": {
-      "*.{yml,yaml}": [
-        "yamllint"
-      ],
       "*.{js,ts,jsx,tsx}": [
         "prettier --write",
         "eslint",
