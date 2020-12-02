@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "aws-amplify": "^3.3.11",
     "@aws-amplify/api": "^3.2.14",
     "@aws-amplify/core": "^3.8.6",
     "@aws-amplify/datastore": "^2.8.0",
@@ -28,6 +27,7 @@
     "@types/styled-components": "^5.1.4",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.3.2",
     "EventEmitter": "^1.0.0",
+    "aws-amplify": "^3.3.11",
     "cypress": "^5.5.0",
     "enzyme": "^3.11.0",
     "eslint": "^7.13.0",
@@ -48,6 +48,7 @@
     "grommet-controls": "^3.0.1",
     "grommet-icons": "^4.5.0",
     "husky": "^4.3.0",
+    "jest-enzyme": "^7.1.2",
     "jest-mock-extended": "^1.0.10",
     "jest-when": "^3.0.1",
     "lighthouse": "^6.4.1",

@@ -1,7 +1,8 @@
+import { Button, Form, FormField, TextInput } from "grommet";
+import { mount, shallow } from "enzyme";
 import { OkCancelDialog } from ".";
 import React from "react";
-
-import { shallow } from "enzyme";
+import { act } from "react-dom/test-utils";
 
 describe("The OkCancelDialog", () => {
   it("Is visible if show is true", () => {
@@ -28,5 +29,221 @@ describe("The OkCancelDialog", () => {
     );
 
     expect(wrapper.type()).toEqual(null);
+  });
+
+  it("Renders everything inside a form of the 'thing' prop is present", () => {
+    const wrapper = shallow(
+      <OkCancelDialog
+        thing={{}}
+        show={true}
+        header="Foo"
+        onOk={jest.fn()}
+        onCancel={jest.fn()}
+      />
+    );
+
+    expect(wrapper.first().type()).toEqual(Form);
+  });
+
+  it("Does not use a form if 'thing' prop is not present", () => {
+    const wrapper = shallow(
+      <OkCancelDialog
+        show={true}
+        header="Foo"
+        onOk={jest.fn()}
+        onCancel={jest.fn()}
+      />
+    );
+
+    expect(wrapper.find(Form).exists()).not.toEqual(true);
+  });
+
+  it("Renders children", () => {
+    const wrapper = shallow(
+      <OkCancelDialog
+        show={true}
+        header="Foo"
+        onOk={jest.fn()}
+        onCancel={jest.fn()}
+      >
+        <div className="childDiv" />
+      </OkCancelDialog>
+    );
+
+    expect(wrapper.find(".childDiv").exists()).toEqual(true);
+  });
+
+  it("Controls the value of any form fields", () => {
+    const wrapper = mount(
+      <OkCancelDialog
+        show={true}
+        thing={{ fooField: "fooValue" }}
+        header="Foo"
+        onOk={jest.fn()}
+        onCancel={jest.fn()}
+      >
+        <FormField name="fooField">
+          <TextInput name="fooField" />
+        </FormField>
+      </OkCancelDialog>
+    );
+
+    expect(wrapper.find("input").props().value).toEqual("fooValue");
+  });
+
+  it("Displays a reset button if there is a 'thing' prop", () => {
+    const wrapper = shallow(
+      <OkCancelDialog
+        show={true}
+        thing={{}}
+        header="Foo"
+        onOk={jest.fn()}
+        onCancel={jest.fn()}
+      />
+    );
+
+    expect(
+      wrapper
+        .find(Button)
+        .findWhere((button) => button.props().type === "reset")
+        .exists()
+    ).toEqual(true);
+  });
+
+  it("Does not displays a reset button if there is no 'thing' prop", () => {
+    const wrapper = shallow(
+      <OkCancelDialog
+        show={true}
+        header="Foo"
+        onOk={jest.fn()}
+        onCancel={jest.fn()}
+      />
+    );
+
+    expect(
+      wrapper
+        .find(Button)
+        .findWhere((button) => button.props().type === "reset")
+        .exists()
+    ).toEqual(false);
+  });
+
+  it("Clicking the cancel button fires the onCancel handler", () => {
+    const onCancel = jest.fn();
+
+    const wrapper = shallow(
+      <OkCancelDialog
+        show={true}
+        thing={{}}
+        header="Foo"
+        onOk={jest.fn()}
+        onCancel={onCancel}
+      />
+    );
+
+    act(() => {
+      wrapper
+        .find(Button)
+        .findWhere((button) => button.props().label === "Cancel")
+        .simulate("click");
+    });
+
+    expect(onCancel).toHaveBeenCalled();
+  });
+
+  it("Clicking the ok button does not submit the onOk handler if there is a thing and there is form validation errors", () => {
+    const onOk = jest.fn();
+
+    const wrapper = mount(
+      <OkCancelDialog
+        show={true}
+        header="Foo"
+        onOk={onOk}
+        onCancel={jest.fn()}
+        thing={{ fooField: "value" }}
+      >
+        <FormField name="fooField">
+          <TextInput name="fooField" required />
+        </FormField>
+      </OkCancelDialog>
+    );
+
+    act(() => {
+      wrapper.find("input").simulate("change", { target: { value: "" } });
+    });
+
+    wrapper.update();
+
+    act(() => {
+      wrapper
+        .find(Button)
+        .findWhere((button) => button.props().label === "Ok")
+        .simulate("click");
+    });
+
+    expect(onOk).not.toHaveBeenCalled();
+  });
+
+  it("Resetting form resets field values to original values", () => {
+    const wrapper = mount(
+      <OkCancelDialog
+        show={true}
+        thing={{ fooField: "fooValue" }}
+        header="Foo"
+        onOk={jest.fn()}
+        onCancel={jest.fn()}
+      >
+        <FormField name="fooField">
+          <TextInput name="fooField" />
+        </FormField>
+      </OkCancelDialog>
+    );
+
+    act(() => {
+      wrapper.find("input").simulate("change", { target: { value: "hello" } });
+    });
+
+    wrapper.update();
+
+    /*
+     * I'd rather click the reset button in this test, but
+     * that just doesn't seem to work.
+     */
+    act(() => {
+      const form = wrapper.find(Form);
+      const resetHandler = form.invoke("onReset");
+      expect(resetHandler).toBeDefined();
+      if (resetHandler) {
+        resetHandler({} as React.SyntheticEvent<Element, Event>);
+      }
+    });
+
+    wrapper.update();
+
+    expect(wrapper.find("input").props().value).toEqual("fooValue");
+  });
+
+  it("Allows you to edit the controlled input fields", () => {
+    const wrapper = mount(
+      <OkCancelDialog
+        show={true}
+        thing={{ fooField: "fooValue" }}
+        header="Foo"
+        onOk={jest.fn()}
+        onCancel={jest.fn()}
+      >
+        <FormField name="fooField">
+          <TextInput name="fooField" />
+        </FormField>
+      </OkCancelDialog>
+    );
+
+    act(() => {
+      wrapper.find("input").simulate("change", { target: { value: "hello" } });
+    });
+
+    wrapper.update();
+
+    expect(wrapper.find("input").props().value).toEqual("hello");
   });
 });
