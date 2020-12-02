@@ -14,9 +14,7 @@ const MenuButton: React.FC<MenuLinkProps> = (props) => {
   const history = useHistory();
 
   const user = React.useContext(UserContext);
-  const userGroups = user?.signInUserSession?.accessToken?.payload[
-    "cognito:groups"
-  ] ?? ["anonymous"];
+  const userGroups = user ? user.groups : ["anonymous"];
 
   const onClick = (): void => {
     if (props.to) {

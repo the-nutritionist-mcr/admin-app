@@ -17,6 +17,7 @@ interface OkCancelDialogProps {
   header: string;
   onOk: () => void;
   onCancel: () => void;
+  onReset?: () => void;
   extraFooterItems?: JSX.Element | JSX.Element[];
 }
 

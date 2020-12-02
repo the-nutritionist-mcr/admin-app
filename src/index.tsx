@@ -1,6 +1,6 @@
 import "./index.css";
 
-import Amplify from "aws-amplify";
+import Amplify, { Auth } from "aws-amplify";
 import { App } from "./components";
 import { Provider } from "react-redux";
 import React from "react";
@@ -11,13 +11,18 @@ import reportWebVitals from "./reportWebVitals";
 import store from "./lib/store";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 
+Amplify.configure(config);
+Auth.configure(config);
+
 const render = (): void => {
-  Amplify.configure(config);
+  const AuthenticatedApp = withAuthenticator(App);
 
   ReactDOM.render(
     <React.StrictMode>
       <Provider store={store}>
-        <Router>{withAuthenticator(App)}</Router>
+        <Router>
+          <AuthenticatedApp />
+        </Router>
       </Provider>
     </React.StrictMode>,
     document.querySelector("#root")
