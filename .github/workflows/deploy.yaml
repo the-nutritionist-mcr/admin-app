@@ -86,9 +86,8 @@ jobs:
         with:
           node-version: "14"
 
-      - name: Configure amplify (Prod)
+      - name: Configure amplify
         uses: ambientlight/amplify-cli-action@0.2.1
-        if: ${{ endsWith(github.ref, 'main') }}
         with:
           amplify_command: configure
           amplify_env: ${{ env.ENVIRONMENT }}
@@ -182,9 +181,8 @@ jobs:
         with:
           node-version: "14"
 
-      - name: Configure amplify (Prod)
+      - name: Configure amplify
         uses: ambientlight/amplify-cli-action@0.2.1
-        if: ${{ endsWith(github.ref, 'main') }}
         with:
           amplify_command: configure
           amplify_env: ${{ env.ENVIRONMENT }}
