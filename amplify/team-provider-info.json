@@ -34,6 +34,18 @@
       "StackName": "amplify-tnmadmin-prod-212406",
       "StackId": "arn:aws:cloudformation:us-east-1:661272765443:stack/amplify-tnmadmin-prod-212406/b9eb6840-2b76-11eb-96f3-127e1ad2bd25",
       "AmplifyAppId": "dk1uvntjke2nr"
+    },
+    "categories": {
+      "auth": {
+        "tnmadmin80cb9c66": {},
+        "userPoolGroups": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "dk1uvntjke2nr",
+          "type": "manual"
+        }
+      }
     }
   },
   "test": {
