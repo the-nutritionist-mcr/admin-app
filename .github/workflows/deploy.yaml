@@ -56,8 +56,8 @@ jobs:
     steps:
       - name: Set env to production
         if: endsWith(github.ref, '/main')
-          echo "ENVIRONMENT=prod" >> $GITHUB_ENV
         run: |
+          echo "ENVIRONMENT=prod" >> $GITHUB_ENV
 
       - name: Set env to test
         if: endsWith(github.ref, '/test')
@@ -117,8 +117,8 @@ jobs:
     steps:
       - name: Set env to production
         if: endsWith(github.ref, '/main')
-          echo "ENVIRONMENT=prod" >> $GITHUB_ENV
         run: |
+          echo "ENVIRONMENT=prod" >> $GITHUB_ENV
 
       - name: Set env to test
         if: endsWith(github.ref, '/test')
