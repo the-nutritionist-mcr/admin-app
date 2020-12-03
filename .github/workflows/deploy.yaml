@@ -123,7 +123,7 @@ jobs:
       - name: CDK Deploy
         uses: borales/actions-yarn@v2.3.0
         with:
-          cmd: cdk deploy
+          cmd: cdk deploy --require-approval never
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
