@@ -21,7 +21,7 @@ jobs:
           cmd: install
 
   unit-test:
-    name: Install and test
+    name: Run unit tests
     needs: install
     runs-on: ubuntu-latest
     steps:
