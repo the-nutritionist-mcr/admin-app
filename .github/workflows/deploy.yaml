@@ -135,6 +135,13 @@ jobs:
           name: build-output
           path: build
 
+      - name: Turnstyle
+        uses: softprops/turnstyle@v1
+        with:
+          poll-interval-seconds: 30
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: CDK Deploy
         uses: borales/actions-yarn@v2.3.0
         with:
@@ -190,6 +197,13 @@ jobs:
         uses: borales/actions-yarn@v2.3.0
         with:
           cmd: install
+
+      - name: Turnstyle
+        uses: softprops/turnstyle@v1
+        with:
+          poll-interval-seconds: 30
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Amplify push
         uses: ambientlight/amplify-cli-action@0.2.1
