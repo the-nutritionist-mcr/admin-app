@@ -6,13 +6,19 @@ This repository is a bespoke full stack TypeScript web application designed to h
 day to day running of The Nutritionist Manchester. It is at current in pre-alpha
 stage
 
-# Deployment Status
+## Deployment
 
-| Environment | Status                                                                                                          | Unit test coverage                                                                                                            |
-| ----------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Prod        | ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=main) | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/main/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm)    |
-| Test        | ![Test](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=main)       | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/test/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm)    |
-| Dev         | ![Dev](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=develop)     | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/develop/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm) |
+Deployment is performed automatically by Github actions for three main branches
+
+| Branch    | Environment | Status                                                                                                          | Unit test coverage                                                                                                            |
+| --------- | ----------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `main`    | Prod        | ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=main) | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/main/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm)    |
+| `test`    | Test        | ![Test](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=main)       | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/test/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm)    |
+| `develop` | Dev         | ![Dev](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=develop)     | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/develop/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm) |
+
+## Hosting
+
+The application is a static react application hosted on S3 + Cloudfront with an AWS Amplify backend.
 
 ## Available Scripts
 
@@ -20,23 +26,18 @@ In the project directory, you can run:
 
 ### `yarn start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+The page will reload if you make edits. You will also see any lint errors in the console.
 
 ### `yarn test`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches the test runner in the interactive watch mode.
+
+### `yarn lint`
+
+Lints all files in the project
 
 ### `yarn build`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Builds the app for production to the `build` folder.
