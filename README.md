@@ -8,7 +8,7 @@ stage
 
 # Deployment Status
 
-- Prod: ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg&branch=main)
+- Prod: ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=main)
 
 ## Available Scripts
 
