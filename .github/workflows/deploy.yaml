@@ -48,6 +48,12 @@ jobs:
         uses: borales/actions-yarn@v2.3.0
         with:
           cmd: test:ci
+      - uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          directory: coverage
+          flags: unittests
+          verbose: true
 
   build:
     name: Build frontend
