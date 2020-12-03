@@ -10,7 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: c-hive/gha-yarn-cache@v1
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
       - name: Configure node 14
         uses: actions/setup-node@v1
         with:
@@ -26,15 +30,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: c-hive/gha-yarn-cache@v1
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Configure node 14
         uses: actions/setup-node@v1
         with:
           node-version: "14"
-      - name: Yarn install
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: install
       - name: Yarn test:ci
         uses: borales/actions-yarn@v2.3.0
         with:
@@ -47,6 +50,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v1
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Configure node 14
         uses: actions/setup-node@v1
         with:
