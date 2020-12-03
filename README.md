@@ -8,11 +8,11 @@ stage
 
 # Deployment Status
 
-| Environment | Status                                                                                                             | Unit test coverage                                                                                                         |
-| ----------- | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
-| Prod        | ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=main)    | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/main/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm) |
-| Test        | ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=test)    |                                                                                                                            |
-| Dev         | ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=develop) |                                                                                                                            |
+| Environment | Status                                                                                                          | Unit test coverage                                                                                                         |
+| ----------- | --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Prod        | ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=main) | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/main/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm) |
+| Test        | ![Test](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=main)       | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/test/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm) |
+| Dev         | ![Dev](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=develop)     |                                                                                                                            |
 
 ## Available Scripts
 
