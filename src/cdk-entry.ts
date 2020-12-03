@@ -2,6 +2,7 @@
 import "source-map-support/register";
 import * as cdk from "@aws-cdk/core";
 
+import DevelopFrontendStack from "./infrastructure/develop-frontend-stack";
 import ProductionFrontendStack from "./infrastructure/production-frontend-stack";
 
 const env = {
@@ -13,12 +14,14 @@ const ref = process.env.GITHUB_REF ?? "main";
 
 const app = new cdk.App();
 
+const domainName = "tnm-admin.com";
+
 if (ref.endsWith("main")) {
   // eslint-disable-next-line no-new
   new ProductionFrontendStack(app, "ProductionFrontendStackProd", {
     env,
     subdomain: "www",
-    domainName: "tnm-admin.com",
+    domainName,
   });
 }
 
@@ -27,6 +30,15 @@ if (ref.endsWith("test")) {
   new ProductionFrontendStack(app, "ProductionFrontendStackTest", {
     env,
     subdomain: "test",
-    domainName: "tnm-admin.com",
+    domainName,
+  });
+}
+
+if (ref.endsWith("develop")) {
+  // eslint-disable-next-line no-new
+  new DevelopFrontendStack(app, "DevelopFrontendStack", {
+    env,
+    subdomain: "dev",
+    domainName,
   });
 }
