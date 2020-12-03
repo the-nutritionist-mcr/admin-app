@@ -63,7 +63,7 @@ jobs:
 
       - name: Configure amplify (Prod)
         uses: ambientlight/amplify-cli-action@0.2.1
-        if: ${{ endsWith(github.ref, "main") }}
+        if: ${{ endsWith(github.ref, 'main') }}
         with:
           amplify_command: configure
           amplify_env: prod
@@ -74,7 +74,7 @@ jobs:
 
       - name: Configure amplify (Test)
         uses: ambientlight/amplify-cli-action@0.2.1
-        if: ${{ endsWith(github.ref, "test") }}
+        if: ${{ endsWith(github.ref, 'test') }}
         with:
           amplify_command: configure
           amplify_env: test
@@ -85,7 +85,7 @@ jobs:
 
       - name: Configure amplify (Dev)
         uses: ambientlight/amplify-cli-action@0.2.1
-        if: ${{ endsWith(github.ref, "develop") }}
+        if: ${{ endsWith(github.ref, 'develop') }}
         with:
           amplify_command: configure
           amplify_env: dev
