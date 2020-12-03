@@ -39,12 +39,6 @@
       "auth": {
         "tnmadmin80cb9c66": {},
         "userPoolGroups": {}
-      },
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "dk1uvntjke2nr",
-          "type": "manual"
-        }
       }
     }
   },
