@@ -41,7 +41,7 @@ export default class ProductionFrontendStack extends cdk.Stack {
       }
     );
 
-    const domainName = props.subdomain === "www" ? fullUrl : props.domainName;
+    const domainName = props.subdomain === "www" ? props.domainName : fullUrl;
     const subjectAlternativeNames =
       props.subdomain === "www" ? [fullUrl] : undefined;
 
@@ -80,16 +80,17 @@ export default class ProductionFrontendStack extends cdk.Stack {
     // eslint-disable-next-line no-new
     new route53.ARecord(this, "ProductionFrontendStackARecord", {
       zone,
+      recordName: fullUrl,
       target: route53.RecordTarget.fromAlias(
         new route53Targets.CloudFrontTarget(distribution)
       ),
     });
 
     // eslint-disable-next-line no-new
-    new route53.CnameRecord(this, "ProductionFrontendStackCnameRecord", {
-      zone,
-      domainName,
-      recordName: fullUrl,
-    });
+    // new route53.CnameRecord(this, "ProductionFrontendStackCnameRecord", {
+    //   zone,
+    //   domainName: props.domainName,
+    //   recordName: fullUrl,
+    // });
   }
 }
