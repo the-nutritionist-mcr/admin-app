@@ -49,11 +49,26 @@ jobs:
         with:
           cmd: test:ci
 
-  deploy:
-    name: Deploy application
+  deploy-frontend:
+    name: Deploy frontend
     needs: unit-test
     runs-on: ubuntu-latest
     steps:
+      - name: Set env to production
+        if: endsWith(github.ref, '/main')
+          echo "ENVIRONMENT=prod" >> $GITHUB_ENV
+        run: |
+
+      - name: Set env to test
+        if: endsWith(github.ref, '/test')
+        run: |
+          echo "ENVIRONMENT=test" >> $GITHUB_ENV
+
+      - name: Set env to dev
+        if: endsWith(github.ref, '/develop')
+        run: |
+          echo "ENVIRONMENT=dev" >> $GITHUB_ENV
+
       - name: Checkout repository
         uses: actions/checkout@v1
       - uses: actions/cache@v2
@@ -70,29 +85,7 @@ jobs:
         if: ${{ endsWith(github.ref, 'main') }}
         with:
           amplify_command: configure
-          amplify_env: prod
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
-
-      - name: Configure amplify (Test)
-        uses: ambientlight/amplify-cli-action@0.2.1
-        if: ${{ endsWith(github.ref, 'test') }}
-        with:
-          amplify_command: configure
-          amplify_env: test
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
-
-      - name: Configure amplify (Dev)
-        uses: ambientlight/amplify-cli-action@0.2.1
-        if: ${{ endsWith(github.ref, 'develop') }}
-        with:
-          amplify_command: configure
-          amplify_env: dev
+          amplify_env: ${{ env.GITHUB_ENV }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -103,11 +96,72 @@ jobs:
         with:
           cmd: install
 
-      - name: deploy
+      - name: Build
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: Build
+
+      - name: CDK Deploy
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: cdk deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+
+  deploy-backend:
+    name: Deploy backend
+    needs: unit-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set env to production
+        if: endsWith(github.ref, '/main')
+          echo "ENVIRONMENT=prod" >> $GITHUB_ENV
+        run: |
+
+      - name: Set env to test
+        if: endsWith(github.ref, '/test')
+        run: |
+          echo "ENVIRONMENT=test" >> $GITHUB_ENV
+
+      - name: Set env to dev
+        if: endsWith(github.ref, '/develop')
+        run: |
+          echo "ENVIRONMENT=dev" >> $GITHUB_ENV
+
+      - name: Checkout repository
+        uses: actions/checkout@v1
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Configure node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+
+      - name: Configure amplify (Prod)
+        uses: ambientlight/amplify-cli-action@0.2.1
+        if: ${{ endsWith(github.ref, 'main') }}
+        with:
+          amplify_command: configure
+          amplify_env: ${{ env.GITHUB_ENV }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+
+      - name: Yarn install
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install
+
+      - name: Amplify push
         uses: ambientlight/amplify-cli-action@0.2.1
         with:
-          amplify_command: publish
-          amplify_env: prod
+          amplify_command: push
+          amplify_env: ${{ env.GITHUB_ENV }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
