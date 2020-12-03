@@ -24,6 +24,7 @@ jobs:
           cmd: test:ci
 
   push-frontend:
+    needs: unit-test
     name: Push the frontend
     runs-on: ubuntu-latest
     steps:
@@ -37,7 +38,7 @@ jobs:
         uses: ambientlight/amplify-cli-action@0.2.1
         with:
           amplify_command: configure
-          amplify: prod
+          amplify_env: prod
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
