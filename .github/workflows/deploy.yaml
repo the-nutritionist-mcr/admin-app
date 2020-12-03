@@ -5,10 +5,13 @@ on:
       - master
 
 jobs:
-  test:
+  Test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14"
       - uses: borales/actions-yarn@v2.3.0
         with:
           cmd: install
