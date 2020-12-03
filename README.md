@@ -8,11 +8,11 @@ stage
 
 # Deployment Status
 
-| Environment | Status                                                                                                             |
-| ----------- | ------------------------------------------------------------------------------------------------------------------ |
-| Prod        | ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=main)    |
-| Test        | ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=test)    |
-| Dev         | ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=develop) |
+| Environment | Status | Unit test coverage |
+| ----------- | ------------------------------------------------------------------------------------------------------------------ |[![codecov](https://codecov.io/gh/benwainwright/tnm/branch/main/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm)|
+| Prod | ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=main) ||
+| Test | ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=test) ||
+| Dev | ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=develop) ||
 
 ## Available Scripts
 
