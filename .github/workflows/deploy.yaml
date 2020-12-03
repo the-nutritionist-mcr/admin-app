@@ -24,7 +24,6 @@ jobs:
           cmd: test:ci
 
   push-frontend:
-    needs: unit-test
     name: Push the frontend
     runs-on: ubuntu-latest
     steps:
