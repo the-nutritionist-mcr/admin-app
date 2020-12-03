@@ -105,6 +105,8 @@ jobs:
         uses: borales/actions-yarn@v2.3.0
         with:
           cmd: build
+        env:
+          REACT_APP_ENVIRONMENT: $ENVIRONMENT
 
       - name: Upload build output
         uses: actions/upload-artifact@v2

@@ -7,7 +7,10 @@ import { act } from "react-dom/test-utils";
 import { shallow } from "enzyme";
 
 describe("The <NavBar>", () => {
-  afterEach(() => delete process.env.REACT_APP_VERSION_NUMBER);
+  afterEach(() => {
+    delete process.env.REACT_APP_VERSION_NUMBER;
+    delete process.env.REACT_APP_ENVIRONMENT;
+  });
 
   it("renders the version number when provided it with the correct environment variable", () => {
     process.env.REACT_APP_VERSION_NUMBER = "foo";

@@ -12,6 +12,7 @@ const NonPrintableHeader = styled(Header)`
 `;
 
 const NavBar: React.FC = () => {
+  const env = process.env.REACT_APP_ENVIRONMENT;
   const buttons = [
     <MenuButton
       key="/"
@@ -84,7 +85,10 @@ const NavBar: React.FC = () => {
       >
         {buttons}
       </Box>
-      <Text size="small">Version {process.env.REACT_APP_VERSION_NUMBER}</Text>
+      <Text size="small">
+        Version {process.env.REACT_APP_VERSION_NUMBER}
+        {env ? ` (${env})` : null}
+      </Text>
     </NonPrintableHeader>
   );
 };
