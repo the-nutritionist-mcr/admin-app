@@ -49,9 +49,9 @@ jobs:
         with:
           cmd: test:ci
 
-  deploy-frontend:
-    name: Deploy frontend
-    needs: unit-test
+  build:
+    name: Build frontend
+    needs: install
     runs-on: ubuntu-latest
     steps:
       - name: Set env to production
@@ -101,6 +101,25 @@ jobs:
         with:
           cmd: build
 
+      - name: Upload build output
+        uses: actions/upload-artifacts@v2
+        with:
+          name: build-output
+          path: build/**/*
+
+  deploy-frontend:
+    name: Deploy frontend
+    needs: [unit-test, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Yarn install
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install
+
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v2
+
       - name: CDK Deploy
         uses: borales/actions-yarn@v2.3.0
         with:
@@ -112,7 +131,7 @@ jobs:
 
   deploy-backend:
     name: Deploy backend
-    needs: unit-test
+    needs: [unit-test, build]
     runs-on: ubuntu-latest
     steps:
       - name: Set env to production
