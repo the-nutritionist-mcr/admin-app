@@ -105,7 +105,7 @@
     ]
   },
   "lint-prepush": {
-    "base": "master",
+    "base": "main",
     "tasks": {
       "*.{js,ts,jsx,tsx}": [
         "prettier --write",
