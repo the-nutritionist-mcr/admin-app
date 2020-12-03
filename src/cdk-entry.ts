@@ -2,7 +2,6 @@
 import "source-map-support/register";
 import * as cdk from "@aws-cdk/core";
 
-import * as git from "git-rev-sync";
 import ProductionFrontendStack from "./infrastructure/production-frontend-stack";
 
 const env = {
@@ -10,11 +9,11 @@ const env = {
   account: "661272765443",
 };
 
-const branch = git.branch();
+const ref = process.env.GITHUB_REF ?? "main";
 
 const app = new cdk.App();
 
-if (branch === "main") {
+if (ref.endsWith("main")) {
   // eslint-disable-next-line no-new
   new ProductionFrontendStack(app, "ProductionFrontendStackProd", {
     env,
@@ -23,7 +22,7 @@ if (branch === "main") {
   });
 }
 
-if (branch === "test") {
+if (ref.endsWith("test")) {
   // eslint-disable-next-line no-new
   new ProductionFrontendStack(app, "ProductionFrontendStackTest", {
     env,
