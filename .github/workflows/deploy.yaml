@@ -106,7 +106,7 @@ jobs:
         with:
           cmd: build
         env:
-          REACT_APP_ENVIRONMENT: $ENVIRONMENT
+          REACT_APP_ENVIRONMENT: ${{ env.ENVIRONMENT }}
 
       - name: Upload build output
         uses: actions/upload-artifact@v2
