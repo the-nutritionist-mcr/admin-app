@@ -27,7 +27,8 @@ interface OkCancelDialogProps<T = undefined> {
 function OkCancelDialogContainer<T>(
   props: React.PropsWithChildren<OkCancelDialogProps<T>>
 ): React.ReactElement | null {
-  const [thing, setThing] = React.useState<T | undefined>({ ...props.thing });
+  const thingValue = props.thing ? { ...props.thing } : props.thing;
+  const [thing, setThing] = React.useState<T | undefined>(thingValue);
   const dispatch = useDispatch();
   const contents = (
     <React.Fragment>
@@ -48,7 +49,7 @@ function OkCancelDialogContainer<T>(
         <Button
           icon={<Close color="brand" size="small" />}
           onClick={(): void => {
-            setThing({ ...props.thing });
+            setThing(thingValue);
             props.onCancel();
           }}
           label="Cancel"
