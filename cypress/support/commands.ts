@@ -27,6 +27,7 @@
 /// <reference types="cypress" />
 /* eslint-disable @typescript-eslint/no-namespace */
 declare namespace Cypress {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Chainable {
     createCustomer: (
       salutation: string,

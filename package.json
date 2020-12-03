@@ -137,6 +137,7 @@
   "eslintConfig": {
     "ignorePatterns": [
       "src/API.ts",
+      "template",
       "graphql",
       "src/aws-exports.js",
       "coverage",
