@@ -85,7 +85,7 @@ jobs:
         if: ${{ endsWith(github.ref, 'main') }}
         with:
           amplify_command: configure
-          amplify_env: ${{ env.GITHUB_ENV }}
+          amplify_env: ${{ env.ENVIRONMENT }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -146,7 +146,7 @@ jobs:
         if: ${{ endsWith(github.ref, 'main') }}
         with:
           amplify_command: configure
-          amplify_env: ${{ env.GITHUB_ENV }}
+          amplify_env: ${{ env.ENVIRONMENT }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -161,7 +161,7 @@ jobs:
         uses: ambientlight/amplify-cli-action@0.2.1
         with:
           amplify_command: push
-          amplify_env: ${{ env.GITHUB_ENV }}
+          amplify_env: ${{ env.ENVIRONMENT }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
