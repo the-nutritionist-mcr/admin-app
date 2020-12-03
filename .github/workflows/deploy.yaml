@@ -125,6 +125,9 @@ jobs:
 
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v2
+        with:
+          name: build-output
+          path: build
 
       - name: CDK Deploy
         uses: borales/actions-yarn@v2.3.0
