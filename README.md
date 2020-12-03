@@ -6,6 +6,10 @@ This repository is a bespoke full stack TypeScript web application designed to h
 day to day running of The Nutritionist Manchester. It is at current in pre-alpha
 stage
 
+# Deployment Status
+
+- Prod: ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg&branch=main)
+
 ## Available Scripts
 
 In the project directory, you can run:
