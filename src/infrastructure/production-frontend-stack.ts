@@ -86,13 +86,13 @@ export default class ProductionFrontendStack extends cdk.Stack {
       ),
     });
 
-    if (props.subdomain === "www") {
-      // eslint-disable-next-line no-new
-      new route53.CnameRecord(this, "ProductionFrontendStackCnameRecord", {
-        zone,
-        domainName: props.domainName,
-        recordName: fullUrl,
-      });
-    }
+    // If (props.subdomain === "www") {
+    //   // eslint-disable-next-line no-new
+    //   new route53.CnameRecord(this, "ProductionFrontendStackCnameRecord", {
+    //     zone,
+    //     domainName: props.domainName,
+    //     recordName: fullUrl,
+    //   });
+    // }
   }
 }
