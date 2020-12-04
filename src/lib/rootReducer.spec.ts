@@ -29,10 +29,7 @@ describe("The root reducer", () => {
   it("Sets the loadingState to failed and sets the error message if given a loading error", () => {
     const state = mock<AppState>();
 
-    const actual = rootReducer(
-      state,
-      loadingFailed(new Error("Something went wrong"))
-    );
+    const actual = rootReducer(state, loadingFailed("Something went wrong"));
 
     expect(actual.loadingState).toEqual(LoadingState.Failed);
     expect(actual.error).toEqual("Something went wrong");

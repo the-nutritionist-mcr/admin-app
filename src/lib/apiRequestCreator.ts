@@ -36,7 +36,7 @@ export const apiRequestCreator = <R, A = void>(
             dispatch(clearError());
           }, ERROR_MESSAGE_TIMEOUT);
           const dispatchError = error.errors ? error.errors[0] : error;
-          return dispatch(loadingFailed(dispatchError));
+          return dispatch(loadingFailed(dispatchError.message));
         }
       };
     },

@@ -44,7 +44,7 @@ const rootReducer: Reducer<AppState> = (state, action): AppState => {
 
     case loadingFailed.type:
       newState.loadingState = LoadingState.Failed;
-      newState.error = action.payload.message;
+      newState.error = action.payload;
       break;
 
     case clearError.type:
