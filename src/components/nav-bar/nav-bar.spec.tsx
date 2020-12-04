@@ -6,6 +6,8 @@ import { Text } from "grommet";
 import { act } from "react-dom/test-utils";
 import { shallow } from "enzyme";
 
+jest.mock("react-redux");
+
 describe("The <NavBar>", () => {
   afterEach(() => {
     delete process.env.REACT_APP_VERSION_NUMBER;
