@@ -133,6 +133,15 @@
   "jest": {
     "transformIgnorePatterns": [
       "<rootDir>/node_modules/(?!grommet-controls)"
+    ],
+    "coveragePathIgnorePatterns": [
+      "src/API.ts",
+      "src/aws-exports.js",
+      "src/cdk-entry.ts",
+      "src/index.tsx",
+      "src/react-app-env.d.ts",
+      "src/reportWebVitals.ts",
+      "src/setupTests.ts"
     ]
   },
   "eslintConfig": {
