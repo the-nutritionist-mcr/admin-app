@@ -24,7 +24,12 @@ const App: React.FC = () => {
       <Grommet theme={theme}>
         <NavBar />
         {state.error && (
-          <Notification status="error" message="Error" state={state.error} />
+          <Notification
+            status="error"
+            message="Error"
+            state={state.error}
+            onClose={state.closeError}
+          />
         )}
         <Main pad={{ horizontal: "large", vertical: "medium" }}>
           <Router />

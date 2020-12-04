@@ -1,8 +1,9 @@
 import { Auth, Hub } from "aws-amplify";
+import { useDispatch, useSelector } from "react-redux";
 import React from "react";
+import { clearError } from "../../../lib/apiRequestCreator";
 import { errorSelector } from "../../../lib/rootReducer";
 import useDeepCompareEffect from "use-deep-compare-effect";
-import { useSelector } from "react-redux";
 
 export interface User {
   groups: string[];
@@ -41,11 +42,17 @@ const getUser = async (): Promise<User | undefined> => {
 interface AppComponentState {
   error?: string;
   user?: User;
+  closeError: () => void;
 }
 
 export const useApp = (): AppComponentState => {
   const [user, setUser] = React.useState<User | undefined>(); // eslint-disable-line @typescript-eslint/no-explicit-any
   const error = useSelector(errorSelector);
+  const dispatch = useDispatch();
+
+  const closeError = (): void => {
+    dispatch(clearError());
+  };
 
   const listener = async (): Promise<void> => {
     setUser(await getUser());
@@ -62,6 +69,7 @@ export const useApp = (): AppComponentState => {
   return {
     error,
     user,
+    closeError,
   };
 };
 
