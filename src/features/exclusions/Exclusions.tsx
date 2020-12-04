@@ -9,15 +9,25 @@ import {
   TableRow,
   Text,
 } from "grommet";
-import { allExclusionsSelector, createExclusion } from "./exclusionsSlice";
+import {
+  allExclusionsSelector,
+  createExclusion,
+  fetchExclusions,
+} from "./exclusionsSlice";
+import { useDispatch, useSelector } from "react-redux";
 import EditExclusionDialog from "./EditExclusionDialog";
 import ExclusionRow from "./ExclusionRow";
 import React from "react";
-import { useSelector } from "react-redux";
 
 const Exclusions: React.FC = () => {
   const exclusions = useSelector(allExclusionsSelector);
   const [showCreate, setShowCreate] = React.useState(false);
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(fetchExclusions());
+  }, [dispatch]);
+
   return (
     <React.Fragment>
       <Header align="center" justify="start" gap="small">

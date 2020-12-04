@@ -14,6 +14,7 @@ import {
   allRecipesSelector,
   createRecipe,
   errorSelector,
+  fetchRecipes,
   updateRecipe,
 } from "../recipes/recipesSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +28,10 @@ const Recipes: React.FC = () => {
   const error = useSelector(errorSelector);
   const [showCreate, setShowCreate] = React.useState(false);
   const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(fetchRecipes());
+  }, [dispatch]);
 
   return (
     <React.Fragment>
