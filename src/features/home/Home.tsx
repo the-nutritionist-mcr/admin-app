@@ -42,11 +42,11 @@ const Home: React.FC = () => {
       <Heading level={2}>Welcome</Heading>
       <Paragraph fill>
         Welcome to the TNM admin app. Please have a play around, but please note
-        that <strong>this app is not ready to be used with real data</strong>,
-        as it is missing critical features like authentication (login) and a
-        backend (somewhere to store data that isn&apos;t your browser). Please
-        note that I am actively developing this version of the application which
-        means things <strong>might occasionally break</strong>.
+        that <strong>this app is not ready to be used with real data</strong>.
+        Authentication and storage is mostly done now, but parts of it still
+        don&apos;t work. Please note that I am actively developing this version
+        of the application which means things{" "}
+        <strong>might occasionally break</strong>.
       </Paragraph>
       <Paragraph fill>
         If things do appear to be broken, try deleting all the test data you
@@ -94,6 +94,20 @@ const Home: React.FC = () => {
       </Paragraph>
 
       <Heading level={3}>Changes</Heading>
+
+      <Heading level={4}>4th of December</Heading>
+      <Paragraph>
+        <ul>
+          <li>
+            <Text>
+              Data is now stored in the cloud, not on your browser (mostly)
+            </Text>
+          </li>
+          <li>
+            <Text>The authentation system has now been put in place</Text>
+          </li>
+        </ul>
+      </Paragraph>
       <Heading level={4}>18th of November 2020</Heading>
       <ul>
         <li>
