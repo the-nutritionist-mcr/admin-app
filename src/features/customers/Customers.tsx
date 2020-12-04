@@ -20,17 +20,18 @@ import CustomerRow from "./CustomerRow";
 import EditCustomerDialog from "./EditCustomerDialog";
 import React from "react";
 import { Snack } from "../../domain/Customer";
-import store from "../../lib/store";
+import { useAppDispatch } from "../../lib/store";
 import { useSelector } from "react-redux";
 
 const Customers: React.FC = () => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
 
   const customers = useSelector(allCustomersSelector);
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    store.dispatch(fetchCustomers());
-  }, []);
+    dispatch(fetchCustomers());
+  }, [dispatch]);
 
   return (
     <React.Fragment>

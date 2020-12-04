@@ -1,11 +1,8 @@
 import { Reducer, createAction } from "@reduxjs/toolkit";
 
-import customersSlice, {
-  asyncActions as customersAsyncActions,
-} from "../features/customers/customersSlice";
-
 import LoadingState from "../types/LoadingState";
 
+import customersSlice from "../features/customers/customersSlice";
 import exclusionsSlice from "../features/exclusions/exclusionsSlice";
 import recipesSlice from "../features/recipes/recipesSlice";
 
@@ -18,20 +15,6 @@ export interface AppState {
 }
 
 const clearError = createAction("clearError");
-
-const loadingActions = new Set(
-  [...customersAsyncActions].map((actionCreator) => actionCreator.pending.type)
-);
-
-const fulfilledActions = new Set(
-  [...customersAsyncActions].map(
-    (actionCreator) => actionCreator.fulfilled.type
-  )
-);
-
-const rejectedActions = new Set(
-  [...customersAsyncActions].map((actionCreator) => actionCreator.rejected.type)
-);
 
 interface GlobalState {
   loadingState: LoadingState;
@@ -51,22 +34,6 @@ const rootReducer: Reducer<AppState> = (state, action) => {
   if (action.type === clearError.type) {
     globalState.error = undefined;
     globalState.loadingState = LoadingState.Idle;
-  }
-
-  if (loadingActions.has(action.type)) {
-    globalState.loadingState = LoadingState.Loading;
-  }
-
-  if (fulfilledActions.has(action.type)) {
-    globalState.loadingState = LoadingState.Succeeeded;
-  }
-
-  if (rejectedActions.has(action.type)) {
-    globalState.loadingState = LoadingState.Failed;
-    globalState.error =
-      typeof action.payload === "string"
-        ? action.payload
-        : action.error.message;
   }
 
   return {

@@ -12,6 +12,7 @@ import {
 import type { AppState } from "../../lib/rootReducer";
 
 import { PlanCategory } from "../../lib/config";
+import apiRequestCreator from "../../lib/apiRequestCreator";
 import convertNullsToUndefined from "../../lib/convertNullsToUndefined";
 import { listCustomers } from "../../graphql/queries";
 
@@ -130,38 +131,21 @@ export const createCustomer = createAsyncThunk(
   }
 );
 
-export const fetchCustomers = createAsyncThunk<
-  Customer[],
-  void,
-  { rejectValue: Error | string }
->(
+export const fetchCustomers = apiRequestCreator<Customer[]>(
   "customers/fetch",
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async (
-    data,
-    api
-  ): Promise<Customer[] | ReturnType<typeof api["rejectWithValue"]>> => {
-    try {
-      const listCustomerVariables: APITypes.ListCustomersQueryVariables = {};
-      const listCustomersResult = (await API.graphql(
-        graphqlOperation(listCustomers, listCustomerVariables)
-      )) as GraphQLResult<APITypes.ListCustomersQuery>;
+  async () => {
+    const listCustomerVariables: APITypes.ListCustomersQueryVariables = {};
+    const listCustomersResult = (await API.graphql(
+      graphqlOperation(listCustomers, listCustomerVariables)
+    )) as GraphQLResult<APITypes.ListCustomersQuery>;
 
-      const items = listCustomersResult.data?.listCustomers?.items;
+    const items = listCustomersResult.data?.listCustomers?.items;
 
-      type NotNull = <T>(thing: T | null) => thing is T;
+    type NotNull = <T>(thing: T | null) => thing is T;
 
-      if (items) {
-        return items.filter((Boolean as unknown) as NotNull).map(mapCustomer);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        return api.rejectWithValue(error.message);
-      }
-      const graphQlError = error as { errors: Error[] };
-      return api.rejectWithValue(graphQlError.errors[0].message);
+    if (items) {
+      return items.filter((Boolean as unknown) as NotNull).map(mapCustomer);
     }
-
     throw new Error(MALFORMED_RESPONSE);
   }
 );
@@ -192,6 +176,10 @@ const customersSlice = createSlice({
     });
   },
 });
+
+fetchCustomers;
+
+customersSlice.actions;
 
 export const asyncActions = [
   fetchCustomers,
