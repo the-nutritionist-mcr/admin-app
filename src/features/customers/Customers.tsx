@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Header,
   Heading,
@@ -21,6 +22,7 @@ import EditCustomerDialog from "./EditCustomerDialog";
 import LoadingState from "../../types/LoadingState";
 import React from "react";
 import { Snack } from "../../domain/Customer";
+import { Spinning } from "grommet-controls";
 import { loadingSelector } from "../../lib/rootReducer";
 import { useAppDispatch } from "../../lib/store";
 import { useSelector } from "react-redux";
@@ -120,10 +122,14 @@ const Customers: React.FC = () => {
         </Table>
       ) : (
         <Text>
-          {loading === LoadingState.Loading
-            ? `Loading data...`
-            : `you've not added any customers yet... Click the 'new'
-          button above to get started!`}
+          {loading === LoadingState.Loading ? (
+            <Box pad="small">
+              <Spinning size="large" />
+            </Box>
+          ) : (
+            `you've not added any customers yet... Click the 'new'
+          button above to get started!`
+          )}
         </Text>
       )}
     </React.Fragment>
