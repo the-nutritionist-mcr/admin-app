@@ -19,7 +19,7 @@ import { Checkmark, Close } from "grommet-icons";
 import Customer, { Snack } from "../../domain/Customer";
 import { daysPerWeekOptions, plans } from "../../lib/config";
 import { useDispatch, useSelector } from "react-redux";
-import { AsyncThunk } from "@reduxjs/toolkit";
+import { ApiRequestFunction } from "../../lib/apiRequestCreator";
 import LoadingState from "../../types/LoadingState";
 import React from "react";
 import { Spinning } from "grommet-controls";
@@ -31,7 +31,7 @@ interface EditCustomerDialogProps {
   customer: Customer;
   show?: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
-  thunk: AsyncThunk<Customer, Customer, {}>;
+  thunk: ApiRequestFunction<Customer>;
   onOk: () => void;
   title: string;
   onCancel: () => void;

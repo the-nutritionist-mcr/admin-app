@@ -10,14 +10,14 @@ import {
 } from "grommet";
 
 import { Checkmark, Close } from "grommet-icons";
-import { AsyncThunk } from "@reduxjs/toolkit";
+import { ApiRequestFunction } from "../../lib/apiRequestCreator";
 import React from "react";
 import assertFC from "../../lib/assertFC";
 import { useDispatch } from "react-redux";
 
 interface OkCancelDialogProps<T = undefined> {
   thing?: T;
-  thunk?: AsyncThunk<T, T, Record<string, unknown>>;
+  thunk?: ApiRequestFunction<T>;
   show?: boolean;
   header: string;
   onOk: () => void;

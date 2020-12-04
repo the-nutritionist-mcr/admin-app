@@ -2,7 +2,6 @@ import * as APITypes from "../../API";
 
 import API, { GraphQLResult, graphqlOperation } from "@aws-amplify/api";
 import Customer, { Snack } from "../../domain/Customer";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   createCustomer as createCustomerMutation,
   deleteCustomer as deleteCustomerMutation,
@@ -14,6 +13,7 @@ import type { AppState } from "../../lib/rootReducer";
 import { PlanCategory } from "../../lib/config";
 import apiRequestCreator from "../../lib/apiRequestCreator";
 import convertNullsToUndefined from "../../lib/convertNullsToUndefined";
+import { createSlice } from "@reduxjs/toolkit";
 import { listCustomers } from "../../graphql/queries";
 
 interface CustomersState {
@@ -49,83 +49,68 @@ const mapCustomer = (customer: RawCustomer): Customer => {
   };
 };
 
-export const removeCustomer = createAsyncThunk(
+export const removeCustomer = apiRequestCreator(
   "customers/remove",
-  async (customer: Customer, api): Promise<string> => {
-    try {
-      const deleteCustomerVariables: APITypes.DeleteCustomerMutationVariables = {
-        input: {
-          id: customer.id,
-        },
-      };
+  async (customer: Customer): Promise<string> => {
+    const deleteCustomerVariables: APITypes.DeleteCustomerMutationVariables = {
+      input: {
+        id: customer.id,
+      },
+    };
 
-      await API.graphql(
-        graphqlOperation(deleteCustomerMutation, deleteCustomerVariables)
-      );
-    } catch (error) {
-      const graphQlError = error as { errors: Error[] };
-      api.rejectWithValue(graphQlError.errors[0]);
-    }
+    await API.graphql(
+      graphqlOperation(deleteCustomerMutation, deleteCustomerVariables)
+    );
     return customer.id;
   }
 );
 
-export const updateCustomer = createAsyncThunk(
+export const updateCustomer = apiRequestCreator(
   "customers/update",
-  async (customer: Customer, api): Promise<Customer> => {
-    try {
-      const {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        exclusions,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        createdAt,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        updatedAt,
-        ...customerWithoutExclusions
-      } = customer;
-      const updateCustomerVariables: APITypes.UpdateCustomerMutationVariables = {
-        input: customerWithoutExclusions,
-      };
+  async (customer: Customer): Promise<Customer> => {
+    const {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      exclusions,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      createdAt,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      updatedAt,
+      ...customerWithoutExclusions
+    } = customer;
+    const updateCustomerVariables: APITypes.UpdateCustomerMutationVariables = {
+      input: customerWithoutExclusions,
+    };
 
-      const updateCustomerResult = (await API.graphql(
-        graphqlOperation(updateCustomerMutation, updateCustomerVariables)
-      )) as GraphQLResult<APITypes.UpdateCustomerMutation>;
+    const updateCustomerResult = (await API.graphql(
+      graphqlOperation(updateCustomerMutation, updateCustomerVariables)
+    )) as GraphQLResult<APITypes.UpdateCustomerMutation>;
 
-      const updatedCustomer = updateCustomerResult.data?.updateCustomer;
+    const updatedCustomer = updateCustomerResult.data?.updateCustomer;
 
-      if (updatedCustomer) {
-        return mapCustomer(updatedCustomer);
-      }
-    } catch (error) {
-      const graphQlError = error as { errors: Error[] };
-      api.rejectWithValue(graphQlError.errors[0]);
+    if (updatedCustomer) {
+      return mapCustomer(updatedCustomer);
     }
     throw new Error(MALFORMED_RESPONSE);
   }
 );
 
-export const createCustomer = createAsyncThunk(
+export const createCustomer = apiRequestCreator<Customer, Customer>(
   "customers/create",
-  async (customer: Customer, api): Promise<Customer> => {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { id, exclusions, ...customerWithoutExclusions } = customer;
-      const createCustomerVariables: APITypes.CreateCustomerMutationVariables = {
-        input: customerWithoutExclusions,
-      };
+  async (customer: Customer) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id, exclusions, ...customerWithoutExclusions } = customer;
+    const createCustomerVariables: APITypes.CreateCustomerMutationVariables = {
+      input: customerWithoutExclusions,
+    };
 
-      const createCustomerResult = (await API.graphql(
-        graphqlOperation(createCustomerMutation, createCustomerVariables)
-      )) as GraphQLResult<APITypes.CreateCustomerMutation>;
+    const createCustomerResult = (await API.graphql(
+      graphqlOperation(createCustomerMutation, createCustomerVariables)
+    )) as GraphQLResult<APITypes.CreateCustomerMutation>;
 
-      const createdCustomer = createCustomerResult.data?.createCustomer;
+    const createdCustomer = createCustomerResult.data?.createCustomer;
 
-      if (createdCustomer) {
-        return mapCustomer(createdCustomer);
-      }
-    } catch (error) {
-      const graphQlError = error as { errors: Error[] };
-      api.rejectWithValue(graphQlError.errors[0]);
+    if (createdCustomer) {
+      return mapCustomer(createdCustomer);
     }
     throw new Error(MALFORMED_RESPONSE);
   }

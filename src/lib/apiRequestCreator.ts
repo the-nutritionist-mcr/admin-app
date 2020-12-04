@@ -3,25 +3,27 @@ import { AnyAction } from "redux";
 import type { AppState } from "./rootReducer";
 import { createAction } from "@reduxjs/toolkit";
 
+const ERROR_MESSAGE_TIMEOUT = 5000;
+
 type ThunkResult<R, A> = ThunkAction<R, AppState, A, AnyAction>;
 
-export const loadingFinish = createAction("loadingIdle");
 export const loadingStart = createAction("loadingStart");
 export const loadingFailed = createAction<Error>("loadingFailed");
 export const loadingSucceeded = createAction("loadingSucceeded");
+export const clearError = createAction("clearError");
 
-type ApiRequestFunction<A> = ((arg?: A) => ThunkResult<void, A>) & {
+export type ApiRequestFunction<A> = ((arg: A) => ThunkResult<void, A>) & {
   fulfilled: ReturnType<typeof createAction>;
 };
 
-export const apiRequestCreator = <R, A = undefined>(
+export const apiRequestCreator = <R, A = void>(
   name: string,
-  callback: (arg?: A) => Promise<R>
+  callback: (arg: A) => Promise<R>
 ): ApiRequestFunction<A> => {
   const finishAction = createAction<R>(`${name}/loading/complete`);
 
   return Object.assign(
-    (arg?: A): ThunkResult<void, A> => {
+    (arg: A): ThunkResult<void, A> => {
       // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       return async (dispatch) => {
         dispatch(loadingStart());
@@ -30,7 +32,10 @@ export const apiRequestCreator = <R, A = undefined>(
           dispatch(loadingSucceeded());
           return dispatch(finishAction(apiReturnVal));
         } catch (error) {
-          return dispatch(loadingFailed(error));
+          setTimeout(() => {
+            dispatch(clearError());
+          }, ERROR_MESSAGE_TIMEOUT);
+          return dispatch(loadingFailed(error.errors[0]));
         }
       };
     },
