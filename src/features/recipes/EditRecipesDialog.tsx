@@ -13,14 +13,14 @@ import {
 } from "grommet";
 import { Checkmark, Close } from "grommet-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { AsyncThunk } from "@reduxjs/toolkit";
+import { ApiRequestFunction } from "../../lib/apiRequestCreator";
 import React from "react";
 import Recipe from "../../domain/Recipe";
 import { allExclusionsSelector } from "../../features/exclusions/exclusionsSlice";
 
 interface EditRecipesDialogProps {
   recipe: Recipe;
-  thunk: AsyncThunk<Recipe, Recipe, Record<string, unknown>>;
+  thunk: ApiRequestFunction<Recipe>;
   onOk: () => void;
   title: string;
   onCancel: () => void;

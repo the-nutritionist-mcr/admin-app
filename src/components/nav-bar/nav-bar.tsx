@@ -1,9 +1,13 @@
 import { Alert, Cafeteria, Home, Logout, Plan, User } from "grommet-icons";
 import { Box, Header, Heading, Text } from "grommet";
 import { Auth } from "aws-amplify";
+import LoadingState from "../../types/LoadingState";
 import { MenuButton } from "..";
 import React from "react";
+import { Spinning } from "grommet-controls";
+import { loadingSelector } from "../../lib/rootReducer";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const NonPrintableHeader = styled(Header)`
   @media print {
@@ -12,6 +16,7 @@ const NonPrintableHeader = styled(Header)`
 `;
 
 const NavBar: React.FC = () => {
+  const loading = useSelector(loadingSelector);
   const env = process.env.REACT_APP_ENVIRONMENT;
   const buttons = [
     <MenuButton
@@ -85,10 +90,13 @@ const NavBar: React.FC = () => {
       >
         {buttons}
       </Box>
-      <Text size="small">
-        Version {process.env.REACT_APP_VERSION_NUMBER}
-        {env ? ` (${env})` : null}
-      </Text>
+      <Box direction="row" gap="medium" alignContent="start">
+        {loading === LoadingState.Loading ? <Spinning size="medium" /> : null}
+        <Text size="small" alignSelf="center">
+          Version {process.env.REACT_APP_VERSION_NUMBER}
+          {env ? ` (${env})` : null}
+        </Text>
+      </Box>
     </NonPrintableHeader>
   );
 };

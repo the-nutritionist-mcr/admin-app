@@ -18,8 +18,10 @@ import {
 import { daysPerWeekOptions, plans } from "../../lib/config";
 import CustomerRow from "./CustomerRow";
 import EditCustomerDialog from "./EditCustomerDialog";
+import LoadingState from "../../types/LoadingState";
 import React from "react";
 import { Snack } from "../../domain/Customer";
+import { loadingSelector } from "../../lib/rootReducer";
 import { useAppDispatch } from "../../lib/store";
 import { useSelector } from "react-redux";
 
@@ -28,6 +30,7 @@ const Customers: React.FC = () => {
 
   const customers = useSelector(allCustomersSelector);
   const dispatch = useAppDispatch();
+  const loading = useSelector(loadingSelector);
 
   React.useEffect(() => {
     dispatch(fetchCustomers());
@@ -117,8 +120,10 @@ const Customers: React.FC = () => {
         </Table>
       ) : (
         <Text>
-          You&apos;ve not added any customers yet... Click the &apos;new&apos;
-          button above to get started!
+          {loading === LoadingState.Loading
+            ? `Loading data...`
+            : `you've not added any customers yet... Click the 'new'
+          button above to get started!`}
         </Text>
       )}
     </React.Fragment>

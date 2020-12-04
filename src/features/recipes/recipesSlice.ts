@@ -2,7 +2,6 @@ import * as APITypes from "../../API";
 
 import API, { GraphQLResult, graphqlOperation } from "@aws-amplify/api";
 
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   createRecipe as createRecipeMutation,
   deleteRecipe as deleteRecipeMutation,
@@ -14,7 +13,9 @@ import type { AppState } from "../../lib/rootReducer";
 import LoadingState from "../../types/LoadingState";
 import Recipe from "../../domain/Recipe";
 
+import apiRequestCreator from "../../lib/apiRequestCreator";
 import convertNullsToUndefined from "../../lib/convertNullsToUndefined";
+import { createSlice } from "@reduxjs/toolkit";
 import { listRecipes } from "../../graphql/queries";
 
 interface RecipesState {
@@ -49,7 +50,7 @@ const mapRecipe = (recipe: RawRecipe): Recipe => {
   };
 };
 
-export const updateRecipe = createAsyncThunk(
+export const updateRecipe = apiRequestCreator(
   "recipes/update",
   async (recipe: Recipe): Promise<Recipe> => {
     const {
@@ -78,7 +79,7 @@ export const updateRecipe = createAsyncThunk(
   }
 );
 
-export const createRecipe = createAsyncThunk(
+export const createRecipe = apiRequestCreator(
   "recipes/create",
   async (recipe: Recipe): Promise<Recipe> => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -103,7 +104,7 @@ export const createRecipe = createAsyncThunk(
   }
 );
 
-export const fetchRecipes = createAsyncThunk(
+export const fetchRecipes = apiRequestCreator(
   "recipes/fetch",
   async (): Promise<Recipe[]> => {
     const listRecipesVariables: APITypes.ListRecipesQueryVariables = {};
@@ -131,7 +132,7 @@ export const fetchRecipes = createAsyncThunk(
   }
 );
 
-export const removeRecipe = createAsyncThunk(
+export const removeRecipe = apiRequestCreator(
   "recipes/remove",
   async (recipe: Recipe): Promise<string> => {
     const deleteRecipeVariables: APITypes.DeleteRecipeMutationVariables = {
@@ -157,24 +158,6 @@ const recipesSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(updateRecipe.pending, (state): void => {
-      state.loadingState = LoadingState.Loading;
-    });
-
-    builder.addCase(removeRecipe.pending, (state): void => {
-      state.loadingState = LoadingState.Loading;
-    });
-
-    builder.addCase(updateRecipe.rejected, (state, action): void => {
-      state.loadingState = LoadingState.Failed;
-      state.error = action.error.message;
-    });
-
-    builder.addCase(removeRecipe.rejected, (state, action): void => {
-      state.loadingState = LoadingState.Failed;
-      state.error = action.error.message;
-    });
-
     builder.addCase(removeRecipe.fulfilled, (state, action): void => {
       state.loadingState = LoadingState.Succeeeded;
       state.items = state.items.filter((item) => item.id !== action.payload);
@@ -188,32 +171,14 @@ const recipesSlice = createSlice({
       state.items[index] = action.payload;
     });
 
-    builder.addCase(createRecipe.pending, (state): void => {
-      state.loadingState = LoadingState.Loading;
-    });
-
     builder.addCase(createRecipe.fulfilled, (state, action): void => {
       state.loadingState = LoadingState.Succeeeded;
       state.items.push(action.payload);
     });
 
-    builder.addCase(createRecipe.rejected, (state, action): void => {
-      state.loadingState = LoadingState.Failed;
-      state.error = action.error.message;
-    });
-
-    builder.addCase(fetchRecipes.pending, (state): void => {
-      state.loadingState = LoadingState.Loading;
-    });
-
     builder.addCase(fetchRecipes.fulfilled, (state, action): void => {
       state.loadingState = LoadingState.Succeeeded;
       state.items = action.payload;
-    });
-
-    builder.addCase(fetchRecipes.rejected, (state, action): void => {
-      state.loadingState = LoadingState.Failed;
-      state.error = action.error.message;
     });
   },
 });

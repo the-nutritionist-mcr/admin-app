@@ -2,7 +2,6 @@ import * as APITypes from "../../API";
 
 import API, { GraphQLResult, graphqlOperation } from "@aws-amplify/api";
 
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   createExclusion as createExclusionMutation,
   deleteExclusion as deleteExclusionMutation,
@@ -14,7 +13,9 @@ import type { AppState } from "../../lib/rootReducer";
 import Exclusion from "../../domain/Exclusion";
 import LoadingState from "../../types/LoadingState";
 
+import apiRequestCreator from "../../lib/apiRequestCreator";
 import convertNullsToUndefined from "../../lib/convertNullsToUndefined";
+import { createSlice } from "@reduxjs/toolkit";
 import { listExclusions } from "../../graphql/queries";
 
 interface ExclusionsState {
@@ -32,7 +33,7 @@ const initialState: ExclusionsState = {
 
 const MALFORMED_RESPONSE = "Response from the server was malformed";
 
-export const updateExclusion = createAsyncThunk(
+export const updateExclusion = apiRequestCreator(
   "exclusions/update",
   async (exclusion: Exclusion): Promise<Exclusion> => {
     const {
@@ -59,7 +60,7 @@ export const updateExclusion = createAsyncThunk(
   }
 );
 
-export const createExclusion = createAsyncThunk(
+export const createExclusion = apiRequestCreator(
   "exclusions/create",
   async (exclusion: Exclusion): Promise<Exclusion> => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -85,7 +86,7 @@ export const createExclusion = createAsyncThunk(
   }
 );
 
-export const fetchExclusions = createAsyncThunk(
+export const fetchExclusions = apiRequestCreator(
   "exclusions/fetch",
   async (): Promise<Exclusion[]> => {
     const listExclusionsVariables: APITypes.ListExclusionsQueryVariables = {};
@@ -113,7 +114,7 @@ export const fetchExclusions = createAsyncThunk(
   }
 );
 
-export const removeExclusion = createAsyncThunk(
+export const removeExclusion = apiRequestCreator(
   "exclusions/remove",
   async (exclusion: Exclusion): Promise<string> => {
     const deleteExclusionVariables: APITypes.DeleteExclusionMutationVariables = {
@@ -139,24 +140,6 @@ const exclusionsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(updateExclusion.pending, (state): void => {
-      state.loadingState = LoadingState.Loading;
-    });
-
-    builder.addCase(removeExclusion.pending, (state): void => {
-      state.loadingState = LoadingState.Loading;
-    });
-
-    builder.addCase(updateExclusion.rejected, (state, action): void => {
-      state.loadingState = LoadingState.Failed;
-      state.error = action.error.message;
-    });
-
-    builder.addCase(removeExclusion.rejected, (state, action): void => {
-      state.loadingState = LoadingState.Failed;
-      state.error = action.error.message;
-    });
-
     builder.addCase(removeExclusion.fulfilled, (state, action): void => {
       state.loadingState = LoadingState.Succeeeded;
       state.items = state.items.filter((item) => item.id !== action.payload);
@@ -170,32 +153,14 @@ const exclusionsSlice = createSlice({
       state.items[index] = action.payload;
     });
 
-    builder.addCase(createExclusion.pending, (state): void => {
-      state.loadingState = LoadingState.Loading;
-    });
-
     builder.addCase(createExclusion.fulfilled, (state, action): void => {
       state.loadingState = LoadingState.Succeeeded;
       state.items.push(action.payload);
     });
 
-    builder.addCase(createExclusion.rejected, (state, action): void => {
-      state.loadingState = LoadingState.Failed;
-      state.error = action.error.message;
-    });
-
-    builder.addCase(fetchExclusions.pending, (state): void => {
-      state.loadingState = LoadingState.Loading;
-    });
-
     builder.addCase(fetchExclusions.fulfilled, (state, action): void => {
       state.loadingState = LoadingState.Succeeeded;
       state.items = action.payload;
-    });
-
-    builder.addCase(fetchExclusions.rejected, (state, action): void => {
-      state.loadingState = LoadingState.Failed;
-      state.error = action.error.message;
     });
   },
 });

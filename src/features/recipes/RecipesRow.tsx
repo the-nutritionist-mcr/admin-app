@@ -6,7 +6,6 @@ import EditRecipesDialog from "./EditRecipesDialog";
 import { OkCancelDialog } from "../../components";
 import React from "react";
 import Recipe from "../../domain/Recipe";
-import { useDispatch } from "react-redux";
 
 interface RecipesRowProps {
   recipe: Recipe;
@@ -16,7 +15,6 @@ interface RecipesRowProps {
 const RecipesRow: React.FC<RecipesRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
-  const dispatch = useDispatch();
 
   return (
     <TableRow>
@@ -39,8 +37,9 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
         <OkCancelDialog
           show={showDoDelete}
           header="Are you sure?"
+          thing={props.recipe}
+          thunk={removeRecipe}
           onOk={(): void => {
-            dispatch(removeRecipe(props.recipe));
             setShowDoDelete(false);
           }}
           onCancel={(): void => setShowDoDelete(false)}

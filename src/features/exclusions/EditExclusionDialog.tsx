@@ -1,5 +1,5 @@
 import { CheckBox, FormField, TextInput } from "grommet";
-import { AsyncThunk } from "@reduxjs/toolkit";
+import { ApiRequestFunction } from "../../lib/apiRequestCreator";
 import Exclusion from "../../domain/Exclusion";
 import { OkCancelDialog } from "../../components";
 import React from "react";
@@ -7,7 +7,7 @@ import React from "react";
 interface EditExclusionDialogProps {
   exclusion: Exclusion;
   // eslint-disable-next-line @typescript-eslint/ban-types
-  thunk: AsyncThunk<Exclusion, Exclusion, {}>;
+  thunk: ApiRequestFunction<Exclusion>;
   onOk: () => void;
   title: string;
   onCancel: () => void;
