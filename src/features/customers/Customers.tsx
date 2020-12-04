@@ -10,6 +10,7 @@ import {
   TableRow,
   Text,
 } from "grommet";
+import Customer, { Snack } from "../../domain/Customer";
 
 import {
   allCustomersSelector,
@@ -21,7 +22,6 @@ import CustomerRow from "./CustomerRow";
 import EditCustomerDialog from "./EditCustomerDialog";
 import LoadingState from "../../types/LoadingState";
 import React from "react";
-import { Snack } from "../../domain/Customer";
 import { Spinning } from "grommet-controls";
 import { loadingSelector } from "../../lib/rootReducer";
 import { useAppDispatch } from "../../lib/store";
@@ -115,6 +115,10 @@ const Customers: React.FC = () => {
             {customers
               .slice()
               .reverse()
+              .sort((a: Customer, b: Customer) =>
+                // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+                a.surname > b.surname ? 1 : -1
+              )
               .map((customer) => (
                 <CustomerRow key={customer.id} customer={customer} />
               ))}

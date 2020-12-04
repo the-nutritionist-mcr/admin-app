@@ -33,8 +33,8 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   return (
     <TableRow>
       <TableCell scope="row">
-        {props.customer.salutation} {props.customer.firstName}{" "}
-        {props.customer.surname}
+        {props.customer.surname}, {props.customer.firstName} (
+        {props.customer.salutation})
       </TableCell>
       <TableCell>{props.customer.email}</TableCell>
       <TableCell>{getStatusString(props.customer)}</TableCell>

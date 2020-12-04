@@ -65,6 +65,10 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
               startDate:
                 nextCustomerData.startDate &&
                 new Date(nextCustomerData.startDate),
+              paymentDayOfMonth:
+                nextCustomerData.paymentDayOfMonth === ""
+                  ? undefined
+                  : nextCustomerData.paymentDayOfMonth,
             } as Customer;
 
             setCustomer(nextCustomer);
