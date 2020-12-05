@@ -20,6 +20,7 @@
     "@testing-library/react": "^10.2.1",
     "@testing-library/react-hooks": "^3.4.2",
     "@testing-library/user-event": "^12.0.2",
+    "@types/aws-lambda": "^8.10.64",
     "@types/enzyme": "^3.10.8",
     "@types/flux": "^3.1.9",
     "@types/git-rev-sync": "^2.0.0",
@@ -100,7 +101,8 @@
     "start:and-wait": "yarn start & yarn wait-on http://localhost:3000",
     "test:cypress:record": "cypress run --record --reporter mochawesome --reporter-options \"reportDir=cypress/report/mochawesome-report,overwrite=false,html=false,json=true,timestamp=mmddyyyy_HHMMss\"",
     "test:ci": "CI=true react-scripts test --coverage",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "amplify:CustomGraphqlResolver": "cd amplify/backend/function/CustomGraphqlResolver/src/ts && yarn build"
   },
   "husky": {
     "hooks": {
@@ -149,6 +151,8 @@
   },
   "eslintConfig": {
     "ignorePatterns": [
+      "amplify/#*",
+      "amplify/**/*.js",
       "src/API.ts",
       "template",
       "graphql",
@@ -160,7 +164,8 @@
     "parserOptions": {
       "project": [
         "./tsconfig.json",
-        "./cypress/tsconfig.json"
+        "./cypress/tsconfig.json",
+        "./amplify/backend/function/CustomGraphqlResolver/src/ts/tsconfig.json"
       ]
     },
     "rules": {

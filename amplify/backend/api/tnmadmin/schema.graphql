@@ -1,10 +1,3 @@
-type Plan {
-  name: String!
-  mealsPerDay: Int!
-  costPerMeal: Int!
-  category: String!
-}
-
 type Exclusion
   @model
   @auth(rules: [{ allow: groups, groups: ["admin", "user"] }]) {
@@ -69,4 +62,80 @@ type Customer
   snack: String!
   breakfast: Boolean!
   exclusions: [CustomerExclusion!]! @connection(keyName: "byCustomer", fields: ["id"])
+}
+
+
+type Plan {
+  name: String!
+  mealsPerDay: Int!
+  costPerMeal: Int!
+  category: String!
+}
+
+input LinkedCustomerPlanInput {
+  name: String!
+  mealsPerDay: Int!
+  costPerMeal: Int!
+  category: String!
+}
+
+
+input CreateLinkedCustomerInput {
+  firstName: String!
+  surname: String!
+  salutation: String!
+  address: String!
+  telephone: String!
+  startDate: AWSDateTime
+  paymentDayOfMonth: Int
+  notes: String
+  email: String!
+  pauseStart: AWSDate
+  pauseEnd: AWSDate
+  daysPerWeek: Int!
+  plan: LinkedCustomerPlanInput!
+  legacyPrice: Int
+  snack: String!
+  breakfast: Boolean!
+  exclusionIds: [String!]!
+}
+
+input UpdateLinkedCustomerInput {
+  firstName: String!
+  surname: String!
+  salutation: String!
+  address: String!
+  telephone: String!
+  startDate: AWSDateTime
+  paymentDayOfMonth: Int
+  notes: String
+  email: String!
+  pauseStart: AWSDate
+  pauseEnd: AWSDate
+  daysPerWeek: Int!
+  plan: LinkedCustomerPlanInput!
+  legacyPrice: Int
+  snack: String!
+  breakfast: Boolean!
+  exclusionIds: [String!]!
+}
+
+input CreateLinkedRecipeInput {
+  name: String!
+  description: String
+  exclusionIds: [String!]!
+}
+
+input UpdateLinkedRecipeInput {
+  id: ID!
+  name: String!
+  description: String
+  exclusionIds: [String!]!
+}
+
+type Mutation {
+  updateLinkedRecipe(input: UpdateLinkedRecipeInput): Recipe
+  updateLinkedCustomer(input: UpdateLinkedCustomerInput): Customer
+  createLinkedCustomer(input: CreateLinkedCustomerInput): Customer
+  createLinkedRecipe(input: CreateLinkedRecipeInput): Recipe
 }

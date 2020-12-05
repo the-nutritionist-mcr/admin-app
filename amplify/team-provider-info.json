@@ -15,40 +15,7 @@
       "auth": {
         "tnmadmin80cb9c66": {},
         "userPoolGroups": {}
-      },
-      "hosting": {}
-    }
-  },
-  "prod": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-tnmadmin-prod-212406-authRole",
-      "UnauthRoleArn": "arn:aws:iam::661272765443:role/amplify-tnmadmin-prod-212406-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::661272765443:role/amplify-tnmadmin-prod-212406-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-tnmadmin-prod-212406-deployment",
-      "UnauthRoleName": "amplify-tnmadmin-prod-212406-unauthRole",
-      "StackName": "amplify-tnmadmin-prod-212406",
-      "StackId": "arn:aws:cloudformation:us-east-1:661272765443:stack/amplify-tnmadmin-prod-212406/b9eb6840-2b76-11eb-96f3-127e1ad2bd25",
-      "AmplifyAppId": "dk1uvntjke2nr"
-    },
-    "categories": {
-      "auth": {
-        "tnmadmin80cb9c66": {},
-        "userPoolGroups": {}
       }
-    }
-  },
-  "test": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-tnmadmin-test-212746-authRole",
-      "UnauthRoleArn": "arn:aws:iam::661272765443:role/amplify-tnmadmin-test-212746-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::661272765443:role/amplify-tnmadmin-test-212746-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-tnmadmin-test-212746-deployment",
-      "UnauthRoleName": "amplify-tnmadmin-test-212746-unauthRole",
-      "StackName": "amplify-tnmadmin-test-212746",
-      "StackId": "arn:aws:cloudformation:us-east-1:661272765443:stack/amplify-tnmadmin-test-212746/3cad8740-2b77-11eb-b014-0e9321cc26bf",
-      "AmplifyAppId": "dk1uvntjke2nr"
     }
   }
 }
