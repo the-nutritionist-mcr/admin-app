@@ -9,19 +9,9 @@ import getExtrasString from "../../lib/getExtrasString";
 import getStatusString from "../../lib/getStatusString";
 import { useDispatch } from "react-redux";
 
-const WEEKS_IN_YEAR = 52;
-const MONTHS_IN_YEAR = 12;
-const PENCE_IN_POUND = 100;
-
 interface CustomerRowProps {
   customer: Customer;
 }
-
-const pricePerWeek = (customer: Customer): number =>
-  customer.plan.mealsPerDay * customer.plan.costPerMeal * customer.daysPerWeek;
-
-const pricePerMonth = (customer: Customer): number =>
-  (pricePerWeek(customer) * WEEKS_IN_YEAR) / MONTHS_IN_YEAR;
 
 const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
@@ -36,31 +26,12 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
         {props.customer.surname}, {props.customer.firstName} (
         {props.customer.salutation})
       </TableCell>
-      <TableCell>{props.customer.email}</TableCell>
       <TableCell>{getStatusString(props.customer)}</TableCell>
       <TableCell>
         {props.customer.plan.category} {props.customer.plan.mealsPerDay} (
         {props.customer.daysPerWeek} days)
       </TableCell>
       <TableCell>{getExtrasString(props.customer)}</TableCell>
-      <TableCell>
-        {
-          // eslint-disable-next-line new-cap
-          Intl.NumberFormat("en-GB", {
-            style: "currency",
-            currency: "GBP",
-          }).format(pricePerWeek(props.customer) / PENCE_IN_POUND)
-        }
-      </TableCell>
-      <TableCell>
-        {
-          // eslint-disable-next-line new-cap
-          Intl.NumberFormat("en-GB", {
-            style: "currency",
-            currency: "GBP",
-          }).format(pricePerMonth(props.customer) / PENCE_IN_POUND)
-        }
-      </TableCell>
 
       <TableCell>
         {props.customer.exclusions.length > 0

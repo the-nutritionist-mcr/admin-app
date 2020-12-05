@@ -3,22 +3,11 @@ import {
   allCustomersSelector,
   fetchCustomers,
 } from "../customers/customersSlice";
-import Customer from "../../domain/Customer";
 import React from "react";
 
 import isActive from "../../lib/isActive";
 import { useAppDispatch } from "../../lib/store";
 import { useSelector } from "react-redux";
-
-const WEEKS_IN_YEAR = 52;
-const MONTHS_IN_YEAR = 12;
-const PENCE_IN_POUND = 100;
-
-const pricePerWeek = (customer: Customer): number =>
-  customer.plan.mealsPerDay * customer.plan.costPerMeal * customer.daysPerWeek;
-
-const pricePerMonth = (customer: Customer): number =>
-  (pricePerWeek(customer) * WEEKS_IN_YEAR) / MONTHS_IN_YEAR;
 
 const Home: React.FC = () => {
   const customers = useSelector(allCustomersSelector);
@@ -28,14 +17,6 @@ const Home: React.FC = () => {
   }, [dispatch]);
 
   const activePlans = customers.filter(isActive).length;
-
-  const weeklyTakings = customers
-    .filter(isActive)
-    .reduce((previous, customer) => previous + pricePerWeek(customer), 0);
-
-  const monthlyTakings = customers
-    .filter(isActive)
-    .reduce((previous, customer) => previous + pricePerMonth(customer), 0);
 
   return (
     <React.Fragment>
@@ -57,38 +38,9 @@ const Home: React.FC = () => {
       </Paragraph>
       <Heading level={3}>In Numbers</Heading>
       <Paragraph>
-        Note - numbers below represent takings if all customers were charged
-        their actual plan prices. They do not take into account
-        &apos;legacy&apos; pricing
-      </Paragraph>
-      <Paragraph>
         <ul>
           <li>
             Currently Active plans: <strong>{activePlans}</strong>
-          </li>
-          <li>
-            Projected weekly takings:{" "}
-            <strong>
-              {
-                // eslint-disable-next-line new-cap
-                Intl.NumberFormat("en-GB", {
-                  style: "currency",
-                  currency: "GBP",
-                }).format(weeklyTakings / PENCE_IN_POUND)
-              }
-            </strong>
-          </li>
-          <li>
-            Projected monthly takings:{" "}
-            <strong>
-              {
-                // eslint-disable-next-line new-cap
-                Intl.NumberFormat("en-GB", {
-                  style: "currency",
-                  currency: "GBP",
-                }).format(monthlyTakings / PENCE_IN_POUND)
-              }
-            </strong>
           </li>
         </ul>
       </Paragraph>

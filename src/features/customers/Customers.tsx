@@ -85,9 +85,6 @@ const Customers: React.FC = () => {
               <TableCell scope="col">
                 <strong>Name</strong>
               </TableCell>
-              <TableCell scope="col">
-                <strong>Email</strong>
-              </TableCell>
               <TableCell>
                 <strong>Status</strong>
               </TableCell>
@@ -96,12 +93,6 @@ const Customers: React.FC = () => {
               </TableCell>
               <TableCell scope="col">
                 <strong>Extras</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Per Week</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Per Month</strong>
               </TableCell>
               <TableCell scope="col">
                 <strong>Exclusions</strong>
