@@ -13,7 +13,7 @@
     "sourceMap": false,
     "strict": true,
     "baseUrl": ".",
-    "outDir": ".."
+    "outDir": "./dist"
   },
   "include": ["./**/*"],
   "exclude": ["node_modules"]

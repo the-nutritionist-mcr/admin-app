@@ -62,11 +62,13 @@
           "Fn::GetAtt": ["LambdaExecutionRole", "Arn"]
         },
         "Runtime": "nodejs12.x",
-        "Layers": [],
+        "Layers": [
+          "arn:aws:lambda:us-east-1:661272765443:layer:tnmaAdminNodeLayer-dev:1"
+        ],
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-tnmadmin-dev-142708-deployment",
-          "S3Key": "amplify-builds/CustomGraphqlResolver-32503856565274667a31-build.zip"
+          "S3Key": "amplify-builds/CustomGraphqlResolver-3956544f425148786368-build.zip"
         }
       }
     },

@@ -6,9 +6,12 @@ import { AppSyncResolverHandler } from "aws-lambda";
 // eslint-disable-next-line import/prefer-default-export
 export const handler: AppSyncResolverHandler<any, any> = async (
   event,
-  contxt
+  context
 ) => {
-  return "Nothing";
+  return JSON.stringify({
+    event,
+    context,
+  });
 };
 /* eslint-enable @typescript-eslint/no-explicit-any */
 /* eslint-enable @typescript-eslint/require-await */

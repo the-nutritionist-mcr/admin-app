@@ -50,7 +50,13 @@
     "CustomGraphqlResolver": {
       "build": true,
       "providerPlugin": "awscloudformation",
-      "service": "Lambda"
+      "service": "Lambda",
+      "dependsOn": []
+    },
+    "tnmaAdminNodeLayer": {
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer",
+      "build": true
     }
   }
 }

@@ -15,6 +15,28 @@
       "auth": {
         "tnmadmin80cb9c66": {},
         "userPoolGroups": {}
+      },
+      "function": {
+        "tnmaAdminNodeLayer": {
+          "deploymentBucketName": "amplify-tnmadmin-dev-142708-deployment",
+          "s3Key": "amplify-builds/tnmaAdminNodeLayer-build.zip"
+        }
+      }
+    },
+    "nonCFNdata": {
+      "function": {
+        "tnmaAdminNodeLayer": {
+          "layerVersionMap": {
+            "1": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "6GxkV25sy5iaVa9t9+XsM34HvepjEnCXbaWaK/oORrE="
+            }
+          }
+        }
       }
     }
   }

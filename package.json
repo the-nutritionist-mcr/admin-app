@@ -102,7 +102,7 @@
     "test:cypress:record": "cypress run --record --reporter mochawesome --reporter-options \"reportDir=cypress/report/mochawesome-report,overwrite=false,html=false,json=true,timestamp=mmddyyyy_HHMMss\"",
     "test:ci": "CI=true react-scripts test --coverage",
     "eject": "react-scripts eject",
-    "amplify:CustomGraphqlResolver": "cd amplify/backend/function/CustomGraphqlResolver/src/ts && yarn build"
+    "amplify:CustomGraphqlResolver": "cd amplify/backend/function/CustomGraphqlResolver/ts && yarn build"
   },
   "husky": {
     "hooks": {
@@ -165,7 +165,7 @@
       "project": [
         "./tsconfig.json",
         "./cypress/tsconfig.json",
-        "./amplify/backend/function/CustomGraphqlResolver/src/ts/tsconfig.json"
+        "./amplify/backend/function/CustomGraphqlResolver/ts/tsconfig.json"
       ]
     },
     "rules": {
