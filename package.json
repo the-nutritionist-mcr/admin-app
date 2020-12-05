@@ -135,6 +135,7 @@
       "<rootDir>/node_modules/(?!grommet-controls)"
     ],
     "coveragePathIgnorePatterns": [
+      "src/fixtures",
       "src/API.ts",
       "src/aws-exports.js",
       "src/cdk-entry.ts",
