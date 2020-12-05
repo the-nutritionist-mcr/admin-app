@@ -22,6 +22,7 @@ export default class DevelopFrontendStack extends cdk.Stack {
       bucketName: fullUrl,
       publicReadAccess: true,
       websiteIndexDocument: "index.html",
+      websiteErrorDocument: "index.html",
     });
 
     // eslint-disable-next-line no-new
