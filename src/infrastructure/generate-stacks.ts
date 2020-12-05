@@ -2,6 +2,7 @@
 import "source-map-support/register";
 import * as cdk from "@aws-cdk/core";
 
+import BackendStack from "./backend-stack";
 import DevelopFrontendStack from "./develop-frontend-stack";
 import ProductionFrontendStack from "./production-frontend-stack";
 
@@ -41,6 +42,15 @@ const generateStacks = (): void => {
       env,
       subdomain: "dev",
       domainName,
+    });
+
+    // eslint-disable-next-line no-new
+    new BackendStack(app, "DevBackendStack", {
+      env,
+      envName: "dev",
+      appName: "tnm-admin",
+      friendlyName: "The TNM Admin app",
+      url: "https://dev.tnm-admin.com",
     });
   }
 };

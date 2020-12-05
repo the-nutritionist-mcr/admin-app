@@ -15,9 +15,10 @@
     "noErrorTruncation": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react"
+    "outDir": "dist",
+    "jsx": "react",
+    "noEmit": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "build"]
+  "include": ["."],
+  "exclude": ["node_modules", "build", "coverage", "cypress", "public", "dist"]
 }

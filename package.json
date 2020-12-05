@@ -7,8 +7,12 @@
     "@aws-amplify/core": "^3.8.6",
     "@aws-amplify/datastore": "^2.8.0",
     "@aws-amplify/ui-react": "^0.2.30",
+    "@aws-cdk/aws-appsync": "^1.76.0",
     "@aws-cdk/aws-certificatemanager": "^1.76.0",
     "@aws-cdk/aws-cloudfront": "^1.76.0",
+    "@aws-cdk/aws-cognito": "^1.76.0",
+    "@aws-cdk/aws-dynamodb": "^1.76.0",
+    "@aws-cdk/aws-lambda": "^1.76.0",
     "@aws-cdk/aws-route53": "^1.76.0",
     "@aws-cdk/aws-route53-targets": "^1.76.0",
     "@aws-cdk/aws-s3": "^1.76.0",
@@ -38,6 +42,7 @@
     "EventEmitter": "^1.0.0",
     "aws-amplify": "^3.3.11",
     "aws-cdk": "^1.76.0",
+    "aws-lambda": "^1.0.6",
     "cypress": "^5.5.0",
     "enzyme": "^3.11.0",
     "eslint": "^7.13.0",
@@ -96,13 +101,14 @@
   "scripts": {
     "start": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) react-scripts start",
     "build": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) react-scripts build",
+    "build:backend": "tsc --project tsconfig.backend.json && webpack --config webpack.config.backend.js",
     "lint": "eslint .",
     "test": "react-scripts test",
     "start:and-wait": "yarn start & yarn wait-on http://localhost:3000",
     "test:cypress:record": "cypress run --record --reporter mochawesome --reporter-options \"reportDir=cypress/report/mochawesome-report,overwrite=false,html=false,json=true,timestamp=mmddyyyy_HHMMss\"",
     "test:ci": "CI=true react-scripts test --coverage",
     "eject": "react-scripts eject",
-    "amplify:CustomGraphqlResolver": "cd amplify/backend/function/CustomGraphqlResolver/ts && yarn build"
+    "amplify:CustomGraphqlResolver": "tsc && mv ./dist/amplify/backend/function/CustomGraphqlResolver/ts ./amplify/backend/function/CustomGraphqlResolver/src"
   },
   "husky": {
     "hooks": {
@@ -151,6 +157,7 @@
   },
   "eslintConfig": {
     "ignorePatterns": [
+      "dist",
       "amplify/#*",
       "amplify/**/*.js",
       "src/API.ts",
@@ -164,8 +171,7 @@
     "parserOptions": {
       "project": [
         "./tsconfig.json",
-        "./cypress/tsconfig.json",
-        "./amplify/backend/function/CustomGraphqlResolver/ts/tsconfig.json"
+        "./cypress/tsconfig.json"
       ]
     },
     "rules": {
@@ -183,5 +189,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.2.0"
   }
 }

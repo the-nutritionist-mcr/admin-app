@@ -10,7 +10,7 @@ const ERROR_MESSAGE_TIMEOUT_SECONDS = 15;
 type ThunkResult<R, A> = ThunkAction<R, AppState, A, AnyAction>;
 
 export const loadingStart = createAction("loadingStart");
-export const loadingFailed = createAction<Error>("loadingFailed");
+export const loadingFailed = createAction<string>("loadingFailed");
 export const loadingSucceeded = createAction("loadingSucceeded");
 export const clearError = createAction("clearError");
 

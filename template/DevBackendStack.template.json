@@ -1,0 +1,201 @@
+{
+  "Resources": {
+    "UserssmsRole3629E766": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Condition": {
+                "StringEquals": {
+                  "sts:ExternalId": "DevBackendStackUsers38A08CAB"
+                }
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cognito-idp.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Action": "sns:Publish",
+                  "Effect": "Allow",
+                  "Resource": "*"
+                }
+              ],
+              "Version": "2012-10-17"
+            },
+            "PolicyName": "sns-publish"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBackendStack/Users/smsRole/Resource"
+      }
+    },
+    "Users0A0EEA89": {
+      "Type": "AWS::Cognito::UserPool",
+      "Properties": {
+        "AccountRecoverySetting": {
+          "RecoveryMechanisms": [
+            {
+              "Name": "verified_phone_number",
+              "Priority": 1
+            },
+            {
+              "Name": "verified_email",
+              "Priority": 2
+            }
+          ]
+        },
+        "AdminCreateUserConfig": {
+          "AllowAdminCreateUserOnly": false,
+          "InviteMessageTemplate": {
+            "EmailMessage": "Hey {username}, you have been invited to join The TNM Admin app. Your temporary password is {####}",
+            "EmailSubject": "The TNM Admin app invite",
+            "SMSMessage": "Hey {username}, you have been invited to join The TNM Admin app. Your temporary password is {####}"
+          }
+        },
+        "AliasAttributes": ["email", "phone_number"],
+        "AutoVerifiedAttributes": ["email", "phone_number"],
+        "EmailVerificationMessage": "Hey {username}, Thanks for signing up to The TNM Admin app. Your verification code is {####}",
+        "EmailVerificationSubject": "The TNM Admin app signup",
+        "SmsConfiguration": {
+          "ExternalId": "DevBackendStackUsers38A08CAB",
+          "SnsCallerArn": {
+            "Fn::GetAtt": ["UserssmsRole3629E766", "Arn"]
+          }
+        },
+        "SmsVerificationMessage": "Hey {username}, Thanks for signing up to The TNM Admin app. Your verification code is {####}",
+        "UserPoolName": "dev-tnm-admin-users",
+        "VerificationMessageTemplate": {
+          "DefaultEmailOption": "CONFIRM_WITH_CODE",
+          "EmailMessage": "Hey {username}, Thanks for signing up to The TNM Admin app. Your verification code is {####}",
+          "EmailSubject": "The TNM Admin app signup",
+          "SmsMessage": "Hey {username}, Thanks for signing up to The TNM Admin app. Your verification code is {####}"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBackendStack/Users/Resource"
+      }
+    },
+    "UsersClient3B43F2CF": {
+      "Type": "AWS::Cognito::UserPoolClient",
+      "Properties": {
+        "UserPoolId": {
+          "Ref": "Users0A0EEA89"
+        },
+        "AllowedOAuthFlows": ["implicit", "code"],
+        "AllowedOAuthFlowsUserPoolClient": true,
+        "AllowedOAuthScopes": [
+          "profile",
+          "phone",
+          "email",
+          "openid",
+          "aws.cognito.signin.user.admin"
+        ],
+        "CallbackURLs": ["https://dev.tnm-admin.com"],
+        "SupportedIdentityProviders": ["COGNITO"]
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBackendStack/Users/Client/Resource"
+      }
+    },
+    "UsersDomainC6632324": {
+      "Type": "AWS::Cognito::UserPoolDomain",
+      "Properties": {
+        "Domain": "dev-tnm-admin-auth",
+        "UserPoolId": {
+          "Ref": "Users0A0EEA89"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBackendStack/Users/Domain/Resource"
+      }
+    },
+    "ApiF70053CD": {
+      "Type": "AWS::AppSync::GraphQLApi",
+      "Properties": {
+        "AuthenticationType": "AMAZON_COGNITO_USER_POOLS",
+        "Name": "dev-tnm-admin-api",
+        "UserPoolConfig": {
+          "AwsRegion": "us-east-1",
+          "DefaultAction": "ALLOW",
+          "UserPoolId": {
+            "Ref": "Users0A0EEA89"
+          }
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBackendStack/Api/Resource"
+      }
+    },
+    "ApiSchema510EECD7": {
+      "Type": "AWS::AppSync::GraphQLSchema",
+      "Properties": {
+        "ApiId": {
+          "Fn::GetAtt": ["ApiF70053CD", "ApiId"]
+        },
+        "Definition": "type Exclusion {\n  id: ID!\n  name: String!\n  allergen: Boolean!\n  customers: [Customer!]!\n  recipes: [Recipe!]!\n}\n\ninput ExclusionInput {\n  name: String!\n  allergen: Boolean!\n  recipeIds: [ID!]!\n}\n\ninput UpdateExclusionInput {\n  id: ID!\n  name: String!\n  allergen: Boolean!\n  recipeIds: [ID!]!\n}\n\ninput DeleteExclusionInput {\n  id: ID!\n}\n\ntype CustomerExclusion  {\n  id: ID!\n  customerId: ID!\n  exclusionId: ID!\n}\n\n\ntype Recipe {\n  id: ID!\n  name: String!\n  description: String\n  potentialExclusions: [RecipeExclusion!]!\n}\n\ninput UpdateRecipeInput {\n  id: ID!\n  name: String!\n  description: String\n  potentialExclusionIds: [ID!]!\n}\n\ninput DeleteRecipeInput {\n  id: ID!\n}\n\ninput RecipeInput {\n  name: String!\n  description: String\n  potentialExclusionIds: [ID!]!\n}\n\n\ntype RecipeExclusion  {\n  id: ID!\n  recipeId: ID!\n  exclusionId: ID!\n}\n\ntype Customer {\n  id: ID!\n  firstName: String!\n  surname: String!\n  salutation: String!\n  address: String!\n  telephone: String!\n  startDate: AWSDateTime\n  paymentDayOfMonth: Int\n  notes: String\n  email: String!\n  pauseStart: AWSDate\n  pauseEnd: AWSDate\n  daysPerWeek: Int!\n  plan: Plan!\n  legacyPrice: Int\n  snack: String!\n  breakfast: Boolean!\n  exclusions: [Exclusion!]!\n}\n\ninput CustomerInput {\n  firstName: String!\n  surname: String!\n  salutation: String!\n  address: String!\n  telephone: String!\n  startDate: AWSDateTime\n  paymentDayOfMonth: Int\n  notes: String\n  email: String!\n  pauseStart: AWSDate\n  pauseEnd: AWSDate\n  daysPerWeek: Int!\n  plan: PlanInput!\n  legacyPrice: Int\n  snack: String!\n  breakfast: Boolean!\n  exclusionIds: [String!]!\n}\n\ninput UpdateCustomerInput {\n  id: ID!\n  firstName: String!\n  surname: String!\n  salutation: String!\n  address: String!\n  telephone: String!\n  startDate: AWSDateTime\n  paymentDayOfMonth: Int\n  notes: String\n  email: String!\n  pauseStart: AWSDate\n  pauseEnd: AWSDate\n  daysPerWeek: Int!\n  plan: PlanInput!\n  legacyPrice: Int\n  snack: String!\n  breakfast: Boolean!\n  exclusionIds: [String!]!\n}\n\ninput DeleteCustomerInput {\n  id: ID!\n}\n\n\ntype Query {\n  getExclusionById(exclusionId: String!): Exclusion\n  listExclusions: [Exclusion]\n  getRecipeById(recipeId: String!): Recipe\n  listRecipes: [Recipe]\n  getCustomerId(customerId: String!): Customer\n  listCustomers: [Customer]\n}\n\ntype Mutation {\n  updateRecipe(input: UpdateRecipeInput): Recipe\n  deleteRecipe(input: DeleteRecipeInput): String\n  createRecipe(input: RecipeInput): Recipe\n  updateCustomer(input: UpdateCustomerInput): Customer\n  createCustomer(input: CustomerInput): Customer\n  deleteCustomer(input: DeleteCustomerInput): String\n  updateExclusion(input: UpdateExclusionInput): Exclusion\n  createExclusion(input: ExclusionInput): Exclusion\n  deleteExclusion(input: DeleteExclusionInput): String\n}\n\ntype Plan {\n  name: String!\n  mealsPerDay: Int!\n  costPerMeal: Int!\n  category: String!\n}\n\ninput PlanInput {\n  name: String!\n  mealsPerDay: Int!\n  costPerMeal: Int!\n  category: String!\n}\n"
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBackendStack/Api/Schema"
+      }
+    },
+    "CDKMetadata": {
+      "Type": "AWS::CDK::Metadata",
+      "Properties": {
+        "Modules": "aws-cdk=1.76.0,@aws-cdk/assets=1.76.0,@aws-cdk/aws-applicationautoscaling=1.76.0,@aws-cdk/aws-appsync=1.76.0,@aws-cdk/aws-autoscaling-common=1.76.0,@aws-cdk/aws-certificatemanager=1.76.0,@aws-cdk/aws-cloudfront=1.76.0,@aws-cdk/aws-cloudwatch=1.76.0,@aws-cdk/aws-codeguruprofiler=1.76.0,@aws-cdk/aws-cognito=1.76.0,@aws-cdk/aws-ec2=1.76.0,@aws-cdk/aws-ecr=1.76.0,@aws-cdk/aws-ecr-assets=1.76.0,@aws-cdk/aws-events=1.76.0,@aws-cdk/aws-iam=1.76.0,@aws-cdk/aws-kms=1.76.0,@aws-cdk/aws-lambda=1.76.0,@aws-cdk/aws-logs=1.76.0,@aws-cdk/aws-route53=1.76.0,@aws-cdk/aws-route53-targets=1.76.0,@aws-cdk/aws-s3=1.76.0,@aws-cdk/aws-s3-assets=1.76.0,@aws-cdk/aws-s3-deployment=1.76.0,@aws-cdk/aws-sqs=1.76.0,@aws-cdk/aws-ssm=1.76.0,@aws-cdk/cloud-assembly-schema=1.76.0,@aws-cdk/core=1.76.0,@aws-cdk/custom-resources=1.76.0,@aws-cdk/cx-api=1.76.0,@aws-cdk/region-info=1.76.0,jsii-runtime=node.js/v14.11.0"
+      },
+      "Metadata": {
+        "aws:cdk:path": "DevBackendStack/CDKMetadata/Default"
+      }
+    }
+  },
+  "Outputs": {
+    "AuthUrl": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "UsersDomainC6632324"
+            },
+            ".auth.us-east-1.amazoncognito.com"
+          ]
+        ]
+      }
+    },
+    "RedirectUrl": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "UsersDomainC6632324"
+            },
+            ".auth.us-east-1.amazoncognito.com/login?client_id=",
+            {
+              "Ref": "UsersClient3B43F2CF"
+            },
+            "&response_type=code&redirect_uri=https://dev.tnm-admin.com"
+          ]
+        ]
+      }
+    },
+    "GraphQlQpiUrl": {
+      "Value": {
+        "Fn::GetAtt": ["ApiF70053CD", "GraphQLUrl"]
+      }
+    }
+  }
+}

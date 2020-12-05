@@ -11,14 +11,14 @@ jest.mock("./hooks");
 
 describe("the <App /> component", () => {
   it("renders a <NavBar />", () => {
-    mocked(useApp, true).mockReturnValue({});
+    mocked(useApp, true).mockReturnValue({ closeError: jest.fn() });
     const wrapper = shallow(<App />);
 
     expect(wrapper.find(NavBar).exists()).toEqual(true);
   });
 
   it("renders a <Router />", () => {
-    mocked(useApp, true).mockReturnValue({});
+    mocked(useApp, true).mockReturnValue({ closeError: jest.fn() });
     const wrapper = shallow(<App />);
 
     expect(wrapper.find(Router).exists()).toEqual(true);
@@ -26,6 +26,7 @@ describe("the <App /> component", () => {
 
   it("displays a notification with the correct label if state contains an error", () => {
     mocked(useApp, true).mockReturnValue({
+      closeError: jest.fn(),
       error: "foo-error",
     });
 
@@ -36,7 +37,7 @@ describe("the <App /> component", () => {
   });
 
   it("hides the error notification if there is no error", () => {
-    mocked(useApp, true).mockReturnValue({});
+    mocked(useApp, true).mockReturnValue({ closeError: jest.fn() });
 
     const wrapper = shallow(<App />);
     const notification = wrapper.find(Notification);

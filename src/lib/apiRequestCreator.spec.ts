@@ -11,7 +11,7 @@ describe("The API request creater", () => {
 
     const store = configureStore({ reducer });
 
-    const request = apiRequestCreator("foo", jest.fn());
+    const request = apiRequestCreator<void>("foo", jest.fn());
 
     await store.dispatch(request());
 

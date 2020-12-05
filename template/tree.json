@@ -1,0 +1,642 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree"
+      },
+      "DevelopFrontendStack": {
+        "id": "DevelopFrontendStack",
+        "path": "DevelopFrontendStack",
+        "children": {
+          "DevelopFrontendStackBucket": {
+            "id": "DevelopFrontendStackBucket",
+            "path": "DevelopFrontendStack/DevelopFrontendStackBucket",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "DevelopFrontendStack/DevelopFrontendStackBucket/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "bucketName": "dev.tnm-admin.com",
+                    "websiteConfiguration": {
+                      "indexDocument": "index.html",
+                      "errorDocument": "index.html"
+                    }
+                  }
+                }
+              },
+              "Notifications": {
+                "id": "Notifications",
+                "path": "DevelopFrontendStack/DevelopFrontendStackBucket/Notifications"
+              },
+              "Policy": {
+                "id": "Policy",
+                "path": "DevelopFrontendStack/DevelopFrontendStackBucket/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "DevelopFrontendStack/DevelopFrontendStackBucket/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
+                      "aws:cdk:cloudformation:props": {
+                        "bucket": {
+                          "Ref": "DevelopFrontendStackBucket3B545581"
+                        },
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "s3:GetObject",
+                              "Effect": "Allow",
+                              "Principal": "*",
+                              "Resource": {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "DevelopFrontendStackBucket3B545581",
+                                        "Arn"
+                                      ]
+                                    },
+                                    "/*"
+                                  ]
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "DevelopFrontendStackDeployment": {
+            "id": "DevelopFrontendStackDeployment",
+            "path": "DevelopFrontendStack/DevelopFrontendStackDeployment",
+            "children": {
+              "CustomResourceHandler": {
+                "id": "CustomResourceHandler",
+                "path": "DevelopFrontendStack/DevelopFrontendStackDeployment/CustomResourceHandler"
+              },
+              "Asset1": {
+                "id": "Asset1",
+                "path": "DevelopFrontendStack/DevelopFrontendStackDeployment/Asset1",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "DevelopFrontendStack/DevelopFrontendStackDeployment/Asset1/Stage"
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "DevelopFrontendStack/DevelopFrontendStackDeployment/Asset1/AssetBucket"
+                  }
+                }
+              },
+              "CustomResource": {
+                "id": "CustomResource",
+                "path": "DevelopFrontendStack/DevelopFrontendStackDeployment/CustomResource",
+                "children": {
+                  "Default": {
+                    "id": "Default",
+                    "path": "DevelopFrontendStack/DevelopFrontendStackDeployment/CustomResource/Default"
+                  }
+                }
+              }
+            }
+          },
+          "Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C": {
+            "id": "Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C",
+            "path": "DevelopFrontendStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "DevelopFrontendStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "DevelopFrontendStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "DevelopFrontendStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "DevelopFrontendStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "s3:GetObject*",
+                                    "s3:GetBucket*",
+                                    "s3:List*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":s3:::",
+                                          {
+                                            "Ref": "AssetParameters7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5S3BucketCEFA4065"
+                                          }
+                                        ]
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":s3:::",
+                                          {
+                                            "Ref": "AssetParameters7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5S3BucketCEFA4065"
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "Action": [
+                                    "s3:GetObject*",
+                                    "s3:GetBucket*",
+                                    "s3:List*",
+                                    "s3:DeleteObject*",
+                                    "s3:PutObject*",
+                                    "s3:Abort*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "DevelopFrontendStackBucket3B545581",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          {
+                                            "Fn::GetAtt": [
+                                              "DevelopFrontendStackBucket3B545581",
+                                              "Arn"
+                                            ]
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+                            "roles": [
+                              {
+                                "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "DevelopFrontendStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "DevelopFrontendStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code/Stage"
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "DevelopFrontendStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code/AssetBucket"
+                  }
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "DevelopFrontendStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Ref": "AssetParametersc9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176S3Bucket77147E20"
+                      },
+                      "s3Key": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            {
+                              "Fn::Select": [
+                                0,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParametersc9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176S3VersionKey4253216F"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Fn::Select": [
+                                1,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParametersc9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176S3VersionKey4253216F"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    },
+                    "handler": "index.handler",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.6",
+                    "timeout": 900
+                  }
+                }
+              }
+            }
+          },
+          "AssetParameters": {
+            "id": "AssetParameters",
+            "path": "DevelopFrontendStack/AssetParameters",
+            "children": {
+              "c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176": {
+                "id": "c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176",
+                "path": "DevelopFrontendStack/AssetParameters/c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176",
+                "children": {
+                  "S3Bucket": {
+                    "id": "S3Bucket",
+                    "path": "DevelopFrontendStack/AssetParameters/c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176/S3Bucket"
+                  },
+                  "S3VersionKey": {
+                    "id": "S3VersionKey",
+                    "path": "DevelopFrontendStack/AssetParameters/c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176/S3VersionKey"
+                  },
+                  "ArtifactHash": {
+                    "id": "ArtifactHash",
+                    "path": "DevelopFrontendStack/AssetParameters/c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176/ArtifactHash"
+                  }
+                }
+              },
+              "7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5": {
+                "id": "7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5",
+                "path": "DevelopFrontendStack/AssetParameters/7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5",
+                "children": {
+                  "S3Bucket": {
+                    "id": "S3Bucket",
+                    "path": "DevelopFrontendStack/AssetParameters/7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5/S3Bucket"
+                  },
+                  "S3VersionKey": {
+                    "id": "S3VersionKey",
+                    "path": "DevelopFrontendStack/AssetParameters/7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5/S3VersionKey"
+                  },
+                  "ArtifactHash": {
+                    "id": "ArtifactHash",
+                    "path": "DevelopFrontendStack/AssetParameters/7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5/ArtifactHash"
+                  }
+                }
+              }
+            }
+          },
+          "DevelopFrontendStackHostedZone": {
+            "id": "DevelopFrontendStackHostedZone",
+            "path": "DevelopFrontendStack/DevelopFrontendStackHostedZone"
+          },
+          "DevelopCname": {
+            "id": "DevelopCname",
+            "path": "DevelopFrontendStack/DevelopCname",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "DevelopFrontendStack/DevelopCname/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Route53::RecordSet",
+                  "aws:cdk:cloudformation:props": {
+                    "name": "dev.tnm-admin.com.",
+                    "type": "CNAME",
+                    "hostedZoneId": "Z049228431177YZ4UT4GF",
+                    "resourceRecords": [
+                      {
+                        "Fn::Select": [
+                          2,
+                          {
+                            "Fn::Split": [
+                              "/",
+                              {
+                                "Fn::GetAtt": [
+                                  "DevelopFrontendStackBucket3B545581",
+                                  "WebsiteURL"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "ttl": "1800"
+                  }
+                }
+              }
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "DevelopFrontendStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "DevelopFrontendStack/CDKMetadata/Default"
+              }
+            }
+          }
+        }
+      },
+      "DevBackendStack": {
+        "id": "DevBackendStack",
+        "path": "DevBackendStack",
+        "children": {
+          "Users": {
+            "id": "Users",
+            "path": "DevBackendStack/Users",
+            "children": {
+              "smsRole": {
+                "id": "smsRole",
+                "path": "DevBackendStack/Users/smsRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "DevBackendStack/Users/smsRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Condition": {
+                                "StringEquals": {
+                                  "sts:ExternalId": "DevBackendStackUsers38A08CAB"
+                                }
+                              },
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "cognito-idp.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policies": [
+                          {
+                            "policyName": "sns-publish",
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sns:Publish",
+                                  "Effect": "Allow",
+                                  "Resource": "*"
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "DevBackendStack/Users/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Cognito::UserPool",
+                  "aws:cdk:cloudformation:props": {
+                    "accountRecoverySetting": {
+                      "recoveryMechanisms": [
+                        {
+                          "name": "verified_phone_number",
+                          "priority": 1
+                        },
+                        {
+                          "name": "verified_email",
+                          "priority": 2
+                        }
+                      ]
+                    },
+                    "adminCreateUserConfig": {
+                      "allowAdminCreateUserOnly": false,
+                      "inviteMessageTemplate": {
+                        "emailMessage": "Hey {username}, you have been invited to join The TNM Admin app. Your temporary password is {####}",
+                        "emailSubject": "The TNM Admin app invite",
+                        "smsMessage": "Hey {username}, you have been invited to join The TNM Admin app. Your temporary password is {####}"
+                      }
+                    },
+                    "aliasAttributes": ["email", "phone_number"],
+                    "autoVerifiedAttributes": ["email", "phone_number"],
+                    "emailVerificationMessage": "Hey {username}, Thanks for signing up to The TNM Admin app. Your verification code is {####}",
+                    "emailVerificationSubject": "The TNM Admin app signup",
+                    "smsConfiguration": {
+                      "externalId": "DevBackendStackUsers38A08CAB",
+                      "snsCallerArn": {
+                        "Fn::GetAtt": ["UserssmsRole3629E766", "Arn"]
+                      }
+                    },
+                    "smsVerificationMessage": "Hey {username}, Thanks for signing up to The TNM Admin app. Your verification code is {####}",
+                    "userPoolName": "dev-tnm-admin-users",
+                    "verificationMessageTemplate": {
+                      "defaultEmailOption": "CONFIRM_WITH_CODE",
+                      "emailMessage": "Hey {username}, Thanks for signing up to The TNM Admin app. Your verification code is {####}",
+                      "emailSubject": "The TNM Admin app signup",
+                      "smsMessage": "Hey {username}, Thanks for signing up to The TNM Admin app. Your verification code is {####}"
+                    }
+                  }
+                }
+              },
+              "Client": {
+                "id": "Client",
+                "path": "DevBackendStack/Users/Client",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "DevBackendStack/Users/Client/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Cognito::UserPoolClient",
+                      "aws:cdk:cloudformation:props": {
+                        "userPoolId": {
+                          "Ref": "Users0A0EEA89"
+                        },
+                        "allowedOAuthFlows": ["implicit", "code"],
+                        "allowedOAuthFlowsUserPoolClient": true,
+                        "allowedOAuthScopes": [
+                          "profile",
+                          "phone",
+                          "email",
+                          "openid",
+                          "aws.cognito.signin.user.admin"
+                        ],
+                        "callbackUrLs": ["https://dev.tnm-admin.com"],
+                        "supportedIdentityProviders": ["COGNITO"]
+                      }
+                    }
+                  }
+                }
+              },
+              "Domain": {
+                "id": "Domain",
+                "path": "DevBackendStack/Users/Domain",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "DevBackendStack/Users/Domain/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Cognito::UserPoolDomain",
+                      "aws:cdk:cloudformation:props": {
+                        "domain": "dev-tnm-admin-auth",
+                        "userPoolId": {
+                          "Ref": "Users0A0EEA89"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "Auth Url": {
+            "id": "Auth Url",
+            "path": "DevBackendStack/Auth Url"
+          },
+          "Redirect Url": {
+            "id": "Redirect Url",
+            "path": "DevBackendStack/Redirect Url"
+          },
+          "Api": {
+            "id": "Api",
+            "path": "DevBackendStack/Api",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "DevBackendStack/Api/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::AppSync::GraphQLApi",
+                  "aws:cdk:cloudformation:props": {
+                    "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+                    "name": "dev-tnm-admin-api",
+                    "userPoolConfig": {
+                      "userPoolId": {
+                        "Ref": "Users0A0EEA89"
+                      },
+                      "awsRegion": "us-east-1",
+                      "defaultAction": "ALLOW"
+                    }
+                  }
+                }
+              },
+              "Schema": {
+                "id": "Schema",
+                "path": "DevBackendStack/Api/Schema",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::AppSync::GraphQLSchema",
+                  "aws:cdk:cloudformation:props": {
+                    "apiId": {
+                      "Fn::GetAtt": ["ApiF70053CD", "ApiId"]
+                    },
+                    "definition": "type Exclusion {\n  id: ID!\n  name: String!\n  allergen: Boolean!\n  customers: [Customer!]!\n  recipes: [Recipe!]!\n}\n\ninput ExclusionInput {\n  name: String!\n  allergen: Boolean!\n  recipeIds: [ID!]!\n}\n\ninput UpdateExclusionInput {\n  id: ID!\n  name: String!\n  allergen: Boolean!\n  recipeIds: [ID!]!\n}\n\ninput DeleteExclusionInput {\n  id: ID!\n}\n\ntype CustomerExclusion  {\n  id: ID!\n  customerId: ID!\n  exclusionId: ID!\n}\n\n\ntype Recipe {\n  id: ID!\n  name: String!\n  description: String\n  potentialExclusions: [RecipeExclusion!]!\n}\n\ninput UpdateRecipeInput {\n  id: ID!\n  name: String!\n  description: String\n  potentialExclusionIds: [ID!]!\n}\n\ninput DeleteRecipeInput {\n  id: ID!\n}\n\ninput RecipeInput {\n  name: String!\n  description: String\n  potentialExclusionIds: [ID!]!\n}\n\n\ntype RecipeExclusion  {\n  id: ID!\n  recipeId: ID!\n  exclusionId: ID!\n}\n\ntype Customer {\n  id: ID!\n  firstName: String!\n  surname: String!\n  salutation: String!\n  address: String!\n  telephone: String!\n  startDate: AWSDateTime\n  paymentDayOfMonth: Int\n  notes: String\n  email: String!\n  pauseStart: AWSDate\n  pauseEnd: AWSDate\n  daysPerWeek: Int!\n  plan: Plan!\n  legacyPrice: Int\n  snack: String!\n  breakfast: Boolean!\n  exclusions: [Exclusion!]!\n}\n\ninput CustomerInput {\n  firstName: String!\n  surname: String!\n  salutation: String!\n  address: String!\n  telephone: String!\n  startDate: AWSDateTime\n  paymentDayOfMonth: Int\n  notes: String\n  email: String!\n  pauseStart: AWSDate\n  pauseEnd: AWSDate\n  daysPerWeek: Int!\n  plan: PlanInput!\n  legacyPrice: Int\n  snack: String!\n  breakfast: Boolean!\n  exclusionIds: [String!]!\n}\n\ninput UpdateCustomerInput {\n  id: ID!\n  firstName: String!\n  surname: String!\n  salutation: String!\n  address: String!\n  telephone: String!\n  startDate: AWSDateTime\n  paymentDayOfMonth: Int\n  notes: String\n  email: String!\n  pauseStart: AWSDate\n  pauseEnd: AWSDate\n  daysPerWeek: Int!\n  plan: PlanInput!\n  legacyPrice: Int\n  snack: String!\n  breakfast: Boolean!\n  exclusionIds: [String!]!\n}\n\ninput DeleteCustomerInput {\n  id: ID!\n}\n\n\ntype Query {\n  getExclusionById(exclusionId: String!): Exclusion\n  listExclusions: [Exclusion]\n  getRecipeById(recipeId: String!): Recipe\n  listRecipes: [Recipe]\n  getCustomerId(customerId: String!): Customer\n  listCustomers: [Customer]\n}\n\ntype Mutation {\n  updateRecipe(input: UpdateRecipeInput): Recipe\n  deleteRecipe(input: DeleteRecipeInput): String\n  createRecipe(input: RecipeInput): Recipe\n  updateCustomer(input: UpdateCustomerInput): Customer\n  createCustomer(input: CustomerInput): Customer\n  deleteCustomer(input: DeleteCustomerInput): String\n  updateExclusion(input: UpdateExclusionInput): Exclusion\n  createExclusion(input: ExclusionInput): Exclusion\n  deleteExclusion(input: DeleteExclusionInput): String\n}\n\ntype Plan {\n  name: String!\n  mealsPerDay: Int!\n  costPerMeal: Int!\n  category: String!\n}\n\ninput PlanInput {\n  name: String!\n  mealsPerDay: Int!\n  costPerMeal: Int!\n  category: String!\n}\n"
+                  }
+                }
+              }
+            }
+          },
+          "GraphQlQpiUrl": {
+            "id": "GraphQlQpiUrl",
+            "path": "DevBackendStack/GraphQlQpiUrl"
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "DevBackendStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "DevBackendStack/CDKMetadata/Default"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

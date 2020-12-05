@@ -47,12 +47,6 @@
     }
   },
   "function": {
-    "CustomGraphqlResolver": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": []
-    },
     "tnmaAdminNodeLayer": {
       "providerPlugin": "awscloudformation",
       "service": "LambdaLayer",

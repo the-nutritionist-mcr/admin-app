@@ -1,0 +1,832 @@
+{
+  "version": "7.0.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "DevelopFrontendStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://661272765443/us-east-1",
+      "properties": {
+        "templateFile": "DevelopFrontendStack.template.json"
+      },
+      "metadata": {
+        "/DevelopFrontendStack": [
+          {
+            "type": "aws:cdk:asset",
+            "data": {
+              "path": "asset.c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176.zip",
+              "id": "c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176",
+              "packaging": "file",
+              "sourceHash": "c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176",
+              "s3BucketParameter": "AssetParametersc9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176S3Bucket77147E20",
+              "s3KeyParameter": "AssetParametersc9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176S3VersionKey4253216F",
+              "artifactHashParameter": "AssetParametersc9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176ArtifactHash4E343C6C"
+            },
+            "trace": [
+              "ConstructNode.addMetadata (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/construct-compat.ts:431:92)",
+              "LegacyStackSynthesizer.doAddFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:163:23)",
+              "LegacyStackSynthesizer.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:74:19)",
+              "DevelopFrontendStack.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack.ts:651:29)",
+              "LegacyStackSynthesizer.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:78:25)",
+              "new Asset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-assets/lib/asset.ts:147:40)",
+              "AssetCode.bind (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/code.ts:247:20)",
+              "new Function (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/function.ts:564:29)",
+              "SingletonFunction.ensureLambda (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/singleton-lambda.ts:119:12)",
+              "new SingletonFunction (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/singleton-lambda.ts:55:32)",
+              "new BucketDeployment (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:176:21)",
+              "new DevelopFrontendStack (/Users/wainwb01/repos/tnm/src/infrastructure/develop-frontend-stack.ts:29:5)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:41:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          },
+          {
+            "type": "aws:cdk:asset",
+            "data": {
+              "path": "asset.7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5",
+              "id": "7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5",
+              "packaging": "zip",
+              "sourceHash": "7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5",
+              "s3BucketParameter": "AssetParameters7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5S3BucketCEFA4065",
+              "s3KeyParameter": "AssetParameters7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5S3VersionKey0B8E9413",
+              "artifactHashParameter": "AssetParameters7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5ArtifactHash02317729"
+            },
+            "trace": [
+              "ConstructNode.addMetadata (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/construct-compat.ts:431:92)",
+              "LegacyStackSynthesizer.doAddFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:163:23)",
+              "LegacyStackSynthesizer.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:74:19)",
+              "DevelopFrontendStack.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack.ts:651:29)",
+              "LegacyStackSynthesizer.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:78:25)",
+              "new Asset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-assets/lib/asset.ts:147:40)",
+              "Object.bind (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/source.ts:83:23)",
+              "/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:190:83",
+              "Array.map (<anonymous>)",
+              "new BucketDeployment (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:190:51)",
+              "new DevelopFrontendStack (/Users/wainwb01/repos/tnm/src/infrastructure/develop-frontend-stack.ts:29:5)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:41:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevelopFrontendStack/DevelopFrontendStackBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DevelopFrontendStackBucket3B545581",
+            "trace": [
+              "new Bucket (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3/lib/bucket.ts:1245:22)",
+              "new DevelopFrontendStack (/Users/wainwb01/repos/tnm/src/infrastructure/develop-frontend-stack.ts:21:20)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:41:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevelopFrontendStack/DevelopFrontendStackBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DevelopFrontendStackBucketPolicyE8319BB6",
+            "trace": [
+              "new BucketPolicy (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3/lib/bucket-policy.ts:42:21)",
+              "Bucket.addToResourcePolicy (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3/lib/bucket.ts:469:21)",
+              "Function.addToPrincipalOrResource (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-iam/lib/grant.ts:147:45)",
+              "Bucket.grantPublicAccess (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3/lib/bucket.ts:662:22)",
+              "new Bucket (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3/lib/bucket.ts:1302:12)",
+              "new DevelopFrontendStack (/Users/wainwb01/repos/tnm/src/infrastructure/develop-frontend-stack.ts:21:20)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:41:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevelopFrontendStack/DevelopFrontendStackDeployment/CustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DevelopFrontendStackDeploymentCustomResource18084741",
+            "trace": [
+              "new CustomResource (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/custom-resource.ts:115:21)",
+              "new BucketDeployment (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:201:5)",
+              "new DevelopFrontendStack (/Users/wainwb01/repos/tnm/src/infrastructure/develop-frontend-stack.ts:29:5)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:41:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevelopFrontendStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+            "trace": [
+              "new Role (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-iam/lib/role.ts:327:18)",
+              "new Function (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/function.ts:544:31)",
+              "SingletonFunction.ensureLambda (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/singleton-lambda.ts:119:12)",
+              "new SingletonFunction (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/singleton-lambda.ts:55:32)",
+              "new BucketDeployment (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:176:21)",
+              "new DevelopFrontendStack (/Users/wainwb01/repos/tnm/src/infrastructure/develop-frontend-stack.ts:29:5)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:41:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevelopFrontendStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+            "trace": [
+              "new Policy (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-iam/lib/policy.ts:154:22)",
+              "Role.addToPrincipalPolicy (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-iam/lib/role.ts:368:28)",
+              "Function.addToPrincipal (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-iam/lib/grant.ts:168:61)",
+              "Function.addToPrincipalOrResource (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-iam/lib/grant.ts:119:26)",
+              "Import.grant (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3/lib/bucket.ts:689:27)",
+              "Import.grantRead (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3/lib/bucket.ts:566:17)",
+              "Asset.grantRead (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-assets/lib/asset.ts:206:17)",
+              "Object.bind (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/source.ts:90:15)",
+              "/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:190:83",
+              "Array.map (<anonymous>)",
+              "new BucketDeployment (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:190:51)",
+              "new DevelopFrontendStack (/Users/wainwb01/repos/tnm/src/infrastructure/develop-frontend-stack.ts:29:5)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:41:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevelopFrontendStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536",
+            "trace": [
+              "new Function (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/function.ts:600:35)",
+              "SingletonFunction.ensureLambda (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/singleton-lambda.ts:119:12)",
+              "new SingletonFunction (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/singleton-lambda.ts:55:32)",
+              "new BucketDeployment (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:176:21)",
+              "new DevelopFrontendStack (/Users/wainwb01/repos/tnm/src/infrastructure/develop-frontend-stack.ts:29:5)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:41:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevelopFrontendStack/AssetParameters/c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176/S3Bucket": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParametersc9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176S3Bucket77147E20",
+            "trace": [
+              "new FileAssetParameters (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/asset-parameters.ts:16:32)",
+              "LegacyStackSynthesizer.doAddFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:150:16)",
+              "LegacyStackSynthesizer.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:74:19)",
+              "DevelopFrontendStack.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack.ts:651:29)",
+              "LegacyStackSynthesizer.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:78:25)",
+              "new Asset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-assets/lib/asset.ts:147:40)",
+              "AssetCode.bind (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/code.ts:247:20)",
+              "new Function (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/function.ts:564:29)",
+              "SingletonFunction.ensureLambda (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/singleton-lambda.ts:119:12)",
+              "new SingletonFunction (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/singleton-lambda.ts:55:32)",
+              "new BucketDeployment (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:176:21)",
+              "new DevelopFrontendStack (/Users/wainwb01/repos/tnm/src/infrastructure/develop-frontend-stack.ts:29:5)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:41:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevelopFrontendStack/AssetParameters/c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176/S3VersionKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParametersc9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176S3VersionKey4253216F",
+            "trace": [
+              "new FileAssetParameters (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/asset-parameters.ts:21:31)",
+              "LegacyStackSynthesizer.doAddFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:150:16)",
+              "LegacyStackSynthesizer.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:74:19)",
+              "DevelopFrontendStack.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack.ts:651:29)",
+              "LegacyStackSynthesizer.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:78:25)",
+              "new Asset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-assets/lib/asset.ts:147:40)",
+              "AssetCode.bind (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/code.ts:247:20)",
+              "new Function (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/function.ts:564:29)",
+              "SingletonFunction.ensureLambda (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/singleton-lambda.ts:119:12)",
+              "new SingletonFunction (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/singleton-lambda.ts:55:32)",
+              "new BucketDeployment (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:176:21)",
+              "new DevelopFrontendStack (/Users/wainwb01/repos/tnm/src/infrastructure/develop-frontend-stack.ts:29:5)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:41:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevelopFrontendStack/AssetParameters/c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176/ArtifactHash": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParametersc9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176ArtifactHash4E343C6C",
+            "trace": [
+              "new FileAssetParameters (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/asset-parameters.ts:26:34)",
+              "LegacyStackSynthesizer.doAddFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:150:16)",
+              "LegacyStackSynthesizer.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:74:19)",
+              "DevelopFrontendStack.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack.ts:651:29)",
+              "LegacyStackSynthesizer.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:78:25)",
+              "new Asset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-assets/lib/asset.ts:147:40)",
+              "AssetCode.bind (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/code.ts:247:20)",
+              "new Function (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/function.ts:564:29)",
+              "SingletonFunction.ensureLambda (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/singleton-lambda.ts:119:12)",
+              "new SingletonFunction (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-lambda/lib/singleton-lambda.ts:55:32)",
+              "new BucketDeployment (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:176:21)",
+              "new DevelopFrontendStack (/Users/wainwb01/repos/tnm/src/infrastructure/develop-frontend-stack.ts:29:5)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:41:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevelopFrontendStack/AssetParameters/7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5/S3Bucket": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameters7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5S3BucketCEFA4065",
+            "trace": [
+              "new FileAssetParameters (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/asset-parameters.ts:16:32)",
+              "LegacyStackSynthesizer.doAddFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:150:16)",
+              "LegacyStackSynthesizer.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:74:19)",
+              "DevelopFrontendStack.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack.ts:651:29)",
+              "LegacyStackSynthesizer.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:78:25)",
+              "new Asset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-assets/lib/asset.ts:147:40)",
+              "Object.bind (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/source.ts:83:23)",
+              "/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:190:83",
+              "Array.map (<anonymous>)",
+              "new BucketDeployment (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:190:51)",
+              "new DevelopFrontendStack (/Users/wainwb01/repos/tnm/src/infrastructure/develop-frontend-stack.ts:29:5)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:41:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevelopFrontendStack/AssetParameters/7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5/S3VersionKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameters7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5S3VersionKey0B8E9413",
+            "trace": [
+              "new FileAssetParameters (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/asset-parameters.ts:21:31)",
+              "LegacyStackSynthesizer.doAddFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:150:16)",
+              "LegacyStackSynthesizer.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:74:19)",
+              "DevelopFrontendStack.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack.ts:651:29)",
+              "LegacyStackSynthesizer.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:78:25)",
+              "new Asset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-assets/lib/asset.ts:147:40)",
+              "Object.bind (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/source.ts:83:23)",
+              "/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:190:83",
+              "Array.map (<anonymous>)",
+              "new BucketDeployment (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:190:51)",
+              "new DevelopFrontendStack (/Users/wainwb01/repos/tnm/src/infrastructure/develop-frontend-stack.ts:29:5)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:41:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevelopFrontendStack/AssetParameters/7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5/ArtifactHash": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameters7739c84129561daf6e186f193bcef8d81785fdf066fa5d8de30d23f84f41d7c5ArtifactHash02317729",
+            "trace": [
+              "new FileAssetParameters (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/asset-parameters.ts:26:34)",
+              "LegacyStackSynthesizer.doAddFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:150:16)",
+              "LegacyStackSynthesizer.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:74:19)",
+              "DevelopFrontendStack.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack.ts:651:29)",
+              "LegacyStackSynthesizer.addFileAsset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stack-synthesizers/legacy.ts:78:25)",
+              "new Asset (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-assets/lib/asset.ts:147:40)",
+              "Object.bind (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/source.ts:83:23)",
+              "/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:190:83",
+              "Array.map (<anonymous>)",
+              "new BucketDeployment (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-s3-deployment/lib/bucket-deployment.ts:190:51)",
+              "new DevelopFrontendStack (/Users/wainwb01/repos/tnm/src/infrastructure/develop-frontend-stack.ts:29:5)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:41:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevelopFrontendStack/DevelopCname/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DevelopCname5332642F",
+            "trace": [
+              "new RecordSet (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-route53/lib/record-set.ts:209:23)",
+              "new CnameRecord (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-route53/lib/record-set.ts:298:5)",
+              "new DevelopFrontendStack (/Users/wainwb01/repos/tnm/src/infrastructure/develop-frontend-stack.ts:43:5)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:41:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevelopFrontendStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata",
+            "trace": [
+              "new MetadataResource (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/metadata-resource.ts:51:24)",
+              "/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/synthesis.ts:140:5",
+              "visit (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/synthesis.ts:200:5)",
+              "visit (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/synthesis.ts:196:5)",
+              "injectMetadataResources (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/synthesis.ts:131:3)",
+              "Object.synthesize (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/synthesis.ts:18:3)",
+              "App.synth (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stage.ts:188:23)",
+              "process.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/app.ts:123:45)",
+              "Object.onceWrapper (events.js:421:26)",
+              "process.emit (events.js:314:20)",
+              "process.EventEmitter.emit (domain.js:486:12)",
+              "process.emit (/Users/wainwb01/repos/tnm/node_modules/source-map-support/source-map-support.js:495:21)"
+            ]
+          }
+        ]
+      }
+    },
+    "DevBackendStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://661272765443/us-east-1",
+      "properties": {
+        "templateFile": "DevBackendStack.template.json"
+      },
+      "metadata": {
+        "/DevBackendStack/Users/smsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserssmsRole3629E766",
+            "trace": [
+              "new Role (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-iam/lib/role.ts:327:18)",
+              "UserPool.smsConfiguration (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-cognito/lib/user-pool.ts:885:38)",
+              "new UserPool (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-cognito/lib/user-pool.ts:740:30)",
+              "new BackendStack (/Users/wainwb01/repos/tnm/src/infrastructure/backend-stack.ts:27:18)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:48:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevBackendStack/Users/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Users0A0EEA89",
+            "trace": [
+              "new UserPool (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-cognito/lib/user-pool.ts:734:22)",
+              "new BackendStack (/Users/wainwb01/repos/tnm/src/infrastructure/backend-stack.ts:27:18)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:48:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevBackendStack/Users/Client/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UsersClient3B43F2CF",
+            "trace": [
+              "new UserPoolClient (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-cognito/lib/user-pool-client.ts:325:22)",
+              "UserPool.addClient (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-cognito/lib/user-pool.ts:623:12)",
+              "new BackendStack (/Users/wainwb01/repos/tnm/src/infrastructure/backend-stack.ts:51:25)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:48:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevBackendStack/Users/Domain/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UsersDomainC6632324",
+            "trace": [
+              "new UserPoolDomain (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-cognito/lib/user-pool-domain.ts:117:22)",
+              "UserPool.addDomain (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-cognito/lib/user-pool.ts:630:12)",
+              "new BackendStack (/Users/wainwb01/repos/tnm/src/infrastructure/backend-stack.ts:57:25)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:48:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevBackendStack/Auth Url": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AuthUrl",
+            "trace": [
+              "new BackendStack (/Users/wainwb01/repos/tnm/src/infrastructure/backend-stack.ts:70:5)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:48:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevBackendStack/Redirect Url": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RedirectUrl",
+            "trace": [
+              "new BackendStack (/Users/wainwb01/repos/tnm/src/infrastructure/backend-stack.ts:75:5)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:48:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevBackendStack/Api/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiF70053CD",
+            "trace": [
+              "new GraphqlApi (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-appsync/lib/graphqlapi.ts:416:16)",
+              "new BackendStack (/Users/wainwb01/repos/tnm/src/infrastructure/backend-stack.ts:79:17)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:48:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevBackendStack/Api/Schema": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiSchema510EECD7",
+            "trace": [
+              "Schema.bind (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-appsync/lib/schema.ts:80:21)",
+              "new GraphqlApi (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/aws-appsync/lib/graphqlapi.ts:431:39)",
+              "new BackendStack (/Users/wainwb01/repos/tnm/src/infrastructure/backend-stack.ts:79:17)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:48:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevBackendStack/GraphQlQpiUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GraphQlQpiUrl",
+            "trace": [
+              "new BackendStack (/Users/wainwb01/repos/tnm/src/infrastructure/backend-stack.ts:95:5)",
+              "Object.generateStacks [as default] (/Users/wainwb01/repos/tnm/src/infrastructure/generate-stacks.ts:48:5)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/src/cdk-entry.ts:6:15)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Module.m._compile (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "main (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (internal/modules/cjs/loader.js:1076:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1097:10)",
+              "Module.load (internal/modules/cjs/loader.js:941:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:782:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:72:12)",
+              "/Users/wainwb01/dotfiles/config/xdg/config.dotdir/yarn/global/node_modules/npx/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
+        "/DevBackendStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata",
+            "trace": [
+              "new MetadataResource (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/metadata-resource.ts:51:24)",
+              "/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/synthesis.ts:140:5",
+              "visit (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/synthesis.ts:200:5)",
+              "visit (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/synthesis.ts:196:5)",
+              "injectMetadataResources (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/synthesis.ts:131:3)",
+              "Object.synthesize (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/private/synthesis.ts:18:3)",
+              "App.synth (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/stage.ts:188:23)",
+              "process.<anonymous> (/Users/wainwb01/repos/tnm/node_modules/@aws-cdk/core/lib/app.ts:123:45)",
+              "Object.onceWrapper (events.js:421:26)",
+              "process.emit (events.js:314:20)",
+              "process.EventEmitter.emit (domain.js:486:12)",
+              "process.emit (/Users/wainwb01/repos/tnm/node_modules/source-map-support/source-map-support.js:495:21)"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

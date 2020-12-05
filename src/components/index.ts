@@ -13,7 +13,6 @@ import { PauseDialog } from "./pause-dialog";
 import { Router } from "./router";
 import { TableCellCheckbox } from "./table-cell-checkbox";
 import { TableCellInputField } from "./table-cell-input-field";
-import { TableCellSelectField } from "./table-cell-select-field";
 
 export {
   App,
@@ -29,5 +28,4 @@ export {
   Router,
   TableCellCheckbox,
   TableCellInputField,
-  TableCellSelectField,
 };
