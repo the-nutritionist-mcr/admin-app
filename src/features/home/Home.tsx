@@ -3,15 +3,14 @@ import {
   allCustomersSelector,
   fetchCustomers,
 } from "../customers/customersSlice";
+import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 
 import isActive from "../../lib/isActive";
-import { useAppDispatch } from "../../lib/store";
-import { useSelector } from "react-redux";
 
 const Home: React.FC = () => {
   const customers = useSelector(allCustomersSelector);
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(fetchCustomers());
   }, [dispatch]);

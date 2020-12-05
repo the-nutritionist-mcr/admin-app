@@ -24,8 +24,8 @@ export default class BackendStack extends cdk.Stack {
 
     const name = `${props.envName}-${props.appName}`.toLowerCase();
 
-    const verificationString = `Hey {username}, Thanks for signing up to ${props.friendlyName}. Your verification code is {####}`;
-    const invitationString = `Hey {username}, you have been invited to join ${props.friendlyName}. Your temporary password is {####}`;
+    const verificationString = `Hey {username}! Thanks for signing up to ${props.friendlyName}. Your verification code is {####}`;
+    const invitationString = `Hey {username}! you have been invited to join ${props.friendlyName}. Your temporary password is {####}`;
     const pool = new cognito.UserPool(this, "Users", {
       userPoolName: `${name}-users`,
       selfSignUpEnabled: true,
@@ -50,10 +50,20 @@ export default class BackendStack extends cdk.Stack {
       },
     });
 
+    // eslint-disable-next-line no-new
+    new cdk.CfnOutput(this, "UserPoolId", {
+      value: pool.userPoolId,
+    });
+
     const client = pool.addClient("Client", {
       oAuth: {
         callbackUrls: [props.url],
       },
+    });
+
+    // eslint-disable-next-line no-new
+    new cdk.CfnOutput(this, "ClientId", {
+      value: client.userPoolClientId,
     });
 
     const domain = pool.addDomain("Domain", {

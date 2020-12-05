@@ -14,7 +14,7 @@ import { PlanCategory } from "../../lib/config";
 import apiRequestCreator from "../../lib/apiRequestCreator";
 import convertNullsToUndefined from "../../lib/convertNullsToUndefined";
 import { createSlice } from "@reduxjs/toolkit";
-import { listCustomers } from "../../graphql/queries";
+import listCustomersQuery from "./listCustomerQuery";
 
 interface CustomersState {
   items: Customer[];
@@ -119,19 +119,18 @@ export const createCustomer = apiRequestCreator<Customer, Customer>(
 export const fetchCustomers = apiRequestCreator<Customer[]>(
   "customers/fetch",
   async () => {
-    const listCustomerVariables: APITypes.ListCustomersQueryVariables = {};
     const listCustomersResult = (await API.graphql(
-      graphqlOperation(listCustomers, listCustomerVariables)
-    )) as GraphQLResult<APITypes.ListCustomersQuery>;
+      graphqlOperation(listCustomersQuery)
+    )) as {
+      data: {
+        listCustomers: Customer[];
+      };
+    };
 
-    const items = listCustomersResult.data?.listCustomers?.items;
-
-    type NotNull = <T>(thing: T | null) => thing is T;
-
-    if (items) {
-      return items.filter((Boolean as unknown) as NotNull).map(mapCustomer);
-    }
-    throw new Error(MALFORMED_RESPONSE);
+    return listCustomersResult.data.listCustomers.map((item) => ({
+      ...item,
+      exclusions: [],
+    }));
   }
 );
 

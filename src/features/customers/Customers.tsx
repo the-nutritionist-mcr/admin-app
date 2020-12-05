@@ -18,20 +18,19 @@ import {
   fetchCustomers,
 } from "./customersSlice";
 import { daysPerWeekOptions, plans } from "../../lib/config";
+import { useDispatch, useSelector } from "react-redux";
 import CustomerRow from "./CustomerRow";
 import EditCustomerDialog from "./EditCustomerDialog";
 import LoadingState from "../../types/LoadingState";
 import React from "react";
 import { Spinning } from "grommet-controls";
 import { loadingSelector } from "../../lib/rootReducer";
-import { useAppDispatch } from "../../lib/store";
-import { useSelector } from "react-redux";
 
 const Customers: React.FC = () => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
 
   const customers = useSelector(allCustomersSelector);
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const loading = useSelector(loadingSelector);
 
   React.useEffect(() => {

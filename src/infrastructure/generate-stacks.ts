@@ -3,55 +3,63 @@ import "source-map-support/register";
 import * as cdk from "@aws-cdk/core";
 
 import BackendStack from "./backend-stack";
-import DevelopFrontendStack from "./develop-frontend-stack";
 import ProductionFrontendStack from "./production-frontend-stack";
 
 const generateStacks = (): void => {
-  const env = {
-    region: "us-east-1",
-    account: "661272765443",
-  };
-
   const ref = process.env.GITHUB_REF ?? "main";
+  const branch = ref.split("/")[ref.split("/").length - 1];
 
   const app = new cdk.App();
 
-  const domainName = "tnm-admin.com";
+  const defaults = {
+    env: {
+      region: "us-east-1",
+      account: "661272765443",
+    },
+    appName: "tnm-admin",
+    domainName: "tnm-admin.com",
+    friendlyName: "The TNM Admin app",
+  };
 
-  if (ref.endsWith("main")) {
-    // eslint-disable-next-line no-new
-    new ProductionFrontendStack(app, "ProductionFrontendStackProd", {
-      env,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const details: any = {
+    main: {
+      ...defaults,
+      stackLabel: "ProductionFrontendStackProd",
+      envName: "prod",
       subdomain: "www",
-      domainName,
-    });
-  }
-
-  if (ref.endsWith("test")) {
-    // eslint-disable-next-line no-new
-    new ProductionFrontendStack(app, "ProductionFrontendStackTest", {
-      env,
+      url: "https://www.tnm-admin.com",
+    },
+    test: {
+      ...defaults,
+      stackLabel: "ProductionFrontendStackTest",
+      envName: "test",
       subdomain: "test",
-      domainName,
-    });
-  }
-
-  if (ref.endsWith("develop")) {
-    // eslint-disable-next-line no-new
-    new DevelopFrontendStack(app, "DevelopFrontendStack", {
-      env,
-      subdomain: "dev",
-      domainName,
-    });
-
-    // eslint-disable-next-line no-new
-    new BackendStack(app, "DevBackendStack", {
-      env,
+      url: "https://test.tnm-admin.com",
+    },
+    develop: {
+      stackLabel: "ProductionFrontendStackDev",
+      ...defaults,
       envName: "dev",
-      appName: "tnm-admin",
-      friendlyName: "The TNM Admin app",
+      subdomain: "dev",
       url: "https://dev.tnm-admin.com",
-    });
+    },
+  };
+
+  if (process.env.DO_BACKEND) {
+    // eslint-disable-next-line no-new
+    new BackendStack(
+      app,
+      `DevBackendStack${details[branch].envName}`,
+      details[branch]
+    );
+  } else {
+    // eslint-disable-next-line no-new
+    new ProductionFrontendStack(
+      app,
+      details[branch].stackLabel,
+      details[branch]
+    );
   }
 };
 
