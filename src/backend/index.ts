@@ -1,15 +1,17 @@
+import { isListCustomersQuery, listCustomers } from "./list-customers";
+import { AllQueryVariables } from "./query-variables-types";
 import { AppSyncResolverHandler } from "aws-lambda";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/require-await */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/prefer-default-export */
 
-export const handler: AppSyncResolverHandler<any, any> = async () => {
-  return "foo";
+export const handler: AppSyncResolverHandler<AllQueryVariables, any> = async (
+  event
+) => {
+  if (isListCustomersQuery(event)) {
+    return await listCustomers();
+  }
 };
 
 /* eslint-enable @typescript-eslint/no-explicit-any */
-/* eslint-enable @typescript-eslint/require-await */
-/* eslint-enable @typescript-eslint/no-unused-vars */
 /* eslint-enable import/prefer-default-export */

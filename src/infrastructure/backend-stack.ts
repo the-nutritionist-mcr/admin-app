@@ -100,7 +100,7 @@ export default class BackendStack extends cdk.Stack {
 
     const resolverLambda = new lambda.Function(this, "AppResolverLambda", {
       runtime: lambda.Runtime.NODEJS_12_X,
-      handler: "main.handler",
+      handler: "index.handler",
       code: lambda.Code.fromAsset(
         path.resolve(__dirname, "..", "..", "dist", "bundles", "backend")
       ),
