@@ -6,6 +6,11 @@ import EditRecipesDialog from "./EditRecipesDialog";
 import { OkCancelDialog } from "../../components";
 import React from "react";
 import Recipe from "../../domain/Recipe";
+import styled from "styled-components";
+
+const SlimButton = styled(Button)`
+  padding: 0 5px 0 5px;
+`;
 
 interface RecipesRowProps {
   recipe: Recipe;
@@ -29,7 +34,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
       </TableCell>
 
       <TableCell>
-        <Button
+        <SlimButton
           onClick={(): void => setShowDoDelete(true)}
           icon={<Trash color="light-6" />}
           a11yTitle="Delete"
@@ -47,7 +52,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
           Are you sure you want to delete this recipe?
         </OkCancelDialog>
 
-        <Button
+        <SlimButton
           secondary
           onClick={(): void => setShowEdit(true)}
           a11yTitle="Edit"

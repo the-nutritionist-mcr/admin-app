@@ -7,11 +7,16 @@ import EditCustomerDialog from "./EditCustomerDialog";
 import React from "react";
 import getExtrasString from "../../lib/getExtrasString";
 import getStatusString from "../../lib/getStatusString";
+import styled from "styled-components";
 import { useDispatch } from "react-redux";
 
 interface CustomerRowProps {
   customer: Customer;
 }
+
+const SlimButton = styled(Button)`
+  padding: 0 5px 0 5px;
+`;
 
 const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
@@ -42,7 +47,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
       </TableCell>
       <TableCell>
         <Box direction="row">
-          <Button
+          <SlimButton
             secondary
             onClick={(): void => setShowDoDelete(true)}
             icon={<Trash color="light-6" />}
@@ -60,7 +65,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
           >
             Are you sure you want to delete this customer?
           </OkCancelDialog>
-          <Button
+          <SlimButton
             secondary
             icon={<Pause color="light-6" />}
             a11yTitle="Pause"
@@ -90,7 +95,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
             }}
           />
 
-          <Button
+          <SlimButton
             secondary
             icon={<Edit color="light-6" />}
             a11yTitle="Edit"
