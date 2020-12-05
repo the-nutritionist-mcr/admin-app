@@ -162,10 +162,6 @@ const customersSlice = createSlice({
   },
 });
 
-fetchCustomers;
-
-customersSlice.actions;
-
 export const asyncActions = [
   fetchCustomers,
   createCustomer,
