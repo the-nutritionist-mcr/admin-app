@@ -48,7 +48,7 @@ const Home: React.FC = () => {
       <Heading level={3}>Changes</Heading>
 
       <Heading level={4}>4th of December</Heading>
-      <Paragraph>
+      <Paragraph fill>
         <ul>
           <li>
             <Text>
