@@ -23,11 +23,12 @@ const Home: React.FC = () => {
       <Heading level={2}>Welcome</Heading>
       <Paragraph fill>
         Welcome to the TNM admin app. Please have a play around, but please note
-        that <strong>this app is not ready to be used with real data</strong>.
-        Authentication and storage is mostly done now, but parts of it still
-        don&apos;t work. Please note that I am actively developing this version
-        of the application which means things{" "}
-        <strong>might occasionally break</strong>.
+        that this app is in a pre-alpha stage, which means quite a few features
+        will appear broken and so it is not yet ready to be used as part of the
+        actual business process - although authentation and storage is now
+        mostly done, I am still <strong>actively developing</strong> this app,
+        which means things might break that were previously working or things
+        might change <strong>without any warning at all</strong>
       </Paragraph>
       <Paragraph fill>
         If things do appear to be broken, try deleting all the test data you
