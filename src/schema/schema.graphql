@@ -133,7 +133,7 @@ type Query {
   listExclusions: [Exclusion]
   getRecipeById(recipeId: String!): Recipe
   listRecipes: [Recipe]
-  getCustomerId(customerId: String!): Customer
+  getCustomerById(customerId: String!): Customer
   listCustomers: [Customer]
 }
 
