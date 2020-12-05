@@ -1,3 +1,4 @@
+import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import { Grommet, Main } from "grommet";
 import { NavBar, Router } from "..";
 import { Notification } from "grommet-controls";
@@ -16,6 +17,10 @@ const theme = {
   },
 };
 
+const ErrorComponent: React.FC<FallbackProps> = (props) => (
+  <Notification status="error" message="Error" state={props.error.message} />
+);
+
 const App: React.FC = () => {
   const state = useApp();
 
@@ -23,17 +28,20 @@ const App: React.FC = () => {
     <UserContext.Provider value={state.user}>
       <Grommet theme={theme}>
         <NavBar />
-        {state.error && (
-          <Notification
-            status="error"
-            message="Error"
-            state={state.error}
-            onClose={state.closeError}
-          />
-        )}
-        <Main pad={{ horizontal: "large", vertical: "medium" }}>
-          <Router />
-        </Main>
+
+        <ErrorBoundary FallbackComponent={ErrorComponent}>
+          {state.error && (
+            <Notification
+              status="error"
+              message="Error"
+              state={state.error}
+              onClose={state.closeError}
+            />
+          )}
+          <Main pad={{ horizontal: "large", vertical: "medium" }}>
+            <Router />
+          </Main>
+        </ErrorBoundary>
       </Grommet>
     </UserContext.Provider>
   );
