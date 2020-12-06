@@ -1,4 +1,9 @@
-import { isListCustomersQuery, listCustomers } from "./list-customers";
+import {
+  isListCustomersQuery,
+  isCreateCustomersQuery,
+  createCustomer,
+  listCustomers,
+} from "./customers";
 import { AllQueryVariables } from "./query-variables-types";
 import { AppSyncResolverHandler } from "aws-lambda";
 
@@ -11,6 +16,11 @@ export const handler: AppSyncResolverHandler<AllQueryVariables, any> = async (
   if (isListCustomersQuery(event)) {
     return await listCustomers();
   }
+
+  if (isCreateCustomersQuery(event)) {
+    return await createCustomer(event.arguments.input);
+  }
+  return undefined;
 };
 
 /* eslint-enable @typescript-eslint/no-explicit-any */

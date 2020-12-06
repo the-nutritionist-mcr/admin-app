@@ -109,6 +109,7 @@ export default class BackendStack extends cdk.Stack {
     });
 
     const resolverLambda = new lambda.Function(this, "AppResolverLambda", {
+      functionName: `${name}-resolver-lambda`,
       runtime: lambda.Runtime.NODEJS_12_X,
       handler: "index.handler",
       code: lambda.Code.fromAsset(
@@ -116,6 +117,8 @@ export default class BackendStack extends cdk.Stack {
       ),
       memorySize: 1024,
     });
+
+    resolverLambda;
 
     const lambdaDataSource = api.addLambdaDataSource(
       "lambdaDataSource",
@@ -248,6 +251,22 @@ export default class BackendStack extends cdk.Stack {
         },
       }
     );
+
+    customerExclusionsTable.addGlobalSecondaryIndex({
+      indexName: "customerId",
+      partitionKey: {
+        name: "customerId",
+        type: ddb.AttributeType.STRING,
+      },
+    });
+
+    customerExclusionsTable.addGlobalSecondaryIndex({
+      indexName: "exclusionId",
+      partitionKey: {
+        name: "exclusionId",
+        type: ddb.AttributeType.STRING,
+      },
+    });
 
     customerExclusionsTable.grantFullAccess(resolverLambda);
     resolverLambda.addEnvironment(
