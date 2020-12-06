@@ -9022,7 +9022,7 @@ eslint-ast-utils@^1.0.0, eslint-ast-utils@^1.1.0:
 
 "eslint-config-benwainwright@https://github.com/benwainwright/eslint-config-benwainwright":
   version "0.0.3"
-  resolved "https://github.com/benwainwright/eslint-config-benwainwright#cf64945e589886ed686e3e57b384ec256466f315"
+  resolved "https://github.com/benwainwright/eslint-config-benwainwright#ae1afe369835b6d50d51a9875b0451614d2ca270"
   dependencies:
     "@typescript-eslint/eslint-plugin" "^2.30.0"
     "@typescript-eslint/parser" "^2.30.0"

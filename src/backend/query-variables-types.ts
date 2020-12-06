@@ -1,5 +1,6 @@
+import Customer, { Snack } from "../domain/Customer";
+import Exclusion from "../domain/Exclusion";
 import Plan from "../domain/Plan";
-import { Snack } from "../domain/Customer";
 
 export interface ListCustomersQueryVariables {
   input: Record<string, never>;
@@ -15,28 +16,26 @@ export interface DeleteCustomerMutationVariables {
   };
 }
 
+export interface CreateExclusionMutationVariables {
+  input: Omit<UpdateExclusionMutationVariables["input"], "id">;
+}
+
+export interface UpdateExclusionMutationVariables {
+  input: Exclusion;
+}
+
 export interface CreateCustomerMutationVariables {
-  input: {
-    firstName: string;
-    surname: string;
-    createdAt?: string;
-    updatedAt?: string;
-    salutation: string;
-    address: string;
-    telephone: string;
-    startDate?: string;
-    paymentDayOfMonth?: number;
-    notes?: string;
-    email: string;
-    pauseStart?: string;
-    pauseEnd?: string;
-    daysPerWeek: number;
-    plan: Plan;
-    legacyPrice?: number;
-    snack: Snack;
-    breakfast: boolean;
-    exclusionIds: string[];
-  };
+  input: Omit<UpdateCustomerMutationVariables["input"], "id">;
+}
+
+export interface UpdateCustomerMutationVariables {
+  input: Omit<Customer, "exclusions"> & { exclusionIds: string[] };
+}
+
+export interface CustomerExclusion {
+  id: string;
+  customerId: string;
+  exclusionId: string;
 }
 
 export type AllQueryVariables =

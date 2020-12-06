@@ -1,6 +1,8 @@
 import {
-  isListCustomersQuery,
   isCreateCustomersQuery,
+  isListCustomersQuery,
+  isDeleteCustomerMutation,
+  deleteCustomer,
   createCustomer,
   listCustomers,
 } from "./customers";
@@ -19,6 +21,10 @@ export const handler: AppSyncResolverHandler<AllQueryVariables, any> = async (
 
   if (isCreateCustomersQuery(event)) {
     return await createCustomer(event.arguments.input);
+  }
+
+  if (isDeleteCustomerMutation(event)) {
+    return await deleteCustomer(event.arguments.input);
   }
   return undefined;
 };
