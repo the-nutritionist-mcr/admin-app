@@ -1,6 +1,10 @@
 import Customer from "../domain/Customer";
 import Exclusion from "../domain/Exclusion";
 
+export interface ListExclusionsQueryVariables {
+  input: Record<string, never>;
+}
+
 export interface ListCustomersQueryVariables {
   input: Record<string, never>;
 }
@@ -40,4 +44,7 @@ export interface CustomerExclusion {
 export type AllQueryVariables =
   | ListCustomersQueryVariables
   | DeleteCustomerMutationVariables
-  | CreateCustomerMutationVariables;
+  | CreateCustomerMutationVariables
+  | UpdateCustomerMutationVariables
+  | CreateExclusionMutationVariables
+  | ListExclusionsQueryVariables;
