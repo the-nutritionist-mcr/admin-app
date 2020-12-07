@@ -9,12 +9,9 @@ import {
   UpdateCustomerMutationVariables,
   UpdateExclusionMutationVariables,
 } from "./query-variables-types";
-import AWS from "aws-sdk";
 import { AppSyncResolverEvent } from "aws-lambda";
 import Customer from "../domain/Customer";
 import Exclusion from "../domain/Exclusion";
-
-const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
 
 export const isListCustomersQuery = (
   event: AppSyncResolverEvent<AllQueryVariables>
@@ -22,20 +19,25 @@ export const isListCustomersQuery = (
   return event.info.fieldName === "listCustomers";
 };
 
+const CUSTOMERS_TABLE_NOT_SET = "process.env.CUSTOMERS_TABLE name not set!";
+const EXCLUSIONS_TABLE_NOT_SET = "process.env.EXCLUSIONS_TABLE name not set!";
+const CUSTOMER_EXCLUSIONS_TABLE_NOT_SET =
+  "process.env.CUSTOMER_EXCLUSIONS_TABLE name not set!";
+
 export const listCustomers = async (): Promise<Customer[] | null> => {
   const customersTable = process.env.CUSTOMERS_TABLE;
   if (!customersTable) {
-    throw new Error("process.env.CUSTOMERS_TABLE name not set!");
+    throw new Error(CUSTOMERS_TABLE_NOT_SET);
   }
 
   const exclusionsTable = process.env.EXCLUSIONS_TABLE;
   if (!exclusionsTable) {
-    throw new Error("process.env.EXCLUSIONS_TABLE name not set!");
+    throw new Error(EXCLUSIONS_TABLE_NOT_SET);
   }
 
   const customerExclusionsTable = process.env.CUSTOMER_EXCLUSIONS_TABLE;
   if (!customerExclusionsTable) {
-    throw new Error("process.env.CUSTOMER_EXCLUSIONS_TABLE name not set!");
+    throw new Error(CUSTOMER_EXCLUSIONS_TABLE_NOT_SET);
   }
 
   try {
@@ -97,17 +99,17 @@ export const createCustomer = async (
 ): Promise<Customer | null> => {
   const customersTable = process.env.CUSTOMERS_TABLE;
   if (!customersTable) {
-    throw new Error("process.env.CUSTOMERS_TABLE name not set!");
+    throw new Error(CUSTOMERS_TABLE_NOT_SET);
   }
 
   const exclusionsTable = process.env.EXCLUSIONS_TABLE;
   if (!exclusionsTable) {
-    throw new Error("process.env.EXCLUSIONS_TABLE name not set!");
+    throw new Error(EXCLUSIONS_TABLE_NOT_SET);
   }
 
   const customerExclusionsTable = process.env.CUSTOMER_EXCLUSIONS_TABLE;
   if (!customerExclusionsTable) {
-    throw new Error("process.env.CUSTOMER_EXCLUSIONS_TABLE name not set!");
+    throw new Error(CUSTOMER_EXCLUSIONS_TABLE_NOT_SET);
   }
 
   try {
@@ -164,12 +166,12 @@ export const deleteCustomer = async (
 ): Promise<string> => {
   const customersTable = process.env.CUSTOMERS_TABLE;
   if (!customersTable) {
-    throw new Error("process.env.CUSTOMERS_TABLE name not set!");
+    throw new Error(CUSTOMERS_TABLE_NOT_SET);
   }
 
   const customerExclusionsTable = process.env.CUSTOMER_EXCLUSIONS_TABLE;
   if (!customerExclusionsTable) {
-    throw new Error("process.env.CUSTOMER_EXCLUSIONS_TABLE name not set!");
+    throw new Error(CUSTOMER_EXCLUSIONS_TABLE_NOT_SET);
   }
 
   const customer = ((
@@ -185,6 +187,8 @@ export const deleteCustomer = async (
     { table: customersTable, id: input.id },
     ...customerExclusionsToDelete,
   ]);
+
+  return input.id;
 };
 
 export const isDeleteCustomerMutation = (
@@ -196,14 +200,19 @@ export const isDeleteCustomerMutation = (
 export const updateCustomer = async (
   input: UpdateCustomerMutationVariables["input"]
 ): Promise<Customer | null> => {
+  const exclusionsTable = process.env.EXCLUSIONS_TABLE;
+  if (!exclusionsTable) {
+    throw new Error(EXCLUSIONS_TABLE_NOT_SET);
+  }
+
   const customersTable = process.env.CUSTOMERS_TABLE;
   if (!customersTable) {
-    throw new Error("process.env.CUSTOMERS_TABLE name not set!");
+    throw new Error(CUSTOMERS_TABLE_NOT_SET);
   }
 
   const customerExclusionsTable = process.env.CUSTOMER_EXCLUSIONS_TABLE;
   if (!customerExclusionsTable) {
-    throw new Error("process.env.CUSTOMER_EXCLUSIONS_TABLE name not set!");
+    throw new Error(CUSTOMER_EXCLUSIONS_TABLE_NOT_SET);
   }
 
   const customerExclusions = ((await database.getAllByIds(
@@ -250,7 +259,19 @@ export const updateCustomer = async (
     exclusionIds: finalExclusions,
   });
 
+  const exclusions = ((await database.getAllByIds(
+    exclusionsTable,
+    input.exclusionIds
+  )) as unknown) as Exclusion[];
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { exclusionIds, ...returnVal } = input;
+
   await Promise.all([put, remove, update]);
+  return {
+    ...returnVal,
+    exclusions,
+  };
 };
 
 export const isUpdateCustomerMutation = (

@@ -1,16 +1,16 @@
-import {
-  UpdateCustomerMutationVariables,
-  CreateCustomerMutationVariables,
-  CustomerExclusion,
-  UpdateExclusionMutationVariables,
-  DeleteCustomerMutationVariables,
-} from "./query-variables-types";
 import * as customers from "./customers";
 import * as database from "./database";
 import * as uuid from "uuid";
+import {
+  CreateCustomerMutationVariables,
+  CustomerExclusion,
+  DeleteCustomerMutationVariables,
+  UpdateCustomerMutationVariables,
+  UpdateExclusionMutationVariables,
+} from "./query-variables-types";
+import { resetAllWhenMocks, when } from "jest-when";
 import { Snack } from "../domain/Customer";
 import { mocked } from "ts-jest/utils";
-import { when, resetAllWhenMocks } from "jest-when";
 
 jest.mock("./database");
 jest.mock("uuid");
@@ -251,7 +251,9 @@ describe("listCustomers", () => {
         "customer-exclusions-table",
         expect.arrayContaining(["8", "10", "15", "21"])
       )
-      .mockResolvedValue(customerExclusions);
+      .mockResolvedValue(
+        (customerExclusions as unknown) as Record<string, unknown>[]
+      );
 
     when(mocked(database.getAllByIds, true))
       .calledWith("exclusions-table", expect.arrayContaining(["1", "3", "4"]))
@@ -466,8 +468,94 @@ describe("Createcustomer", () => {
 });
 
 describe("Update customer", () => {
+  it("Returns the changed customer including merged exclusions", async () => {
+    process.env.CUSTOMER_EXCLUSIONS_TABLE = "customer-exclusions-table";
+    process.env.CUSTOMERS_TABLE = "customers-table";
+    process.env.EXCLUSIONS_TABLE = "exclusions-table";
+    let called = 0;
+    mocked(uuid.v4).mockImplementation(() => {
+      called++;
+      return `called-${called}`;
+    });
+
+    const mockExclusions: UpdateExclusionMutationVariables["input"][] = [
+      {
+        id: "2",
+        name: "baz",
+        allergen: false,
+      },
+      {
+        id: "3",
+        name: "bap",
+        allergen: false,
+      },
+    ];
+
+    const customerExclusions: CustomerExclusion[] = [
+      {
+        id: "10",
+        exclusionId: "3",
+        customerId: "0",
+      },
+      {
+        id: "15",
+        exclusionId: "2",
+        customerId: "0",
+      },
+    ];
+
+    when(mocked(database.getAllByIds, true))
+      .calledWith(
+        "customer-exclusions-table",
+        expect.arrayContaining([{ key: "customerId", value: "0" }])
+      )
+      .mockResolvedValue(
+        (customerExclusions as unknown) as Record<string, unknown>[]
+      );
+
+    when(mocked(database.getAllByIds, true))
+      .calledWith("exclusions-table", expect.arrayContaining(["2", "3"]))
+      .mockResolvedValue(
+        (mockExclusions as unknown) as Record<string, unknown>[]
+      );
+
+    const input: UpdateCustomerMutationVariables["input"] = {
+      id: "0",
+      firstName: "Chris",
+      surname: "Davis",
+      salutation: "mr",
+      address: "",
+      telephone: "999",
+      email: "a@b.c",
+      daysPerWeek: 3,
+      plan: {
+        name: "Mass 2",
+        mealsPerDay: 2,
+        category: "Mass",
+        costPerMeal: 200,
+      },
+      snack: Snack.Large,
+      breakfast: true,
+      exclusionIds: ["2", "3"],
+    };
+    const customer = await customers.updateCustomer(input);
+
+    expect(customer).toBeDefined();
+    if (customer) {
+      expect(customer.address).toEqual("");
+      expect(customer.telephone).toEqual("999");
+      expect(
+        ((customer as unknown) as UpdateCustomerMutationVariables["input"])
+          .exclusionIds
+      ).toBeUndefined();
+      expect(customer.exclusions).toHaveLength(2);
+      expect(customer.exclusions[0].name).toEqual("baz");
+    }
+  });
+
   it("Updates the customer if there are no exclusions to be changed", async () => {
     process.env.CUSTOMER_EXCLUSIONS_TABLE = "customer-exclusions-table";
+    process.env.EXCLUSIONS_TABLE = "exclusions-table";
     process.env.CUSTOMERS_TABLE = "customers-table";
     let called = 0;
     mocked(uuid.v4).mockImplementation(() => {
@@ -535,6 +623,7 @@ describe("Update customer", () => {
 
   it("Updates the customer and removes exclusions if some need to be removed", async () => {
     process.env.CUSTOMER_EXCLUSIONS_TABLE = "customer-exclusions-table";
+    process.env.EXCLUSIONS_TABLE = "customers-table";
     process.env.CUSTOMERS_TABLE = "customers-table";
     let called = 0;
     mocked(uuid.v4).mockImplementation(() => {
@@ -618,6 +707,7 @@ describe("Update customer", () => {
   it("Updates the customer and adds exclusions if some need to be added", async () => {
     process.env.CUSTOMER_EXCLUSIONS_TABLE = "customer-exclusions-table";
     process.env.CUSTOMERS_TABLE = "customers-table";
+    process.env.EXCLUSIONS_TABLE = "customers-table";
     let called = 0;
     mocked(uuid.v4).mockImplementation(() => {
       called++;

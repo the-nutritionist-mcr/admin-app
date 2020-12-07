@@ -59,7 +59,18 @@ export const updateById = async (
   table: string,
   id: string,
   record: Record<string, unknown>
-): Promise<void> => {};
+): Promise<void> => {
+  /* eslint-disable @typescript-eslint/naming-convention */
+  const params = {
+    TableName: table,
+    Key: {
+      id,
+    },
+    Item: record,
+  };
+  /* eslint-enable @typescript-eslint/naming-convention */
+  await dynamoDb.put(params).promise();
+};
 
 export const deleteAll = async (
   items: {

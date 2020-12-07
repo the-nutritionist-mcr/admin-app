@@ -1,6 +1,5 @@
-import Customer, { Snack } from "../domain/Customer";
+import Customer from "../domain/Customer";
 import Exclusion from "../domain/Exclusion";
-import Plan from "../domain/Plan";
 
 export interface ListCustomersQueryVariables {
   input: Record<string, never>;
