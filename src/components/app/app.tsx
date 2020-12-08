@@ -5,6 +5,7 @@ import { Notification } from "grommet-controls";
 import React from "react";
 
 import UserContext from "../../lib/UserContext";
+import log from "loglevel";
 import { useApp } from "./hooks";
 
 const theme = {
@@ -32,8 +33,7 @@ const App: React.FC = () => {
         <ErrorBoundary
           FallbackComponent={ErrorComponent}
           onError={(error) => {
-            //  eslint-disable-next-line  no-console
-            console.log(error);
+            log.error(error);
           }}
         >
           {state.error && (

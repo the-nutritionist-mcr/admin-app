@@ -2,6 +2,7 @@ import ThunkResult, { ThunkAction } from "redux-thunk";
 import { AnyAction } from "redux";
 import type { AppState } from "./rootReducer";
 import { createAction } from "@reduxjs/toolkit";
+import log from "loglevel";
 
 const MILLISECONDS_PER_SECOND = 1000;
 
@@ -38,8 +39,7 @@ export const apiRequestCreator = <R, A = void>(
             dispatch(clearError());
           }, ERROR_MESSAGE_TIMEOUT_SECONDS * MILLISECONDS_PER_SECOND);
           const dispatchError = error.errors ? error.errors[0] : error;
-          // eslint-disable-next-line no-console
-          console.log(dispatchError);
+          log.error(dispatchError);
           return dispatch(loadingFailed(dispatchError.message));
         }
       };
