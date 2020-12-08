@@ -1,20 +1,22 @@
-import * as APITypes from "../../API";
-
-import API, { GraphQLResult, graphqlOperation } from "@aws-amplify/api";
-import Customer, { Snack } from "../../domain/Customer";
+import API, { graphqlOperation } from "@aws-amplify/api";
 import {
-  createCustomer as createCustomerMutation,
-  deleteCustomer as deleteCustomerMutation,
-  updateCustomer as updateCustomerMutation,
-} from "../../graphql/mutations";
+  CreateCustomerMutationVariables,
+  DeleteCustomerMutationVariables,
+  UpdateCustomerMutationVariables,
+} from "../../backend/query-variables-types";
+
+import {
+  createCustomerMutation,
+  deleteCustomerMutation,
+  listCustomersQuery,
+  updateCustomerMutation,
+} from "./graphql";
 
 import type { AppState } from "../../lib/rootReducer";
+import Customer from "../../domain/Customer";
 
-import { PlanCategory } from "../../lib/config";
 import apiRequestCreator from "../../lib/apiRequestCreator";
-import convertNullsToUndefined from "../../lib/convertNullsToUndefined";
 import { createSlice } from "@reduxjs/toolkit";
-import listCustomersQuery from "./listCustomerQuery";
 
 interface CustomersState {
   items: Customer[];
@@ -28,68 +30,30 @@ const initialState: CustomersState = {
   page: 0,
 };
 
-type RawCustomer = Exclude<
-  Exclude<
-    Exclude<APITypes.ListCustomersQuery["listCustomers"], null>["items"],
-    null
-  >[number],
-  null
->;
-
-const mapCustomer = (customer: RawCustomer): Customer => {
-  const deNulledCustomer = convertNullsToUndefined(customer);
-  return {
-    ...deNulledCustomer,
-    plan: {
-      ...deNulledCustomer.plan,
-      category: deNulledCustomer.plan.category as PlanCategory,
-    },
-    snack: deNulledCustomer.snack as Snack,
-    exclusions: [],
-  };
-};
-
-export const removeCustomer = apiRequestCreator(
-  "customers/remove",
-  async (customer: Customer): Promise<string> => {
-    const deleteCustomerVariables: APITypes.DeleteCustomerMutationVariables = {
-      input: {
-        id: customer.id,
-      },
-    };
-
-    await API.graphql(
-      graphqlOperation(deleteCustomerMutation, deleteCustomerVariables)
-    );
-    return customer.id;
-  }
-);
-
 export const updateCustomer = apiRequestCreator(
   "customers/update",
   async (customer: Customer): Promise<Customer> => {
     const {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       exclusions,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      createdAt,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      updatedAt,
       ...customerWithoutExclusions
     } = customer;
-    const updateCustomerVariables: APITypes.UpdateCustomerMutationVariables = {
-      input: customerWithoutExclusions,
+    const updateCustomerVariables: UpdateCustomerMutationVariables = {
+      input: {
+        ...customerWithoutExclusions,
+        exclusionIds: exclusions.map((exclusion) => exclusion.id),
+      },
     };
 
     const updateCustomerResult = (await API.graphql(
       graphqlOperation(updateCustomerMutation, updateCustomerVariables)
-    )) as GraphQLResult<APITypes.UpdateCustomerMutation>;
-
-    const updatedCustomer = updateCustomerResult.data?.updateCustomer;
-
-    if (updatedCustomer) {
-      return mapCustomer(updatedCustomer);
-    }
+    )) as {
+      data: { createCustomer: Pick<Customer, "exclusions"> };
+    };
+    return {
+      ...customer,
+      exclusions: updateCustomerResult.data.createCustomer.exclusions,
+    };
     throw new Error(MALFORMED_RESPONSE);
   }
 );
@@ -99,20 +63,43 @@ export const createCustomer = apiRequestCreator<Customer, Customer>(
   async (customer: Customer) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, exclusions, ...customerWithoutExclusions } = customer;
-    const createCustomerVariables: APITypes.CreateCustomerMutationVariables = {
-      input: customerWithoutExclusions,
+    const createCustomerVariables: CreateCustomerMutationVariables = {
+      input: {
+        ...customerWithoutExclusions,
+        exclusionIds: exclusions.map((exclusion) => exclusion.id),
+      },
     };
 
     const createCustomerResult = (await API.graphql(
       graphqlOperation(createCustomerMutation, createCustomerVariables)
-    )) as GraphQLResult<APITypes.CreateCustomerMutation>;
+    )) as {
+      data: {
+        createCustomer: Pick<Customer, "exclusions" | "id">;
+      };
+    };
 
-    const createdCustomer = createCustomerResult.data?.createCustomer;
-
-    if (createdCustomer) {
-      return mapCustomer(createdCustomer);
-    }
+    return {
+      ...customer,
+      exclusions: createCustomerResult.data.createCustomer.exclusions,
+      id: createCustomerResult.data.createCustomer.id,
+    };
     throw new Error(MALFORMED_RESPONSE);
+  }
+);
+
+export const removeCustomer = apiRequestCreator(
+  "customers/remove",
+  async (customer: Customer): Promise<string> => {
+    const deleteCustomerVariables: DeleteCustomerMutationVariables = {
+      input: {
+        id: customer.id,
+      },
+    };
+
+    await API.graphql(
+      graphqlOperation(deleteCustomerMutation, deleteCustomerVariables)
+    );
+    return customer.id;
   }
 );
 

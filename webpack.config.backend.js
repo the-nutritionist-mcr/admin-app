@@ -5,6 +5,26 @@ module.exports = {
     libraryTarget: "commonjs2",
     filename: "index.js",
   },
-  entry: [path.resolve(__dirname, "dist", "src", "backend", "index.js")],
+  devtool: "source-map",
+  entry: [path.resolve(__dirname, "src", "backend", "index.ts")],
   target: "node",
+  resolve: {
+    extensions: [".tsx", ".ts", ".js", ".jsx"],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/u,
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              configFile: "tsconfig.backend.json",
+            },
+          },
+        ],
+        exclude: "/node_modules/",
+      },
+    ],
+  },
 };

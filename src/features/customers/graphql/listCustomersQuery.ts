@@ -1,24 +1,29 @@
 const listCustomersQuery = `
-query MyQuery {
+query ListCustomersQuery {
   listCustomers {
+    exclusions {
+      allergen
+      id
+      name
+    }
     address
     breakfast
-    email
     daysPerWeek
+    email
     firstName
-    legacyPrice
     id
+    legacyPrice
     notes
     pauseEnd
     pauseStart
     paymentDayOfMonth
-    salutation
     plan {
-      category
       costPerMeal
-      mealsPerDay
+      category
       name
+      mealsPerDay
     }
+    salutation
     snack
     startDate
     surname

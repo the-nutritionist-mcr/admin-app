@@ -1,3 +1,4 @@
+import "source-map-support/register";
 import * as database from "./database";
 import * as uuid from "uuid";
 import {
@@ -24,7 +25,7 @@ const EXCLUSIONS_TABLE_NOT_SET = "process.env.EXCLUSIONS_TABLE name not set!";
 const CUSTOMER_EXCLUSIONS_TABLE_NOT_SET =
   "process.env.CUSTOMER_EXCLUSIONS_TABLE name not set!";
 
-export const listCustomers = async (): Promise<Customer[] | null> => {
+export const listCustomers = async (): Promise<Customer[]> => {
   const customersTable = process.env.CUSTOMERS_TABLE;
   if (!customersTable) {
     throw new Error(CUSTOMERS_TABLE_NOT_SET);
@@ -40,51 +41,43 @@ export const listCustomers = async (): Promise<Customer[] | null> => {
     throw new Error(CUSTOMER_EXCLUSIONS_TABLE_NOT_SET);
   }
 
-  try {
-    const customerData = (await database.getAll(
-      customersTable
-    )) as UpdateCustomerMutationVariables["input"][];
+  const customerData = (await database.getAll(
+    customersTable
+  )) as UpdateCustomerMutationVariables["input"][];
 
-    const customerExclusionIds = new Set(
-      customerData.flatMap((customer) => customer.exclusionIds).filter(Boolean)
-    );
+  const customerExclusionIds = new Set(
+    customerData.flatMap((customer) => customer.exclusionIds).filter(Boolean)
+  );
 
-    const customerExclusions = await database.getAllByIds<CustomerExclusion>(
-      customerExclusionsTable,
-      Array.from(customerExclusionIds)
-    );
+  const customerExclusions = await database.getAllByIds<CustomerExclusion>(
+    customerExclusionsTable,
+    Array.from(customerExclusionIds)
+  );
 
-    const exclusions = await database.getAllByIds<Exclusion>(
-      exclusionsTable,
-      customerExclusions.map(
-        (customerExclusion) => customerExclusion.exclusionId
-      )
-    );
+  const exclusions = await database.getAllByIds<Exclusion>(
+    exclusionsTable,
+    customerExclusions.map((customerExclusion) => customerExclusion.exclusionId)
+  );
 
-    const customers = customerData
-      .map((customer) => ({
-        ...customer,
-        exclusions: customer.exclusionIds
-          .map((id) =>
-            customerExclusions.find(
-              (customerExclusion) => customerExclusion.id === id
-            )
+  const customers = customerData
+    .map((customer) => ({
+      ...customer,
+      exclusions: customer.exclusionIds
+        .map((id) =>
+          customerExclusions.find(
+            (customerExclusion) => customerExclusion.id === id
           )
-          .map((customerExclusion) =>
-            exclusions.find(
-              (exclusion) => exclusion.id === customerExclusion?.exclusionId
-            )
-          ),
-      }))
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .map(({ exclusionIds, ...customer }) => customer);
+        )
+        .map((customerExclusion) =>
+          exclusions.find(
+            (exclusion) => exclusion.id === customerExclusion?.exclusionId
+          )
+        ),
+    }))
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .map(({ exclusionIds, ...customer }) => customer);
 
-    return customers as Customer[];
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log("DynamoDB error:", error);
-    return null;
-  }
+  return customers as Customer[];
   /* eslint-enable @typescript-eslint/naming-convention */
 };
 
@@ -96,7 +89,7 @@ export const isCreateCustomersQuery = (
 
 export const createCustomer = async (
   input: CreateCustomerMutationVariables["input"]
-): Promise<Customer | null> => {
+): Promise<Customer> => {
   const customersTable = process.env.CUSTOMERS_TABLE;
   if (!customersTable) {
     throw new Error(CUSTOMERS_TABLE_NOT_SET);
@@ -112,54 +105,47 @@ export const createCustomer = async (
     throw new Error(CUSTOMER_EXCLUSIONS_TABLE_NOT_SET);
   }
 
-  try {
-    const exclusions = await database.getAllByIds<
-      UpdateExclusionMutationVariables["input"]
-    >(exclusionsTable, input.exclusionIds);
+  const exclusions = await database.getAllByIds<
+    UpdateExclusionMutationVariables["input"]
+  >(exclusionsTable, input.exclusionIds);
 
-    const customerId = uuid.v4();
+  const customerId = uuid.v4();
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { exclusionIds, ...returnedCustomer } = input;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { exclusionIds, ...returnedCustomer } = input;
 
-    const customerExclusions = exclusions.map((exclusion: Exclusion) => ({
-      table: customerExclusionsTable,
-      record: {
-        id: uuid.v4(),
-        customerId,
-        exclusionId: exclusion.id,
-      },
-    }));
-
-    const customer = {
-      ...input,
-      id: customerId,
-      exclusionIds: customerExclusions.map((item) => item.record.id),
-    };
-
-    const putRecords = [
-      {
-        table: customersTable,
-        record: customer,
-      },
-      ...customerExclusions,
-    ];
-
-    await database.putAll<
-      UpdateCustomerMutationVariables["input"] | CustomerExclusion
-    >(putRecords);
-
-    return {
-      ...returnedCustomer,
+  const customerExclusions = exclusions.map((exclusion: Exclusion) => ({
+    table: customerExclusionsTable,
+    record: {
       id: uuid.v4(),
-      exclusions,
-    };
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log("DynamoDB error:", JSON.stringify(error));
-    return null;
-  }
-  /* eslint-enable @typescript-eslint/naming-convention */
+      customerId,
+      exclusionId: exclusion.id,
+    },
+  }));
+
+  const customer = {
+    ...input,
+    id: customerId,
+    exclusionIds: customerExclusions.map((item) => item.record.id),
+  };
+
+  const putRecords = [
+    {
+      table: customersTable,
+      record: customer,
+    },
+    ...customerExclusions,
+  ];
+
+  await database.putAll<
+    UpdateCustomerMutationVariables["input"] | CustomerExclusion
+  >(putRecords);
+
+  return {
+    ...returnedCustomer,
+    id: uuid.v4(),
+    exclusions,
+  };
 };
 
 export const deleteCustomer = async (
