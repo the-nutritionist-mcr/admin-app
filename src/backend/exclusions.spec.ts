@@ -1,8 +1,11 @@
 import * as database from "./database";
 import * as exclusions from "./exclusions";
 import * as uuid from "uuid";
+import {
+  CreateExclusionMutationVariables,
+  UpdateExclusionMutationVariables,
+} from "./query-variables-types";
 import { resetAllWhenMocks, when } from "jest-when";
-import { CreateExclusionMutationVariables } from "./query-variables-types";
 import Exclusion from "../domain/Exclusion";
 import { mocked } from "ts-jest/utils";
 
@@ -49,7 +52,7 @@ describe("List exclusions", () => {
   });
 });
 
-describe("Create exclusions", () => {
+describe("Create exclusion", () => {
   it("Calls putAll with the exclusion, then returns the exclusion with the correct ID", async () => {
     process.env.EXCLUSIONS_TABLE = "exclusions-table";
     mocked(uuid.v4).mockReturnValue("foo-id");
@@ -74,5 +77,40 @@ describe("Create exclusions", () => {
     expect(results.id).toEqual("foo-id");
     expect(results.name).toEqual("baz");
     expect(results.allergen).toEqual(false);
+  });
+});
+
+describe("Update exclusion", () => {
+  it("Calls updateById, then returns the updated exclusion", async () => {
+    process.env.EXCLUSIONS_TABLE = "exclusions-table";
+    const mockExclusion: UpdateExclusionMutationVariables["input"] = {
+      id: "foo-id",
+      name: "baz",
+      allergen: false,
+    };
+
+    const results = await exclusions.updateExclusion(mockExclusion);
+
+    expect(database.updateById).toHaveBeenCalledWith(
+      "exclusions-table",
+      "foo-id",
+      mockExclusion
+    );
+
+    expect(results).toBeDefined();
+    expect(results.id).toEqual("foo-id");
+    expect(results.name).toEqual("baz");
+    expect(results.allergen).toEqual(false);
+  });
+});
+
+describe("Delete exclusion", () => {
+  it("Calls deleteall, then returns the deleted id", async () => {
+    process.env.EXCLUSIONS_TABLE = "exclusions-table";
+    const returnedId = await exclusions.deleteExclusion({ id: "foo-id" });
+    expect(database.deleteAll).toHaveBeenCalledWith([
+      { table: "exclusions-table", id: "foo-id" },
+    ]);
+    expect(returnedId).toEqual("foo-id");
   });
 });

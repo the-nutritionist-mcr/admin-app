@@ -3,7 +3,9 @@ import * as uuid from "uuid";
 import {
   AllQueryVariables,
   CreateExclusionMutationVariables,
+  DeleteExclusionMutationVariables,
   ListExclusionsQueryVariables,
+  UpdateExclusionMutationVariables,
 } from "./query-variables-types";
 import { AppSyncResolverEvent } from "aws-lambda";
 import Exclusion from "../domain/Exclusion";
@@ -40,8 +42,36 @@ export const createExclusion = async (
   const id = uuid.v4();
 
   const record = { ...input, id };
-
   await database.putAll([{ table: exclusionsTable, record }]);
 
   return record;
+};
+
+export const isUpdateExclusionMutation = (
+  event: AppSyncResolverEvent<AllQueryVariables>
+): event is AppSyncResolverEvent<UpdateExclusionMutationVariables> => {
+  return event.info.fieldName === "updateExclusion";
+};
+
+export const updateExclusion = async (
+  input: UpdateExclusionMutationVariables["input"]
+): Promise<Exclusion> => {
+  const exclusionsTable = getRequiredEnvVar("EXCLUSIONS_TABLE");
+  await database.updateById(exclusionsTable, input.id, input);
+
+  return input;
+};
+
+export const isDeleteExclusionMutation = (
+  event: AppSyncResolverEvent<AllQueryVariables>
+): event is AppSyncResolverEvent<DeleteExclusionMutationVariables> => {
+  return event.info.fieldName === "deleteExclusion";
+};
+
+export const deleteExclusion = async (
+  input: DeleteExclusionMutationVariables["input"]
+): Promise<string> => {
+  const table = getRequiredEnvVar("EXCLUSIONS_TABLE");
+  await database.deleteAll([{ table, id: input.id }]);
+  return input.id;
 };

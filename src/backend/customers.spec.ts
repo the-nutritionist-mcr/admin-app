@@ -823,7 +823,7 @@ describe("Delete customer", () => {
     );
   });
 
-  it("Calls deleterecord with the id of the customer and any assocated customer exclusions", async () => {
+  it("Calls deleteall with the id of the customer and any assocated customer exclusions", async () => {
     process.env.CUSTOMER_EXCLUSIONS_TABLE = "customer-exclusions-table";
     process.env.CUSTOMERS_TABLE = "customers-table";
 

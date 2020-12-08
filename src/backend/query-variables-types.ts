@@ -19,6 +19,12 @@ export interface DeleteCustomerMutationVariables {
   };
 }
 
+export interface DeleteExclusionMutationVariables {
+  input: {
+    id: string;
+  };
+}
+
 export interface CreateExclusionMutationVariables {
   input: Omit<UpdateExclusionMutationVariables["input"], "id">;
 }
@@ -43,9 +49,10 @@ export interface CustomerExclusion {
 
 export type AllQueryVariables =
   | ListCustomersQueryVariables
-  | DeleteCustomerMutationVariables
+  | ListExclusionsQueryVariables
   | CreateCustomerMutationVariables
-  | UpdateCustomerMutationVariables
   | CreateExclusionMutationVariables
-  | UpdateExclusionMutationVariables
-  | ListExclusionsQueryVariables;
+  | DeleteExclusionMutationVariables
+  | DeleteCustomerMutationVariables
+  | UpdateCustomerMutationVariables
+  | UpdateExclusionMutationVariables;
