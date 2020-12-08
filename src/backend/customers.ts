@@ -49,17 +49,17 @@ export const listCustomers = async (): Promise<Customer[] | null> => {
       customerData.flatMap((customer) => customer.exclusionIds).filter(Boolean)
     );
 
-    const customerExclusions = ((await database.getAllByIds(
+    const customerExclusions = await database.getAllByIds<CustomerExclusion>(
       customerExclusionsTable,
       Array.from(customerExclusionIds)
-    )) as unknown) as CustomerExclusion[];
+    );
 
-    const exclusions = ((await database.getAllByIds(
+    const exclusions = await database.getAllByIds<Exclusion>(
       exclusionsTable,
       customerExclusions.map(
         (customerExclusion) => customerExclusion.exclusionId
       )
-    )) as unknown) as Exclusion[];
+    );
 
     const customers = customerData
       .map((customer) => ({
@@ -113,10 +113,9 @@ export const createCustomer = async (
   }
 
   try {
-    const exclusions = ((await database.getAllByIds(
-      exclusionsTable,
-      input.exclusionIds
-    )) as unknown) as UpdateExclusionMutationVariables["input"][];
+    const exclusions = await database.getAllByIds<
+      UpdateExclusionMutationVariables["input"]
+    >(exclusionsTable, input.exclusionIds);
 
     const customerId = uuid.v4();
 
@@ -146,7 +145,9 @@ export const createCustomer = async (
       ...customerExclusions,
     ];
 
-    await database.putAll(putRecords);
+    await database.putAll<
+      UpdateCustomerMutationVariables["input"] | CustomerExclusion
+    >(putRecords);
 
     return {
       ...returnedCustomer,
@@ -174,9 +175,12 @@ export const deleteCustomer = async (
     throw new Error(CUSTOMER_EXCLUSIONS_TABLE_NOT_SET);
   }
 
-  const customer = ((
-    await database.getAllByIds(customersTable, [input.id])
-  )[0] as unknown) as UpdateCustomerMutationVariables["input"];
+  const customer = (
+    await database.getAllByIds<UpdateCustomerMutationVariables["input"]>(
+      customersTable,
+      [input.id]
+    )
+  )[0];
 
   const customerExclusionsToDelete = customer.exclusionIds.map((id) => ({
     table: customerExclusionsTable,
@@ -215,10 +219,10 @@ export const updateCustomer = async (
     throw new Error(CUSTOMER_EXCLUSIONS_TABLE_NOT_SET);
   }
 
-  const customerExclusions = ((await database.getAllByIds(
+  const customerExclusions = await database.getAllByIds<CustomerExclusion>(
     customerExclusionsTable,
     [{ key: "customerId", value: "0" }]
-  )) as unknown) as CustomerExclusion[];
+  );
 
   const toAdd = input.exclusionIds
     .filter(
@@ -259,10 +263,10 @@ export const updateCustomer = async (
     exclusionIds: finalExclusions,
   });
 
-  const exclusions = ((await database.getAllByIds(
+  const exclusions = await database.getAllByIds<Exclusion>(
     exclusionsTable,
     input.exclusionIds
-  )) as unknown) as Exclusion[];
+  );
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { exclusionIds, ...returnVal } = input;

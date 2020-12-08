@@ -2,7 +2,7 @@ import * as database from "./database";
 import * as exclusions from "./exclusions";
 import * as uuid from "uuid";
 import { resetAllWhenMocks, when } from "jest-when";
-import { CreateCustomerMutationVariables } from "./query-variables-types";
+import { CreateExclusionMutationVariables } from "./query-variables-types";
 import Exclusion from "../domain/Exclusion";
 import { mocked } from "ts-jest/utils";
 
@@ -53,7 +53,7 @@ describe("Create exclusions", () => {
   it("Calls putAll with the exclusion, then returns the exclusion with the correct ID", async () => {
     process.env.EXCLUSIONS_TABLE = "exclusions-table";
     mocked(uuid.v4).mockReturnValue("foo-id");
-    const mockExclusion: CreateCustomerMutationVariables = {
+    const mockExclusion: CreateExclusionMutationVariables["input"] = {
       name: "baz",
       allergen: false,
     };

@@ -39,7 +39,7 @@ export const handler: AppSyncResolverHandler<
   if (isUpdateCustomerMutation(event)) {
     return await updateCustomer(event.arguments.input);
   }
-  return undefined;
+  throw new Error(`Resolver cannot handle '${event.info.fieldName}'`);
 };
 
 /* eslint-enable import/prefer-default-export */

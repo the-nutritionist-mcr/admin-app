@@ -1,22 +1,20 @@
 import AWS from "aws-sdk";
 const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
 
-export const getAll = async (
-  table: string
-): Promise<Record<string, unknown>[]> => {
+export const getAll = async <T>(table: string): Promise<T[]> => {
   /* eslint-disable @typescript-eslint/naming-convention */
   const params = {
     TableName: table,
   };
   const result = await dynamoDb.scan(params).promise();
-  return result.Items ?? [];
+  return (result.Items as T[] | undefined) ?? [];
   /* eslint-enable @typescript-eslint/naming-convention */
 };
 
-export const getAllByIds = async (
+export const getAllByIds = async <T>(
   table: string,
   ids: (string | { key: string; value: string })[]
-): Promise<Record<string, unknown>[]> => {
+): Promise<T[]> => {
   /* eslint-disable @typescript-eslint/naming-convention */
   if (ids.length === 0) {
     return [];
@@ -34,11 +32,11 @@ export const getAllByIds = async (
   const results = await dynamoDb.batchGet(batchParams).promise();
   /* eslint-enable @typescript-eslint/naming-convention */
 
-  return results.Responses ? results.Responses[table] : [];
+  return results.Responses ? (results.Responses[table] as T[]) : [];
 };
 
-export const putAll = async (
-  items: { table: string; record: Record<string, unknown> }[]
+export const putAll = async <T>(
+  items: { table: string; record: T }[]
 ): Promise<void> => {
   /* eslint-disable @typescript-eslint/naming-convention */
   const params = {
@@ -55,10 +53,10 @@ export const putAll = async (
   await dynamoDb.transactWrite(params).promise();
 };
 
-export const updateById = async (
+export const updateById = async <T>(
   table: string,
   id: string,
-  record: Record<string, unknown>
+  record: T
 ): Promise<void> => {
   /* eslint-disable @typescript-eslint/naming-convention */
   const params = {

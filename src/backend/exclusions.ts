@@ -24,7 +24,7 @@ const getRequiredEnvVar = (name: string): string => {
 
 export const listExclusions = async (): Promise<Exclusion[]> => {
   const exclusionsTable = getRequiredEnvVar("EXCLUSIONS_TABLE");
-  return ((await database.getAll(exclusionsTable)) as unknown) as Exclusion[];
+  return await database.getAll<Exclusion>(exclusionsTable);
 };
 
 export const isCreateExclusionMutation = (
