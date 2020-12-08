@@ -9,14 +9,12 @@ type Exclusion {
 input ExclusionInput {
   name: String!
   allergen: Boolean!
-  recipeIds: [ID!]!
 }
 
 input UpdateExclusionInput {
   id: ID!
   name: String!
   allergen: Boolean!
-  recipeIds: [ID!]!
 }
 
 input DeleteExclusionInput {

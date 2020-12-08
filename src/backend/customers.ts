@@ -20,26 +20,20 @@ export const isListCustomersQuery = (
   return event.info.fieldName === "listCustomers";
 };
 
-const CUSTOMERS_TABLE_NOT_SET = "process.env.CUSTOMERS_TABLE name not set!";
-const EXCLUSIONS_TABLE_NOT_SET = "process.env.EXCLUSIONS_TABLE name not set!";
-const CUSTOMER_EXCLUSIONS_TABLE_NOT_SET =
-  "process.env.CUSTOMER_EXCLUSIONS_TABLE name not set!";
+const getRequiredEnvVar = (name: string): string => {
+  const value = process.env[name];
+  if (value) {
+    return value;
+  }
+  throw new Error(`process.env.${name} not set`);
+};
 
 export const listCustomers = async (): Promise<Customer[]> => {
-  const customersTable = process.env.CUSTOMERS_TABLE;
-  if (!customersTable) {
-    throw new Error(CUSTOMERS_TABLE_NOT_SET);
-  }
-
-  const exclusionsTable = process.env.EXCLUSIONS_TABLE;
-  if (!exclusionsTable) {
-    throw new Error(EXCLUSIONS_TABLE_NOT_SET);
-  }
-
-  const customerExclusionsTable = process.env.CUSTOMER_EXCLUSIONS_TABLE;
-  if (!customerExclusionsTable) {
-    throw new Error(CUSTOMER_EXCLUSIONS_TABLE_NOT_SET);
-  }
+  const customersTable = getRequiredEnvVar("CUSTOMERS_TABLE");
+  const exclusionsTable = getRequiredEnvVar("EXCLUSIONS_TABLE");
+  const customerExclusionsTable = getRequiredEnvVar(
+    "CUSTOMER_EXCLUSIONS_TABLE"
+  );
 
   const customerData = (await database.getAll(
     customersTable
@@ -72,7 +66,8 @@ export const listCustomers = async (): Promise<Customer[]> => {
           exclusions.find(
             (exclusion) => exclusion.id === customerExclusion?.exclusionId
           )
-        ),
+        )
+        .filter(Boolean),
     }))
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .map(({ exclusionIds, ...customer }) => customer);
@@ -90,20 +85,11 @@ export const isCreateCustomersQuery = (
 export const createCustomer = async (
   input: CreateCustomerMutationVariables["input"]
 ): Promise<Customer> => {
-  const customersTable = process.env.CUSTOMERS_TABLE;
-  if (!customersTable) {
-    throw new Error(CUSTOMERS_TABLE_NOT_SET);
-  }
-
-  const exclusionsTable = process.env.EXCLUSIONS_TABLE;
-  if (!exclusionsTable) {
-    throw new Error(EXCLUSIONS_TABLE_NOT_SET);
-  }
-
-  const customerExclusionsTable = process.env.CUSTOMER_EXCLUSIONS_TABLE;
-  if (!customerExclusionsTable) {
-    throw new Error(CUSTOMER_EXCLUSIONS_TABLE_NOT_SET);
-  }
+  const customersTable = getRequiredEnvVar("CUSTOMERS_TABLE");
+  const exclusionsTable = getRequiredEnvVar("EXCLUSIONS_TABLE");
+  const customerExclusionsTable = getRequiredEnvVar(
+    "CUSTOMER_EXCLUSIONS_TABLE"
+  );
 
   const exclusions = await database.getAllByIds<
     UpdateExclusionMutationVariables["input"]
@@ -151,15 +137,10 @@ export const createCustomer = async (
 export const deleteCustomer = async (
   input: DeleteCustomerMutationVariables["input"]
 ): Promise<string> => {
-  const customersTable = process.env.CUSTOMERS_TABLE;
-  if (!customersTable) {
-    throw new Error(CUSTOMERS_TABLE_NOT_SET);
-  }
-
-  const customerExclusionsTable = process.env.CUSTOMER_EXCLUSIONS_TABLE;
-  if (!customerExclusionsTable) {
-    throw new Error(CUSTOMER_EXCLUSIONS_TABLE_NOT_SET);
-  }
+  const customersTable = getRequiredEnvVar("CUSTOMERS_TABLE");
+  const customerExclusionsTable = getRequiredEnvVar(
+    "CUSTOMER_EXCLUSIONS_TABLE"
+  );
 
   const customer = (
     await database.getAllByIds<UpdateCustomerMutationVariables["input"]>(
@@ -190,24 +171,16 @@ export const isDeleteCustomerMutation = (
 export const updateCustomer = async (
   input: UpdateCustomerMutationVariables["input"]
 ): Promise<Customer | null> => {
-  const exclusionsTable = process.env.EXCLUSIONS_TABLE;
-  if (!exclusionsTable) {
-    throw new Error(EXCLUSIONS_TABLE_NOT_SET);
-  }
+  const customersTable = getRequiredEnvVar("CUSTOMERS_TABLE");
+  const exclusionsTable = getRequiredEnvVar("EXCLUSIONS_TABLE");
+  const customerExclusionsTable = getRequiredEnvVar(
+    "CUSTOMER_EXCLUSIONS_TABLE"
+  );
 
-  const customersTable = process.env.CUSTOMERS_TABLE;
-  if (!customersTable) {
-    throw new Error(CUSTOMERS_TABLE_NOT_SET);
-  }
-
-  const customerExclusionsTable = process.env.CUSTOMER_EXCLUSIONS_TABLE;
-  if (!customerExclusionsTable) {
-    throw new Error(CUSTOMER_EXCLUSIONS_TABLE_NOT_SET);
-  }
-
-  const customerExclusions = await database.getAllByIds<CustomerExclusion>(
+  const customerExclusions = await database.getAllByGsis<CustomerExclusion>(
     customerExclusionsTable,
-    [{ key: "customerId", value: "0" }]
+    "customerId",
+    ["0"]
   );
 
   const toAdd = input.exclusionIds

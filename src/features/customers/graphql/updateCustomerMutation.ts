@@ -1,6 +1,6 @@
 const updateCustomerMutation = `
-mutation UpdateCustomerMutation {
-  createCustomer($input: UpdateCustomerInput!) {
+mutation UpdateCustomerMutation($input: UpdateCustomerInput!) {
+  updateCustomer(input: $input) {
     exclusions {
       allergen
       id

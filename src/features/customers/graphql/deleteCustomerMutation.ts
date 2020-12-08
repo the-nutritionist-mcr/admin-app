@@ -1,8 +1,6 @@
 const deleteCustomerMutation = `
-mutation DeleteCustomerMutation {
-  deleteCustomer($input: DeleteCustomerInput!) {
-    id
-  }
+mutation DeleteCustomerMutation($input: DeleteCustomerInput!) {
+  deleteCustomer(input: $input) 
 }
 `;
 

@@ -38,6 +38,8 @@ export const apiRequestCreator = <R, A = void>(
             dispatch(clearError());
           }, ERROR_MESSAGE_TIMEOUT_SECONDS * MILLISECONDS_PER_SECOND);
           const dispatchError = error.errors ? error.errors[0] : error;
+          // eslint-disable-next-line no-console
+          console.log(dispatchError);
           return dispatch(loadingFailed(dispatchError.message));
         }
       };

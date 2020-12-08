@@ -17,13 +17,16 @@ import {
 } from "grommet";
 import { Checkmark, Close } from "grommet-icons";
 import Customer, { Snack } from "../../domain/Customer";
+import {
+  allExclusionsSelector,
+  fetchExclusions,
+} from "../../features/exclusions/exclusionsSlice";
 import { daysPerWeekOptions, plans } from "../../lib/config";
 import { useDispatch, useSelector } from "react-redux";
 import { ApiRequestFunction } from "../../lib/apiRequestCreator";
 import LoadingState from "../../types/LoadingState";
 import React from "react";
 import { Spinning } from "grommet-controls";
-import { allExclusionsSelector } from "../../features/exclusions/exclusionsSlice";
 import { loadingSelector } from "../../lib/rootReducer";
 import styled from "styled-components";
 
@@ -42,12 +45,16 @@ const SelectButton = styled.div`
 `;
 
 const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(fetchExclusions());
+  }, [dispatch]);
+
   const [customer, setCustomer] = React.useState(props.customer);
   const exclusions = useSelector(allExclusionsSelector);
 
   const isLoading = useSelector(loadingSelector) === LoadingState.Loading;
-
-  const dispatch = useDispatch();
 
   return props?.show ? (
     <Layer>

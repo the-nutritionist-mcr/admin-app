@@ -6,7 +6,6 @@ import Exclusion from "../../domain/Exclusion";
 import { OkCancelDialog } from "../../components";
 import React from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
 
 interface ExclusionRowProps {
   exclusion: Exclusion;
@@ -19,7 +18,6 @@ const SlimButton = styled(Button)`
 const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
-  const dispatch = useDispatch();
   return (
     <TableRow>
       <TableCell scope="row">{props.exclusion.name}</TableCell>
@@ -36,8 +34,9 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
         <OkCancelDialog
           show={showDoDelete}
           header="Are you sure?"
-          onOk={async (): Promise<void> => {
-            await dispatch(removeExclusion(props.exclusion));
+          thing={props.exclusion}
+          thunk={removeExclusion}
+          onOk={() => {
             setShowDoDelete(false);
           }}
           onCancel={(): void => setShowDoDelete(false)}

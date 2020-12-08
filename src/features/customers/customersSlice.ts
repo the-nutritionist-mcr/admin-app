@@ -23,8 +23,6 @@ interface CustomersState {
   page: number;
 }
 
-const MALFORMED_RESPONSE = "Response from the server was malformed";
-
 const initialState: CustomersState = {
   items: [],
   page: 0,
@@ -48,13 +46,12 @@ export const updateCustomer = apiRequestCreator(
     const updateCustomerResult = (await API.graphql(
       graphqlOperation(updateCustomerMutation, updateCustomerVariables)
     )) as {
-      data: { createCustomer: Pick<Customer, "exclusions"> };
+      data: { updateCustomer: Pick<Customer, "exclusions"> };
     };
     return {
       ...customer,
-      exclusions: updateCustomerResult.data.createCustomer.exclusions,
+      exclusions: updateCustomerResult.data.updateCustomer.exclusions,
     };
-    throw new Error(MALFORMED_RESPONSE);
   }
 );
 
@@ -83,7 +80,6 @@ export const createCustomer = apiRequestCreator<Customer, Customer>(
       exclusions: createCustomerResult.data.createCustomer.exclusions,
       id: createCustomerResult.data.createCustomer.id,
     };
-    throw new Error(MALFORMED_RESPONSE);
   }
 );
 
@@ -114,10 +110,7 @@ export const fetchCustomers = apiRequestCreator<Customer[]>(
       };
     };
 
-    return listCustomersResult.data.listCustomers.map((item) => ({
-      ...item,
-      exclusions: [],
-    }));
+    return listCustomersResult.data.listCustomers;
   }
 );
 

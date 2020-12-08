@@ -1,12 +1,17 @@
-import * as APITypes from "../../API";
-
-import API, { GraphQLResult, graphqlOperation } from "@aws-amplify/api";
+import API, { graphqlOperation } from "@aws-amplify/api";
 
 import {
-  createExclusion as createExclusionMutation,
-  deleteExclusion as deleteExclusionMutation,
-  updateExclusion as updateExclusionMutation,
-} from "../../graphql/mutations";
+  CreateExclusionMutationVariables,
+  DeleteExclusionMutationVariables,
+  UpdateExclusionMutationVariables,
+} from "../../backend/query-variables-types";
+
+import {
+  createExclusionMutation,
+  deleteExclusionMutation,
+  listExclusionsQuery,
+  updateExclusionMutation,
+} from "./graphql";
 
 import type { AppState } from "../../lib/rootReducer";
 
@@ -14,9 +19,7 @@ import Exclusion from "../../domain/Exclusion";
 import LoadingState from "../../types/LoadingState";
 
 import apiRequestCreator from "../../lib/apiRequestCreator";
-import convertNullsToUndefined from "../../lib/convertNullsToUndefined";
 import { createSlice } from "@reduxjs/toolkit";
-import { listExclusions } from "../../graphql/queries";
 
 interface ExclusionsState {
   items: Exclusion[];
@@ -36,26 +39,16 @@ const MALFORMED_RESPONSE = "Response from the server was malformed";
 export const updateExclusion = apiRequestCreator(
   "exclusions/update",
   async (exclusion: Exclusion): Promise<Exclusion> => {
-    const {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      createdAt,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      updatedAt,
-      ...exclusionWithoutExclusions
-    } = exclusion;
-    const updateExclusionVariables: APITypes.UpdateExclusionMutationVariables = {
-      input: exclusionWithoutExclusions,
+    const updateExclusionVariables: UpdateExclusionMutationVariables = {
+      input: exclusion,
     };
 
-    const updateExclusionResult = (await API.graphql(
+    await API.graphql(
       graphqlOperation(updateExclusionMutation, updateExclusionVariables)
-    )) as GraphQLResult<APITypes.UpdateExclusionMutation>;
+    );
 
-    const updatedExclusion = updateExclusionResult.data?.updateExclusion;
+    return exclusion;
 
-    if (updatedExclusion) {
-      return convertNullsToUndefined(updatedExclusion);
-    }
     throw new Error(MALFORMED_RESPONSE);
   }
 );
@@ -66,21 +59,19 @@ export const createExclusion = apiRequestCreator(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, ...exclusionWithoutId } = exclusion;
 
-    const createExclusionVariables: APITypes.CreateExclusionMutationVariables = {
+    const createExclusionVariables: CreateExclusionMutationVariables = {
       input: exclusionWithoutId,
     };
 
     const createExclusionResult = (await API.graphql(
       graphqlOperation(createExclusionMutation, createExclusionVariables)
-    )) as GraphQLResult<APITypes.CreateExclusionMutation>;
+    )) as {
+      data: {
+        createExclusion: Pick<Exclusion, "id">;
+      };
+    };
 
-    const createdExclusion = createExclusionResult.data?.createExclusion;
-
-    if (createdExclusion) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { customers, recipes, ...returnExclusion } = createdExclusion;
-      return returnExclusion;
-    }
+    return { ...exclusion, id: createExclusionResult.data.createExclusion.id };
 
     throw new Error(MALFORMED_RESPONSE);
   }
@@ -89,35 +80,18 @@ export const createExclusion = apiRequestCreator(
 export const fetchExclusions = apiRequestCreator(
   "exclusions/fetch",
   async (): Promise<Exclusion[]> => {
-    const listExclusionsVariables: APITypes.ListExclusionsQueryVariables = {};
-
     const listExclusionsResult = (await API.graphql(
-      graphqlOperation(listExclusions, listExclusionsVariables)
-    )) as GraphQLResult<APITypes.ListExclusionsQuery>;
+      graphqlOperation(listExclusionsQuery)
+    )) as { data: { listExclusions: Exclusion[] } };
 
-    const items = listExclusionsResult.data?.listExclusions?.items;
-
-    type NotNull = <T>(thing: T | null) => thing is T;
-
-    if (items) {
-      return items
-        .filter((Boolean as unknown) as NotNull)
-        .map(convertNullsToUndefined)
-        .map((item) => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { customers, recipes, ...newItem } = item;
-          return newItem;
-        });
-    }
-
-    throw new Error(MALFORMED_RESPONSE);
+    return listExclusionsResult.data.listExclusions;
   }
 );
 
 export const removeExclusion = apiRequestCreator(
   "exclusions/remove",
   async (exclusion: Exclusion): Promise<string> => {
-    const deleteExclusionVariables: APITypes.DeleteExclusionMutationVariables = {
+    const deleteExclusionVariables: DeleteExclusionMutationVariables = {
       input: {
         id: exclusion.id,
       },

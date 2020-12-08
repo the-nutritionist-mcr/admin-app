@@ -10,9 +10,13 @@ import {
 } from "./customers";
 import {
   createExclusion,
+  deleteExclusion,
   isCreateExclusionMutation,
+  isDeleteExclusionMutation,
   isListExclusionsQuery,
+  isUpdateExclusionMutation,
   listExclusions,
+  updateExclusion,
 } from "./exclusions";
 
 import { AllQueryVariables } from "./query-variables-types";
@@ -26,7 +30,9 @@ type Result =
   | ExtractPromiseType<ReturnType<typeof deleteCustomer>>
   | ExtractPromiseType<ReturnType<typeof updateCustomer>>
   | ExtractPromiseType<ReturnType<typeof listExclusions>>
-  | ExtractPromiseType<ReturnType<typeof createExclusion>>;
+  | ExtractPromiseType<ReturnType<typeof createExclusion>>
+  | ExtractPromiseType<ReturnType<typeof deleteExclusion>>
+  | ExtractPromiseType<ReturnType<typeof updateExclusion>>;
 
 /* eslint-disable import/prefer-default-export */
 export const handler: AppSyncResolverHandler<
@@ -56,6 +62,15 @@ export const handler: AppSyncResolverHandler<
   if (isCreateExclusionMutation(event)) {
     return await createExclusion(event.arguments.input);
   }
+
+  if (isUpdateExclusionMutation(event)) {
+    return await updateExclusion(event.arguments.input);
+  }
+
+  if (isDeleteExclusionMutation(event)) {
+    return await deleteExclusion(event.arguments.input);
+  }
+
   throw new Error(`Resolver cannot handle '${event.info.fieldName}'`);
 };
 

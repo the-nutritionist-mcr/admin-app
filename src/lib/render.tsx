@@ -5,11 +5,13 @@ import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
+import log from "loglevel";
 import reportWebVitals from "../reportWebVitals";
 import store from "../lib/store";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 
 const render = (): void => {
+  log.trace("Beginning initial render");
   const AuthenticatedApp = withAuthenticator(App);
 
   ReactDOM.render(

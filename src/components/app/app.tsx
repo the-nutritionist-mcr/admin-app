@@ -29,7 +29,13 @@ const App: React.FC = () => {
       <Grommet theme={theme}>
         <NavBar />
 
-        <ErrorBoundary FallbackComponent={ErrorComponent}>
+        <ErrorBoundary
+          FallbackComponent={ErrorComponent}
+          onError={(error) => {
+            //  eslint-disable-next-line  no-console
+            console.log(error);
+          }}
+        >
           {state.error && (
             <Notification
               status="error"

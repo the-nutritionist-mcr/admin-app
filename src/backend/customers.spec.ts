@@ -28,14 +28,14 @@ describe("listCustomers", () => {
   it("Rejects the promise if CUSTOMERS_TABLE is not set", async () => {
     process.env.EXCLUSIONS_TABLE = "bar";
     await expect(customers.listCustomers()).rejects.toThrow(
-      new Error("process.env.CUSTOMERS_TABLE name not set!")
+      new Error("process.env.CUSTOMERS_TABLE not set")
     );
   });
 
   it("Rejects the promise if EXCLUSIONS_TABLE is not set", async () => {
     process.env.CUSTOMERS_TABLE = "foo";
     await expect(customers.listCustomers()).rejects.toThrow(
-      new Error("process.env.EXCLUSIONS_TABLE name not set!")
+      new Error("process.env.EXCLUSIONS_TABLE not set")
     );
   });
 
@@ -120,13 +120,11 @@ describe("listCustomers", () => {
 
     const result = await customers.listCustomers();
     expect(result).toBeTruthy();
-    if (result) {
-      expect(result).toHaveLength(3);
-      expect(result[1].exclusions).toHaveLength(0);
-      expect(
-        ((result as unknown) as Record<string, unknown>)["exclusionIds"]
-      ).not.toBeDefined();
-    }
+    expect(result).toHaveLength(3);
+    expect(result[1].exclusions).toHaveLength(0);
+    expect(
+      ((result as unknown) as Record<string, unknown>)["exclusionIds"]
+    ).not.toBeDefined();
   });
 
   it("Given getAll returns customers with exclusions, it merges them", async () => {
@@ -264,11 +262,9 @@ describe("listCustomers", () => {
     const result = await customers.listCustomers();
     expect(result).toBeTruthy();
 
-    if (result) {
-      expect(result).toHaveLength(3);
-      expect(result[0].exclusions).toHaveLength(2);
-      expect(result[1].exclusions[1].name).toEqual("foo");
-    }
+    expect(result).toHaveLength(3);
+    expect(result[0].exclusions).toHaveLength(2);
+    expect(result[1].exclusions[1].name).toEqual("foo");
   });
 });
 
@@ -365,13 +361,11 @@ describe("Createcustomer", () => {
     ]);
 
     expect(returnedCustomer).toBeTruthy();
-    if (returnedCustomer) {
-      expect(returnedCustomer.id).toEqual("called-4");
-      expect(returnedCustomer.surname).toEqual("Davis");
-      expect(returnedCustomer.exclusions).toBeTruthy();
-      expect(returnedCustomer.exclusions[0].name).toEqual("baz");
-      expect(returnedCustomer.exclusions[1].name).toEqual("bap");
-    }
+    expect(returnedCustomer.id).toEqual("called-4");
+    expect(returnedCustomer.surname).toEqual("Davis");
+    expect(returnedCustomer.exclusions).toBeTruthy();
+    expect(returnedCustomer.exclusions[0].name).toEqual("baz");
+    expect(returnedCustomer.exclusions[1].name).toEqual("bap");
   });
   it("Calls putAll with the customer if there is no exclusions and returns it", async () => {
     process.env.CUSTOMERS_TABLE = "customers-table";
@@ -428,10 +422,8 @@ describe("Createcustomer", () => {
     ]);
 
     expect(returnedCustomer).toBeTruthy();
-    if (returnedCustomer) {
-      expect(returnedCustomer.id).toEqual("the-id");
-      expect(returnedCustomer.surname).toEqual("Davis");
-    }
+    expect(returnedCustomer.id).toEqual("the-id");
+    expect(returnedCustomer.surname).toEqual("Davis");
   });
 
   it("Rejects the promise if CUSTOMERS_TABLE is not set", async () => {
@@ -441,7 +433,7 @@ describe("Createcustomer", () => {
       customers.createCustomer(
         ({} as unknown) as CreateCustomerMutationVariables["input"]
       )
-    ).rejects.toThrow(new Error("process.env.CUSTOMERS_TABLE name not set!"));
+    ).rejects.toThrow(new Error("process.env.CUSTOMERS_TABLE not set"));
   });
 
   it("Rejects the promise if CUSTOMER_EXCLUSIONS_TABLE is not set", async () => {
@@ -452,7 +444,7 @@ describe("Createcustomer", () => {
         ({} as unknown) as CreateCustomerMutationVariables["input"]
       )
     ).rejects.toThrow(
-      new Error("process.env.CUSTOMER_EXCLUSIONS_TABLE name not set!")
+      new Error("process.env.CUSTOMER_EXCLUSIONS_TABLE not set")
     );
   });
 
@@ -463,7 +455,7 @@ describe("Createcustomer", () => {
       customers.createCustomer(
         ({} as unknown) as CreateCustomerMutationVariables["input"]
       )
-    ).rejects.toThrow(new Error("process.env.EXCLUSIONS_TABLE name not set!"));
+    ).rejects.toThrow(new Error("process.env.EXCLUSIONS_TABLE not set"));
   });
 });
 
@@ -504,10 +496,11 @@ describe("Update customer", () => {
       },
     ];
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByGsis, true))
       .calledWith(
         "customer-exclusions-table",
-        expect.arrayContaining([{ key: "customerId", value: "0" }])
+        "customerId",
+        expect.arrayContaining(["0"])
       )
       .mockResolvedValue(
         (customerExclusions as unknown) as Record<string, unknown>[]
@@ -576,10 +569,11 @@ describe("Update customer", () => {
       },
     ];
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByGsis, true))
       .calledWith(
         "customer-exclusions-table",
-        expect.arrayContaining([{ key: "customerId", value: "0" }])
+        "customerId",
+        expect.arrayContaining(["0"])
       )
       .mockResolvedValue(
         (customerExclusions as unknown) as Record<string, unknown>[]
@@ -649,10 +643,11 @@ describe("Update customer", () => {
       },
     ];
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByGsis, true))
       .calledWith(
         "customer-exclusions-table",
-        expect.arrayContaining([{ key: "customerId", value: "0" }])
+        "customerId",
+        expect.arrayContaining(["0"])
       )
       .mockResolvedValue(
         (customerExclusions as unknown) as Record<string, unknown>[]
@@ -727,10 +722,11 @@ describe("Update customer", () => {
       },
     ];
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByGsis, true))
       .calledWith(
         "customer-exclusions-table",
-        expect.arrayContaining([{ key: "customerId", value: "0" }])
+        "customerId",
+        expect.arrayContaining(["0"])
       )
       .mockResolvedValue(
         (customerExclusions as unknown) as Record<string, unknown>[]
@@ -809,7 +805,7 @@ describe("Delete customer", () => {
       customers.deleteCustomer(
         ({} as unknown) as DeleteCustomerMutationVariables["input"]
       )
-    ).rejects.toThrow(new Error("process.env.CUSTOMERS_TABLE name not set!"));
+    ).rejects.toThrow(new Error("process.env.CUSTOMERS_TABLE not set"));
   });
 
   it("Rejects the promise if CUSTOMER_EXCLUSIONS_TABLE is not set", async () => {
@@ -819,7 +815,7 @@ describe("Delete customer", () => {
         ({} as unknown) as DeleteCustomerMutationVariables["input"]
       )
     ).rejects.toThrow(
-      new Error("process.env.CUSTOMER_EXCLUSIONS_TABLE name not set!")
+      new Error("process.env.CUSTOMER_EXCLUSIONS_TABLE not set")
     );
   });
 

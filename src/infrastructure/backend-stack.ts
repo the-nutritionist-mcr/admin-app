@@ -237,6 +237,7 @@ export default class BackendStack extends cdk.Stack {
     });
 
     recipesTable.grantFullAccess(resolverLambda);
+    resolverLambda.addEnvironment("VERBOSE_DB", "true");
     resolverLambda.addEnvironment("RECIPES_TABLE", recipesTable.tableName);
 
     const customerExclusionsTable = new ddb.Table(

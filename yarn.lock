@@ -9022,7 +9022,7 @@ eslint-ast-utils@^1.0.0, eslint-ast-utils@^1.1.0:
 
 "eslint-config-benwainwright@https://github.com/benwainwright/eslint-config-benwainwright":
   version "0.0.3"
-  resolved "https://github.com/benwainwright/eslint-config-benwainwright#ae1afe369835b6d50d51a9875b0451614d2ca270"
+  resolved "https://github.com/benwainwright/eslint-config-benwainwright#d6102702e6d1bffde634bab9cb3cc0ead8fd035e"
   dependencies:
     "@typescript-eslint/eslint-plugin" "^2.30.0"
     "@typescript-eslint/parser" "^2.30.0"
@@ -13770,7 +13770,7 @@ log-update@^4.0.0:
     slice-ansi "^4.0.0"
     wrap-ansi "^6.2.0"
 
-loglevel@^1.6.8:
+loglevel@^1.6.8, loglevel@^1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.7.1.tgz#005fde2f5e6e47068f935ff28573e125ef72f197"
   integrity sha512-Hesni4s5UkWkwCGJMQGAh71PaLUmKFM60dHvq0zi/vDhhrzuk+4GgNbTXJ12YYQJn6ZKBDNIjYcuQGKudvqrIw==
