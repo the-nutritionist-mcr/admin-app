@@ -1,10 +1,13 @@
 import * as database from "./database";
 import * as exclusions from "./exclusions";
+import * as uuid from "uuid";
 import { resetAllWhenMocks, when } from "jest-when";
+import { CreateCustomerMutationVariables } from "./query-variables-types";
 import Exclusion from "../domain/Exclusion";
 import { mocked } from "ts-jest/utils";
 
 jest.mock("./database");
+jest.mock("uuid");
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -16,7 +19,7 @@ beforeEach(() => {
 describe("List exclusions", () => {
   it("Rejects the promise if EXCLUSIONS_TABLE is not set", async () => {
     await expect(exclusions.listExclusions()).rejects.toThrow(
-      new Error("process.env.EXCLUSIONS_TABLE name not set!")
+      new Error("process.env.EXCLUSIONS_TABLE not set")
     );
   });
 
@@ -43,5 +46,33 @@ describe("List exclusions", () => {
 
     const results = await exclusions.listExclusions();
     expect(results).toEqual(mockExclusions);
+  });
+});
+
+describe("Create exclusions", () => {
+  it("Calls putAll with the exclusion, then returns the exclusion with the correct ID", async () => {
+    process.env.EXCLUSIONS_TABLE = "exclusions-table";
+    mocked(uuid.v4).mockReturnValue("foo-id");
+    const mockExclusion: CreateCustomerMutationVariables = {
+      name: "baz",
+      allergen: false,
+    };
+
+    const results = await exclusions.createExclusion(mockExclusion);
+
+    expect(database.putAll).toHaveBeenCalledWith([
+      {
+        table: "exclusions-table",
+        record: {
+          ...mockExclusion,
+          id: "foo-id",
+        },
+      },
+    ]);
+
+    expect(results).toBeDefined();
+    expect(results.id).toEqual("foo-id");
+    expect(results.name).toEqual("baz");
+    expect(results.allergen).toEqual(false);
   });
 });

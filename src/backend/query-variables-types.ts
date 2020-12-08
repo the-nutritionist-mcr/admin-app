@@ -47,4 +47,5 @@ export type AllQueryVariables =
   | CreateCustomerMutationVariables
   | UpdateCustomerMutationVariables
   | CreateExclusionMutationVariables
+  | UpdateExclusionMutationVariables
   | ListExclusionsQueryVariables;
