@@ -1,7 +1,6 @@
-import { Heading, Table, Text } from "grommet";
+import { Heading, Table, TableCell, Text } from "grommet";
 
 import {
-  PrintableTableCell,
   PrintableTableRow,
   PrintableTbody,
   PrintableThead,
@@ -55,36 +54,45 @@ const ToPackTable: React.FC<ToPackTableProps> = (props) => {
       <Table alignSelf="start">
         <PrintableThead>
           <PrintableTableRow>
-            <PrintableTableCell>
+            <TableCell>
               <strong>Customer Name</strong>
-            </PrintableTableCell>
+            </TableCell>
             {props.deliveryMeals.map((_item, index) => (
-              <PrintableTableCell key={index}>
+              <TableCell key={index}>
                 <strong>Meal {index + 1}</strong>
-              </PrintableTableCell>
+              </TableCell>
             ))}
           </PrintableTableRow>
         </PrintableThead>
         <PrintableTbody>
-          {props.customerMeals.map((customerPlan) => (
-            <PrintableTableRow key={customerPlan.customer.id}>
-              <PrintableTableCell>
-                <Text>
-                  {customerPlan.customer.firstName}{" "}
-                  {customerPlan.customer.surname}
-                </Text>
-              </PrintableTableCell>
-              {props.deliveryMeals.map((_item, index) => (
-                <PrintableTableCell key={index}>
-                  {makePackTableCellText(
-                    index,
-                    customerPlan.meals,
-                    customerPlan.customer
-                  )}
-                </PrintableTableCell>
-              ))}
-            </PrintableTableRow>
-          ))}
+          {props.customerMeals
+            .slice()
+            .sort((a, b) =>
+              a.customer.surname.toLowerCase() >
+              b.customer.surname.toLowerCase()
+                ? 1
+                : // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+                  -1
+            )
+            .map((customerPlan) => (
+              <PrintableTableRow key={customerPlan.customer.id}>
+                <TableCell className="customerName">
+                  <Text>
+                    {customerPlan.customer.firstName}{" "}
+                    {customerPlan.customer.surname}
+                  </Text>
+                </TableCell>
+                {props.deliveryMeals.map((_item, index) => (
+                  <TableCell key={index}>
+                    {makePackTableCellText(
+                      index,
+                      customerPlan.meals,
+                      customerPlan.customer
+                    )}
+                  </TableCell>
+                ))}
+              </PrintableTableRow>
+            ))}
         </PrintableTbody>
       </Table>
     </SectionWithPageBreak>
