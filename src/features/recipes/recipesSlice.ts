@@ -49,13 +49,13 @@ export const updateRecipe = apiRequestCreator(
     const updateRecipeResult = (await API.graphql(
       graphqlOperation(updateRecipeMutation, updateRecipeVariables)
     )) as {
-      data: { updatedRecipe: Pick<Recipe, "potentialExclusions"> };
+      data: { updateRecipe: Pick<Recipe, "potentialExclusions"> };
     };
 
     return {
       ...recipe,
       potentialExclusions:
-        updateRecipeResult.data.updatedRecipe.potentialExclusions,
+        updateRecipeResult.data.updateRecipe.potentialExclusions,
     };
   }
 );

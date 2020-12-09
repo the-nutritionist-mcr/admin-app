@@ -64,7 +64,7 @@ const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
               <Select
                 multiple
                 closeOnChange={false}
-                name="exclusions"
+                name="potentialExclusions"
                 options={exclusions}
                 labelKey="name"
                 valueKey="name"

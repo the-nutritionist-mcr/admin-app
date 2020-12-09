@@ -278,6 +278,8 @@ export default class BackendStack extends cdk.Stack {
       },
     });
 
+    recipeExclusionsTable.grantFullAccess(resolverLambda);
+
     recipeExclusionsTable.addGlobalSecondaryIndex({
       indexName: "recipeId",
       partitionKey: {

@@ -19,9 +19,9 @@ import {
 } from "../recipes/recipesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import EditRecipesDialog from "./EditRecipesDialog";
-
 import React from "react";
 import RecipesRow from "../recipes/RecipesRow";
+import { fetchExclusions } from "../exclusions/exclusionsSlice";
 
 const Recipes: React.FC = () => {
   const recipes = useSelector(allRecipesSelector);
@@ -31,6 +31,7 @@ const Recipes: React.FC = () => {
 
   React.useEffect(() => {
     dispatch(fetchRecipes());
+    dispatch(fetchExclusions());
   }, [dispatch]);
 
   return (
