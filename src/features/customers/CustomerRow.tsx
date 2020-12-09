@@ -1,5 +1,5 @@
 import { Box, Button, TableCell, TableRow } from "grommet";
-import { Edit, Pause, Trash } from "grommet-icons";
+import { Edit, Pause, Play, Trash } from "grommet-icons";
 import { OkCancelDialog, PauseDialog } from "../../components";
 import { removeCustomer, updateCustomer } from "./customersSlice";
 import Customer from "../../domain/Customer";
@@ -8,6 +8,7 @@ import React from "react";
 import getExtrasString from "../../lib/getExtrasString";
 import getStatusString from "../../lib/getStatusString";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 
 interface CustomerRowProps {
   customer: Customer;
@@ -21,6 +22,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showPause, setShowPause] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
+  const dispatch = useDispatch();
 
   return (
     <TableRow>
@@ -76,6 +78,19 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
             }}
             onOk={(): void => {
               setShowPause(false);
+            }}
+          />
+          <SlimButton
+            secondary
+            icon={<Play color="light-6" />}
+            a11yTitle="Remove pause"
+            onClick={() => {
+              const customer = {
+                ...props.customer,
+                pauseStart: undefined,
+                pauseEnd: undefined,
+              };
+              dispatch(updateCustomer(customer));
             }}
           />
           <EditCustomerDialog

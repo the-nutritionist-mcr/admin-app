@@ -28,12 +28,18 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
     props.customer.pauseEnd
   );
 
-  const friendlyStart = pauseStart
-    ? `from ${moment(new Date(pauseStart)).calendar(null, calendarFormat)}`
+  const pauseStartToShow = pauseStart ?? props.customer.pauseStart;
+  const pauseEndToShow = pauseEnd ?? props.customer.pauseEnd;
+
+  const friendlyStart = pauseStartToShow
+    ? `from ${moment(new Date(pauseStartToShow)).calendar(
+        null,
+        calendarFormat
+      )}`
     : "No pause start";
 
-  const friendlyEnd = pauseEnd
-    ? `until ${moment(new Date(pauseEnd)).calendar(null, calendarFormat)}`
+  const friendlyEnd = pauseEndToShow
+    ? `until ${moment(new Date(pauseEndToShow)).calendar(null, calendarFormat)}`
     : "No pause end";
 
   return (
@@ -48,6 +54,8 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
         setPauseEnd(data.pauseEnd);
       }}
       onOk={(): void => {
+        setPauseStart(undefined);
+        setPauseEnd(undefined);
         props.onOk();
       }}
       onCancel={props.onCancel}
