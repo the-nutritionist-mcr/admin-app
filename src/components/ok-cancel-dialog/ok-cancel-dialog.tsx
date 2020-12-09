@@ -21,6 +21,7 @@ interface OkCancelDialogProps<T = undefined> {
   show?: boolean;
   header: string;
   onOk: () => void;
+  onChange?: (value: unknown) => void;
   onCancel: () => void;
 }
 
@@ -40,7 +41,7 @@ function OkCancelDialogContainer<T>(
       <CardBody pad="medium" alignSelf="center">
         {props.children}
       </CardBody>
-      <CardFooter pad="medium" alignSelf="center">
+      <CardFooter pad="medium" alignSelf="center" justify="center">
         <Button
           type={props.thing ? "submit" : undefined}
           icon={<Checkmark color="brand" size="small" />}
@@ -68,9 +69,7 @@ function OkCancelDialogContainer<T>(
       }}
       onChange={(nextData: unknown): void => {
         setThing(nextData as T);
-      }}
-      onReset={(): void => {
-        setThing(props.thing ? { ...props.thing } : props.thing);
+        props.onChange?.(nextData);
       }}
     >
       {contents}

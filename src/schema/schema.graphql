@@ -56,8 +56,8 @@ type Customer {
   paymentDayOfMonth: Int
   notes: String
   email: String!
-  pauseStart: AWSDate
-  pauseEnd: AWSDate
+  pauseStart: AWSDateTime
+  pauseEnd: AWSDateTime
   daysPerWeek: Int!
   plan: Plan!
   legacyPrice: Int
@@ -76,8 +76,8 @@ input CustomerInput {
   paymentDayOfMonth: Int
   notes: String
   email: String!
-  pauseStart: AWSDate
-  pauseEnd: AWSDate
+  pauseStart: AWSDateTime
+  pauseEnd: AWSDateTime
   daysPerWeek: Int!
   plan: PlanInput!
   legacyPrice: Int
@@ -97,8 +97,8 @@ input UpdateCustomerInput {
   paymentDayOfMonth: Int
   notes: String
   email: String!
-  pauseStart: AWSDate
-  pauseEnd: AWSDate
+  pauseStart: AWSDateTime
+  pauseEnd: AWSDateTime
   daysPerWeek: Int!
   plan: PlanInput!
   legacyPrice: Int

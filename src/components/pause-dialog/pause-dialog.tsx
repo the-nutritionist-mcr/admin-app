@@ -1,14 +1,22 @@
-import { Box, Calendar, Paragraph, Text } from "grommet";
+import {
+  Box,
+  DateInput,
+  FormField,
+  Paragraph,
+  Text,
+  ThemeContext,
+} from "grommet";
 import Customer from "../../domain/Customer";
 import { OkCancelDialog } from "..";
 import React from "react";
 import calendarFormat from "../../lib/calendarFormat";
 import moment from "moment";
+import { updateCustomer } from "../../features/customers/customersSlice";
 
 interface PauseDialogProps {
   show: boolean;
   customer: Customer;
-  onOk: (newCustomer: Customer) => void;
+  onOk: () => void;
   onCancel: () => void;
 }
 
@@ -30,54 +38,60 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
 
   return (
     <OkCancelDialog
+      thing={props.customer}
+      thunk={updateCustomer}
       show={props.show}
       header="Add Pause"
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onChange={(data: any) => {
+        setPauseStart(data.pauseStart);
+        setPauseEnd(data.pauseEnd);
+      }}
       onOk={(): void => {
-        props.onOk(props.customer);
+        props.onOk();
       }}
       onCancel={props.onCancel}
     >
-      <Paragraph margin="none" textAlign="center">
-        Use the calendars below to choose a pause start and end date. To pause a
-        customer indefinitely, select a start date only.
-      </Paragraph>
-      <Box direction="row" gap="medium" margin="medium" alignSelf="center">
-        <Box direction="column" gap="small" a11yTitle="Start Pause">
-          <Calendar
-            size="small"
-            date={pauseStart}
-            onSelect={(
-              date:
-                | (string | string[])
-                | React.SyntheticEvent<HTMLDivElement, Event>
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ): any => {
-              setPauseStart(date as string);
-            }}
-          />
-          <Text alignSelf="center">
-            <strong>{friendlyStart}</strong>
-          </Text>
+      <ThemeContext.Extend
+        value={{ global: { control: { border: { width: "0" } } } }}
+      >
+        <Paragraph margin="none" textAlign="center">
+          Use the calendars below to choose a pause start and end date. To pause
+          a customer indefinitely, select a start date only.
+        </Paragraph>
+        <Box direction="row" gap="medium" margin="medium" alignSelf="center">
+          <Box direction="column" gap="small" a11yTitle="Start Pause">
+            <FormField name="pauseStart">
+              <DateInput
+                inline={true}
+                name="pauseStart"
+                calendarProps={{ size: "small" }}
+              />
+              <Box pad={{ top: "small" }}>
+                <Text alignSelf="center">
+                  <strong>{friendlyStart}</strong>
+                </Text>
+              </Box>
+            </FormField>
+          </Box>
+          <Box direction="column" gap="small" a11yTitle="End Pause">
+            <FormField name="pauseEnd">
+              <DateInput
+                inline={true}
+                name="pauseEnd"
+                calendarProps={{
+                  size: "small",
+                }}
+              />
+              <Box pad={{ top: "small" }}>
+                <Text alignSelf="center">
+                  <strong>{friendlyEnd}</strong>
+                </Text>
+              </Box>
+            </FormField>
+          </Box>
         </Box>
-        <Box direction="column" gap="small" a11yTitle="End Pause">
-          <Calendar
-            size="small"
-            date={pauseEnd}
-            a11yTitle="End Pause"
-            onSelect={(
-              date:
-                | (string | string[])
-                | React.SyntheticEvent<HTMLDivElement, Event>
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ): any => {
-              setPauseEnd(date as string);
-            }}
-          />
-          <Text alignSelf="center">
-            <strong>{friendlyEnd}</strong>
-          </Text>
-        </Box>
-      </Box>
+      </ThemeContext.Extend>
     </OkCancelDialog>
   );
 };

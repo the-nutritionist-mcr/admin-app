@@ -8,7 +8,6 @@ import React from "react";
 import getExtrasString from "../../lib/getExtrasString";
 import getStatusString from "../../lib/getStatusString";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
 
 interface CustomerRowProps {
   customer: Customer;
@@ -22,8 +21,6 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showPause, setShowPause] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
-
-  const dispatch = useDispatch();
 
   return (
     <TableRow>
@@ -77,8 +74,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
             onCancel={(): void => {
               setShowPause(false);
             }}
-            onOk={(newCustomer: Customer): void => {
-              dispatch(updateCustomer(newCustomer));
+            onOk={(): void => {
               setShowPause(false);
             }}
           />
