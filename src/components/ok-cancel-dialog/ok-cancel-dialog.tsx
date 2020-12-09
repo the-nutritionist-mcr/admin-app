@@ -54,9 +54,6 @@ function OkCancelDialogContainer<T>(
           }}
           label="Cancel"
         />
-        {props.thing && (
-          <Button label="Reset" type="reset" name="reset" id="reset-button" />
-        )}
       </CardFooter>
     </React.Fragment>
   );

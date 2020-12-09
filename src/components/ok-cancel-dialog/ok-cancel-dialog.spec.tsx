@@ -93,25 +93,6 @@ describe("The OkCancelDialog", () => {
     expect(wrapper.find("input").props().value).toEqual("fooValue");
   });
 
-  it("Displays a reset button if there is a 'thing' prop", () => {
-    const wrapper = mount(
-      <OkCancelDialog
-        show={true}
-        thing={{}}
-        header="Foo"
-        onOk={jest.fn()}
-        onCancel={jest.fn()}
-      />
-    );
-
-    expect(
-      wrapper
-        .find(Button)
-        .findWhere((button) => button.props().type === "reset")
-        .exists()
-    ).toEqual(true);
-  });
-
   it("Does not displays a reset button if there is no 'thing' prop", () => {
     const wrapper = shallow(
       <OkCancelDialog
