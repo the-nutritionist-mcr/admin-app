@@ -55,67 +55,8 @@ jobs:
           flags: unittests
           verbose: true
 
-  build:
-    name: Build frontend
-    needs: install
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set env to production
-        if: endsWith(github.ref, '/main')
-        run: |
-          echo "ENVIRONMENT=prod" >> $GITHUB_ENV
-
-      - name: Set env to test
-        if: endsWith(github.ref, '/test')
-        run: |
-          echo "ENVIRONMENT=test" >> $GITHUB_ENV
-
-      - name: Set env to dev
-        if: endsWith(github.ref, '/develop')
-        run: |
-          echo "ENVIRONMENT=dev" >> $GITHUB_ENV
-
-      - name: Checkout repository
-        uses: actions/checkout@v1
-      - uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Configure node 14
-        uses: actions/setup-node@v1
-        with:
-          node-version: "14"
-
-      - name: Configure amplify
-        uses: ambientlight/amplify-cli-action@0.2.1
-        with:
-          amplify_command: configure
-          amplify_env: ${{ env.ENVIRONMENT }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
-
-      - name: Yarn install
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: install
-
-      - name: Build
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: build
-        env:
-          REACT_APP_ENVIRONMENT: ${{ env.ENVIRONMENT }}
-
-      - name: Upload build output
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-output
-          path: build/
-
-  deploy-frontend:
-    name: Deploy frontend
+  deploy:
+    name: Deploy Application
     needs: [unit-test, build]
     runs-on: ubuntu-latest
     steps:
@@ -125,73 +66,10 @@ jobs:
         with:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Yarn install
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: install
-
-      - name: Download all workflow run artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: build-output
-          path: build
-
-      - name: Turnstyle
-        uses: softprops/turnstyle@v1
-        with:
-          poll-interval-seconds: 30
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: CDK Deploy
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: cdk deploy --require-approval never
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
-
-  deploy-backend:
-    name: Deploy backend
-    needs: [unit-test, build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set env to production
-        if: endsWith(github.ref, '/main')
-        run: |
-          echo "ENVIRONMENT=prod" >> $GITHUB_ENV
-
-      - name: Set env to test
-        if: endsWith(github.ref, '/test')
-        run: |
-          echo "ENVIRONMENT=test" >> $GITHUB_ENV
-
-      - name: Set env to dev
-        if: endsWith(github.ref, '/develop')
-        run: |
-          echo "ENVIRONMENT=dev" >> $GITHUB_ENV
-
-      - name: Checkout repository
-        uses: actions/checkout@v1
-      - uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Configure node 14
         uses: actions/setup-node@v1
         with:
-          node-version: "14"
-
-      - name: Configure amplify
-        uses: ambientlight/amplify-cli-action@0.2.1
-        with:
-          amplify_command: configure
-          amplify_env: ${{ env.ENVIRONMENT }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
+          node-version: "12"
 
       - name: Yarn install
         uses: borales/actions-yarn@v2.3.0
@@ -205,11 +83,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Amplify push
-        uses: ambientlight/amplify-cli-action@0.2.1
+      - name: Deploy Backend
+        uses: borales/actions-yarn@v2.3.0
         with:
-          amplify_command: push
-          amplify_env: ${{ env.ENVIRONMENT }}
+          cmd: deploy:backend
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+
+      - name: Deploy Frontend
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: deploy:backend
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

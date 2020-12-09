@@ -111,7 +111,7 @@ describe("listCustomers", () => {
       .mockResolvedValue([]);
 
     when(mocked(database.getAllByIds, true))
-      .calledWith("customer-exclusions", expect.anything())
+      .calledWith("exclusions-table", expect.anything())
       .mockResolvedValue([]);
 
     when(mocked(database.getAll, true))

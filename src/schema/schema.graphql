@@ -21,25 +21,18 @@ input DeleteExclusionInput {
   id: ID!
 }
 
-type CustomerExclusion  {
-  id: ID!
-  customerId: ID!
-  exclusionId: ID!
-}
-
-
 type Recipe {
   id: ID!
   name: String!
   description: String
-  potentialExclusions: [RecipeExclusion!]!
+  potentialExclusions: [Exclusion!]!
 }
 
 input UpdateRecipeInput {
   id: ID!
   name: String!
   description: String
-  potentialExclusionIds: [ID!]!
+  exclusionIds: [ID!]!
 }
 
 input DeleteRecipeInput {
@@ -49,14 +42,7 @@ input DeleteRecipeInput {
 input RecipeInput {
   name: String!
   description: String
-  potentialExclusionIds: [ID!]!
-}
-
-
-type RecipeExclusion  {
-  id: ID!
-  recipeId: ID!
-  exclusionId: ID!
+  exclusionIds: [ID!]!
 }
 
 type Customer {

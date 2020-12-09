@@ -1,12 +1,17 @@
-import * as APITypes from "../../API";
-
-import API, { GraphQLResult, graphqlOperation } from "@aws-amplify/api";
+import API, { graphqlOperation } from "@aws-amplify/api";
 
 import {
-  createRecipe as createRecipeMutation,
-  deleteRecipe as deleteRecipeMutation,
-  updateRecipe as updateRecipeMutation,
-} from "../../graphql/mutations";
+  CreateRecipeMutationVariables,
+  DeleteRecipeMutationVariables,
+  UpdateRecipeMutationVariables,
+} from "../../backend/query-variables-types";
+
+import {
+  createRecipeMutation,
+  deleteRecipeMutation,
+  listRecipesQuery,
+  updateRecipeMutation,
+} from "./graphql";
 
 import type { AppState } from "../../lib/rootReducer";
 
@@ -14,9 +19,7 @@ import LoadingState from "../../types/LoadingState";
 import Recipe from "../../domain/Recipe";
 
 import apiRequestCreator from "../../lib/apiRequestCreator";
-import convertNullsToUndefined from "../../lib/convertNullsToUndefined";
 import { createSlice } from "@reduxjs/toolkit";
-import { listRecipes } from "../../graphql/queries";
 
 interface RecipesState {
   items: Recipe[];
@@ -31,51 +34,29 @@ const initialState: RecipesState = {
   loadingState: LoadingState.Idle,
 };
 
-const MALFORMED_RESPONSE = "Response from the server was malformed";
-
-type RawRecipe = Exclude<
-  Exclude<
-    Exclude<APITypes.ListRecipesQuery["listRecipes"], null>["items"],
-    null
-  >[number],
-  null
->;
-
-const mapRecipe = (recipe: RawRecipe): Recipe => {
-  const deNulledRecipe = convertNullsToUndefined(recipe);
-
-  return {
-    ...deNulledRecipe,
-    potentialExclusions: [],
-  };
-};
-
 export const updateRecipe = apiRequestCreator(
   "recipes/update",
   async (recipe: Recipe): Promise<Recipe> => {
-    const {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      createdAt,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      updatedAt,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      potentialExclusions,
-      ...recipeWithoutRecipes
-    } = recipe;
-    const updateRecipeVariables: APITypes.UpdateRecipeMutationVariables = {
-      input: recipeWithoutRecipes,
+    const { potentialExclusions, ...recipeWithoutExclusions } = recipe;
+
+    const updateRecipeVariables: UpdateRecipeMutationVariables = {
+      input: {
+        ...recipeWithoutExclusions,
+        exclusionIds: potentialExclusions.map((exclusion) => exclusion.id),
+      },
     };
 
     const updateRecipeResult = (await API.graphql(
       graphqlOperation(updateRecipeMutation, updateRecipeVariables)
-    )) as GraphQLResult<APITypes.UpdateRecipeMutation>;
+    )) as {
+      data: { updatedRecipe: Pick<Recipe, "potentialExclusions"> };
+    };
 
-    const updatedRecipe = updateRecipeResult.data?.updateRecipe;
-
-    if (updatedRecipe) {
-      return mapRecipe(updatedRecipe);
-    }
-    throw new Error(MALFORMED_RESPONSE);
+    return {
+      ...recipe,
+      potentialExclusions:
+        updateRecipeResult.data.updatedRecipe.potentialExclusions,
+    };
   }
 );
 
@@ -85,57 +66,52 @@ export const createRecipe = apiRequestCreator(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, potentialExclusions, ...recipeWithoutId } = recipe;
 
-    const createRecipeVariables: APITypes.CreateRecipeMutationVariables = {
-      input: recipeWithoutId,
+    const createRecipeVariables: CreateRecipeMutationVariables = {
+      input: {
+        ...recipeWithoutId,
+        exclusionIds: potentialExclusions.map((exclusion) => exclusion.id),
+      },
     };
+
+    // eslint-disable-next-line no-console
+    console.log(JSON.stringify(createRecipeVariables));
 
     const createRecipeResult = (await API.graphql(
       graphqlOperation(createRecipeMutation, createRecipeVariables)
-    )) as GraphQLResult<APITypes.CreateRecipeMutation>;
+    )) as {
+      data: {
+        createRecipe: Pick<Recipe, "potentialExclusions" | "id">;
+      };
+    };
 
-    const createdRecipe = createRecipeResult.data?.createRecipe;
-
-    if (createdRecipe) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      return mapRecipe(createdRecipe);
-    }
-
-    throw new Error(MALFORMED_RESPONSE);
+    return {
+      ...recipe,
+      potentialExclusions:
+        createRecipeResult.data.createRecipe.potentialExclusions,
+      id: createRecipeResult.data.createRecipe.id,
+    };
   }
 );
 
 export const fetchRecipes = apiRequestCreator(
   "recipes/fetch",
   async (): Promise<Recipe[]> => {
-    const listRecipesVariables: APITypes.ListRecipesQueryVariables = {};
-
     const listRecipesResult = (await API.graphql(
-      graphqlOperation(listRecipes, listRecipesVariables)
-    )) as GraphQLResult<APITypes.ListRecipesQuery>;
+      graphqlOperation(listRecipesQuery)
+    )) as {
+      data: {
+        listRecipes: Recipe[];
+      };
+    };
 
-    const items = listRecipesResult.data?.listRecipes?.items;
-
-    type NotNull = <T>(thing: T | null) => thing is T;
-
-    if (items) {
-      return items
-        .filter((Boolean as unknown) as NotNull)
-        .map(mapRecipe)
-        .map((item) => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { ...newItem } = item;
-          return newItem;
-        });
-    }
-
-    throw new Error(MALFORMED_RESPONSE);
+    return listRecipesResult.data.listRecipes;
   }
 );
 
 export const removeRecipe = apiRequestCreator(
   "recipes/remove",
   async (recipe: Recipe): Promise<string> => {
-    const deleteRecipeVariables: APITypes.DeleteRecipeMutationVariables = {
+    const deleteRecipeVariables: DeleteRecipeMutationVariables = {
       input: {
         id: recipe.id,
       },

@@ -269,7 +269,38 @@ export default class BackendStack extends cdk.Stack {
       },
     });
 
+    const recipeExclusionsTable = new ddb.Table(this, "RecipeExclusionsTable", {
+      tableName: `${name}-recipe-exclusions-table`,
+      billingMode: ddb.BillingMode.PAY_PER_REQUEST,
+      partitionKey: {
+        name: "id",
+        type: ddb.AttributeType.STRING,
+      },
+    });
+
+    recipeExclusionsTable.addGlobalSecondaryIndex({
+      indexName: "recipeId",
+      partitionKey: {
+        name: "recipeId",
+        type: ddb.AttributeType.STRING,
+      },
+    });
+
+    recipeExclusionsTable.addGlobalSecondaryIndex({
+      indexName: "exclusionId",
+      partitionKey: {
+        name: "exclusionId",
+        type: ddb.AttributeType.STRING,
+      },
+    });
+
     customerExclusionsTable.grantFullAccess(resolverLambda);
+
+    resolverLambda.addEnvironment(
+      "RECIPE_EXCLUSIONS_TABLE",
+      recipeExclusionsTable.tableName
+    );
+
     resolverLambda.addEnvironment(
       "CUSTOMER_EXCLUSIONS_TABLE",
       customerExclusionsTable.tableName

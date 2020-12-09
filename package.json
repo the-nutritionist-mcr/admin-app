@@ -116,7 +116,7 @@
     "test": "react-scripts test --silent",
     "start:and-wait": "yarn start & yarn wait-on http://localhost:3000",
     "test:cypress:record": "cypress run --record --reporter mochawesome --reporter-options \"reportDir=cypress/report/mochawesome-report,overwrite=false,html=false,json=true,timestamp=mmddyyyy_HHMMss\"",
-    "test:ci": "CI=true react-scripts test --coverage",
+    "test:ci": "CI=true react-scripts test --silent --coverage",
     "eject": "react-scripts eject",
     "amplify:CustomGraphqlResolver": "tsc && mv ./dist/amplify/backend/function/CustomGraphqlResolver/ts ./amplify/backend/function/CustomGraphqlResolver/src",
     "build:models": "graphql-codegen --config codegen.yml"

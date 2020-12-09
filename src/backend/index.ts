@@ -19,6 +19,17 @@ import {
   updateExclusion,
 } from "./exclusions";
 
+import {
+  createRecipe,
+  deleteRecipe,
+  isCreateRecipesQuery,
+  isDeleteRecipeMutation,
+  isListRecipesQuery,
+  isUpdateRecipeMutation,
+  listRecipes,
+  updateRecipe,
+} from "./recipes";
+
 import { AllQueryVariables } from "./query-variables-types";
 import { AppSyncResolverHandler } from "aws-lambda";
 
@@ -32,7 +43,11 @@ type Result =
   | ExtractPromiseType<ReturnType<typeof listExclusions>>
   | ExtractPromiseType<ReturnType<typeof createExclusion>>
   | ExtractPromiseType<ReturnType<typeof deleteExclusion>>
-  | ExtractPromiseType<ReturnType<typeof updateExclusion>>;
+  | ExtractPromiseType<ReturnType<typeof updateExclusion>>
+  | ExtractPromiseType<ReturnType<typeof createRecipe>>
+  | ExtractPromiseType<ReturnType<typeof deleteRecipe>>
+  | ExtractPromiseType<ReturnType<typeof listRecipes>>
+  | ExtractPromiseType<ReturnType<typeof updateRecipe>>;
 
 /* eslint-disable import/prefer-default-export */
 export const handler: AppSyncResolverHandler<
@@ -69,6 +84,22 @@ export const handler: AppSyncResolverHandler<
 
   if (isDeleteExclusionMutation(event)) {
     return await deleteExclusion(event.arguments.input);
+  }
+
+  if (isCreateRecipesQuery(event)) {
+    return await createRecipe(event.arguments.input);
+  }
+
+  if (isListRecipesQuery(event)) {
+    return await listRecipes();
+  }
+
+  if (isUpdateRecipeMutation(event)) {
+    return await updateRecipe(event.arguments.input);
+  }
+
+  if (isDeleteRecipeMutation(event)) {
+    return await deleteRecipe(event.arguments.input);
   }
 
   throw new Error(`Resolver cannot handle '${event.info.fieldName}'`);

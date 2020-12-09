@@ -4,10 +4,6 @@ import type { AppState } from "./rootReducer";
 import { createAction } from "@reduxjs/toolkit";
 import log from "loglevel";
 
-const MILLISECONDS_PER_SECOND = 1000;
-
-const ERROR_MESSAGE_TIMEOUT_SECONDS = 15;
-
 type ThunkResult<R, A> = ThunkAction<R, AppState, A, AnyAction>;
 
 export const loadingStart = createAction("loadingStart");
@@ -35,9 +31,6 @@ export const apiRequestCreator = <R, A = void>(
           dispatch(loadingSucceeded());
           return dispatch(finishAction(apiReturnVal));
         } catch (error) {
-          setTimeout(() => {
-            dispatch(clearError());
-          }, ERROR_MESSAGE_TIMEOUT_SECONDS * MILLISECONDS_PER_SECOND);
           const dispatchError = error.errors ? error.errors[0] : error;
           log.error(dispatchError);
           return dispatch(loadingFailed(dispatchError.message));
