@@ -1,9 +1,9 @@
 {
-  "DevBackendStackprod": {
-    "GraphQlQpiUrl": "https://dwpdhv4uxjelbih4bmwqm2vwsa.appsync-api.us-east-1.amazonaws.com/graphql",
-    "UserPoolId": "us-east-1_nfWupeuVh",
-    "AuthUrl": "https://prod-tnm-admin-auth.auth.us-east-1.amazoncognito.com",
-    "ClientId": "42ul0smf756vpij35d60e7attj",
-    "RedirectUrl": "https://prod-tnm-admin-auth.auth.us-east-1.amazoncognito.com/login?client_id=42ul0smf756vpij35d60e7attj&response_type=code&redirect_uri=https://www.tnm-admin.com"
+  "DevBackendStackdev": {
+    "GraphQlQpiUrl": "https://2n5z55cm6raz5btzb43q3viptq.appsync-api.us-east-1.amazonaws.com/graphql",
+    "UserPoolId": "us-east-1_VpZEipENI",
+    "AuthUrl": "https://dev-tnm-admin-auth.auth.us-east-1.amazoncognito.com",
+    "ClientId": "1q9otakv6kk4mgb2vtesjvqrnn",
+    "RedirectUrl": "https://dev-tnm-admin-auth.auth.us-east-1.amazoncognito.com/login?client_id=1q9otakv6kk4mgb2vtesjvqrnn&response_type=code&redirect_uri=https://dev.tnm-admin.com"
   }
 }
