@@ -57,7 +57,7 @@ jobs:
 
   deploy:
     name: Deploy Application
-    needs: [unit-test, build]
+    needs: [unit-test]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
