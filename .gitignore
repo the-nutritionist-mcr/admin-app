@@ -38,4 +38,3 @@ amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfigtemplate
 template
-src/backend-outputs.json
