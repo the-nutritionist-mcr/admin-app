@@ -38,3 +38,10 @@ amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfigtemplate
 template
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
