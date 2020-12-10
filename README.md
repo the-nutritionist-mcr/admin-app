@@ -18,7 +18,7 @@ Deployment is performed automatically by Github actions for three main branches
 
 ## Hosting
 
-The application is a static react application hosted on S3 + Cloudfront with an AWS Amplify backend.
+The application is a static react application hosted on S3 + Cloudfront with an backend comprising of AppSync, Cognito and DynamoDb
 
 ## Available Scripts
 

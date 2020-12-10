@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# cdk
+/template
+
 # production
 /build
 
