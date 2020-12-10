@@ -94,7 +94,7 @@ const Customers: React.FC = () => {
                 <strong>Extras</strong>
               </TableCell>
               <TableCell scope="col">
-                <strong>Exclusions</strong>
+                <strong>Customisations</strong>
               </TableCell>
               <TableCell scope="col">
                 <strong>Actions</strong>
