@@ -47,7 +47,7 @@ const Router: React.FC = () => (
       <AuthenticatedRoute path="/planner" groups={["user", "admin"]}>
         <LazyPlanner />
       </AuthenticatedRoute>
-      <AuthenticatedRoute path="/exclusions" groups={["user", "admin"]}>
+      <AuthenticatedRoute path="/customisations" groups={["user", "admin"]}>
         <LazyExclusions />
       </AuthenticatedRoute>
     </Switch>

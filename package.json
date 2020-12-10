@@ -155,6 +155,7 @@
   },
   "lint-prepush": {
     "base": "main",
+    "verbose": true,
     "tasks": {
       "*.{js,ts,jsx,tsx}": [
         "prettier --write",

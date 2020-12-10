@@ -84,8 +84,8 @@ const Exclusions: React.FC = () => {
         </Table>
       ) : (
         <Text>
-          You&apos;ve not added any exclusions yet... Click the &apos;new&apos;
-          button above to get started!
+          You&apos;ve not added any customisations yet... Click the
+          &apos;new&apos; button above to get started!
         </Text>
       )}
     </React.Fragment>
