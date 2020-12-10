@@ -52,8 +52,8 @@ const NavBar: React.FC = () => {
       Planner
     </MenuButton>,
     <MenuButton
-      key="/exclusions"
-      to="/exclusions"
+      key="/customisations"
+      to="/customisations"
       groups={["user", "admin"]}
       icon={<Configure />}
     >
