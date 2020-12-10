@@ -19,7 +19,7 @@ import apiRequestCreator from "../../lib/apiRequestCreator";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface CustomersState {
-  items: Foo[];
+  items: Customer[];
   page: number;
 }
 
