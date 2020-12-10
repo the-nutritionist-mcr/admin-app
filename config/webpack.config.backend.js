@@ -1,4 +1,5 @@
 const path = require("path");
+const PnpWebpackPlugin = require("pnp-webpack-plugin");
 
 module.exports = {
   output: {
@@ -11,6 +12,12 @@ module.exports = {
   target: "node",
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".jsx"],
+
+    plugins: [PnpWebpackPlugin],
+  },
+
+  resolveLoader: {
+    plugins: [PnpWebpackPlugin.moduleLoader(module)],
   },
   module: {
     rules: [
@@ -18,7 +25,7 @@ module.exports = {
         test: /\.tsx?$/u,
         use: [
           {
-            loader: "ts-loader",
+            loader: require.resolve("ts-loader"),
             options: {
               configFile: path.resolve(__dirname, "tsconfig.backend.json"),
             },
