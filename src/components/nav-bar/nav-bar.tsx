@@ -57,7 +57,7 @@ const NavBar: React.FC = () => {
       groups={["user", "admin"]}
       icon={<Alert />}
     >
-      Exclusions
+      Customisations
     </MenuButton>,
     <MenuButton
       key="logout"

@@ -31,7 +31,7 @@ const Exclusions: React.FC = () => {
   return (
     <React.Fragment>
       <Header align="center" justify="start" gap="small">
-        <Heading level={2}>Exclusions</Heading>
+        <Heading level={2}>Customisations</Heading>
         <Button
           primary
           size="small"

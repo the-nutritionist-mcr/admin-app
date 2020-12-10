@@ -41,7 +41,7 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
           }}
           onCancel={(): void => setShowDoDelete(false)}
         >
-          Are you sure you want to delete this exclusion?
+          Are you sure you want to delete this customisation?
         </OkCancelDialog>
 
         <SlimButton
@@ -52,7 +52,7 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
         />
         <EditExclusionDialog
           exclusion={props.exclusion}
-          title="Edit Exclusion"
+          title="Edit Customisation"
           thunk={updateExclusion}
           onOk={(): void => {
             setShowEdit(false);
