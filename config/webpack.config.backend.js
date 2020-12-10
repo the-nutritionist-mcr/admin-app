@@ -1,12 +1,13 @@
 const path = require("path");
+
 module.exports = {
   output: {
-    path: path.resolve(__dirname, "dist", "bundles", "backend"),
+    path: path.resolve(__dirname, "..", "dist", "bundles", "backend"),
     libraryTarget: "commonjs2",
     filename: "index.js",
   },
   devtool: "source-map",
-  entry: [path.resolve(__dirname, "src", "backend", "index.ts")],
+  entry: [path.resolve(__dirname, "..", "src", "backend", "index.ts")],
   target: "node",
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".jsx"],
@@ -19,7 +20,7 @@ module.exports = {
           {
             loader: "ts-loader",
             options: {
-              configFile: "tsconfig.backend.json",
+              configFile: path.resolve(__dirname, "tsconfig.backend.json"),
             },
           },
         ],

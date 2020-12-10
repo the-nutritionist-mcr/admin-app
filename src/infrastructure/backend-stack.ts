@@ -3,9 +3,8 @@ import * as cdk from "@aws-cdk/core";
 import * as cognito from "@aws-cdk/aws-cognito";
 import * as ddb from "@aws-cdk/aws-dynamodb";
 import * as lambda from "@aws-cdk/aws-lambda";
-
-// eslint-disable-next-line unicorn/import-style
-import * as path from "path";
+import addProjectTags from "./addProjectTags";
+import path from "path";
 
 interface BackendStackProps {
   envName: string;
@@ -50,7 +49,6 @@ export default class BackendStack extends cdk.Stack {
       },
     });
 
-    // eslint-disable-next-line no-new
     new cdk.CfnOutput(this, "UserPoolId", {
       value: pool.userPoolId,
     });
@@ -61,7 +59,6 @@ export default class BackendStack extends cdk.Stack {
       },
     });
 
-    // eslint-disable-next-line no-new
     new cdk.CfnOutput(this, "ClientId", {
       value: client.userPoolClientId,
     });
@@ -78,12 +75,10 @@ export default class BackendStack extends cdk.Stack {
 
     const url = domain.baseUrl();
 
-    // eslint-disable-next-line no-new
     new cdk.CfnOutput(this, "Auth Url", {
       value: url,
     });
 
-    // eslint-disable-next-line no-new
     new cdk.CfnOutput(this, "Redirect Url", {
       value: signInUrl,
     });
@@ -103,7 +98,6 @@ export default class BackendStack extends cdk.Stack {
       },
     });
 
-    // eslint-disable-next-line no-new
     new cdk.CfnOutput(this, "GraphQlQpiUrl", {
       value: api.graphqlUrl,
     });
@@ -307,5 +301,17 @@ export default class BackendStack extends cdk.Stack {
       "CUSTOMER_EXCLUSIONS_TABLE",
       customerExclusionsTable.tableName
     );
+
+    addProjectTags("TnmAdmin", [
+      resolverLambda,
+      customerExclusionsTable,
+      recipeExclusionsTable,
+      recipesTable,
+      customersTable,
+      exclusionsTable,
+      lambdaDataSource,
+      api,
+      pool,
+    ]);
   }
 }

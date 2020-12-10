@@ -112,9 +112,10 @@
     "start": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) react-scripts start",
     "build:frontend": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) react-scripts build",
     "build:backend": "webpack --progress --config webpack.config.backend.js",
-    "deploy:frontend": "yarn build:frontend && cdk deploy --require-approval never --all --outputs-file src/backend-outputs.json",
+    "deploy:frontend": "yarn build:frontend && cdk deploy --require-approval never --all --outputs-file src/frontend-outputs.json",
     "deploy:backend": "yarn build:backend && DO_BACKEND=yes cdk deploy --require-approval never --all --outputs-file src/backend-outputs.json",
     "lint": "eslint .",
+    "tsc:watch": "tsc --project ./config/tsconfig.incremental.json --watch",
     "test:noisy": "react-scripts test",
     "test": "yarn test:noisy --silent",
     "start:and-wait": "yarn start & yarn wait-on http://localhost:3000",
@@ -172,12 +173,9 @@
   "eslintConfig": {
     "ignorePatterns": [
       "dist",
-      "amplify/#*",
-      "amplify/**/*.js",
+      "amplify/**",
       "src/API.ts",
       "template",
-      "graphql",
-      "src/aws-exports.js",
       "coverage",
       "build"
     ],
@@ -190,7 +188,17 @@
     },
     "rules": {
       "unicorn/no-null": "off"
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "src/infrastructure/**/*"
+        ],
+        "rules": {
+          "no-new": "off"
+        }
+      }
+    ]
   },
   "browserslist": {
     "production": [

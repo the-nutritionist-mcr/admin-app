@@ -1,7 +1,7 @@
-import listExclusionsQuery from "./listExclusionsQuery";
 import createExclusionMutation from "./createExclusionMutation";
-import updateExclusionMutation from "./updateExclusionMutation";
 import deleteExclusionMutation from "./deleteExclusionMutation";
+import listExclusionsQuery from "./listExclusionsQuery";
+import updateExclusionMutation from "./updateExclusionMutation";
 
 export {
   createExclusionMutation,

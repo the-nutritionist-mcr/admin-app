@@ -5,6 +5,7 @@ import * as route53 from "@aws-cdk/aws-route53";
 import * as route53Targets from "@aws-cdk/aws-route53-targets";
 import * as s3 from "@aws-cdk/aws-s3";
 import * as s3Deploy from "@aws-cdk/aws-s3-deployment";
+import addProjectTags from "./addProjectTags";
 
 interface ProductionFrontendStackProps {
   subdomain: string;
@@ -28,7 +29,6 @@ export default class ProductionFrontendStack extends cdk.Stack {
       websiteErrorDocument: "index.html",
     });
 
-    // eslint-disable-next-line no-new
     new s3Deploy.BucketDeployment(this, "ProductionFrontendStackDeployment", {
       sources: [s3Deploy.Source.asset("./build")],
       destinationBucket: bucket,
@@ -78,22 +78,37 @@ export default class ProductionFrontendStack extends cdk.Stack {
       }
     );
 
-    // eslint-disable-next-line no-new
-    new route53.ARecord(this, "ProductionFrontendStackARecord", {
-      zone,
-      recordName: fullUrl,
-      target: route53.RecordTarget.fromAlias(
-        new route53Targets.CloudFrontTarget(distribution)
-      ),
+    new cdk.CfnOutput(this, "CloudFrontDistributionId", {
+      exportName: "CloudFrontDistributionId",
+      value: distribution.distributionId,
     });
 
+    const aRecord = new route53.ARecord(
+      this,
+      "ProductionFrontendStackARecord",
+      {
+        zone,
+        recordName: fullUrl,
+        target: route53.RecordTarget.fromAlias(
+          new route53Targets.CloudFrontTarget(distribution)
+        ),
+      }
+    );
+
     // If (props.subdomain === "www") {
-    //   // eslint-disable-next-line no-new
     //   new route53.CnameRecord(this, "ProductionFrontendStackCnameRecord", {
     //     zone,
     //     domainName: props.domainName,
     //     recordName: fullUrl,
     //   });
     // }
+
+    addProjectTags("TnmAdmin", [
+      bucket,
+      aRecord,
+      distribution,
+      certificate,
+      zone,
+    ]);
   }
 }

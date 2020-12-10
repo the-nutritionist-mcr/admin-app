@@ -47,14 +47,12 @@ const generateStacks = (): void => {
   };
 
   if (process.env.DO_BACKEND) {
-    // eslint-disable-next-line no-new
     new BackendStack(
       app,
       `DevBackendStack${details[branch].envName}`,
       details[branch]
     );
   } else {
-    // eslint-disable-next-line no-new
     new ProductionFrontendStack(
       app,
       details[branch].stackLabel,
