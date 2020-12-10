@@ -140,7 +140,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
+      "pre-commit": "lint-staged --verbose",
       "pre-push": "lint-prepush"
     }
   },
