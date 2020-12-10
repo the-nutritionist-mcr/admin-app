@@ -1,5 +1,5 @@
-import { Alert, Cafeteria, Home, Logout, Plan, User } from "grommet-icons";
 import { Box, Header, Heading, Text } from "grommet";
+import { Cafeteria, Configure, Home, Logout, Plan, User } from "grommet-icons";
 import { Auth } from "aws-amplify";
 import LoadingState from "../../types/LoadingState";
 import { MenuButton } from "..";
@@ -55,7 +55,7 @@ const NavBar: React.FC = () => {
       key="/exclusions"
       to="/exclusions"
       groups={["user", "admin"]}
-      icon={<Alert />}
+      icon={<Configure />}
     >
       Customisations
     </MenuButton>,
