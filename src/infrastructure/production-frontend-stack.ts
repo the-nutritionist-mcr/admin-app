@@ -79,7 +79,6 @@ export default class ProductionFrontendStack extends cdk.Stack {
     );
 
     new cdk.CfnOutput(this, "CloudFrontDistributionId", {
-      exportName: "CloudFrontDistributionId",
       value: distribution.distributionId,
     });
 
