@@ -146,7 +146,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint",
+      "eslint --fix",
       "prettier --write"
     ],
     "*.{json,md,yml,yaml}": [
@@ -158,12 +158,9 @@
     "verbose": true,
     "tasks": {
       "*.{js,ts,jsx,tsx}": [
-        "prettier --write",
-        "eslint",
         "react-scripts test --watchAll=false --findRelatedTests"
       ],
       "*.json": [
-        "prettier --write",
         "jsonlint"
       ]
     }
