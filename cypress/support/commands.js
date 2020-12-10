@@ -26,38 +26,16 @@
 
 /// <reference types="cypress" />
 /* eslint-disable @typescript-eslint/no-namespace */
-declare namespace Cypress {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface Chainable {
-    createCustomer: (
-      salutation: string,
-      firstName: string,
-      surname: string,
-      startDate: number,
-      email: string,
-      plan: string,
-      daysPerWeek: number,
-      snack: string,
-      breakfast: boolean,
-      address: string,
-      exclusions: string[],
-      notes?: string,
-      paymentDay?: number,
-      telephone?: string
-    ) => void;
-
-    createRecipe: (
-      name: string,
-      description: string,
-      exclusions: string[]
-    ) => void;
-
-    createExclusion: (name: string, allergen: boolean) => void;
-  }
-}
 /* eslint-enable @typescript-eslint/no-namespace */
 
-Cypress.Commands.add("createExclusion", (name: string, allergen: boolean) => {
+Cypress.Commands.add("login", () => {
+  cy.visit("/");
+  cy.get("#username").type(Cypress.env("USER"));
+  cy.get("#password").type(Cypress.env("PASSWORD"));
+  cy.get("button[type='submit']").click({ multiple: true, force: true });
+});
+
+Cypress.Commands.add("createExclusion", (name, allergen) => {
   cy.get("header").contains("Exclusions").click();
   cy.contains("New").click();
   cy.get("table").find("tbody").find("tr").first().as("firstRow");
@@ -72,21 +50,21 @@ Cypress.Commands.add("createExclusion", (name: string, allergen: boolean) => {
 Cypress.Commands.add(
   "createCustomer",
   (
-    salutation: string,
-    firstName: string,
-    surname: string,
-    startDate: number,
-    email: string,
-    plan: string,
-    daysPerWeek: number,
-    snack: string,
-    breakfast: boolean,
-    address: string,
-    exclusions: string[],
-    notes?: string,
-    paymentDay?: number,
-    telephone?: string
-  ): void => {
+    salutation,
+    firstName,
+    surname,
+    startDate,
+    email,
+    plan,
+    daysPerWeek,
+    snack,
+    breakfast,
+    address,
+    exclusions,
+    notes,
+    paymentDay,
+    telephone
+  ) => {
     cy.get("header").contains("Customers").click();
     cy.contains("New").click();
 
@@ -131,23 +109,20 @@ Cypress.Commands.add(
   }
 );
 
-Cypress.Commands.add(
-  "createRecipe",
-  (name: string, description: string, exclusions: string[]): void => {
-    cy.get("header").contains("Recipes").click();
-    cy.contains("New").click();
-    cy.get("table").find("tbody").find("tr").first().as("firstRow");
+Cypress.Commands.add("createRecipe", (name, description, exclusions) => {
+  cy.get("header").contains("Recipes").click();
+  cy.contains("New").click();
+  cy.get("table").find("tbody").find("tr").first().as("firstRow");
 
-    cy.get("@firstRow").find("input[name='name']").type(name);
-    cy.get("@firstRow").find("input[name='description']").type(description);
-    cy.get("@firstRow").find("input[name='exclusions']").click();
-    cy.get("div[data-g-portal-id='0']").as("dropPortal");
-    exclusions.forEach((exclusion) => {
-      cy.get("@dropPortal")
-        .find("div[role='menubar']")
-        .contains(exclusion)
-        .click({ force: true });
-    });
-    cy.get("@firstRow").find("input[name='exclusions']").click();
-  }
-);
+  cy.get("@firstRow").find("input[name='name']").type(name);
+  cy.get("@firstRow").find("input[name='description']").type(description);
+  cy.get("@firstRow").find("input[name='exclusions']").click();
+  cy.get("div[data-g-portal-id='0']").as("dropPortal");
+  exclusions.forEach((exclusion) => {
+    cy.get("@dropPortal")
+      .find("div[role='menubar']")
+      .contains(exclusion)
+      .click({ force: true });
+  });
+  cy.get("@firstRow").find("input[name='exclusions']").click();
+});

@@ -24,6 +24,6 @@
     "jsx": "react",
     "noEmit": true
   },
-  "include": ["src", "config"],
+  "include": ["src", "config", "cypress"],
   "exclude": ["**/node_modules/**", "**/.*/"]
 }

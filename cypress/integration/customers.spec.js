@@ -1,13 +1,11 @@
 describe("The customers page", () => {
-  it("Should render a page with the correct title", () => {
-    cy.visit("/customers");
-    cy.get("h2").contains("Customers");
+  beforeEach(() => {
+    cy.login();
+    cy.contains("Customers").click();
   });
 
-  it("Should render the empty data message on first page load", () => {
-    cy.visit("/customers");
-    cy.get("body").should("not.contain", "table");
-    cy.contains("You've not added any customers yet...");
+  it("Should render a page with the correct title", () => {
+    cy.get("h2").contains("Customers");
   });
 
   it("Should allow you to add and edit a couple of customers which then persist after page reload", () => {
@@ -57,8 +55,6 @@ describe("The customers page", () => {
 
   describe("the delete button", () => {
     it("Should allow you to delete a row after you've confirmed", () => {
-      cy.visit("/customers");
-
       cy.createCustomer(
         "Mr",
         "Ben",
@@ -105,8 +101,6 @@ describe("The customers page", () => {
     });
 
     it("Does not delete a row if you click on the confirm dialog", () => {
-      cy.visit("/customers");
-
       cy.createCustomer(
         "Mr",
         "Ben",
