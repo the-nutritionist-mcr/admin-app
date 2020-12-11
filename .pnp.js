@@ -160,6 +160,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["aws-cdk-local", "npm:1.65.1"],
                   ["aws-lambda", "npm:1.0.6"],
                   ["aws-sdk", "npm:2.807.0"],
+                  ["aws-sdk-mock", "npm:5.1.0"],
                   ["cypress", "npm:5.6.0"],
                   ["dynamodb-empty", "npm:1.0.1"],
                   ["enzyme", "npm:3.11.0"],
@@ -16615,6 +16616,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                 linkType: "HARD",
               },
             ],
+            [
+              "npm:5.0.1",
+              {
+                packageLocation:
+                  "./.yarn/cache/@sinonjs-formatio-npm-5.0.1-c914aa3077-88a5b635f8.zip/node_modules/@sinonjs/formatio/",
+                packageDependencies: [
+                  ["@sinonjs/formatio", "npm:5.0.1"],
+                  ["@sinonjs/commons", "npm:1.8.1"],
+                  ["@sinonjs/samsam", "npm:5.3.0"],
+                ],
+                linkType: "HARD",
+              },
+            ],
           ],
         ],
         [
@@ -16630,6 +16644,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["@sinonjs/commons", "npm:1.8.1"],
                   ["array-from", "npm:2.1.1"],
                   ["lodash", "npm:4.17.20"],
+                ],
+                linkType: "HARD",
+              },
+            ],
+            [
+              "npm:5.3.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/@sinonjs-samsam-npm-5.3.0-eb9feb77fe-03eb6ba70c.zip/node_modules/@sinonjs/samsam/",
+                packageDependencies: [
+                  ["@sinonjs/samsam", "npm:5.3.0"],
+                  ["@sinonjs/commons", "npm:1.8.1"],
+                  ["lodash.get", "npm:4.4.2"],
+                  ["type-detect", "npm:4.0.8"],
                 ],
                 linkType: "HARD",
               },
@@ -22312,6 +22340,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["url", "npm:0.10.3"],
                   ["uuid", "npm:3.3.2"],
                   ["xml2js", "npm:0.4.19"],
+                ],
+                linkType: "HARD",
+              },
+            ],
+          ],
+        ],
+        [
+          "aws-sdk-mock",
+          [
+            [
+              "npm:5.1.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/aws-sdk-mock-npm-5.1.0-c15e5b2018-2c85ba293a.zip/node_modules/aws-sdk-mock/",
+                packageDependencies: [
+                  ["aws-sdk-mock", "npm:5.1.0"],
+                  ["aws-sdk", "npm:2.808.0"],
+                  ["sinon", "npm:9.2.2"],
+                  ["traverse", "npm:0.6.6"],
                 ],
                 linkType: "HARD",
               },
@@ -42680,6 +42727,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                 linkType: "HARD",
               },
             ],
+            [
+              "npm:4.0.4",
+              {
+                packageLocation:
+                  "./.yarn/cache/nise-npm-4.0.4-d48e10553a-5ead54f4f3.zip/node_modules/nise/",
+                packageDependencies: [
+                  ["nise", "npm:4.0.4"],
+                  ["@sinonjs/commons", "npm:1.8.1"],
+                  ["@sinonjs/fake-timers", "npm:6.0.1"],
+                  ["@sinonjs/text-encoding", "npm:0.7.1"],
+                  ["just-extend", "npm:4.1.1"],
+                  ["path-to-regexp", "npm:1.8.0"],
+                ],
+                linkType: "HARD",
+              },
+            ],
           ],
         ],
         [
@@ -50731,6 +50794,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                 linkType: "HARD",
               },
             ],
+            [
+              "npm:9.2.2",
+              {
+                packageLocation:
+                  "./.yarn/cache/sinon-npm-9.2.2-ee6013a5f6-349e4d79c3.zip/node_modules/sinon/",
+                packageDependencies: [
+                  ["sinon", "npm:9.2.2"],
+                  ["@sinonjs/commons", "npm:1.8.1"],
+                  ["@sinonjs/fake-timers", "npm:6.0.1"],
+                  ["@sinonjs/formatio", "npm:5.0.1"],
+                  ["@sinonjs/samsam", "npm:5.3.0"],
+                  ["diff", "npm:4.0.2"],
+                  ["nise", "npm:4.0.4"],
+                  ["supports-color", "npm:7.2.0"],
+                ],
+                linkType: "HARD",
+              },
+            ],
           ],
         ],
         [
@@ -53198,6 +53279,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["aws-cdk-local", "npm:1.65.1"],
                   ["aws-lambda", "npm:1.0.6"],
                   ["aws-sdk", "npm:2.807.0"],
+                  ["aws-sdk-mock", "npm:5.1.0"],
                   ["cypress", "npm:5.6.0"],
                   ["dynamodb-empty", "npm:1.0.1"],
                   ["enzyme", "npm:3.11.0"],
@@ -53564,6 +53646,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["tr46", "npm:2.0.2"],
                   ["punycode", "npm:2.1.1"],
                 ],
+                linkType: "HARD",
+              },
+            ],
+          ],
+        ],
+        [
+          "traverse",
+          [
+            [
+              "npm:0.6.6",
+              {
+                packageLocation:
+                  "./.yarn/cache/traverse-npm-0.6.6-584cfa4b5f-f2bfaae692.zip/node_modules/traverse/",
+                packageDependencies: [["traverse", "npm:0.6.6"]],
                 linkType: "HARD",
               },
             ],

@@ -1,16 +1,18 @@
 import AWS from "aws-sdk";
 import log from "loglevel";
-const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
 
 const NUM_TABS = 4;
 
+const TRANSACT_ITEMS_MAX_SIZE = 25;
+
 export const getAll = async <T>(table: string): Promise<T[]> => {
+  const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
   /* eslint-disable @typescript-eslint/naming-convention */
   const params = {
     TableName: table,
   };
 
-  log.trace(JSON.stringify(params), null, NUM_TABS);
+  log.trace(JSON.stringify(params, null, NUM_TABS));
   const result = await dynamoDb.scan(params).promise();
   return (result.Items as T[] | undefined) ?? [];
   /* eslint-enable @typescript-eslint/naming-convention */
@@ -21,6 +23,7 @@ export const getAllByGsis = async <T>(
   indexName: string,
   ids: string[]
 ): Promise<T[]> => {
+  const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
   if (ids.length === 0) {
     return [];
   }
@@ -37,7 +40,7 @@ export const getAllByGsis = async <T>(
         },
       };
 
-      log.trace(JSON.stringify(params), null, NUM_TABS);
+      log.trace(JSON.stringify(params, null, NUM_TABS));
       return dynamoDb.query(params).promise();
     })
   );
@@ -50,6 +53,7 @@ export const getAllByIds = async <T>(
   table: string,
   ids: (string | { key: string; value: string })[]
 ): Promise<T[]> => {
+  const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
   /* eslint-disable @typescript-eslint/naming-convention */
   if (ids.length === 0) {
     return [];
@@ -64,7 +68,7 @@ export const getAllByIds = async <T>(
     },
   };
 
-  log.trace(JSON.stringify(batchParams), null, NUM_TABS);
+  log.trace(JSON.stringify(batchParams, null, NUM_TABS));
 
   const results = await dynamoDb.batchGet(batchParams).promise();
   /* eslint-enable @typescript-eslint/naming-convention */
@@ -75,6 +79,7 @@ export const getAllByIds = async <T>(
 export const putAll = async <T>(
   items: { table: string; record: T }[]
 ): Promise<void> => {
+  const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
   if (items.length === 0) {
     return;
   }
@@ -89,7 +94,7 @@ export const putAll = async <T>(
   };
 
   /* eslint-enable @typescript-eslint/naming-convention */
-  log.trace(JSON.stringify(params), null, NUM_TABS);
+  log.trace(JSON.stringify(params, null, NUM_TABS));
 
   await dynamoDb.transactWrite(params).promise();
 };
@@ -99,6 +104,7 @@ export const updateById = async <T>(
   id: string,
   record: T
 ): Promise<void> => {
+  const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
   /* eslint-disable @typescript-eslint/naming-convention */
 
   const params = {
@@ -110,9 +116,21 @@ export const updateById = async <T>(
   };
   /* eslint-enable @typescript-eslint/naming-convention */
 
-  log.trace(JSON.stringify(params), null, NUM_TABS);
+  log.trace(JSON.stringify(params, null, NUM_TABS));
   await dynamoDb.put(params).promise();
 };
+
+const batchArray = <T>(input: T[], batchSize: number): T[][] =>
+  input.reduce<T[][]>(
+    (accumulator, item) => {
+      if (accumulator[accumulator.length - 1].length === batchSize) {
+        accumulator.push([]);
+      }
+      accumulator[accumulator.length - 1].push(item);
+      return accumulator;
+    },
+    [[]]
+  );
 
 export const deleteAll = async (
   items: {
@@ -120,25 +138,31 @@ export const deleteAll = async (
     id: string;
   }[]
 ): Promise<void> => {
+  const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
   if (items.length === 0) {
     return;
   }
-  /* eslint-disable @typescript-eslint/naming-convention */
-  const params = {
-    TransactItems: items.map((item) => ({
-      Delete: {
-        TableName: item.table,
-        Key: {
-          id: item.id,
-        },
-      },
-    })),
-  };
 
-  /* eslint-enable @typescript-eslint/naming-convention */
+  const batches = batchArray(items, TRANSACT_ITEMS_MAX_SIZE);
 
-  /* eslint-enable @typescript-eslint/naming-convention */
-  log.trace(JSON.stringify(params), null, NUM_TABS);
+  await Promise.all(
+    batches.map(async (batch) => {
+      /* eslint-disable @typescript-eslint/naming-convention */
+      const params = {
+        TransactItems: batch.map((item) => ({
+          Delete: {
+            TableName: item.table,
+            Key: {
+              id: item.id,
+            },
+          },
+        })),
+      };
 
-  await dynamoDb.transactWrite(params).promise();
+      /* eslint-enable @typescript-eslint/naming-convention */
+      log.trace(JSON.stringify(params, null, NUM_TABS));
+
+      await dynamoDb.transactWrite(params).promise();
+    })
+  );
 };

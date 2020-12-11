@@ -5374,7 +5374,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sinonjs/commons@npm:^1, @sinonjs/commons@npm:^1.3.0, @sinonjs/commons@npm:^1.4.0, @sinonjs/commons@npm:^1.7.0":
+"@sinonjs/commons@npm:^1, @sinonjs/commons@npm:^1.3.0, @sinonjs/commons@npm:^1.4.0, @sinonjs/commons@npm:^1.6.0, @sinonjs/commons@npm:^1.7.0, @sinonjs/commons@npm:^1.8.1":
   version: 1.8.1
   resolution: "@sinonjs/commons@npm:1.8.1"
   dependencies:
@@ -5383,7 +5383,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sinonjs/fake-timers@npm:^6.0.1":
+"@sinonjs/fake-timers@npm:^6.0.0, @sinonjs/fake-timers@npm:^6.0.1":
   version: 6.0.1
   resolution: "@sinonjs/fake-timers@npm:6.0.1"
   dependencies:
@@ -5402,6 +5402,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sinonjs/formatio@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "@sinonjs/formatio@npm:5.0.1"
+  dependencies:
+    "@sinonjs/commons": ^1
+    "@sinonjs/samsam": ^5.0.2
+  checksum: 88a5b635f8bf088a7610d92d242bea22b9f69fbbc8d3fdace1989995f7f78d463ef14ab834e549cee846b6d13c584496e53bbbde2ac711b0ccfee0a95440c5ae
+  languageName: node
+  linkType: hard
+
 "@sinonjs/samsam@npm:^3.1.0, @sinonjs/samsam@npm:^3.3.3":
   version: 3.3.3
   resolution: "@sinonjs/samsam@npm:3.3.3"
@@ -5410,6 +5420,17 @@ __metadata:
     array-from: ^2.1.1
     lodash: ^4.17.15
   checksum: a28e209ca30f6b6ea220e774531f1ed385b6d3dfc6d65a61d5d4a3bd82a18e54be00b8eebd4054d9892ed4ef1b2d71f2ba57b2d263787bfc8015fa23531b4cb2
+  languageName: node
+  linkType: hard
+
+"@sinonjs/samsam@npm:^5.0.2, @sinonjs/samsam@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "@sinonjs/samsam@npm:5.3.0"
+  dependencies:
+    "@sinonjs/commons": ^1.6.0
+    lodash.get: ^4.4.2
+    type-detect: ^4.0.8
+  checksum: 03eb6ba70c6b9c1e4a9e98c9036944c8e1a6d2d7bec649055031cd7174765f8cc6c0237a2ea1b2406cc3a1fceddf4b56cf1ba2f20021ef3503d277193b3a25ee
   languageName: node
   linkType: hard
 
@@ -8191,6 +8212,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"aws-sdk-mock@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "aws-sdk-mock@npm:5.1.0"
+  dependencies:
+    aws-sdk: ^2.637.0
+    sinon: ^9.0.1
+    traverse: ^0.6.6
+  checksum: 2c85ba293a27e8aa7cfe28eadc4b1ad95156639dd239bc3355f3e18865af319ce4e51da76673e529158dd5f01a8a39ede7e360ae3089c37f89cf1e673cc6b556
+  languageName: node
+  linkType: hard
+
 "aws-sdk@npm:*, aws-sdk@npm:^2.518.0":
   version: 2.804.0
   resolution: "aws-sdk@npm:2.804.0"
@@ -8225,6 +8257,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"aws-sdk@npm:^2.637.0, aws-sdk@npm:^2.804.0":
+  version: 2.808.0
+  resolution: "aws-sdk@npm:2.808.0"
+  dependencies:
+    buffer: 4.9.2
+    events: 1.1.1
+    ieee754: 1.1.13
+    jmespath: 0.15.0
+    querystring: 0.2.0
+    sax: 1.2.1
+    url: 0.10.3
+    uuid: 3.3.2
+    xml2js: 0.4.19
+  checksum: e5be4a70f998c4365f59e321db14092dfd180dbe7fef7b02af0f84619c4efa31275d02679539662cd25f466241547d7af58ed1bc9f6d075963ece6422b344c69
+  languageName: node
+  linkType: hard
+
 "aws-sdk@npm:^2.726.0, aws-sdk@npm:^2.807.0":
   version: 2.807.0
   resolution: "aws-sdk@npm:2.807.0"
@@ -8256,23 +8305,6 @@ __metadata:
     uuid: 3.3.2
     xml2js: 0.4.19
   checksum: c03d233014db2640bbe3cf8a9de088dbcf3456c930471e603117a4b8152f28ee472344062120679a58b8ff6ee15bdefc6f322aeebb137d02bef446af3cfd280f
-  languageName: node
-  linkType: hard
-
-"aws-sdk@npm:^2.804.0":
-  version: 2.808.0
-  resolution: "aws-sdk@npm:2.808.0"
-  dependencies:
-    buffer: 4.9.2
-    events: 1.1.1
-    ieee754: 1.1.13
-    jmespath: 0.15.0
-    querystring: 0.2.0
-    sax: 1.2.1
-    url: 0.10.3
-    uuid: 3.3.2
-    xml2js: 0.4.19
-  checksum: e5be4a70f998c4365f59e321db14092dfd180dbe7fef7b02af0f84619c4efa31275d02679539662cd25f466241547d7af58ed1bc9f6d075963ece6422b344c69
   languageName: node
   linkType: hard
 
@@ -11597,7 +11629,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"diff@npm:4.0.2, diff@npm:^4.0.1":
+"diff@npm:4.0.2, diff@npm:^4.0.1, diff@npm:^4.0.2":
   version: 4.0.2
   resolution: "diff@npm:4.0.2"
   checksum: 81b5cd7ddde6f0ba2a532d434cfdca365aedd6cc62bb133e851e66e071d40382a30924a07c1034bd3d5a2e332146f64514b73c06fe2ebc0490a67f0c98da79fb
@@ -19677,6 +19709,19 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"nise@npm:^4.0.4":
+  version: 4.0.4
+  resolution: "nise@npm:4.0.4"
+  dependencies:
+    "@sinonjs/commons": ^1.7.0
+    "@sinonjs/fake-timers": ^6.0.0
+    "@sinonjs/text-encoding": ^0.7.1
+    just-extend: ^4.0.2
+    path-to-regexp: ^1.7.0
+  checksum: 5ead54f4f35680b121f623099ccaee4bde3208167c11c28ccebcc1810ff6053f4e8093fcbfefbc7fa6d12e0a7a2488901da976127fbda2252a999c623543968e
+  languageName: node
+  linkType: hard
+
 "no-case@npm:^3.0.3, no-case@npm:^3.0.4":
   version: 3.0.4
   resolution: "no-case@npm:3.0.4"
@@ -24240,6 +24285,21 @@ resolve@1.18.1:
   languageName: node
   linkType: hard
 
+"sinon@npm:^9.0.1":
+  version: 9.2.2
+  resolution: "sinon@npm:9.2.2"
+  dependencies:
+    "@sinonjs/commons": ^1.8.1
+    "@sinonjs/fake-timers": ^6.0.1
+    "@sinonjs/formatio": ^5.0.1
+    "@sinonjs/samsam": ^5.3.0
+    diff: ^4.0.2
+    nise: ^4.0.4
+    supports-color: ^7.1.0
+  checksum: 349e4d79c318ebab7e4775adc6884ca36cdda6766baabbc0ff4afce59eb6b4488b22270c8dd6da0cf1c838231675ecf39e51cb9c8f4f7ee049f9177c1cf0f815
+  languageName: node
+  linkType: hard
+
 "sisteransi@npm:^1.0.5":
   version: 1.0.5
   resolution: "sisteransi@npm:1.0.5"
@@ -25645,6 +25705,7 @@ resolve@1.18.1:
     aws-cdk-local: ^1.65.1
     aws-lambda: ^1.0.6
     aws-sdk: ^2.807.0
+    aws-sdk-mock: ^5.1.0
     cypress: ^5.5.0
     dynamodb-empty: ^1.0.1
     enzyme: ^3.11.0
@@ -25832,6 +25893,13 @@ resolve@1.18.1:
   dependencies:
     punycode: ^2.1.1
   checksum: c8c221907944e8b577c4fff14d180a213c21a29b54a12a031aa6986cbb711a5d470588b556a7be9c7844f09142e12deef6b76fe10f6bd4d274b54f1a7e0aac9e
+  languageName: node
+  linkType: hard
+
+"traverse@npm:^0.6.6":
+  version: 0.6.6
+  resolution: "traverse@npm:0.6.6"
+  checksum: f2bfaae69246bc1b630ad51d44be0a2a953be1650f754c299e5a05e4f00e4b493aa6c37a98410f9c2c902a21bef7f1ab10a9cdb9b9e8ee8813e1a9e95074dafd
   languageName: node
   linkType: hard
 
@@ -26023,7 +26091,7 @@ resolve@1.18.1:
   languageName: node
   linkType: hard
 
-"type-detect@npm:4.0.8":
+"type-detect@npm:4.0.8, type-detect@npm:^4.0.8":
   version: 4.0.8
   resolution: "type-detect@npm:4.0.8"
   checksum: e01dc6ac9098192a7859fb86c7b4073709a4e13a5cc02c54d54412378bb099563fda7a7a85640f33e3a7c2e8189182eb1511f263e67f402b2d63fe81afdde785
