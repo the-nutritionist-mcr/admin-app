@@ -130,6 +130,7 @@
     "start": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) react-scripts start",
     "build:frontend": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) react-scripts build",
     "build:backend": "webpack --progress --config ./config/webpack.config.backend.js",
+    "clear-tables": "ts-node src/scripts/do-clear-database.ts",
     "deploy:frontend": "yarn build:frontend && cdk deploy --require-approval never --all --outputs-file src/frontend-outputs.json",
     "deploy:backend": "yarn build:backend && DO_BACKEND=yes cdk deploy --require-approval never --all --outputs-file src/backend-outputs.json",
     "lint": "eslint .",
