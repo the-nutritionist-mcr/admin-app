@@ -205,6 +205,9 @@ export default class BackendStack extends cdk.Stack {
 
     customersTable.grantFullAccess(resolverLambda);
     resolverLambda.addEnvironment("CUSTOMERS_TABLE", customersTable.tableName);
+    new cdk.CfnOutput(this, "CustomersTable", {
+      value: customersTable.tableName,
+    });
 
     const exclusionsTable = new ddb.Table(this, "ExclusionsTable", {
       tableName: `${name}-exclusions-table`,
@@ -220,6 +223,9 @@ export default class BackendStack extends cdk.Stack {
       "EXCLUSIONS_TABLE",
       exclusionsTable.tableName
     );
+    new cdk.CfnOutput(this, "ExclusionsTable", {
+      value: exclusionsTable.tableName,
+    });
 
     const recipesTable = new ddb.Table(this, "RecipesTable", {
       tableName: `${name}-recipes-table`,
@@ -231,8 +237,10 @@ export default class BackendStack extends cdk.Stack {
     });
 
     recipesTable.grantFullAccess(resolverLambda);
-    resolverLambda.addEnvironment("VERBOSE_DB", "true");
     resolverLambda.addEnvironment("RECIPES_TABLE", recipesTable.tableName);
+    new cdk.CfnOutput(this, "RecipesTable", {
+      value: recipesTable.tableName,
+    });
 
     const customerExclusionsTable = new ddb.Table(
       this,
@@ -246,6 +254,10 @@ export default class BackendStack extends cdk.Stack {
         },
       }
     );
+
+    new cdk.CfnOutput(this, "CustomerExclusionsTable", {
+      value: customerExclusionsTable.tableName,
+    });
 
     customerExclusionsTable.addGlobalSecondaryIndex({
       indexName: "customerId",
@@ -270,6 +282,10 @@ export default class BackendStack extends cdk.Stack {
         name: "id",
         type: ddb.AttributeType.STRING,
       },
+    });
+
+    new cdk.CfnOutput(this, "RecipeExclusionsTable", {
+      value: recipeExclusionsTable.tableName,
     });
 
     recipeExclusionsTable.grantFullAccess(resolverLambda);

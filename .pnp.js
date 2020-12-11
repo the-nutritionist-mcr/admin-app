@@ -156,9 +156,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                     "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:4.0.1",
                   ],
                   ["aws-cdk", "npm:1.76.0"],
+                  ["aws-cdk-local", "npm:1.65.1"],
                   ["aws-lambda", "npm:1.0.6"],
                   ["aws-sdk", "npm:2.807.0"],
                   ["cypress", "npm:5.6.0"],
+                  ["dynamodb-empty", "npm:1.0.1"],
                   ["enzyme", "npm:3.11.0"],
                   ["eslint", "npm:7.14.0"],
                   [
@@ -5258,6 +5260,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                 linkType: "HARD",
               },
             ],
+            [
+              "npm:1.77.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/@aws-cdk-cfnspec-npm-1.77.0-6072c8f510-f7dd265d81.zip/node_modules/@aws-cdk/cfnspec/",
+                packageDependencies: [
+                  ["@aws-cdk/cfnspec", "npm:1.77.0"],
+                  ["md5", "npm:2.3.0"],
+                ],
+                linkType: "HARD",
+              },
+            ],
           ],
         ],
         [
@@ -5270,6 +5284,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   "./.yarn/cache/@aws-cdk-cloud-assembly-schema-npm-1.76.0-5a55f40531-ed0e2fd040.zip/node_modules/@aws-cdk/cloud-assembly-schema/",
                 packageDependencies: [
                   ["@aws-cdk/cloud-assembly-schema", "npm:1.76.0"],
+                  ["jsonschema", "npm:1.4.0"],
+                  ["semver", "npm:7.3.4"],
+                ],
+                linkType: "HARD",
+              },
+            ],
+            [
+              "npm:1.77.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/@aws-cdk-cloud-assembly-schema-npm-1.77.0-774fff9d05-4a5e702a61.zip/node_modules/@aws-cdk/cloud-assembly-schema/",
+                packageDependencies: [
+                  ["@aws-cdk/cloud-assembly-schema", "npm:1.77.0"],
                   ["jsonschema", "npm:1.4.0"],
                   ["semver", "npm:7.3.4"],
                 ],
@@ -5289,6 +5316,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                 packageDependencies: [
                   ["@aws-cdk/cloudformation-diff", "npm:1.76.0"],
                   ["@aws-cdk/cfnspec", "npm:1.76.0"],
+                  ["colors", "npm:1.4.0"],
+                  ["diff", "npm:5.0.0"],
+                  ["fast-deep-equal", "npm:3.1.3"],
+                  ["string-width", "npm:4.2.0"],
+                  ["table", "npm:6.0.4"],
+                ],
+                linkType: "HARD",
+              },
+            ],
+            [
+              "npm:1.77.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/@aws-cdk-cloudformation-diff-npm-1.77.0-caaaf8194e-13ecd5d8df.zip/node_modules/@aws-cdk/cloudformation-diff/",
+                packageDependencies: [
+                  ["@aws-cdk/cloudformation-diff", "npm:1.77.0"],
+                  ["@aws-cdk/cfnspec", "npm:1.77.0"],
                   ["colors", "npm:1.4.0"],
                   ["diff", "npm:5.0.0"],
                   ["fast-deep-equal", "npm:3.1.3"],
@@ -5437,6 +5481,36 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
               },
             ],
             [
+              "npm:1.77.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/@aws-cdk-cx-api-npm-1.77.0-9a04f7db61-166a009ddc.zip/node_modules/@aws-cdk/cx-api/",
+                packageDependencies: [["@aws-cdk/cx-api", "npm:1.77.0"]],
+                linkType: "SOFT",
+              },
+            ],
+            [
+              "virtual:2931f872a845dd252d3b36f640c5aef9985ec12a58310510a17c89a63339a22177a62f526ab1f023da612931d75c9603f125e1ee8e322678f0694448507436e2#npm:1.77.0",
+              {
+                packageLocation:
+                  "./.yarn/$$virtual/@aws-cdk-cx-api-virtual-4466a28321/0/cache/@aws-cdk-cx-api-npm-1.77.0-9a04f7db61-166a009ddc.zip/node_modules/@aws-cdk/cx-api/",
+                packageDependencies: [
+                  [
+                    "@aws-cdk/cx-api",
+                    "virtual:2931f872a845dd252d3b36f640c5aef9985ec12a58310510a17c89a63339a22177a62f526ab1f023da612931d75c9603f125e1ee8e322678f0694448507436e2#npm:1.77.0",
+                  ],
+                  ["@aws-cdk/cloud-assembly-schema", "npm:1.77.0"],
+                  ["@types/aws-cdk__cloud-assembly-schema", null],
+                  ["semver", "npm:7.3.4"],
+                ],
+                packagePeers: [
+                  "@aws-cdk/cloud-assembly-schema",
+                  "@types/aws-cdk__cloud-assembly-schema",
+                ],
+                linkType: "HARD",
+              },
+            ],
+            [
               "virtual:3b0633a3cbc4958ab35053512ac568a8cbf97cb5566114d7d1380655741dc42bb4d30add1198d75c149234fd8fec0ca608f3ef6277d391f7db2276cb235d6818#npm:1.76.0",
               {
                 packageLocation:
@@ -5471,6 +5545,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                 linkType: "HARD",
               },
             ],
+            [
+              "npm:1.77.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/@aws-cdk-region-info-npm-1.77.0-dbbab228e5-af198056f1.zip/node_modules/@aws-cdk/region-info/",
+                packageDependencies: [["@aws-cdk/region-info", "npm:1.77.0"]],
+                linkType: "HARD",
+              },
+            ],
           ],
         ],
         [
@@ -5483,6 +5566,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   "./.yarn/cache/@aws-cdk-yaml-cfn-npm-1.76.0-a97a1a6e4d-53c8753e87.zip/node_modules/@aws-cdk/yaml-cfn/",
                 packageDependencies: [
                   ["@aws-cdk/yaml-cfn", "npm:1.76.0"],
+                  ["yaml", "npm:1.10.0"],
+                ],
+                linkType: "HARD",
+              },
+            ],
+            [
+              "npm:1.77.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/@aws-cdk-yaml-cfn-npm-1.77.0-6fd184321a-1c9af919cb.zip/node_modules/@aws-cdk/yaml-cfn/",
+                packageDependencies: [
+                  ["@aws-cdk/yaml-cfn", "npm:1.77.0"],
                   ["yaml", "npm:1.10.0"],
                 ],
                 linkType: "HARD",
@@ -22023,6 +22118,60 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                 linkType: "HARD",
               },
             ],
+            [
+              "npm:1.77.0",
+              {
+                packageLocation:
+                  "./.yarn/unplugged/aws-cdk-npm-1.77.0-c37e21c2fa/node_modules/aws-cdk/",
+                packageDependencies: [
+                  ["aws-cdk", "npm:1.77.0"],
+                  ["@aws-cdk/cloud-assembly-schema", "npm:1.77.0"],
+                  ["@aws-cdk/cloudformation-diff", "npm:1.77.0"],
+                  [
+                    "@aws-cdk/cx-api",
+                    "virtual:2931f872a845dd252d3b36f640c5aef9985ec12a58310510a17c89a63339a22177a62f526ab1f023da612931d75c9603f125e1ee8e322678f0694448507436e2#npm:1.77.0",
+                  ],
+                  ["@aws-cdk/region-info", "npm:1.77.0"],
+                  ["@aws-cdk/yaml-cfn", "npm:1.77.0"],
+                  ["archiver", "npm:5.1.0"],
+                  ["aws-sdk", "npm:2.808.0"],
+                  ["camelcase", "npm:6.2.0"],
+                  ["cdk-assets", "npm:1.77.0"],
+                  ["colors", "npm:1.4.0"],
+                  ["decamelize", "npm:4.0.0"],
+                  ["fs-extra", "npm:9.0.1"],
+                  ["glob", "npm:7.1.6"],
+                  ["json-diff", "npm:0.5.4"],
+                  ["minimatch", "npm:3.0.4"],
+                  ["promptly", "npm:3.2.0"],
+                  ["proxy-agent", "npm:4.0.0"],
+                  ["semver", "npm:7.3.4"],
+                  ["source-map-support", "npm:0.5.19"],
+                  ["table", "npm:6.0.4"],
+                  ["uuid", "npm:8.3.1"],
+                  ["wrap-ansi", "npm:7.0.0"],
+                  ["yargs", "npm:16.2.0"],
+                ],
+                linkType: "HARD",
+              },
+            ],
+          ],
+        ],
+        [
+          "aws-cdk-local",
+          [
+            [
+              "npm:1.65.1",
+              {
+                packageLocation:
+                  "./.yarn/cache/aws-cdk-local-npm-1.65.1-0dfbae477b-14e73087cc.zip/node_modules/aws-cdk-local/",
+                packageDependencies: [
+                  ["aws-cdk-local", "npm:1.65.1"],
+                  ["aws-cdk", "npm:1.77.0"],
+                ],
+                linkType: "HARD",
+              },
+            ],
           ],
         ],
         [
@@ -22115,6 +22264,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   "./.yarn/cache/aws-sdk-npm-2.807.0-9f2616aeab-4c42c27a06.zip/node_modules/aws-sdk/",
                 packageDependencies: [
                   ["aws-sdk", "npm:2.807.0"],
+                  ["buffer", "npm:4.9.2"],
+                  ["events", "npm:1.1.1"],
+                  ["ieee754", "npm:1.1.13"],
+                  ["jmespath", "npm:0.15.0"],
+                  ["querystring", "npm:0.2.0"],
+                  ["sax", "npm:1.2.1"],
+                  ["url", "npm:0.10.3"],
+                  ["uuid", "npm:3.3.2"],
+                  ["xml2js", "npm:0.4.19"],
+                ],
+                linkType: "HARD",
+              },
+            ],
+            [
+              "npm:2.808.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/aws-sdk-npm-2.808.0-1f4e90e3d2-e5be4a70f9.zip/node_modules/aws-sdk/",
+                packageDependencies: [
+                  ["aws-sdk", "npm:2.808.0"],
                   ["buffer", "npm:4.9.2"],
                   ["events", "npm:1.1.1"],
                   ["ieee754", "npm:1.1.13"],
@@ -24612,6 +24781,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["aws-sdk", "npm:2.802.0"],
                   ["glob", "npm:7.1.6"],
                   ["yargs", "npm:16.1.1"],
+                ],
+                linkType: "HARD",
+              },
+            ],
+            [
+              "npm:1.77.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/cdk-assets-npm-1.77.0-2931f872a8-2e36f4ec92.zip/node_modules/cdk-assets/",
+                packageDependencies: [
+                  ["cdk-assets", "npm:1.77.0"],
+                  ["@aws-cdk/cloud-assembly-schema", "npm:1.77.0"],
+                  [
+                    "@aws-cdk/cx-api",
+                    "virtual:2931f872a845dd252d3b36f640c5aef9985ec12a58310510a17c89a63339a22177a62f526ab1f023da612931d75c9603f125e1ee8e322678f0694448507436e2#npm:1.77.0",
+                  ],
+                  ["archiver", "npm:5.1.0"],
+                  ["aws-sdk", "npm:2.808.0"],
+                  ["glob", "npm:7.1.6"],
+                  ["yargs", "npm:16.2.0"],
                 ],
                 linkType: "HARD",
               },
@@ -28706,6 +28895,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["inherits", "npm:2.0.4"],
                   ["readable-stream", "npm:2.3.7"],
                   ["stream-shift", "npm:1.0.1"],
+                ],
+                linkType: "HARD",
+              },
+            ],
+          ],
+        ],
+        [
+          "dynamodb-empty",
+          [
+            [
+              "npm:1.0.1",
+              {
+                packageLocation:
+                  "./.yarn/cache/dynamodb-empty-npm-1.0.1-1ad56a6e68-316531e13d.zip/node_modules/dynamodb-empty/",
+                packageDependencies: [
+                  ["dynamodb-empty", "npm:1.0.1"],
+                  ["@types/uuid", "npm:8.3.0"],
+                  ["aws-sdk", "npm:2.807.0"],
+                  ["minimist", "npm:1.2.5"],
+                  ["uuid", "npm:8.3.1"],
                 ],
                 linkType: "HARD",
               },
@@ -52928,9 +53137,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                     "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:4.0.1",
                   ],
                   ["aws-cdk", "npm:1.76.0"],
+                  ["aws-cdk-local", "npm:1.65.1"],
                   ["aws-lambda", "npm:1.0.6"],
                   ["aws-sdk", "npm:2.807.0"],
                   ["cypress", "npm:5.6.0"],
+                  ["dynamodb-empty", "npm:1.0.1"],
                   ["enzyme", "npm:3.11.0"],
                   ["eslint", "npm:7.14.0"],
                   [
@@ -57028,6 +57239,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   "./.yarn/cache/yargs-npm-16.1.1-374a071ba7-f88462770b.zip/node_modules/yargs/",
                 packageDependencies: [
                   ["yargs", "npm:16.1.1"],
+                  ["cliui", "npm:7.0.4"],
+                  ["escalade", "npm:3.1.1"],
+                  ["get-caller-file", "npm:2.0.5"],
+                  ["require-directory", "npm:2.1.1"],
+                  ["string-width", "npm:4.2.0"],
+                  ["y18n", "npm:5.0.5"],
+                  ["yargs-parser", "npm:20.2.4"],
+                ],
+                linkType: "HARD",
+              },
+            ],
+            [
+              "npm:16.2.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/yargs-npm-16.2.0-547873d425-a79ce1f043.zip/node_modules/yargs/",
+                packageDependencies: [
+                  ["yargs", "npm:16.2.0"],
                   ["cliui", "npm:7.0.4"],
                   ["escalade", "npm:3.1.1"],
                   ["get-caller-file", "npm:2.0.5"],

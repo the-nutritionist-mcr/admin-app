@@ -69,27 +69,27 @@ Cypress.Commands.add(
     cy.contains("New").click();
 
     cy.get("input[name='salutation']").click();
-    cy.get("div[data-g-portal-id='0']").contains(salutation).click();
+    cy.get("div[data-g-portal-id='1']").contains(salutation).click();
     cy.get("input[name='firstName']").type(firstName);
     cy.get("input[name='surname']").type(surname);
     cy.get("input[name='startDate']").click();
-    cy.get("div[data-g-portal-id='0']").contains(String(startDate)).click();
+    cy.get("div[data-g-portal-id='1']").contains(String(startDate)).click();
     cy.get("input[name='email']").type(email);
     cy.get("input[name='daysPerWeek']").click();
-    cy.get("div[data-g-portal-id='0']").contains(String(daysPerWeek)).click();
+    cy.get("div[data-g-portal-id='1']").contains(String(daysPerWeek)).click();
     cy.get("input[name='snack']").click();
-    cy.get("div[data-g-portal-id='0']").contains(snack).click();
+    cy.get("div[data-g-portal-id='1']").contains(snack).click();
     cy.get("div[aria-label='breakfast']").click();
-    cy.get("div[data-g-portal-id='0']")
+    cy.get("div[data-g-portal-id='1']")
       .contains(breakfast ? "Yes" : "No")
       .click();
     cy.get("textarea[name='address']").type(address);
     cy.get("input[name='plan']").click();
-    cy.get("div[data-g-portal-id='0']").contains(plan).click();
+    cy.get("div[data-g-portal-id='1']").contains(plan).click();
 
     cy.get("input[name='exclusions']").click();
     exclusions.forEach((exclusion) => {
-      cy.get("div[data-g-portal-id='0']")
+      cy.get("div[data-g-portal-id='1']")
         .contains(exclusion)
         .click({ force: true });
     });

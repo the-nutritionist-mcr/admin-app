@@ -1006,6 +1006,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-cdk/cfnspec@npm:1.77.0":
+  version: 1.77.0
+  resolution: "@aws-cdk/cfnspec@npm:1.77.0"
+  dependencies:
+    md5: ^2.3.0
+  checksum: f7dd265d81b997f9bd3bab8a9394051ff18c2586156f32cb31bc8a8b4db1ad49d5674c4b41a884e6add579e5ebabf62fd14b76f0a6bbe86dd89cd494f682336d
+  languageName: node
+  linkType: hard
+
 "@aws-cdk/cloud-assembly-schema@npm:1.76.0":
   version: 1.76.0
   resolution: "@aws-cdk/cloud-assembly-schema@npm:1.76.0"
@@ -1013,6 +1022,16 @@ __metadata:
     jsonschema: ^1.4.0
     semver: ^7.3.2
   checksum: ed0e2fd0402e4ecbaa884fb177d7ff683973c1f8f6ac1abd2bb2f395e1d7e25059451750e6a683ab1e9e9b79be328e484c972d82b5d1f51ed5949d8ee5ce9133
+  languageName: node
+  linkType: hard
+
+"@aws-cdk/cloud-assembly-schema@npm:1.77.0":
+  version: 1.77.0
+  resolution: "@aws-cdk/cloud-assembly-schema@npm:1.77.0"
+  dependencies:
+    jsonschema: ^1.4.0
+    semver: ^7.3.2
+  checksum: 4a5e702a61ed942d355b3f4810e51470cfb1f456321cb458bc8f43f4b43b0765ce94604c104962adcd9e2e162704b0b15e4bfae28b2bde8b7117c9b20c147bd0
   languageName: node
   linkType: hard
 
@@ -1027,6 +1046,20 @@ __metadata:
     string-width: ^4.2.0
     table: ^6.0.4
   checksum: cd4409a07af10bddfa34cc6c4a19bb69875a34950be68dd817cf77fe28e31d047251bd7a844a69730bbd5d9bb1bcf65c487f7a86191a5eb2cdd28e7ac8b19c70
+  languageName: node
+  linkType: hard
+
+"@aws-cdk/cloudformation-diff@npm:1.77.0":
+  version: 1.77.0
+  resolution: "@aws-cdk/cloudformation-diff@npm:1.77.0"
+  dependencies:
+    "@aws-cdk/cfnspec": 1.77.0
+    colors: ^1.4.0
+    diff: ^5.0.0
+    fast-deep-equal: ^3.1.3
+    string-width: ^4.2.0
+    table: ^6.0.4
+  checksum: 13ecd5d8df3bc5ebde9e4f48f862d745b0c040912da3ddd82210eae52eb894f55603ac441f41ca7e7bf40957fca706b6042821d72eb59a192b637edeaebb10c5
   languageName: node
   linkType: hard
 
@@ -1086,10 +1119,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-cdk/cx-api@npm:1.77.0":
+  version: 1.77.0
+  resolution: "@aws-cdk/cx-api@npm:1.77.0"
+  dependencies:
+    "@aws-cdk/cloud-assembly-schema": 1.77.0
+    semver: ^7.3.2
+  peerDependencies:
+    "@aws-cdk/cloud-assembly-schema": 1.77.0
+  checksum: 166a009ddc1e769fe7c409aaa234b7d59f3ffd74027e902aeec395f3d3c27d95ad7fc80c2d1e91979a1e031790e148c6d1d6a18ac4a8660223ef3c6c51b1d61a
+  languageName: node
+  linkType: hard
+
 "@aws-cdk/region-info@npm:1.76.0":
   version: 1.76.0
   resolution: "@aws-cdk/region-info@npm:1.76.0"
   checksum: 99dfcd7d4bd3e8d80462931dbbe2a8f4b61018448bca687d5abbcb3794914d604781d185c7a964a8f1183a864ca903811b3730f4b8d409d2fc47a695bbc23fea
+  languageName: node
+  linkType: hard
+
+"@aws-cdk/region-info@npm:1.77.0":
+  version: 1.77.0
+  resolution: "@aws-cdk/region-info@npm:1.77.0"
+  checksum: af198056f15c98688c891c059172588168135c11e9c359783a0f3c801d50ce32efc09ca1521dd56fc98c61ac045a1a6469f5a4b26355e96534b90878f0a80c87
   languageName: node
   linkType: hard
 
@@ -1099,6 +1151,15 @@ __metadata:
   dependencies:
     yaml: 1.10.0
   checksum: 53c8753e8786db9a06f4858dc7ba73d21087569e5f7f7bafc7cb0a7d7e2c26450b89f8b684b9efe05f8060b209829d1606de3306247d8ecab0860738bab13dd7
+  languageName: node
+  linkType: hard
+
+"@aws-cdk/yaml-cfn@npm:1.77.0":
+  version: 1.77.0
+  resolution: "@aws-cdk/yaml-cfn@npm:1.77.0"
+  dependencies:
+    yaml: 1.10.0
+  checksum: 1c9af919cbc005dd31034bb9b6a7e35b8c6c520f650c1539a7566c1e8fe617577e04d59a13b114de4c5e507c13d788f837956efee1f72cfbd2d05504ca36cf87
   languageName: node
   linkType: hard
 
@@ -6279,7 +6340,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:^8.3.0":
+"@types/uuid@npm:^8.0.1, @types/uuid@npm:^8.3.0":
   version: 8.3.0
   resolution: "@types/uuid@npm:8.3.0"
   checksum: 620985aed8fdb4aed153daca5235f4303457a67a4d181efac0021712eabd9edd7e88895f79730c0e651effde7633b1b61e49a81519ac8d4e75019d2ac9b6412f
@@ -8030,6 +8091,50 @@ __metadata:
   languageName: node
   linkType: hard
 
+"aws-cdk-local@npm:^1.65.1":
+  version: 1.65.1
+  resolution: "aws-cdk-local@npm:1.65.1"
+  dependencies:
+    aws-cdk: ">1.64.1"
+  bin:
+    cdklocal: bin/cdklocal
+  checksum: 14e73087cc18be54368df51e91c957a129f059f74708f58fb3aba88089c2e975456e50871f14b0af13de8984469d9a22f014f1cef954e69b94dbc2d995d4fb4a
+  languageName: node
+  linkType: hard
+
+"aws-cdk@npm:>1.64.1":
+  version: 1.77.0
+  resolution: "aws-cdk@npm:1.77.0"
+  dependencies:
+    "@aws-cdk/cloud-assembly-schema": 1.77.0
+    "@aws-cdk/cloudformation-diff": 1.77.0
+    "@aws-cdk/cx-api": 1.77.0
+    "@aws-cdk/region-info": 1.77.0
+    "@aws-cdk/yaml-cfn": 1.77.0
+    archiver: ^5.1.0
+    aws-sdk: ^2.804.0
+    camelcase: ^6.2.0
+    cdk-assets: 1.77.0
+    colors: ^1.4.0
+    decamelize: ^4.0.0
+    fs-extra: ^9.0.1
+    glob: ^7.1.6
+    json-diff: ^0.5.4
+    minimatch: ">=3.0"
+    promptly: ^3.2.0
+    proxy-agent: ^4.0.0
+    semver: ^7.3.2
+    source-map-support: ^0.5.19
+    table: ^6.0.4
+    uuid: ^8.3.1
+    wrap-ansi: ^7.0.0
+    yargs: ^16.2.0
+  bin:
+    cdk: bin/cdk
+  checksum: 8ad074377e0ed839254f8058afcd5db7bb32dfa19489dd55e46a6af7d0825775e05e96d7ce98830102ae67ac485fbf808d5d8b0d7cdd16324656a1159a914485
+  languageName: node
+  linkType: hard
+
 "aws-cdk@npm:^1.76.0":
   version: 1.76.0
   resolution: "aws-cdk@npm:1.76.0"
@@ -8111,6 +8216,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"aws-sdk@npm:^2.726.0, aws-sdk@npm:^2.807.0":
+  version: 2.807.0
+  resolution: "aws-sdk@npm:2.807.0"
+  dependencies:
+    buffer: 4.9.2
+    events: 1.1.1
+    ieee754: 1.1.13
+    jmespath: 0.15.0
+    querystring: 0.2.0
+    sax: 1.2.1
+    url: 0.10.3
+    uuid: 3.3.2
+    xml2js: 0.4.19
+  checksum: 4c42c27a063d631fa94d0d120c2908be0678d59805a4c79fdf3b2aaddcbec06b789d1e799c7d4a3beecfa8234119f0f2bbe45b48987beaeac1e01e7dc8d69d05
+  languageName: node
+  linkType: hard
+
 "aws-sdk@npm:^2.799.0":
   version: 2.802.0
   resolution: "aws-sdk@npm:2.802.0"
@@ -8128,9 +8250,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.807.0":
-  version: 2.807.0
-  resolution: "aws-sdk@npm:2.807.0"
+"aws-sdk@npm:^2.804.0":
+  version: 2.808.0
+  resolution: "aws-sdk@npm:2.808.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -8141,7 +8263,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: 4c42c27a063d631fa94d0d120c2908be0678d59805a4c79fdf3b2aaddcbec06b789d1e799c7d4a3beecfa8234119f0f2bbe45b48987beaeac1e01e7dc8d69d05
+  checksum: e5be4a70f998c4365f59e321db14092dfd180dbe7fef7b02af0f84619c4efa31275d02679539662cd25f466241547d7af58ed1bc9f6d075963ece6422b344c69
   languageName: node
   linkType: hard
 
@@ -9407,6 +9529,22 @@ __metadata:
   bin:
     cdk-assets: bin/cdk-assets
   checksum: da63062bc6939f05fc1c926fa332fa4f1a51e6c27b61bac19104846fcbd3c5a0aaa5a830ac5bf5ff81a5081ebc116d264f0b12dfbe0bd1b06c5dec6d5905a6f2
+  languageName: node
+  linkType: hard
+
+"cdk-assets@npm:1.77.0":
+  version: 1.77.0
+  resolution: "cdk-assets@npm:1.77.0"
+  dependencies:
+    "@aws-cdk/cloud-assembly-schema": 1.77.0
+    "@aws-cdk/cx-api": 1.77.0
+    archiver: ^5.1.0
+    aws-sdk: ^2.804.0
+    glob: ^7.1.6
+    yargs: ^16.2.0
+  bin:
+    cdk-assets: bin/cdk-assets
+  checksum: 2e36f4ec9253079df5a3bbf4c024d9efca8272fb9d2e8dfc9b4f865c35b35ef87f7c04332c42d31b7eb16e6d4bb6b16a54ca1e6fc6246c52f36abc643bef45c8
   languageName: node
   linkType: hard
 
@@ -11766,6 +11904,20 @@ __metadata:
     readable-stream: ^2.0.0
     stream-shift: ^1.0.0
   checksum: 9581cdb8f6304fdaacb8bbe2b8b393a8da3ece3086dd24070601b70f08ca417305b4f3a94699b984c4981dceb6eebb4c132abfe0445baacfd04f2b66a0524cda
+  languageName: node
+  linkType: hard
+
+"dynamodb-empty@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "dynamodb-empty@npm:1.0.1"
+  dependencies:
+    "@types/uuid": ^8.0.1
+    aws-sdk: ^2.726.0
+    minimist: ^1.2.5
+    uuid: ^8.3.0
+  bin:
+    dynamodb-empty: dist/bin.js
+  checksum: 316531e13d1e630b55a0a1efaafc21b1b632d3a16f3b9b5912513417dc869fa1439ce84f16675c9c28923a1f40629bc31390cbb076977c23585e1cb1a53ae2b4
   languageName: node
   linkType: hard
 
@@ -25449,9 +25601,11 @@ resolve@1.18.1:
     aws-amplify: ^3.3.11
     aws-appsync: ^4.0.1
     aws-cdk: ^1.76.0
+    aws-cdk-local: ^1.65.1
     aws-lambda: ^1.0.6
     aws-sdk: ^2.807.0
     cypress: ^5.5.0
+    dynamodb-empty: ^1.0.1
     enzyme: ^3.11.0
     eslint: ^7.13.0
     eslint-config-benwainwright: "https://github.com/benwainwright/eslint-config-benwainwright"
@@ -27677,6 +27831,21 @@ typescript@^3.9.5:
     y18n: ^5.0.5
     yargs-parser: ^20.2.2
   checksum: f88462770b6d65107b7295bdd68c38bc3cba9ab0362df476f44c5f6770ee2f39f48bca9813e8a9dc792a15f93e051a7e37346c0f66cf0ec35c63869963c43e0c
+  languageName: node
+  linkType: hard
+
+"yargs@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "yargs@npm:16.2.0"
+  dependencies:
+    cliui: ^7.0.2
+    escalade: ^3.1.1
+    get-caller-file: ^2.0.5
+    require-directory: ^2.1.1
+    string-width: ^4.2.0
+    y18n: ^5.0.5
+    yargs-parser: ^20.2.2
+  checksum: a79ce1f043021cd645de1ffebb6149541d382ba68f4a6b5eca5d2ad65af51893371bbd78e240dc3b6cf0cbb419511ba5bda715dec992e4266e6863ea49f14feb
   languageName: node
   linkType: hard
 
