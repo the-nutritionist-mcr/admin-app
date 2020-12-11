@@ -3,7 +3,7 @@ import clearTable from "./clear-table";
 import hasKey from "../lib/hasKey";
 
 export const TRYING_TO_CLEAR_PROD_TABLES_ERROR =
-  "You are trying to clear the production data tables. You don't want to do that!";
+  "You are trying to clear production data tables. You don't want to do that!";
 
 const clearDatabaseTables = async (outputs: string) => {
   try {
