@@ -83,20 +83,26 @@ export const putAll = async <T>(
   if (items.length === 0) {
     return;
   }
-  /* eslint-disable @typescript-eslint/naming-convention */
-  const params = {
-    TransactItems: items.map((item) => ({
-      Put: {
-        TableName: item.table,
-        Item: item.record,
-      },
-    })),
-  };
+  const batches = batchArray(items, TRANSACT_ITEMS_MAX_SIZE);
 
-  /* eslint-enable @typescript-eslint/naming-convention */
-  log.trace(JSON.stringify(params, null, NUM_TABS));
+  await Promise.all(
+    batches.map(async (batch) => {
+      /* eslint-disable @typescript-eslint/naming-convention */
+      const params = {
+        TransactItems: batch.map((item) => ({
+          Put: {
+            TableName: item.table,
+            Item: item.record,
+          },
+        })),
+      };
+      /* eslint-enable @typescript-eslint/naming-convention */
 
-  await dynamoDb.transactWrite(params).promise();
+      log.trace(JSON.stringify(params, null, NUM_TABS));
+
+      await dynamoDb.transactWrite(params).promise();
+    })
+  );
 };
 
 export const updateById = async <T>(
