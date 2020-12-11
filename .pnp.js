@@ -128,6 +128,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["@types/aws-lambda", "npm:8.10.64"],
                   ["@types/enzyme", "npm:3.10.8"],
                   ["@types/flux", "npm:3.1.9"],
+                  ["@types/fs-extra", "npm:9.0.5"],
                   ["@types/git-rev-sync", "npm:2.0.0"],
                   ["@types/jest", "npm:25.2.3"],
                   ["@types/jest-when", "npm:2.7.2"],
@@ -205,6 +206,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                     "eslint-plugin-unicorn",
                     "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:23.0.0",
                   ],
+                  ["execa", "npm:5.0.0"],
                   [
                     "flux",
                     "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:3.1.3",
@@ -17526,6 +17528,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
         ],
         [
+          "@types/fs-extra",
+          [
+            [
+              "npm:9.0.5",
+              {
+                packageLocation:
+                  "./.yarn/cache/@types-fs-extra-npm-9.0.5-5955087698-ee2a945e94.zip/node_modules/@types/fs-extra/",
+                packageDependencies: [
+                  ["@types/fs-extra", "npm:9.0.5"],
+                  ["@types/node", "npm:14.14.10"],
+                ],
+                linkType: "HARD",
+              },
+            ],
+          ],
+        ],
+        [
           "@types/git-rev-sync",
           [
             [
@@ -31270,6 +31289,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                 linkType: "HARD",
               },
             ],
+            [
+              "npm:5.0.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/execa-npm-5.0.0-4ee568fb49-bf9664702c.zip/node_modules/execa/",
+                packageDependencies: [
+                  ["execa", "npm:5.0.0"],
+                  ["cross-spawn", "npm:7.0.3"],
+                  ["get-stream", "npm:6.0.0"],
+                  ["human-signals", "npm:2.1.0"],
+                  ["is-stream", "npm:2.0.0"],
+                  ["merge-stream", "npm:2.0.0"],
+                  ["npm-run-path", "npm:4.0.1"],
+                  ["onetime", "npm:5.1.2"],
+                  ["signal-exit", "npm:3.0.3"],
+                  ["strip-final-newline", "npm:2.0.0"],
+                ],
+                linkType: "HARD",
+              },
+            ],
           ],
         ],
         [
@@ -33083,6 +33122,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["get-stream", "npm:5.2.0"],
                   ["pump", "npm:3.0.0"],
                 ],
+                linkType: "HARD",
+              },
+            ],
+            [
+              "npm:6.0.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/get-stream-npm-6.0.0-ca30041dff-4354a4de78.zip/node_modules/get-stream/",
+                packageDependencies: [["get-stream", "npm:6.0.0"]],
                 linkType: "HARD",
               },
             ],
@@ -35087,6 +35135,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                 packageLocation:
                   "./.yarn/cache/human-signals-npm-1.1.1-616b2586c2-cac115f635.zip/node_modules/human-signals/",
                 packageDependencies: [["human-signals", "npm:1.1.1"]],
+                linkType: "HARD",
+              },
+            ],
+            [
+              "npm:2.1.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/human-signals-npm-2.1.0-f75815481d-70bfd94d27.zip/node_modules/human-signals/",
+                packageDependencies: [["human-signals", "npm:2.1.0"]],
                 linkType: "HARD",
               },
             ],
@@ -53109,6 +53166,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["@types/aws-lambda", "npm:8.10.64"],
                   ["@types/enzyme", "npm:3.10.8"],
                   ["@types/flux", "npm:3.1.9"],
+                  ["@types/fs-extra", "npm:9.0.5"],
                   ["@types/git-rev-sync", "npm:2.0.0"],
                   ["@types/jest", "npm:25.2.3"],
                   ["@types/jest-when", "npm:2.7.2"],
@@ -53186,6 +53244,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                     "eslint-plugin-unicorn",
                     "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:23.0.0",
                   ],
+                  ["execa", "npm:5.0.0"],
                   [
                     "flux",
                     "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:3.1.3",

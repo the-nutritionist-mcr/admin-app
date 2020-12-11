@@ -14,7 +14,7 @@ const generateStacks = (): void => {
   const defaults = {
     env: {
       region: "us-east-1",
-      account: "000000000000",
+      account: "661272765443",
     },
     appName: "tnm-admin",
     domainName: "tnm-admin.com",

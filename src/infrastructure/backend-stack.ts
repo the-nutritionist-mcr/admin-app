@@ -205,7 +205,7 @@ export default class BackendStack extends cdk.Stack {
 
     customersTable.grantFullAccess(resolverLambda);
     resolverLambda.addEnvironment("CUSTOMERS_TABLE", customersTable.tableName);
-    new cdk.CfnOutput(this, "CustomersTable", {
+    new cdk.CfnOutput(this, "CustomersTableName", {
       value: customersTable.tableName,
     });
 
@@ -223,7 +223,7 @@ export default class BackendStack extends cdk.Stack {
       "EXCLUSIONS_TABLE",
       exclusionsTable.tableName
     );
-    new cdk.CfnOutput(this, "ExclusionsTable", {
+    new cdk.CfnOutput(this, "ExclusionsTableName", {
       value: exclusionsTable.tableName,
     });
 
@@ -238,7 +238,7 @@ export default class BackendStack extends cdk.Stack {
 
     recipesTable.grantFullAccess(resolverLambda);
     resolverLambda.addEnvironment("RECIPES_TABLE", recipesTable.tableName);
-    new cdk.CfnOutput(this, "RecipesTable", {
+    new cdk.CfnOutput(this, "RecipesTableName", {
       value: recipesTable.tableName,
     });
 
@@ -255,7 +255,7 @@ export default class BackendStack extends cdk.Stack {
       }
     );
 
-    new cdk.CfnOutput(this, "CustomerExclusionsTable", {
+    new cdk.CfnOutput(this, "CustomerExclusionsTableName", {
       value: customerExclusionsTable.tableName,
     });
 
@@ -284,7 +284,7 @@ export default class BackendStack extends cdk.Stack {
       },
     });
 
-    new cdk.CfnOutput(this, "RecipeExclusionsTable", {
+    new cdk.CfnOutput(this, "RecipeExclusionsTableName", {
       value: recipeExclusionsTable.tableName,
     });
 
