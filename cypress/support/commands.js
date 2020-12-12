@@ -30,8 +30,8 @@
 
 Cypress.Commands.add("login", () => {
   cy.visit("/");
-  cy.get("#username").type(Cypress.env("USER"));
-  cy.get("#password").type(Cypress.env("PASSWORD"));
+  cy.get("#username").type(Cypress.env("USER"), { force: true });
+  cy.get("#password").type(Cypress.env("PASSWORD"), { force: true });
   cy.get("button[type='submit']").click({ multiple: true, force: true });
 });
 
@@ -112,17 +112,17 @@ Cypress.Commands.add(
 Cypress.Commands.add("createRecipe", (name, description, exclusions) => {
   cy.get("header").contains("Recipes").click();
   cy.contains("New").click();
-  cy.get("table").find("tbody").find("tr").first().as("firstRow");
 
-  cy.get("@firstRow").find("input[name='name']").type(name);
-  cy.get("@firstRow").find("input[name='description']").type(description);
-  cy.get("@firstRow").find("input[name='exclusions']").click();
-  cy.get("div[data-g-portal-id='0']").as("dropPortal");
+  cy.get("input[name='name']").type(name);
+  cy.get("input[name='description']").type(description);
+  cy.get("input[name='potentialExclusions']").click();
+  cy.get("div[data-g-portal-id='1']").as("dropPortal");
   exclusions.forEach((exclusion) => {
     cy.get("@dropPortal")
       .find("div[role='menubar']")
       .contains(exclusion)
       .click({ force: true });
   });
-  cy.get("@firstRow").find("input[name='exclusions']").click();
+  cy.get("input[name='potentialExclusions']").click();
+  cy.contains("Ok").click();
 });

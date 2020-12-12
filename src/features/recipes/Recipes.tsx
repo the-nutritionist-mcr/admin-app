@@ -90,6 +90,8 @@ const Recipes: React.FC = () => {
             {recipes
 
               .slice()
+              // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+              .sort((a, b) => (a.name < b.name ? 1 : -1))
               .reverse()
               .map((recipe) => (
                 <RecipesRow

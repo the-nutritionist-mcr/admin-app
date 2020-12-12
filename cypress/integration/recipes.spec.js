@@ -1,6 +1,14 @@
 describe("The recipes page", () => {
+  before(() => {
+    cy.exec("yarn clear-tables");
+  });
+
+  beforeEach(() => {
+    cy.login();
+    cy.contains("Recipes").click();
+  });
+
   it("should render a page with the correct title", () => {
-    cy.visit("/recipes");
     cy.get("h2").contains("Recipes");
   });
 
@@ -10,14 +18,10 @@ describe("The recipes page", () => {
     cy.contains("You've not added any recipes yet...");
   });
 
-  it("should add a blank row when you click the 'New' button", () => {
-    cy.visit("/recipes");
+  it("Should pop up the 'create recipe' dialog when you click the 'new' button", () => {
     cy.contains("New").click();
 
-    cy.get("table").find("tr").should("have.length", 2);
-    cy.get("input[name='name']").should("be.empty");
-    cy.get("input[name='description']").should("be.empty");
-    cy.get("input[name='exclusions']").should("be.empty");
+    cy.contains("Create Recipe");
   });
 
   it("should allow you to add and edit a couple of recipes which then persist after page reload", () => {
@@ -30,37 +34,22 @@ describe("The recipes page", () => {
     cy.wait(1000);
     cy.reload();
 
-    cy.get("tbody").find("tr").last().as("lastRow");
-    cy.get("@lastRow")
-      .find("input[name='name']")
-      .should("have.value", "Sandwich");
-    cy.get("@lastRow")
-      .find("input[name='description']")
-      .should("have.value", "A delicious sandwich");
+    cy.get("tbody").find("tr").first().as("firstRow");
+    cy.get("@firstRow").contains("Chocolate");
+    cy.get("@firstRow").contains("A creamy chocolate bar");
 
     cy.get("tbody").find("tr").first().next().as("secondRow");
-    cy.get("@secondRow")
-      .find("input[name='name']")
-      .should("have.value", "Salad");
-    cy.get("@secondRow")
-      .find("input[name='description']")
-      .should("have.value", "A beautiful salad");
+    cy.get("@secondRow").contains("Salad");
+    cy.get("@secondRow").contains("A beautiful salad");
 
-    cy.get("tbody").find("tr").first().as("firstRow");
-    cy.get("@firstRow")
-      .find("input[name='name']")
-      .should("have.value", "Chocolate");
-    cy.get("@firstRow")
-      .find("input[name='description']")
-      .should("have.value", "A creamy chocolate bar");
+    cy.get("tbody").find("tr").last().as("lastRow");
+    cy.get("@lastRow").contains("Sandwich");
+    cy.get("@lastRow").contains("A delicious sandwich");
   });
 
   describe("the delete button", () => {
     it("should allow you to delete a row after you've confirmed", () => {
       cy.visit("/recipes");
-
-      cy.createRecipe("Sandwich", "A delicious sandwich", []);
-      cy.createRecipe("Salad", "A beautiful salad", []);
 
       cy.get("tbody")
         .find("tr")
@@ -68,14 +57,11 @@ describe("The recipes page", () => {
         .find("button[aria-label='Delete']")
         .click();
       cy.contains("Ok").click();
-      cy.get("tbody").find("tr").should("have.length", 1);
+      cy.get("tbody").find("tr").should("have.length", 2);
     });
 
     it("does not delete a row if you click on the confirm dialog", () => {
       cy.visit("/recipes");
-
-      cy.createRecipe("Sandwich", "A delicious sandwich", []);
-      cy.createRecipe("Salad", "A beautiful salad", []);
 
       cy.get("tbody")
         .find("tr")
