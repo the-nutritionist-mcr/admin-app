@@ -1,15 +1,6 @@
-import clearDatabaseTables from "../../src/scripts/clear-database";
-
 describe("The customers page", () => {
-  beforeAll(async () => {
-    const outputs = path.resolve(
-      __dirname,
-      "..",
-      "..",
-      "src",
-      "backend-outputs.json"
-    );
-    await clearDatabaseTables(outputs);
+  before(() => {
+    cy.exec("yarn clear-tables");
   });
 
   beforeEach(() => {

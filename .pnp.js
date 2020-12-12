@@ -119,7 +119,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ],
                   [
                     "@testing-library/react-hooks",
-                    "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:3.4.2",
+                    "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:3.7.0",
                   ],
                   [
                     "@testing-library/user-event",
@@ -140,6 +140,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["@types/react-router-dom", "npm:5.1.6"],
                   ["@types/redux-localstorage", "npm:1.0.8"],
                   ["@types/styled-components", "npm:5.1.4"],
+                  ["@types/testing-library__react-hooks", "npm:3.4.1"],
                   ["@types/uuid", "npm:8.3.0"],
                   ["@types/webpack-dev-server", "npm:3.11.1"],
                   [
@@ -17086,25 +17087,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "@testing-library/react-hooks",
           [
             [
-              "npm:3.4.2",
+              "npm:3.7.0",
               {
                 packageLocation:
-                  "./.yarn/cache/@testing-library-react-hooks-npm-3.4.2-50baac85ae-25c3d881fe.zip/node_modules/@testing-library/react-hooks/",
+                  "./.yarn/cache/@testing-library-react-hooks-npm-3.7.0-fb4bd22c3e-0ab518489c.zip/node_modules/@testing-library/react-hooks/",
                 packageDependencies: [
-                  ["@testing-library/react-hooks", "npm:3.4.2"],
+                  ["@testing-library/react-hooks", "npm:3.7.0"],
                 ],
                 linkType: "SOFT",
               },
             ],
             [
-              "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:3.4.2",
+              "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:3.7.0",
               {
                 packageLocation:
-                  "./.yarn/$$virtual/@testing-library-react-hooks-virtual-c326390d53/0/cache/@testing-library-react-hooks-npm-3.4.2-50baac85ae-25c3d881fe.zip/node_modules/@testing-library/react-hooks/",
+                  "./.yarn/$$virtual/@testing-library-react-hooks-virtual-546215494f/0/cache/@testing-library-react-hooks-npm-3.7.0-fb4bd22c3e-0ab518489c.zip/node_modules/@testing-library/react-hooks/",
                 packageDependencies: [
                   [
                     "@testing-library/react-hooks",
-                    "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:3.4.2",
+                    "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:3.7.0",
                   ],
                   ["@babel/runtime", "npm:7.12.5"],
                   ["@types/react", "npm:16.14.2"],
@@ -53238,7 +53239,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ],
                   [
                     "@testing-library/react-hooks",
-                    "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:3.4.2",
+                    "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:3.7.0",
                   ],
                   [
                     "@testing-library/user-event",
@@ -53259,6 +53260,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["@types/react-router-dom", "npm:5.1.6"],
                   ["@types/redux-localstorage", "npm:1.0.8"],
                   ["@types/styled-components", "npm:5.1.4"],
+                  ["@types/testing-library__react-hooks", "npm:3.4.1"],
                   ["@types/uuid", "npm:8.3.0"],
                   ["@types/webpack-dev-server", "npm:3.11.1"],
                   [
