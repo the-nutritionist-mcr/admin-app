@@ -1,20 +1,27 @@
 describe("The planner", () => {
-  it("Correctly calculates the number of meals for customers on Mondays", () => {
-    cy.visit("/");
-    cy.createExclusion("Nuts", true);
-    cy.createExclusion("Chilli", false);
-    cy.createExclusion("Celery", true);
-    cy.createExclusion("Fish", true);
-    cy.createExclusion("Lupin", true);
-    cy.createExclusion("Pork", false);
-    cy.createExclusion("Milk", true);
+  before(() => {
+    cy.exec("yarn clear-tables");
+  });
 
-    cy.createRecipe("Salad", "A beautiful salad", ["Nuts", "Chilli"]);
+  beforeEach(() => {
+    cy.login();
+  });
+
+  it("Correctly calculates the number of meals for customers on Mondays", () => {
+    cy.createCustomisation("Nuts", true);
+    cy.createCustomisation("Chilli", false);
+    cy.createCustomisation("Celery", true);
+    cy.createCustomisation("Fish", true);
+    cy.createCustomisation("Lupin", true);
+    cy.createCustomisation("Pork", false);
+    cy.createCustomisation("Milk", true);
+
+    cy.createRecipe("Salad", "A beautiful salad", ["Chilli"]);
     cy.createRecipe("Sandwich", "A nice ham sandwich", ["Pork"]);
     cy.createRecipe("Risotto", "A lovely risotto", []);
     cy.createRecipe("Steak", "A beautiful steak", []);
     cy.createRecipe("Soup", "A lovely rich soup", ["Milk"]);
-    cy.createRecipe("Pasta", "Beautiful Italian pasta", ["Milk", "Nuts"]);
+    cy.createRecipe("Pasta", "Beautiful Italian pasta", ["Milk"]);
 
     cy.createCustomer(
       "Mr",
@@ -27,7 +34,7 @@ describe("The planner", () => {
       "Large",
       true,
       "Somewhere",
-      [],
+      ["Pork"],
       "Some notes",
       4,
       "0123456789"
@@ -44,7 +51,7 @@ describe("The planner", () => {
       "Standard",
       false,
       "I live in an an attic",
-      [],
+      ["Milk"],
       "More notes",
       4,
       "1232342342"
@@ -83,5 +90,8 @@ describe("The planner", () => {
     cy.get("div[data-g-portal-id='0']")
       .contains("Steak")
       .click({ force: true });
+
+    cy.contains("Mass without Pork");
+    cy.contains("Micro without Milk");
   });
 });

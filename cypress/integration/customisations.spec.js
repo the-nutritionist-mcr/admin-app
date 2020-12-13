@@ -8,11 +8,11 @@ describe("The customisations page", () => {
     cy.contains("Customisations").click();
   });
 
-  it.skip("should render a page with the correct title", () => {
+  it("should render a page with the correct title", () => {
     cy.get("h2").contains("Customisations");
   });
 
-  it.skip("should render the empty data message on first page load", () => {
+  it("should render the empty data message on first page load", () => {
     cy.get("body").should("not.contain", "table");
     cy.contains("You've not added any customisations yet...");
   });

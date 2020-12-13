@@ -73,7 +73,11 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
               <DateInput
                 inline={true}
                 name="pauseStart"
-                calendarProps={{ size: "small", daysOfWeek: true }}
+                calendarProps={{
+                  a11yTitle: "Start Pause",
+                  size: "small",
+                  daysOfWeek: true,
+                }}
               />
               <Box pad={{ top: "small" }}>
                 <Text alignSelf="center">
@@ -88,6 +92,7 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
                 inline={true}
                 name="pauseEnd"
                 calendarProps={{
+                  a11yTitle: "End Pause",
                   daysOfWeek: true,
                   size: "small",
                 }}
