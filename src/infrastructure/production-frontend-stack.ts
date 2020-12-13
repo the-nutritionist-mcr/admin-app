@@ -75,6 +75,7 @@ export default class ProductionFrontendStack extends cdk.Stack {
           {
             errorCode: 403,
             responsePagePath: "/index.html",
+            responseCode: 200,
           },
         ],
         viewerCertificate: cloudfront.ViewerCertificate.fromAcmCertificate(
