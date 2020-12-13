@@ -1,6 +1,6 @@
 describe("The customisations page", () => {
   before(() => {
-    cy.exec("yarn clear-tables");
+    cy.clearDb();
   });
 
   beforeEach(() => {

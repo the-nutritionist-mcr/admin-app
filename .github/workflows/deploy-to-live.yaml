@@ -140,6 +140,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: backend-outputs
+          path: "src"
       - name: Yarn install
         uses: borales/actions-yarn@v2.3.0
         with:
@@ -165,6 +166,10 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-1
+      - uses: actions/upload-artifact@v2
+        with:
+          name: backend-outputs
+          path: cypress/videos/**/*
 
   deploy-to-prod:
     name: Deploy to Prod

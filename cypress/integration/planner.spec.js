@@ -1,6 +1,6 @@
 describe("The planner", () => {
   before(() => {
-    cy.exec("yarn clear-tables");
+    cy.clearDb();
   });
 
   beforeEach(() => {

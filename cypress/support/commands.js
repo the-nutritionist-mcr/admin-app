@@ -28,6 +28,14 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-enable @typescript-eslint/no-namespace */
 
+Cypress.commands.add("clearDb", () => {
+  cy.exec("yarn clear-tables")
+    // eslint-disable-next-line no-console
+    .then((result) => console.log(result))
+    // eslint-disable-next-line no-console
+    .catch((error) => console.error(error));
+});
+
 Cypress.Commands.add("login", () => {
   cy.visit("/");
   cy.get("#username").type(Cypress.env("USER"), { force: true });
