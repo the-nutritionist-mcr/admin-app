@@ -163,8 +163,8 @@ jobs:
         with:
           cmd: test:cypress
 
-  deploy-to-live:
-    name: Deploy Application
+  deploy-to-prod:
+    name: Deploy to Prod
     needs: [run-e2es]
     runs-on: ubuntu-latest
     steps:
