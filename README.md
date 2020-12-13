@@ -8,13 +8,20 @@ stage
 
 ## Deployment
 
-Deployment is performed automatically by Github actions for three main branches
+Deployment is triggered automatically by Github Actions.
 
-| Branch    | Environment                        | Status                                                                                                          | Unit test coverage                                                                                                            |
-| --------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `main`    | [Prod](https://www.tnm-admin.com)  | ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=main) | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/main/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm)    |
-| `test`    | [Test](https://test.tnm-admin.com) | ![Test](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=main)       | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/test/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm)    |
-| `develop` | [Dev](http://dev.tnm-admin.com)    | ![Dev](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=develop)     | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/develop/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm) |
+- Merging to `master` triggers a pipeline which runs linting and unit tests, deploys to
+  [test](https://test.tnm-admin.com), runs end to end tests against test, then
+  deploys to [production](https://www.tnm-admin.com) so long as everything passes.
+- `develop` also triggers a unit test and lint run and then deployment to the
+  [dev](https://dev.tnm-admin.com) environment only
+
+## Deployment statuses
+
+| Environment                       | Status                                                                                                          | Unit test coverage                                                                                                            |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| [Prod](https://www.tnm-admin.com) | ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=main) | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/main/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm)    |
+| [Dev](http://dev.tnm-admin.com)   | ![Dev](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=develop)     | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/develop/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm) |
 
 ## Hosting
 
