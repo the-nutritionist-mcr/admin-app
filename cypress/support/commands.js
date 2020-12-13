@@ -28,12 +28,11 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-enable @typescript-eslint/no-namespace */
 
-Cypress.commands.add("clearDb", () => {
+Cypress.Commands.add("clearDb", () => {
+  // eslint-disable-next-line promise/catch-or-return
   cy.exec("yarn clear-tables")
     // eslint-disable-next-line no-console
-    .then((result) => console.log(result))
-    // eslint-disable-next-line no-console
-    .catch((error) => console.error(error));
+    .then((result) => console.log(result));
 });
 
 Cypress.Commands.add("login", () => {
