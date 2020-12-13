@@ -13,7 +13,6 @@ describe("The recipes page", () => {
   });
 
   it("Should render the empty data message on first page load", () => {
-    cy.visit("/recipes");
     cy.get("body").should("not.contain", "table");
     cy.contains("You've not added any recipes yet...");
   });
@@ -25,8 +24,6 @@ describe("The recipes page", () => {
   });
 
   it("should allow you to add and edit a couple of recipes which then persist after page reload", () => {
-    cy.visit("/recipes");
-
     cy.createRecipe("Sandwich", "A delicious sandwich", []);
     cy.createRecipe("Salad", "A beautiful salad", []);
     cy.createRecipe("Chocolate", "A creamy chocolate bar", []);
@@ -49,8 +46,6 @@ describe("The recipes page", () => {
 
   describe("the delete button", () => {
     it("should allow you to delete a row after you've confirmed", () => {
-      cy.visit("/recipes");
-
       cy.get("tbody")
         .find("tr")
         .last()
@@ -61,8 +56,6 @@ describe("The recipes page", () => {
     });
 
     it("does not delete a row if you click on the confirm dialog", () => {
-      cy.visit("/recipes");
-
       cy.get("tbody")
         .find("tr")
         .last()
