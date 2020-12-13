@@ -1,3 +1,4 @@
+import * as strings from "../../lib/strings";
 import API, { graphqlOperation } from "@aws-amplify/api";
 import {
   CreateCustomerMutationVariables,
@@ -29,7 +30,7 @@ const initialState: CustomersState = {
 };
 
 export const updateCustomer = apiRequestCreator(
-  "customers/update",
+  strings.actionNames.updateCustomer,
   async (customer: Customer): Promise<Customer> => {
     const {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -56,7 +57,7 @@ export const updateCustomer = apiRequestCreator(
 );
 
 export const createCustomer = apiRequestCreator<Customer, Customer>(
-  "customers/create",
+  strings.actionNames.createCustomers,
   async (customer: Customer) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, exclusions, ...customerWithoutExclusions } = customer;
@@ -84,7 +85,7 @@ export const createCustomer = apiRequestCreator<Customer, Customer>(
 );
 
 export const removeCustomer = apiRequestCreator(
-  "customers/remove",
+  strings.actionNames.removeCustomer,
   async (customer: Customer): Promise<string> => {
     const deleteCustomerVariables: DeleteCustomerMutationVariables = {
       input: {
@@ -100,7 +101,7 @@ export const removeCustomer = apiRequestCreator(
 );
 
 export const fetchCustomers = apiRequestCreator<Customer[]>(
-  "customers/fetch",
+  strings.actionNames.fetchCustomers,
   async () => {
     const listCustomersResult = (await API.graphql(
       graphqlOperation(listCustomersQuery)
@@ -115,7 +116,7 @@ export const fetchCustomers = apiRequestCreator<Customer[]>(
 );
 
 const customersSlice = createSlice({
-  name: "customers",
+  name: strings.sliceNames.customers,
   initialState,
   reducers: {},
 
