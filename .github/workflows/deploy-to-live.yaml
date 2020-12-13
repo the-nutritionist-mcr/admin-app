@@ -56,7 +56,7 @@ jobs:
           cmd: lint
 
   deploy-to-test:
-    name: Deploy Application to Test
+    name: Deploy to Test
     needs: [unit-test, lint]
     runs-on: ubuntu-latest
     steps:
@@ -154,6 +154,7 @@ jobs:
       - name: Run tests
         uses: borales/actions-yarn@v2.3.0
         env:
+          CYPRESS_BASE_URL: https://test.tnm-admin.com
           CYPRESS_USER: ${{ secrets.CYPRESS_USER }}
           CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -193,6 +194,7 @@ jobs:
         with:
           cmd: deploy:backend
         env:
+          DEPLOYMENT_ENVIRONMENT: prod
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-1
@@ -214,6 +216,7 @@ jobs:
       - name: Invalidate Cloudfront cache
         run: aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_ID --paths "/index.html"
         env:
+          DEPLOYMENT_ENVIRONMENT: prod
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
