@@ -18,10 +18,10 @@ Deployment is triggered automatically by Github Actions.
 
 ## Deployment statuses
 
-| Environment                       | Status                                                                                                          | Unit test coverage                                                                                                            |
-| --------------------------------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| [Prod](https://www.tnm-admin.com) | ![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=main) | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/main/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm)    |
-| [Dev](http://dev.tnm-admin.com)   | ![Dev](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=develop)     | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/develop/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm) |
+| Environment                       | Status                                                                                                                                                                                                            | Unit test coverage                                                                                                            |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| [Prod](https://www.tnm-admin.com) | [![Production](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=main)](https://github.com/benwainwright/tnm/actions?query=workflow%3A%22Production+deploy+pipeline%22) | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/main/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm)    |
+| [Dev](http://dev.tnm-admin.com)   | [![Dev](https://github.com/benwainwright/tnm/workflows/Build%20test%20and%20deploy/badge.svg?branch=develop)](https://github.com/benwainwright/tnm/actions?query=workflow%3A%22Development+deploy+pipeline%22)    | [![codecov](https://codecov.io/gh/benwainwright/tnm/branch/develop/graph/badge.svg)](https://codecov.io/gh/benwainwright/tnm) |
 
 ## Hosting
 
