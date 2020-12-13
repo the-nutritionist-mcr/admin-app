@@ -47,7 +47,6 @@ describe("The customers page", () => {
       "1232342342"
     );
 
-    cy.wait(1000);
     cy.reload();
 
     cy.get("tbody").find("tr").last().as("lastRow");

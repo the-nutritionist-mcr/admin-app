@@ -76,6 +76,8 @@ const Exclusions: React.FC = () => {
           <TableBody>
             {exclusions
               .slice()
+              // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+              .sort((a, b) => (a.name > b.name ? -1 : 1))
               .reverse()
               .map((exclusion) => (
                 <ExclusionRow key={exclusion.id} exclusion={exclusion} />

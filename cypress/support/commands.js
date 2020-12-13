@@ -35,16 +35,50 @@ Cypress.Commands.add("login", () => {
   cy.get("button[type='submit']").click({ multiple: true, force: true });
 });
 
-Cypress.Commands.add("createExclusion", (name, allergen) => {
-  cy.get("header").contains("Exclusions").click();
+Cypress.Commands.add("createCustomisation", (name, allergen) => {
+  cy.get("header").contains("Customisations").click();
   cy.contains("New").click();
-  cy.get("table").find("tbody").find("tr").first().as("firstRow");
 
-  cy.get("@firstRow").find("input[name='name']").type(name);
+  cy.get("input[name='name']").type(name);
 
   if (allergen) {
-    cy.get("@firstRow").find("input[name='allergen']").click({ force: true });
+    cy.get("input[name='allergen']").click({ force: true });
   }
+
+  cy.intercept({
+    method: "POST",
+    url: "/graphql",
+  }).as("graphql");
+
+  cy.contains("Ok").click();
+
+  cy.wait("@graphql");
+});
+
+Cypress.Commands.add("createRecipe", (name, description, exclusions) => {
+  cy.get("header").contains("Recipes").click();
+  cy.contains("New").click();
+
+  cy.get("input[name='name']").type(name);
+  cy.get("input[name='description']").type(description);
+  cy.get("input[name='potentialExclusions']").click();
+  exclusions.forEach((exclusion) => {
+    cy.get("[data-g-portal-id='1']")
+      .find("div[role='menubar']")
+      .contains(exclusion)
+      .click({ force: true });
+  });
+
+  cy.contains("TNM Admin").click({ force: true });
+
+  cy.intercept({
+    method: "POST",
+    url: "/graphql",
+  }).as("graphql");
+
+  cy.contains("Ok").click();
+
+  cy.wait("@graphql");
 });
 
 Cypress.Commands.add(
@@ -105,24 +139,14 @@ Cypress.Commands.add(
     if (telephone) {
       cy.get("input[name='telephone']").type(telephone);
     }
+
+    cy.intercept({
+      method: "POST",
+      url: "/graphql",
+    }).as("graphql");
+
     cy.contains("Ok").click();
+
+    cy.wait("@graphql");
   }
 );
-
-Cypress.Commands.add("createRecipe", (name, description, exclusions) => {
-  cy.get("header").contains("Recipes").click();
-  cy.contains("New").click();
-
-  cy.get("input[name='name']").type(name);
-  cy.get("input[name='description']").type(description);
-  cy.get("input[name='potentialExclusions']").click();
-  cy.get("div[data-g-portal-id='1']").as("dropPortal");
-  exclusions.forEach((exclusion) => {
-    cy.get("@dropPortal")
-      .find("div[role='menubar']")
-      .contains(exclusion)
-      .click({ force: true });
-  });
-  cy.get("input[name='potentialExclusions']").click();
-  cy.contains("Ok").click();
-});

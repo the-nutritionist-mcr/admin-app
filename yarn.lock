@@ -11108,9 +11108,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:^5.5.0":
-  version: 5.6.0
-  resolution: "cypress@npm:5.6.0"
+"cypress-pipe@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "cypress-pipe@npm:2.0.0"
+  checksum: febe5e7ed40c5b48303cd9eedb5ef926ec597a0cb14fbed615c5bebc0ba0a86067841d45806fda51ef34113185be2fdbb8adc60a8f28efefef4896aa05a5bc8e
+  languageName: node
+  linkType: hard
+
+"cypress@npm:latest":
+  version: 6.1.0
+  resolution: "cypress@npm:6.1.0"
   dependencies:
     "@cypress/listr-verbose-renderer": ^0.4.1
     "@cypress/request": ^2.88.5
@@ -11152,7 +11159,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: 159ab7df348dcd0d98e75e639a12886ce733d63b3981cba7e4045f3e728d6b877f37ab51d6aaf32dc694774028a28a8f846cb652591b76194b7c7df92a3f9af3
+  checksum: e522413ae3c24c4750ce2a263a1eb0d5a38ef82b54de05178bc4a4eab2cc100daef9ae81856d589acf1f3660029dc23b44c64671bc86f7c471b6b400142d10ec
   languageName: node
   linkType: hard
 
@@ -25707,7 +25714,8 @@ resolve@1.18.1:
     aws-lambda: ^1.0.6
     aws-sdk: ^2.807.0
     aws-sdk-mock: ^5.1.0
-    cypress: ^5.5.0
+    cypress: latest
+    cypress-pipe: ^2.0.0
     dynamodb-empty: ^1.0.1
     enzyme: ^3.11.0
     eslint: ^7.13.0

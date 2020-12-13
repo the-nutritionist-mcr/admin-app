@@ -162,7 +162,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["aws-lambda", "npm:1.0.6"],
                   ["aws-sdk", "npm:2.807.0"],
                   ["aws-sdk-mock", "npm:5.1.0"],
-                  ["cypress", "npm:5.6.0"],
+                  ["cypress", "npm:6.1.0"],
+                  ["cypress-pipe", "npm:2.0.0"],
                   ["dynamodb-empty", "npm:1.0.1"],
                   ["enzyme", "npm:3.11.0"],
                   ["eslint", "npm:7.14.0"],
@@ -27424,12 +27425,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "cypress",
           [
             [
-              "npm:5.6.0",
+              "npm:6.1.0",
               {
                 packageLocation:
-                  "./.yarn/unplugged/cypress-npm-5.6.0-426aa7366f/node_modules/cypress/",
+                  "./.yarn/unplugged/cypress-npm-6.1.0-d0ca9268d1/node_modules/cypress/",
                 packageDependencies: [
-                  ["cypress", "npm:5.6.0"],
+                  ["cypress", "npm:6.1.0"],
                   ["@cypress/listr-verbose-renderer", "npm:0.4.1"],
                   ["@cypress/request", "npm:2.88.5"],
                   ["@cypress/xvfb", "npm:1.2.4"],
@@ -27446,7 +27447,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["common-tags", "npm:1.8.0"],
                   [
                     "debug",
-                    "virtual:426aa7366f1c555cd59e15b883109a8b7f1d2e3a1f20c3bb852d1b20e078446a05a6c39cb107387970091bc828ac19916bf6d0a90417fe48e161bf7643f0c2fc#npm:4.3.1",
+                    "virtual:d0ca9268d1f129368143e9c463ce0d5bc380539b905eeddf77c679730fa7ffea93dc5d0526fc0f3f99ba65934223921c1907378d6397dadaa5819fa90e00b692#npm:4.3.1",
                   ],
                   ["eventemitter2", "npm:6.4.3"],
                   ["execa", "npm:4.1.0"],
@@ -27472,6 +27473,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["url", "npm:0.11.0"],
                   ["yauzl", "npm:2.10.0"],
                 ],
+                linkType: "HARD",
+              },
+            ],
+          ],
+        ],
+        [
+          "cypress-pipe",
+          [
+            [
+              "npm:2.0.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/cypress-pipe-npm-2.0.0-311dac83bb-febe5e7ed4.zip/node_modules/cypress-pipe/",
+                packageDependencies: [["cypress-pipe", "npm:2.0.0"]],
                 linkType: "HARD",
               },
             ],
@@ -27732,23 +27747,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
               },
             ],
             [
-              "virtual:426aa7366f1c555cd59e15b883109a8b7f1d2e3a1f20c3bb852d1b20e078446a05a6c39cb107387970091bc828ac19916bf6d0a90417fe48e161bf7643f0c2fc#npm:4.3.1",
-              {
-                packageLocation:
-                  "./.yarn/$$virtual/debug-virtual-d52bbf2a47/0/cache/debug-npm-4.3.1-22e08d605e-0d41ba5177.zip/node_modules/debug/",
-                packageDependencies: [
-                  [
-                    "debug",
-                    "virtual:426aa7366f1c555cd59e15b883109a8b7f1d2e3a1f20c3bb852d1b20e078446a05a6c39cb107387970091bc828ac19916bf6d0a90417fe48e161bf7643f0c2fc#npm:4.3.1",
-                  ],
-                  ["ms", "npm:2.1.2"],
-                  ["supports-color", "npm:7.2.0"],
-                ],
-                packagePeers: ["supports-color"],
-                linkType: "HARD",
-              },
-            ],
-            [
               "virtual:428f325a939c2653ad822eb3d75efb02ac311523dd0d4f9645afc39ea00bd86eceac35a9d59c9b6977d76b670a4ef0ae057ea572338a44729aa592711a8c05a3#npm:4.3.1",
               {
                 packageLocation:
@@ -27811,6 +27809,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ],
                   ["ms", "npm:2.0.0"],
                   ["supports-color", null],
+                ],
+                packagePeers: ["supports-color"],
+                linkType: "HARD",
+              },
+            ],
+            [
+              "virtual:d0ca9268d1f129368143e9c463ce0d5bc380539b905eeddf77c679730fa7ffea93dc5d0526fc0f3f99ba65934223921c1907378d6397dadaa5819fa90e00b692#npm:4.3.1",
+              {
+                packageLocation:
+                  "./.yarn/$$virtual/debug-virtual-178871ca2a/0/cache/debug-npm-4.3.1-22e08d605e-0d41ba5177.zip/node_modules/debug/",
+                packageDependencies: [
+                  [
+                    "debug",
+                    "virtual:d0ca9268d1f129368143e9c463ce0d5bc380539b905eeddf77c679730fa7ffea93dc5d0526fc0f3f99ba65934223921c1907378d6397dadaa5819fa90e00b692#npm:4.3.1",
+                  ],
+                  ["ms", "npm:2.1.2"],
+                  ["supports-color", "npm:7.2.0"],
                 ],
                 packagePeers: ["supports-color"],
                 linkType: "HARD",
@@ -53282,7 +53297,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["aws-lambda", "npm:1.0.6"],
                   ["aws-sdk", "npm:2.807.0"],
                   ["aws-sdk-mock", "npm:5.1.0"],
-                  ["cypress", "npm:5.6.0"],
+                  ["cypress", "npm:6.1.0"],
+                  ["cypress-pipe", "npm:2.0.0"],
                   ["dynamodb-empty", "npm:1.0.1"],
                   ["enzyme", "npm:3.11.0"],
                   ["eslint", "npm:7.14.0"],
