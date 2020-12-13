@@ -123,7 +123,7 @@ jobs:
     needs: [deploy-to-test]
     runs-on: ubuntu-latest
     container:
-      image: cypress/included:6.1.0
+      image: cypress/base
     steps:
       - name: Checkout repository
         uses: actions/checkout@v1
@@ -158,8 +158,6 @@ jobs:
 
       - name: Run tests
         run: yarn test:cypress
-        container:
-          image: cypress/base
         env:
           CYPRESS_BASE_URL: https://test.tnm-admin.com
           CYPRESS_USER: ${{ secrets.CYPRESS_USER }}
