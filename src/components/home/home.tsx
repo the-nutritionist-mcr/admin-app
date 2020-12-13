@@ -1,22 +1,10 @@
 import { Anchor, Heading, Paragraph, Text } from "grommet";
-import {
-  allCustomersSelector,
-  fetchCustomers,
-} from "../customers/customersSlice";
-import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 
-import isActive from "../../lib/isActive";
+import { useHome } from "./hooks";
 
 const Home: React.FC = () => {
-  const customers = useSelector(allCustomersSelector);
-  const dispatch = useDispatch();
-  React.useEffect(() => {
-    dispatch(fetchCustomers());
-  }, [dispatch]);
-
-  const activePlans = customers.filter(isActive).length;
-
+  const { activePlans } = useHome();
   return (
     <React.Fragment>
       <Heading level={2}>Welcome</Heading>

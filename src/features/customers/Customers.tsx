@@ -12,30 +12,22 @@ import {
 } from "grommet";
 import Customer, { Snack } from "../../domain/Customer";
 
-import {
-  allCustomersSelector,
-  createCustomer,
-  fetchCustomers,
-} from "./customersSlice";
 import { daysPerWeekOptions, plans } from "../../lib/config";
-import { useDispatch, useSelector } from "react-redux";
 import CustomerRow from "./CustomerRow";
 import EditCustomerDialog from "./EditCustomerDialog";
 import LoadingState from "../../types/LoadingState";
 import React from "react";
 import { Spinning } from "grommet-controls";
+import { createCustomer } from "./customersSlice";
 import { loadingSelector } from "../../lib/rootReducer";
+import useCustomers from "./useCustomers";
+import { useSelector } from "react-redux";
 
 const Customers: React.FC = () => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
 
-  const customers = useSelector(allCustomersSelector);
-  const dispatch = useDispatch();
+  const { customers } = useCustomers();
   const loading = useSelector(loadingSelector);
-
-  React.useEffect(() => {
-    dispatch(fetchCustomers());
-  }, [dispatch]);
 
   return (
     <React.Fragment>

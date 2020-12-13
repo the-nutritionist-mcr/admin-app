@@ -4,7 +4,7 @@ import React from "react";
 import { Spinning } from "grommet-controls";
 import { Switch } from "react-router-dom";
 
-const LazyHome = React.lazy(async () => import("../../features/home/Home"));
+const LazyHome = React.lazy(async () => import("../home/home"));
 const LazyCustomers = React.lazy(
   async () => import("../../features/customers/Customers")
 );
