@@ -163,7 +163,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["aws-sdk", "npm:2.807.0"],
                   ["aws-sdk-mock", "npm:5.1.0"],
                   ["cypress", "npm:6.1.0"],
-                  ["cypress-pipe", "npm:2.0.0"],
                   ["dynamodb-empty", "npm:1.0.1"],
                   ["enzyme", "npm:3.11.0"],
                   ["eslint", "npm:7.14.0"],
@@ -27479,20 +27478,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
         ],
         [
-          "cypress-pipe",
-          [
-            [
-              "npm:2.0.0",
-              {
-                packageLocation:
-                  "./.yarn/cache/cypress-pipe-npm-2.0.0-311dac83bb-febe5e7ed4.zip/node_modules/cypress-pipe/",
-                packageDependencies: [["cypress-pipe", "npm:2.0.0"]],
-                linkType: "HARD",
-              },
-            ],
-          ],
-        ],
-        [
           "d",
           [
             [
@@ -53298,7 +53283,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["aws-sdk", "npm:2.807.0"],
                   ["aws-sdk-mock", "npm:5.1.0"],
                   ["cypress", "npm:6.1.0"],
-                  ["cypress-pipe", "npm:2.0.0"],
                   ["dynamodb-empty", "npm:1.0.1"],
                   ["enzyme", "npm:3.11.0"],
                   ["eslint", "npm:7.14.0"],

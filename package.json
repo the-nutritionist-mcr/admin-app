@@ -231,11 +231,11 @@
     ]
   },
   "devDependencies": {
-    "cypress": "latest",
     "@graphql-codegen/cli": "1.19.4",
     "@graphql-codegen/introspection": "1.18.1",
     "@graphql-codegen/typescript": "1.19.0",
     "@typescript-eslint/eslint-plugin": "latest",
+    "cypress": "latest",
     "webpack-cli": "^4.2.0"
   }
 }

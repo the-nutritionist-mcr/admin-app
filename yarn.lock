@@ -11108,13 +11108,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress-pipe@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "cypress-pipe@npm:2.0.0"
-  checksum: febe5e7ed40c5b48303cd9eedb5ef926ec597a0cb14fbed615c5bebc0ba0a86067841d45806fda51ef34113185be2fdbb8adc60a8f28efefef4896aa05a5bc8e
-  languageName: node
-  linkType: hard
-
 "cypress@npm:latest":
   version: 6.1.0
   resolution: "cypress@npm:6.1.0"
@@ -25715,7 +25708,6 @@ resolve@1.18.1:
     aws-sdk: ^2.807.0
     aws-sdk-mock: ^5.1.0
     cypress: latest
-    cypress-pipe: ^2.0.0
     dynamodb-empty: ^1.0.1
     enzyme: ^3.11.0
     eslint: ^7.13.0
