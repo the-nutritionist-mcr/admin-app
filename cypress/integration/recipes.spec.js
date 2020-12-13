@@ -29,7 +29,8 @@ describe("The recipes page", () => {
     cy.createRecipe("Chocolate", "A creamy chocolate bar", []);
 
     cy.wait(1000);
-    cy.reload();
+    cy.visit("/");
+    cy.contains("Recipes").click();
 
     cy.get("tbody").find("tr").first().as("firstRow");
     cy.get("@firstRow").contains("Chocolate");

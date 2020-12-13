@@ -47,7 +47,8 @@ describe("The customers page", () => {
       "1232342342"
     );
 
-    cy.reload();
+    cy.visit("/");
+    cy.contains("Customers").click();
 
     cy.get("tbody").find("tr").last().as("lastRow");
     cy.get("@lastRow").contains("Wainwright, Ben (Mr)");
