@@ -122,8 +122,6 @@ jobs:
     name: Run E2E tests
     needs: [deploy-to-test]
     runs-on: ubuntu-latest
-    container:
-      image: cypress/included:6.1.0
     steps:
       - name: Checkout repository
         uses: actions/checkout@v1
@@ -155,7 +153,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run tests
-        uses: borales/actions-yarn@v2.3.0
+        uses: cypress-io/github-action@v2
         env:
           CYPRESS_BASE_URL: https://test.tnm-admin.com
           CYPRESS_USER: ${{ secrets.CYPRESS_USER }}
@@ -163,8 +161,6 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-1
-        with:
-          cmd: test:cypress
 
   deploy-to-prod:
     name: Deploy to Prod

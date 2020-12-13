@@ -54,8 +54,6 @@
     "aws-lambda": "^1.0.6",
     "aws-sdk": "^2.807.0",
     "aws-sdk-mock": "^5.1.0",
-    "cypress": "latest",
-    "cypress-pipe": "^2.0.0",
     "dynamodb-empty": "^1.0.1",
     "enzyme": "^3.11.0",
     "eslint": "^7.13.0",
@@ -233,6 +231,7 @@
     ]
   },
   "devDependencies": {
+    "cypress": "latest",
     "@graphql-codegen/cli": "1.19.4",
     "@graphql-codegen/introspection": "1.18.1",
     "@graphql-codegen/typescript": "1.19.0",
