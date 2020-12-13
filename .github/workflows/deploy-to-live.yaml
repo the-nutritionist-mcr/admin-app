@@ -149,11 +149,6 @@ jobs:
 
       - name: Run tests
         uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: start:and:wait
-
-      - name: Run tests
-        uses: borales/actions-yarn@v2.3.0
         env:
           CYPRESS_BASE_URL: https://test.tnm-admin.com
           CYPRESS_USER: ${{ secrets.CYPRESS_USER }}
