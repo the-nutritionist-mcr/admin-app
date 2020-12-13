@@ -122,9 +122,13 @@ jobs:
     name: Run E2E tests
     needs: [deploy-to-test]
     runs-on: ubuntu-latest
+    container:
+      image: cypress/included:6.1.0
     steps:
       - name: Checkout repository
         uses: actions/checkout@v1
+      - name: Install Cypress deps
+        run: apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
       - name: Configure node 12
         uses: actions/setup-node@v1
         with:
@@ -136,7 +140,15 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: backend-outputs
+      - name: Yarn install
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install
 
+      - name: Install cypress
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: cypress install
       - name: Turnstyle
         uses: softprops/turnstyle@v1
         with:
@@ -145,9 +157,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run tests
-        uses: cypress-io/github-action@v2
-        with:
-          install-command: yarn install --immutable
+        uses: borales/actions-yarn@v2.3.0
         env:
           CYPRESS_BASE_URL: https://test.tnm-admin.com
           CYPRESS_USER: ${{ secrets.CYPRESS_USER }}
@@ -155,6 +165,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-1
+        with:
+          cmd: test:cypress
 
   deploy-to-prod:
     name: Deploy to Prod
