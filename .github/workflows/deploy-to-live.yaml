@@ -55,9 +55,116 @@ jobs:
         with:
           cmd: lint
 
-  deploy:
-    name: Deploy Application
+  deploy-to-test:
+    name: Deploy Application to Test
     needs: [unit-test, lint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v1
+      - name: Configure node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+      - uses: actions/cache@v2
+        with:
+          path: "**/.yarn"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Yarn install
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install
+      - name: Turnstyle
+        uses: softprops/turnstyle@v1
+        with:
+          poll-interval-seconds: 30
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy Backend
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: deploy:backend
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+
+      - name: Deploy Frontend
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: deploy:frontend
+        env:
+          DEPLOYMENT_ENVIRONMENT: test
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+      - name: Get Cloudfront distribution ID
+        run: echo "CLOUDFRONT_ID=$(cat src/frontend-outputs.json | jq --raw-output '.[].CloudFrontDistributionId')" > $GITHUB_ENV
+      - name: Install AWS CLI
+        uses: chrislennon/action-aws-cli@v1.1
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      - name: Invalidate Cloudfront cache
+        run: aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_ID --paths "/index.html"
+        env:
+          DEPLOYMENT_ENVIRONMENT: test
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
+      - uses: actions/upload-artifact@v2
+        with:
+          name: backend-outputs
+          path: src/backend-outputs.json
+
+  run-e2es:
+    name: Run E2E tests
+    needs: [deploy-to-test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v1
+      - name: Configure node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+      - uses: actions/cache@v2
+        with:
+          path: "**/.yarn"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - uses: actions/download-artifact@v2
+        with:
+          name: backend-outputs
+      - name: Yarn install
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install
+      - name: Turnstyle
+        uses: softprops/turnstyle@v1
+        with:
+          poll-interval-seconds: 30
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run tests
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: start:and:wait
+
+      - name: Run tests
+        uses: borales/actions-yarn@v2.3.0
+        env:
+          CYPRESS_USER: ${{ secrets.CYPRESS_USER }}
+          CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+        with:
+          cmd: test:cypress
+
+  deploy-to-live:
+    name: Deploy Application
+    needs: [run-e2es]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

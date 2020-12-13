@@ -6,8 +6,10 @@ import BackendStack from "./backend-stack";
 import ProductionFrontendStack from "./production-frontend-stack";
 
 const generateStacks = (): void => {
-  const ref = process.env.GITHUB_REF ?? "main";
-  const branch = ref.split("/")[ref.split("/").length - 1];
+  const environment = process.env.DEPLOYMENT_ENVIRONMENT;
+  if (!environment) {
+    throw new Error("You must specify the deployment environment");
+  }
 
   const app = new cdk.App();
 
@@ -23,7 +25,7 @@ const generateStacks = (): void => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const details: any = {
-    main: {
+    prod: {
       ...defaults,
       stackLabel: "ProductionFrontendStackProd",
       envName: "prod",
@@ -37,7 +39,7 @@ const generateStacks = (): void => {
       subdomain: "test",
       url: "https://test.tnm-admin.com",
     },
-    develop: {
+    dev: {
       stackLabel: "ProductionFrontendStackDev",
       ...defaults,
       envName: "dev",
@@ -49,14 +51,14 @@ const generateStacks = (): void => {
   if (process.env.DO_BACKEND) {
     new BackendStack(
       app,
-      `DevBackendStack${details[branch].envName}`,
-      details[branch]
+      `DevBackendStack${details[environment].envName}`,
+      details[environment]
     );
   } else {
     new ProductionFrontendStack(
       app,
-      details[branch].stackLabel,
-      details[branch]
+      details[environment].stackLabel,
+      details[environment]
     );
   }
 };
