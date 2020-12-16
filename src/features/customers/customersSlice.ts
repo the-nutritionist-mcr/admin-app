@@ -14,7 +14,7 @@ import {
   updateCustomerMutation,
 } from "./graphql";
 
-import type { AppState } from "../../lib/rootReducer";
+import type AppState from "../../types/AppState";
 import Customer from "../../domain/Customer";
 
 import apiRequestCreator from "../../lib/apiRequestCreator";

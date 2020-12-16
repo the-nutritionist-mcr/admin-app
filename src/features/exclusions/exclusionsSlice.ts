@@ -13,7 +13,7 @@ import {
   updateExclusionMutation,
 } from "./graphql";
 
-import type { AppState } from "../../lib/rootReducer";
+import type AppState from "../../types/AppState";
 
 import Exclusion from "../../domain/Exclusion";
 import LoadingState from "../../types/LoadingState";

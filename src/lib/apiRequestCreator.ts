@@ -1,6 +1,6 @@
 import ThunkResult, { ThunkAction } from "redux-thunk";
 import { AnyAction } from "redux";
-import type { AppState } from "./rootReducer";
+import AppState from "../types/AppState";
 import { createAction } from "@reduxjs/toolkit";
 import log from "loglevel";
 

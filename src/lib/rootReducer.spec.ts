@@ -4,10 +4,10 @@ import {
   loadingStart,
   loadingSucceeded,
 } from "./apiRequestCreator";
-import rootReducer, { AppState } from "./rootReducer";
+import AppState from "../types/AppState";
 import LoadingState from "../types/LoadingState";
-
 import { mock } from "jest-mock-extended";
+import rootReducer from "./rootReducer";
 
 describe("The root reducer", () => {
   it("Sets the loadingState to loading when given the loadingStart action", () => {

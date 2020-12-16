@@ -13,7 +13,7 @@ import {
   updateRecipeMutation,
 } from "./graphql";
 
-import type { AppState } from "../../lib/rootReducer";
+import type AppState from "../../types/AppState";
 
 import LoadingState from "../../types/LoadingState";
 import Recipe from "../../domain/Recipe";
