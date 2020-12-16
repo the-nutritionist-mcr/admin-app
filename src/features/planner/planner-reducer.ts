@@ -27,7 +27,7 @@ const initialState: PlannerState = {
 
 interface RecipeSelectPayload {
   index: number;
-  recipe: Recipe;
+  recipe: Recipe | undefined;
 }
 
 interface CustomerSelectionAdjustPayload {
@@ -165,5 +165,15 @@ const plannerReducer = (state: AppState, action?: AnyAction): AppState => {
     }
   );
 };
+
+export const plannedMealsSelector = (state: AppState): DeliveryMealsSelection =>
+  state.planner.selectedMeals;
+
+export const deliveryDaySelector = (state: AppState): DeliveryDay =>
+  state.planner.deliveryDay;
+
+export const customerSelectionsSelector = (
+  state: AppState
+): CustomerMealsSelection | undefined => state.planner.customerSelections;
 
 export default plannerReducer;

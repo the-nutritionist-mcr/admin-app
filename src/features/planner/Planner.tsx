@@ -1,18 +1,20 @@
 import { Box, Button, Heading, Paragraph, Select, Tab, Tabs } from "grommet";
 import {
-  LOCALSTORAGE_KEY_DAY,
-  LOCALSTORAGE_KEY_PLANNED,
-} from "../../lib/constants";
+  clearPlanner,
+  customerSelectionsSelector,
+  deliveryDaySelector,
+  plannedMealsSelector,
+  selectDay,
+  selectMeal,
+} from "./planner-reducer";
+import { useDispatch, useSelector } from "react-redux";
 
 import DeliveryDay from "../../types/DeliveryDay";
 import DeliveryMealsSelection from "../../types/DeliveryMealsSelection";
 import React from "react";
 import Recipe from "../../domain/Recipe";
 import ToPackTable from "./ToPackTable";
-import { allCustomersSelector } from "../../features/customers/customersSlice";
 import { allRecipesSelector } from "../../features/recipes/recipesSlice";
-import { chooseMeals } from "../../lib/plan-meals";
-import { useSelector } from "react-redux";
 
 const defaultPlans: DeliveryMealsSelection = [
   undefined,
@@ -24,18 +26,12 @@ const defaultPlans: DeliveryMealsSelection = [
 ];
 
 const Planner: React.FC = () => {
-  const [day, setDay] = React.useState<DeliveryDay>(
-    (localStorage.getItem(LOCALSTORAGE_KEY_DAY) as DeliveryDay) ?? ""
-  );
+  const dispatch = useDispatch();
 
-  const [planned, setPlanned] = React.useState<DeliveryMealsSelection>(
-    defaultPlans
-  );
-
-  const customers = useSelector(allCustomersSelector);
+  const day = useSelector(deliveryDaySelector);
+  const planned = useSelector(plannedMealsSelector);
   const recipes = useSelector(allRecipesSelector);
-
-  const chosenMeals = chooseMeals(day, planned, customers);
+  const chosenMeals = useSelector(customerSelectionsSelector);
 
   const activeSelections = planned.filter(Boolean);
 
@@ -64,8 +60,7 @@ const Planner: React.FC = () => {
             options={["Monday", "Thursday"]}
             value={day}
             onChange={(event: { value: DeliveryDay }): void => {
-              setDay(event.value);
-              localStorage.setItem(LOCALSTORAGE_KEY_DAY, event.value);
+              dispatch(selectDay(event.value));
             }}
           />
           <Heading level={3}>Meals</Heading>
@@ -81,27 +76,17 @@ const Planner: React.FC = () => {
                   labelPlan?.name
                 }
                 onChange={(event: { value: Recipe | undefined }): void => {
-                  const newPlanned = [...planned];
-                  newPlanned[index] = recipes.find(
+                  const newChoice = recipes.find(
                     (recipe) => recipe.id === event?.value?.id
                   );
-                  localStorage.setItem(
-                    LOCALSTORAGE_KEY_PLANNED,
-                    JSON.stringify(newPlanned.map((item) => item?.id))
-                  );
-                  setPlanned(newPlanned);
+                  dispatch(selectMeal({ index, recipe: newChoice }));
                 }}
               />
             ))}
             {activeSelections.length > 0 || day !== "" ? (
               <Button
                 onClick={(): void => {
-                  setDay("");
-                  setPlanned(defaultPlans);
-                  localStorage.setItem(
-                    LOCALSTORAGE_KEY_PLANNED,
-                    JSON.stringify(defaultPlans)
-                  );
+                  dispatch(clearPlanner());
                 }}
                 label="Clear"
               />
@@ -110,7 +95,7 @@ const Planner: React.FC = () => {
         </Tab>
         <Tab title="Allocate">
           <ToPackTable
-            customerMeals={chosenMeals}
+            customerMeals={chosenMeals ?? []}
             deliveryMeals={defaultPlans}
           />
         </Tab>
