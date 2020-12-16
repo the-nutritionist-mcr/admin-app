@@ -14614,9 +14614,9 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"grommet@npm:2.16.0":
-  version: 2.16.0
-  resolution: "grommet@npm:2.16.0"
+"grommet@npm:2.16.2":
+  version: 2.16.2
+  resolution: "grommet@npm:2.16.2"
   dependencies:
     grommet-icons: ^4.5.0
     hoist-non-react-statics: ^3.2.0
@@ -14628,7 +14628,7 @@ fsevents@~2.1.2:
     react: ">= 16.6.1"
     react-dom: ">= 16.6.1"
     styled-components: ">= 5.1"
-  checksum: 5eebeae60ddb56aff551ba7e449d16b31ddfed1e708dfcc1d28b9081005e5faa308103ca82bf1409498cec2c1dcf671837b440749f2649d488c35296b2e9f994
+  checksum: 14f156efe58c7e4437307b40215ed489732b1d6c3aeace69f539d85ca927f6da747a25d54db8dbf1c2726ef7ccbe7f4f7d7cf785ed4d02c2af29d56baea6f02a
   languageName: node
   linkType: hard
 
@@ -25729,7 +25729,7 @@ resolve@1.18.1:
     fs-extra: ^9.0.1
     git-rev-sync: ^3.0.1
     graphql: ^15.4.0
-    grommet: 2.16.0
+    grommet: 2.16.2
     grommet-controls: ^3.0.1
     grommet-icons: ^4.5.0
     history: ^5.0.0
