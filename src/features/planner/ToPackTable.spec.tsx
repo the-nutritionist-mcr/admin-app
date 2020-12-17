@@ -1,10 +1,23 @@
+import {
+  customerSelectionsSelector,
+  plannedMealsSelector,
+} from "./planner-reducer";
+import { resetAllWhenMocks, when } from "jest-when";
 import Customer from "../../domain/Customer";
+import CustomerMealsSelection from "../../types/CustomerMealsSelection";
 import DeliveryMealsSelection from "../../types/DeliveryMealsSelection";
 import React from "react";
+import ToPackRow from "./ToPackRow";
 import ToPackTable from "./ToPackTable";
 
 import { mock } from "jest-mock-extended";
+import { mocked } from "ts-jest/utils";
 import { shallow } from "enzyme";
+import { useSelector } from "react-redux";
+
+jest.mock("react-redux");
+
+beforeEach(() => resetAllWhenMocks());
 
 describe("The pack table", () => {
   it("should render rows with customers appearing in alphabetical order", () => {
@@ -31,20 +44,36 @@ describe("The pack table", () => {
       customerFour,
     ].map((customer) => ({ customer, meals: [] }));
 
-    const delivery = mock<DeliveryMealsSelection>();
+    const delivery: DeliveryMealsSelection = [];
 
-    const wrapper = shallow(
-      <ToPackTable deliveryMeals={delivery} customerMeals={meals} />
+    when(mocked(useSelector, true))
+      .calledWith(
+        customerSelectionsSelector as (state: unknown) => CustomerMealsSelection
+      )
+      .mockReturnValue(meals);
+
+    when(mocked(useSelector, true))
+      .calledWith(
+        plannedMealsSelector as (state: unknown) => DeliveryMealsSelection
+      )
+      .mockReturnValue(delivery);
+
+    const wrapper = shallow(<ToPackTable onNext={jest.fn()} />);
+
+    const customers = wrapper.find(ToPackRow);
+
+    expect(customers.at(0).props().customerSelection.customer.surname).toEqual(
+      "Alexandria"
     );
-
-    const customers = wrapper.find(".customerName");
-
-    expect(customers.at(0).text()).toEqual(
-      expect.stringContaining("Alexandria")
+    expect(customers.at(1).props().customerSelection.customer.surname).toEqual(
+      "Barnes"
     );
-    expect(customers.at(1).text()).toEqual(expect.stringContaining("Barnes"));
-    expect(customers.at(2).text()).toEqual(expect.stringContaining("Curtis"));
-    expect(customers.at(3).text()).toEqual(expect.stringContaining("Davis"));
+    expect(customers.at(2).props().customerSelection.customer.surname).toEqual(
+      "Curtis"
+    );
+    expect(customers.at(3).props().customerSelection.customer.surname).toEqual(
+      "Davis"
+    );
   });
 
   it("Should put lowercase letters next to the same uppercase letter", () => {
@@ -65,18 +94,32 @@ describe("The pack table", () => {
       meals: [],
     }));
 
-    const delivery = mock<DeliveryMealsSelection>();
+    const delivery: DeliveryMealsSelection = [];
 
-    const wrapper = shallow(
-      <ToPackTable deliveryMeals={delivery} customerMeals={meals} />
+    when(mocked(useSelector, true))
+      .calledWith(
+        customerSelectionsSelector as (state: unknown) => CustomerMealsSelection
+      )
+      .mockReturnValue(meals);
+
+    when(mocked(useSelector, true))
+      .calledWith(
+        plannedMealsSelector as (state: unknown) => DeliveryMealsSelection
+      )
+      .mockReturnValue(delivery);
+
+    const wrapper = shallow(<ToPackTable onNext={jest.fn()} />);
+
+    const customers = wrapper.find(ToPackRow);
+
+    expect(customers.at(0).props().customerSelection.customer.surname).toEqual(
+      "Alexandria"
     );
-
-    const customers = wrapper.find(".customerName");
-
-    expect(customers.at(0).text()).toEqual(
-      expect.stringContaining("Alexandria")
+    expect(customers.at(1).props().customerSelection.customer.surname).toEqual(
+      "alexis"
     );
-    expect(customers.at(1).text()).toEqual(expect.stringContaining("alexis"));
-    expect(customers.at(2).text()).toEqual(expect.stringContaining("Briany"));
+    expect(customers.at(2).props().customerSelection.customer.surname).toEqual(
+      "Briany"
+    );
   });
 });
