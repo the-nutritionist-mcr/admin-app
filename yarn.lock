@@ -22997,6 +22997,13 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"redux-localstorage@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "redux-localstorage@npm:0.4.1"
+  checksum: 7d252eb28de363e6041db04da8f912f1cfa22436d5e63ba0e04ec86aeebb820a499763f49f6f7d3335c02291dcc2e58d3e35d67cc174cc8ded8d0c6cb702aa3c
+  languageName: node
+  linkType: hard
+
 "redux-persist@npm:^4.6.0":
   version: 4.10.2
   resolution: "redux-persist@npm:4.10.2"
@@ -25798,6 +25805,7 @@ resolve@1.18.1:
     react-scripts: 4.0.0
     react-test-renderer: 17.0.1
     redux: ^4.0.5
+    redux-localstorage: ^0.4.1
     redux-thunk: ^2.3.0
     source-map-support: ^0.5.19
     start-server-and-test: ^1.11.5

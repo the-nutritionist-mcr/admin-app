@@ -288,6 +288,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                     "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:17.0.1",
                   ],
                   ["redux", "npm:4.0.5"],
+                  ["redux-localstorage", "npm:0.4.1"],
                   ["redux-thunk", "npm:2.3.0"],
                   ["source-map-support", "npm:0.5.19"],
                   ["start-server-and-test", "npm:1.11.6"],
@@ -48589,6 +48590,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
         ],
         [
+          "redux-localstorage",
+          [
+            [
+              "npm:0.4.1",
+              {
+                packageLocation:
+                  "./.yarn/cache/redux-localstorage-npm-0.4.1-26fee5334d-7d252eb28d.zip/node_modules/redux-localstorage/",
+                packageDependencies: [["redux-localstorage", "npm:0.4.1"]],
+                linkType: "HARD",
+              },
+            ],
+          ],
+        ],
+        [
           "redux-persist",
           [
             [
@@ -53461,6 +53476,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                     "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:17.0.1",
                   ],
                   ["redux", "npm:4.0.5"],
+                  ["redux-localstorage", "npm:0.4.1"],
                   ["redux-thunk", "npm:2.3.0"],
                   ["source-map-support", "npm:0.5.19"],
                   ["start-server-and-test", "npm:1.11.6"],
