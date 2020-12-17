@@ -1,4 +1,4 @@
-name: Development deploy pipeline
+name: Deploy (dev)
 on:
   push:
     branches:

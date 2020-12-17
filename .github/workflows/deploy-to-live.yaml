@@ -1,4 +1,4 @@
-name: Production deploy pipeline
+name: Deploy (prod)
 on:
   push:
     branches:
