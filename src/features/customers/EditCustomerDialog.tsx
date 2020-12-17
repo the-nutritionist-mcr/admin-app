@@ -28,7 +28,6 @@ import LoadingState from "../../types/LoadingState";
 import React from "react";
 import { Spinning } from "grommet-controls";
 import { loadingSelector } from "../../lib/rootReducer";
-import styled from "styled-components";
 
 interface EditCustomerDialogProps {
   customer: Customer;
@@ -40,10 +39,6 @@ interface EditCustomerDialogProps {
   onCancel: () => void;
 }
 
-const SelectButton = styled.div`
-  padding: 11px;
-`;
-
 const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
   const dispatch = useDispatch();
 
@@ -51,7 +46,12 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
     dispatch(fetchExclusions());
   }, [dispatch]);
 
-  const [customer, setCustomer] = React.useState(props.customer);
+  const propsCustomer = {
+    ...props.customer,
+    breakfast: props.customer.breakfast ? "Yes" : "No",
+  };
+
+  const [customer, setCustomer] = React.useState(propsCustomer);
   const exclusions = useSelector(allExclusionsSelector);
 
   const isLoading = useSelector(loadingSelector) === LoadingState.Loading;
@@ -62,13 +62,14 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
         <Form
           value={customer}
           onReset={(): void => {
-            setCustomer(props.customer);
+            setCustomer(propsCustomer);
           }}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onChange={(nextCustomerData: any): void => {
+            // eslint-disable-next-line no-console
+            console.log(nextCustomerData);
             const nextCustomer = {
               ...nextCustomerData,
-              breakfast: nextCustomerData.breakfast === "Yes",
               startDate:
                 nextCustomerData.startDate &&
                 new Date(nextCustomerData.startDate),
@@ -76,12 +77,17 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
                 nextCustomerData.paymentDayOfMonth === ""
                   ? undefined
                   : nextCustomerData.paymentDayOfMonth,
-            } as Customer;
+            };
 
             setCustomer(nextCustomer);
           }}
           onSubmit={async (): Promise<void> => {
-            await dispatch(props.thunk(customer));
+            const submittingCustomer = {
+              ...customer,
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              breakfast: (customer.breakfast as any) === "Yes",
+            };
+            await dispatch(props.thunk(submittingCustomer));
             props.onOk();
           }}
         >
@@ -154,15 +160,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
                 </FormField>
 
                 <FormField name="breakfast" label="Breakfast">
-                  <Select
-                    name="breakfast"
-                    options={["Yes", "No"]}
-                    valueLabel={
-                      <SelectButton aria-label="breakfast">
-                        {customer.breakfast ? "Yes" : "No"}
-                      </SelectButton>
-                    }
-                  />
+                  <Select name="breakfast" options={["Yes", "No"]} />
                 </FormField>
 
                 <FormField name="exclusions" label="Customisations">
