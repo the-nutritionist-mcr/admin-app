@@ -1,20 +1,19 @@
-import { Box, Button, Table, ThemeContext } from "grommet";
-
-import CustomerMealsSelection from "../../types/CustomerMealsSelection";
-import DeliveryMealsSelection from "../../types/DeliveryMealsSelection";
+import { Box, Button, Table, Text } from "grommet";
+import {
+  clearPlanner,
+  customerSelectionsSelector,
+  plannedMealsSelector,
+} from "./planner-reducer";
+import { useDispatch, useSelector } from "react-redux";
 import { ExtendedParagraph } from "../../components";
 import { PrintableTbody } from "../../components/printable-table";
 import React from "react";
 import Recipe from "../../domain/Recipe";
 
 import ToPackRow from "./ToPackRow";
-import { clearPlanner } from "./planner-reducer";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
 
 interface ToPackTableProps {
-  deliveryMeals: DeliveryMealsSelection;
-  customerMeals: CustomerMealsSelection;
   onNext: () => void;
 }
 
@@ -27,7 +26,14 @@ export const SectionWithPageBreak = styled.section`
 const ToPackTable: React.FC<ToPackTableProps> = (props) => {
   const dispatch = useDispatch();
 
-  const columns = props.customerMeals.reduce<number>(
+  const customerMeals = useSelector(customerSelectionsSelector);
+  const planned = useSelector(plannedMealsSelector);
+
+  if (!customerMeals) {
+    return <Text>You need to select some meals</Text>;
+  }
+
+  const columns = customerMeals.reduce<number>(
     (numColumns, customer) =>
       customer.meals.length > numColumns ? customer.meals.length : numColumns,
     0
@@ -35,7 +41,7 @@ const ToPackTable: React.FC<ToPackTableProps> = (props) => {
 
   type ExcludesUndefined = <T>(x: T | undefined) => x is T;
 
-  const deliveryMeals = props.deliveryMeals
+  const deliveryMeals = planned
     .filter((Boolean as unknown) as ExcludesUndefined)
     .reduce<Recipe[]>((meals, meal) => {
       if (!meals.find((mealNeedle) => mealNeedle.name === meal.name)) {
@@ -70,41 +76,27 @@ const ToPackTable: React.FC<ToPackTableProps> = (props) => {
         />
         <Button primary label="Next" onClick={(): void => props.onNext()} />
       </Box>
-      <ThemeContext.Extend
-        value={{
-          table: {
-            body: {
-              extend: `
-              & tr {
-                background-color: red;
-              }
-            `,
-            },
-          },
-        }}
-      >
-        <Table alignSelf="start">
-          <PrintableTbody>
-            {props.customerMeals
-              .slice()
-              .sort((a, b) =>
-                a.customer.surname.toLowerCase() >
-                b.customer.surname.toLowerCase()
-                  ? 1
-                  : // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-                    -1
-              )
-              .map((customerPlan) => (
-                <ToPackRow
-                  key={customerPlan.customer.id}
-                  columns={columns}
-                  customerSelection={customerPlan}
-                  deliveryMeals={deliveryMeals}
-                />
-              ))}
-          </PrintableTbody>
-        </Table>
-      </ThemeContext.Extend>
+      <Table alignSelf="start">
+        <PrintableTbody>
+          {customerMeals
+            .slice()
+            .sort((a, b) =>
+              a.customer.surname.toLowerCase() >
+              b.customer.surname.toLowerCase()
+                ? 1
+                : // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+                  -1
+            )
+            .map((customerPlan) => (
+              <ToPackRow
+                key={customerPlan.customer.id}
+                columns={columns}
+                customerSelection={customerPlan}
+                deliveryMeals={deliveryMeals}
+              />
+            ))}
+        </PrintableTbody>
+      </Table>
     </SectionWithPageBreak>
   );
 };

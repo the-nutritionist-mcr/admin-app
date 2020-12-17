@@ -3,6 +3,7 @@ import CustomerMealsSelection from "../../types/CustomerMealsSelection";
 import React from "react";
 import Recipe from "../../domain/Recipe";
 import { adjustCustomerSelection } from "./planner-reducer";
+import deepEqual from "deep-equal";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 
@@ -22,7 +23,7 @@ const AlternatingTableRow = styled(TableRow)`
   }
 `;
 
-const ToPackRow: React.FC<ToPackRowProps> = (props) => {
+const ToPackRowUnMemoized: React.FC<ToPackRowProps> = (props) => {
   const dispatch = useDispatch();
 
   return (
@@ -57,5 +58,9 @@ const ToPackRow: React.FC<ToPackRowProps> = (props) => {
     </AlternatingTableRow>
   );
 };
+
+const ToPackRow = React.memo(ToPackRowUnMemoized, (oldProps, newProps) => {
+  return deepEqual(oldProps, newProps);
+});
 
 export default ToPackRow;
