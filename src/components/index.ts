@@ -6,6 +6,7 @@ import {
 } from "./printable-table";
 import { App } from "./app";
 import { AuthenticatedRoute } from "./authenticated-route";
+import { ExtendedParagraph } from "./extended-paragraph";
 import { Home } from "./home";
 import { MenuButton } from "./menu-button";
 import { NavBar } from "./nav-bar";
@@ -14,10 +15,12 @@ import { PauseDialog } from "./pause-dialog";
 import { Router } from "./router";
 import { TableCellCheckbox } from "./table-cell-checkbox";
 import { TableCellInputField } from "./table-cell-input-field";
+import { TabsWithoutGaps } from "./tabs-without-gap";
 
 export {
   App,
   AuthenticatedRoute,
+  ExtendedParagraph,
   Home,
   MenuButton,
   NavBar,
@@ -30,4 +33,5 @@ export {
   Router,
   TableCellCheckbox,
   TableCellInputField,
+  TabsWithoutGaps,
 };
