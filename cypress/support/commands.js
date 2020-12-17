@@ -120,7 +120,7 @@ Cypress.Commands.add(
     cy.get("div[data-g-portal-id='1']").contains(String(daysPerWeek)).click();
     cy.get("input[name='snack']").click();
     cy.get("div[data-g-portal-id='1']").contains(snack).click();
-    cy.get("div[aria-label='breakfast']").click();
+    cy.get("input[name='breakfast']").click();
     cy.get("div[data-g-portal-id='1']")
       .contains(breakfast ? "Yes" : "No")
       .click();
