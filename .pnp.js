@@ -162,6 +162,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["aws-lambda", "npm:1.0.6"],
                   ["aws-sdk", "npm:2.807.0"],
                   ["aws-sdk-mock", "npm:5.1.0"],
+                  ["copy-dynamodb-table", "npm:2.0.20"],
                   ["cypress", "npm:6.1.0"],
                   ["dynamodb-empty", "npm:1.0.1"],
                   ["enzyme", "npm:3.11.0"],
@@ -22345,6 +22346,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                 linkType: "HARD",
               },
             ],
+            [
+              "npm:2.812.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/aws-sdk-npm-2.812.0-c7deba51b7-61822233c4.zip/node_modules/aws-sdk/",
+                packageDependencies: [
+                  ["aws-sdk", "npm:2.812.0"],
+                  ["buffer", "npm:4.9.2"],
+                  ["events", "npm:1.1.1"],
+                  ["ieee754", "npm:1.1.13"],
+                  ["jmespath", "npm:0.15.0"],
+                  ["querystring", "npm:0.2.0"],
+                  ["sax", "npm:1.2.1"],
+                  ["url", "npm:0.10.3"],
+                  ["uuid", "npm:3.3.2"],
+                  ["xml2js", "npm:0.4.19"],
+                ],
+                linkType: "HARD",
+              },
+            ],
           ],
         ],
         [
@@ -26385,6 +26406,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                 packageLocation:
                   "./.yarn/cache/copy-descriptor-npm-0.1.1-864db4ab66-c052cf571f.zip/node_modules/copy-descriptor/",
                 packageDependencies: [["copy-descriptor", "npm:0.1.1"]],
+                linkType: "HARD",
+              },
+            ],
+          ],
+        ],
+        [
+          "copy-dynamodb-table",
+          [
+            [
+              "npm:2.0.20",
+              {
+                packageLocation:
+                  "./.yarn/cache/copy-dynamodb-table-npm-2.0.20-2109fe0d49-dd0d4e4575.zip/node_modules/copy-dynamodb-table/",
+                packageDependencies: [
+                  ["copy-dynamodb-table", "npm:2.0.20"],
+                  ["aws-sdk", "npm:2.812.0"],
+                  ["readline", "npm:1.3.0"],
+                ],
                 linkType: "HARD",
               },
             ],
@@ -48383,6 +48422,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
         ],
         [
+          "readline",
+          [
+            [
+              "npm:1.3.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/readline-npm-1.3.0-c1788eeabc-1638f45209.zip/node_modules/readline/",
+                packageDependencies: [["readline", "npm:1.3.0"]],
+                linkType: "HARD",
+              },
+            ],
+          ],
+        ],
+        [
           "readline2",
           [
             [
@@ -53282,6 +53335,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["aws-lambda", "npm:1.0.6"],
                   ["aws-sdk", "npm:2.807.0"],
                   ["aws-sdk-mock", "npm:5.1.0"],
+                  ["copy-dynamodb-table", "npm:2.0.20"],
                   ["cypress", "npm:6.1.0"],
                   ["dynamodb-empty", "npm:1.0.1"],
                   ["enzyme", "npm:3.11.0"],

@@ -141,17 +141,36 @@ const plannerReducer = (state: AppState, action?: AnyAction): AppState => {
     adjustCustomerSelection.type,
     (newState, executingAction) => {
       if (!newState.planner.customerSelections) {
-        return newState;
+        return { ...newState };
       }
 
-      const newSelections = [...newState.planner.customerSelections];
+      const newSelections = newState.planner.customerSelections.map((item) => ({
+        customer: {
+          ...item.customer,
+          plan: { ...item.customer.plan },
+          exclusions: item.customer.exclusions.map((exclusion) => ({
+            ...exclusion,
+          })),
+        },
+        meals: item.meals.map((meal) => ({
+          ...meal,
+          potentialExclusions: meal.potentialExclusions.map((exclusion) => ({
+            ...exclusion,
+          })),
+        })),
+      }));
+
       const customerIndex = newSelections.findIndex(
-        (selection) => selection.customer === executingAction.payload.customer
+        (selection) =>
+          selection.customer.id === executingAction.payload.customer.id
       );
+
       const newSelection = { ...newSelections[customerIndex] };
       const recipe = executingAction.payload.recipe;
       if (recipe) {
-        newSelection.meals[executingAction.payload.index] = recipe;
+        newSelection.meals[executingAction.payload.index] = {
+          ...recipe,
+        };
       }
       newSelections[customerIndex] = newSelection;
 

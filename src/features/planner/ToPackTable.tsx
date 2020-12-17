@@ -1,23 +1,38 @@
-import { Heading, Table, TableCell, Text } from "grommet";
-
 import {
-  PrintableTableRow,
-  PrintableTbody,
-  PrintableThead,
-} from "../../components/printable-table";
+  Paragraph,
+  Select,
+  Table,
+  TableCell,
+  TableRow,
+  Text,
+  ThemeContext,
+  base,
+} from "grommet";
 
-import Customer from "../../domain/Customer";
 import CustomerMealsSelection from "../../types/CustomerMealsSelection";
 import DeliveryMealsSelection from "../../types/DeliveryMealsSelection";
+
+import { PrintableTbody } from "../../components/printable-table";
 import React from "react";
 import Recipe from "../../domain/Recipe";
-import { createVariantString } from "../../lib/plan-meals";
+import { adjustCustomerSelection } from "./planner-reducer";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 
 interface ToPackTableProps {
   deliveryMeals: DeliveryMealsSelection;
   customerMeals: CustomerMealsSelection;
 }
+
+const AlternatingTableRow = styled(TableRow)`
+  &:nth-child(2n) {
+    background-color: ${base.global?.colors?.["light-3"]};
+  }
+  box-sizing: border-box;
+  &:hover {
+    outline: 1px solid ${base.global?.colors?.["brand"]};
+  }
+`;
 
 export const SectionWithPageBreak = styled.section`
   @media print {
@@ -25,76 +40,97 @@ export const SectionWithPageBreak = styled.section`
   }
 `;
 
-const makePackTableCellText = (
-  index: number,
-  recipes: Recipe[],
-  customer: Customer
-): React.ReactElement | string => {
-  if (index >= recipes.length) {
-    return "";
-  }
-
-  const recipe = recipes[index];
-
-  return (
-    <React.Fragment>
-      <Text>
-        {recipe.name} ({createVariantString(customer, recipe)})
-      </Text>
-    </React.Fragment>
-  );
-};
-
 const ToPackTable: React.FC<ToPackTableProps> = (props) => {
+  type ExcludesUndefined = <T>(x: T | undefined) => x is T;
+
+  const dispatch = useDispatch();
+
+  const deliveryMeals = props.deliveryMeals
+    .filter((Boolean as unknown) as ExcludesUndefined)
+    .reduce<Recipe[]>((meals, meal) => {
+      if (!meals.find((mealNeedle) => mealNeedle.name === meal.name)) {
+        meals.push(meal);
+      }
+      return meals;
+    }, []);
+
+  const columns = props.customerMeals.reduce<number>(
+    (numColumns, customer) =>
+      customer.meals.length > numColumns ? customer.meals.length : numColumns,
+    0
+  );
+
   return (
     <SectionWithPageBreak>
-      <Heading level={2} is="h2">
-        To Pack
-      </Heading>
-      <Table alignSelf="start">
-        <PrintableThead>
-          <PrintableTableRow>
-            <TableCell>
-              <strong>Customer Name</strong>
-            </TableCell>
-            {props.deliveryMeals.map((_item, index) => (
-              <TableCell key={index}>
-                <strong>Meal {index + 1}</strong>
-              </TableCell>
-            ))}
-          </PrintableTableRow>
-        </PrintableThead>
-        <PrintableTbody>
-          {props.customerMeals
-            .slice()
-            .sort((a, b) =>
-              a.customer.surname.toLowerCase() >
-              b.customer.surname.toLowerCase()
-                ? 1
-                : // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-                  -1
-            )
-            .map((customerPlan) => (
-              <PrintableTableRow key={customerPlan.customer.id}>
-                <TableCell className="customerName">
-                  <Text>
-                    {customerPlan.customer.firstName}{" "}
-                    {customerPlan.customer.surname}
-                  </Text>
-                </TableCell>
-                {props.deliveryMeals.map((_item, index) => (
-                  <TableCell key={index}>
-                    {makePackTableCellText(
-                      index,
-                      customerPlan.meals,
-                      customerPlan.customer
-                    )}
+      <Paragraph>
+        Each customer has now been allocated a meal according to their plan and
+        the meals you have selected. Use the select boxes below to make
+        adjustments based on the needs of individual customers.
+      </Paragraph>
+      <Paragraph>
+        {" "}
+        Once you are finish, click <strong>done</strong> to generate the
+        delivery and cook plans, or click <strong>cancel</strong> to clear
+        everything and start again.
+      </Paragraph>
+      <ThemeContext.Extend
+        value={{
+          table: {
+            body: {
+              extend: `
+              & tr {
+                background-color: red;
+              }
+            `,
+            },
+          },
+        }}
+      >
+        <Table alignSelf="start">
+          <PrintableTbody>
+            {props.customerMeals
+              .slice()
+              .sort((a, b) =>
+                a.customer.surname.toLowerCase() >
+                b.customer.surname.toLowerCase()
+                  ? 1
+                  : // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+                    -1
+              )
+              .map((customerPlan) => (
+                <AlternatingTableRow key={customerPlan.customer.id}>
+                  <TableCell className="customerName">
+                    <Text>
+                      {customerPlan.customer.firstName}{" "}
+                      {customerPlan.customer.surname}
+                    </Text>
                   </TableCell>
-                ))}
-              </PrintableTableRow>
-            ))}
-        </PrintableTbody>
-      </Table>
+                  {[...new Array(columns)].map((_item, index) => (
+                    <TableCell key={index}>
+                      <Select
+                        plain
+                        options={deliveryMeals}
+                        placeholder="None"
+                        labelKey="name"
+                        valueKey="name"
+                        value={customerPlan.meals[index]}
+                        onChange={(event) =>
+                          dispatch(
+                            adjustCustomerSelection({
+                              index,
+                              customer: customerPlan.customer,
+                              recipe: event.value,
+                            })
+                          )
+                        }
+                      />
+                    </TableCell>
+                  ))}
+                </AlternatingTableRow>
+              ))}
+          </PrintableTbody>
+        </Table>
+      </ThemeContext.Extend>
     </SectionWithPageBreak>
   );
 };

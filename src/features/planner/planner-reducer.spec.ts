@@ -50,11 +50,23 @@ describe("The planner slice", () => {
   describe("adjustCustomerSelection", () => {
     it("should result in an individual customers selection being changed", () => {
       const mockRecipe = mock<Recipe>();
+      mockRecipe.potentialExclusions = [];
+      mockRecipe.id = "recipe-0";
       const mockRecipe1 = mock<Recipe>();
+      mockRecipe1.id = "recipe-1";
+      mockRecipe1.potentialExclusions = [];
       const mockRecipe2 = mock<Recipe>();
+      mockRecipe2.id = "recipe-2";
+      mockRecipe2.potentialExclusions = [];
       const mockRecipe3 = mock<Recipe>();
+      mockRecipe3.id = "recipe-3";
+      mockRecipe3.potentialExclusions = [];
       const mockRecipe4 = mock<Recipe>();
+      mockRecipe4.id = "recipe-4";
+      mockRecipe4.potentialExclusions = [];
       const mockRecipe5 = mock<Recipe>();
+      mockRecipe5.id = "recipe-5";
+      mockRecipe5.potentialExclusions = [];
 
       const initialState = mock<AppState>();
 
@@ -70,7 +82,11 @@ describe("The planner slice", () => {
       ];
 
       const mockCustomer1 = mock<Customer>();
+      mockCustomer1.exclusions = [];
+      mockCustomer1.id = "id-1";
       const mockCustomer2 = mock<Customer>();
+      mockCustomer2.exclusions = [];
+      mockCustomer2.id = "id-2";
 
       initialState.planner.customerSelections = [
         {
@@ -95,9 +111,9 @@ describe("The planner slice", () => {
 
       expect(
         state.planner.customerSelections?.find(
-          (selection) => selection.customer === mockCustomer2
-        )?.meals[1]
-      ).toEqual(mockRecipe3);
+          (selection) => selection.customer.id === mockCustomer2.id
+        )?.meals[1].id
+      ).toEqual(mockRecipe3.id);
     });
   });
 

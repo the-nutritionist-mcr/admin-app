@@ -8257,6 +8257,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"aws-sdk@npm:^2.630.0":
+  version: 2.812.0
+  resolution: "aws-sdk@npm:2.812.0"
+  dependencies:
+    buffer: 4.9.2
+    events: 1.1.1
+    ieee754: 1.1.13
+    jmespath: 0.15.0
+    querystring: 0.2.0
+    sax: 1.2.1
+    url: 0.10.3
+    uuid: 3.3.2
+    xml2js: 0.4.19
+  checksum: 61822233c4d7d7911e2c5a6f27fc11b6d37a3ce3dd732efb77b2b0646b9c9f54f677306acdf65638cff1352b13f21fa33953b1aee1f7705678e55df295438e7e
+  languageName: node
+  linkType: hard
+
 "aws-sdk@npm:^2.637.0, aws-sdk@npm:^2.804.0":
   version: 2.808.0
   resolution: "aws-sdk@npm:2.808.0"
@@ -10479,6 +10496,16 @@ __metadata:
   version: 0.1.1
   resolution: "copy-descriptor@npm:0.1.1"
   checksum: c052cf571ff6b69b604607a3d41f03cb742af9472026013e690ab33e1bef5e64930c53a5f881dc79c7e4f5ccc3cea0ebb9f420315d3690989329088976b68ee9
+  languageName: node
+  linkType: hard
+
+"copy-dynamodb-table@npm:^2.0.20":
+  version: 2.0.20
+  resolution: "copy-dynamodb-table@npm:2.0.20"
+  dependencies:
+    aws-sdk: ^2.630.0
+    readline: ^1.3.0
+  checksum: dd0d4e45750802cc40aeae39abed1cf4ec39ebc4cb00b1a4f54a72538bff955b2dab8d1329e82f5907fb32ab8c73a27d8d0bc80acd70c478d8d55cde8dc72a32
   languageName: node
   linkType: hard
 
@@ -22910,6 +22937,13 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"readline@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "readline@npm:1.3.0"
+  checksum: 1638f45209e339c90891d609f999748d2113b8c2e259c19c7e0ea14d0c7439fee0d74c52b09ff17372e52387f8cca9f94650c03396696ac3874d72efc8804219
+  languageName: node
+  linkType: hard
+
 "realpath-native@npm:^1.1.0":
   version: 1.1.0
   resolution: "realpath-native@npm:1.1.0"
@@ -25707,6 +25741,7 @@ resolve@1.18.1:
     aws-lambda: ^1.0.6
     aws-sdk: ^2.807.0
     aws-sdk-mock: ^5.1.0
+    copy-dynamodb-table: ^2.0.20
     cypress: latest
     dynamodb-empty: ^1.0.1
     enzyme: ^3.11.0

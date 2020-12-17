@@ -54,6 +54,7 @@
     "aws-lambda": "^1.0.6",
     "aws-sdk": "^2.807.0",
     "aws-sdk-mock": "^5.1.0",
+    "copy-dynamodb-table": "^2.0.20",
     "dynamodb-empty": "^1.0.1",
     "enzyme": "^3.11.0",
     "eslint": "^7.13.0",
@@ -131,6 +132,7 @@
     "build:frontend": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) react-scripts build",
     "build:backend": "webpack --progress --config ./config/webpack.config.backend.js",
     "clear-tables": "ts-node src/scripts/do-clear-database.ts",
+    "clone-prod-tables-to-dev": "ts-node src/scripts/clone-prod-db.ts",
     "deploy:frontend": "yarn build:frontend && cdk deploy --require-approval never --all --outputs-file src/frontend-outputs.json",
     "deploy:backend": "yarn build:backend && DO_BACKEND=yes cdk deploy --require-approval never --all --outputs-file src/backend-outputs.json",
     "lint": "eslint .",
@@ -189,6 +191,7 @@
   },
   "eslintConfig": {
     "ignorePatterns": [
+      "*.d.ts",
       "dist",
       "amplify/**",
       "src/API.ts",

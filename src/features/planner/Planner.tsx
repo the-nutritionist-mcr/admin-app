@@ -15,20 +15,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 import DeliveryDay from "../../types/DeliveryDay";
-import DeliveryMealsSelection from "../../types/DeliveryMealsSelection";
 import React from "react";
 import Recipe from "../../domain/Recipe";
 import ToPackTable from "./ToPackTable";
 import { fetchCustomers } from "../customers/customersSlice";
-
-const defaultPlans: DeliveryMealsSelection = [
-  undefined,
-  undefined,
-  undefined,
-  undefined,
-  undefined,
-  undefined,
-];
 
 const Planner: React.FC = () => {
   const dispatch = useDispatch();
@@ -124,7 +114,7 @@ const Planner: React.FC = () => {
         <Tab title="Allocate">
           <ToPackTable
             customerMeals={chosenMeals ?? []}
-            deliveryMeals={defaultPlans}
+            deliveryMeals={planned}
           />
         </Tab>
         <Tab title="Plan"></Tab>
