@@ -16,6 +16,7 @@ const ListWithMargin = styled.ul`
 const IconListItem = styled.li`
   list-style: none;
   display: flex;
+  align-items: flex-end;
   margin-bottom: 1rem;
   & > * {
     padding-right: 0.5rem;
