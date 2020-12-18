@@ -13,7 +13,7 @@ const Planner: React.FC = () => {
   const [tab, setTab] = React.useState(0);
 
   const nextTab = React.useCallback(() => setTab((oldTab) => oldTab + 1), [
-    tab,
+    setTab,
   ]);
 
   React.useEffect(() => {
