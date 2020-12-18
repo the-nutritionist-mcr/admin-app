@@ -55,13 +55,13 @@ const ToPackTable: React.FC<ToPackTableProps> = (props) => {
     <SectionWithPageBreak>
       <ExtendedParagraph margin={{ top: "medium" }}>
         Each customer has now been allocated a meal according to their plan and
-        the meals you have selected. Use the select boxes below to make
-        adjustments based on the needs of individual customers.
+        the meals you have selected. If you wish adjust meals according to
+        individual customer needs, just click on the cells in the table below.
       </ExtendedParagraph>
       <ExtendedParagraph>
-        Once you are finish, click <strong>next</strong> to see the printable
-        delivery and cook plans, or click <strong>cancel</strong> to clear
-        everything and start again.
+        Once you are finish, click <strong>finalize</strong> to download the
+        printable delivery and cook plans, or click <strong>cancel</strong> to
+        clear everything and start again.
       </ExtendedParagraph>
 
       <Box
@@ -69,6 +69,7 @@ const ToPackTable: React.FC<ToPackTableProps> = (props) => {
         gap="small"
         margin={{ top: "medium", bottom: "large" }}
       >
+        <Button primary label="Finalize" onClick={(): void => props.onNext()} />
         <Button
           onClick={(): void => {
             dispatch(clearPlanner());
@@ -76,7 +77,6 @@ const ToPackTable: React.FC<ToPackTableProps> = (props) => {
           }}
           label="Clear"
         />
-        <Button primary label="Next" onClick={(): void => props.onNext()} />
       </Box>
       <ThemeContext.Extend
         value={{
