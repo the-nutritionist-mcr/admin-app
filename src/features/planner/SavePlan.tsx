@@ -38,7 +38,7 @@ const SavePlan: React.FC<SavePlanProps> = (props) => {
 
   return (
     <React.Fragment>
-      <ExtendedParagraph>
+      <ExtendedParagraph margin={{ top: "medium" }}>
         Click on the links below to download your delivery plan and labels. To
         start again, click the <strong>clear</strong> button.
         <Box
