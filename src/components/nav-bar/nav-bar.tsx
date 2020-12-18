@@ -44,20 +44,20 @@ const NavBar: React.FC = () => {
       Recipes
     </MenuButton>,
     <MenuButton
-      key="/planner"
-      to="/planner"
-      groups={["user", "admin"]}
-      icon={<Plan />}
-    >
-      Planner
-    </MenuButton>,
-    <MenuButton
       key="/customisations"
       to="/customisations"
       groups={["user", "admin"]}
       icon={<Configure />}
     >
       Customisations
+    </MenuButton>,
+    <MenuButton
+      key="/planner"
+      to="/planner"
+      groups={["user", "admin"]}
+      icon={<Plan />}
+    >
+      Planner
     </MenuButton>,
     <MenuButton
       key="logout"
