@@ -73,6 +73,9 @@ const Recipes: React.FC = () => {
           <TableHeader>
             <TableRow>
               <TableCell>
+                <strong>Short Name</strong>
+              </TableCell>
+              <TableCell>
                 <strong>Name</strong>
               </TableCell>
               <TableCell>

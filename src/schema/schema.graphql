@@ -24,6 +24,8 @@ input DeleteExclusionInput {
 type Recipe {
   id: ID!
   name: String!
+  hotOrCold: String!
+  shortName: String!
   description: String
   potentialExclusions: [Exclusion!]!
 }

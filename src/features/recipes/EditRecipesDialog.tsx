@@ -12,10 +12,10 @@ import {
   TextInput,
 } from "grommet";
 import { Checkmark, Close } from "grommet-icons";
+import Recipe, { HotOrCold } from "../../domain/Recipe";
 import { useDispatch, useSelector } from "react-redux";
 import { ApiRequestFunction } from "../../lib/apiRequestCreator";
 import React from "react";
-import Recipe from "../../domain/Recipe";
 import { allExclusionsSelector } from "../../features/exclusions/exclusionsSlice";
 
 interface EditRecipesDialogProps {
@@ -57,8 +57,17 @@ const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
             <FormField name="name" label="Name" required>
               <TextInput name="name" />
             </FormField>
+            <FormField name="shortName" label="Short Name" required>
+              <TextInput name="shortName" />
+            </FormField>
             <FormField name="description" label="Description">
               <TextInput name="description" />
+            </FormField>
+            <FormField name="hotOrCold" label="Served" required>
+              <Select
+                options={[HotOrCold.Hot, HotOrCold.Cold, HotOrCold.Both]}
+                name="hotOrCold"
+              />
             </FormField>
             <FormField name="potentialExclusions" label="Exclusions">
               <Select
