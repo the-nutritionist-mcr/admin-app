@@ -1,10 +1,12 @@
-import { Anchor, Box, Button, Heading } from "grommet";
+import { Anchor, Box, Button, Heading, Text } from "grommet";
 import { Plan, Restaurant, Tag } from "grommet-icons";
+import { clearPlanner, customerSelectionsSelector } from "./planner-reducer";
+import { useDispatch, useSelector } from "react-redux";
 import { ExtendedParagraph } from "../../components";
 import React from "react";
-import { clearPlanner } from "./planner-reducer";
+import downloadPdf from "../../lib/downloadPdf";
+import generateDeliveryPlanDocumentDefinition from "../../lib/generateDeliveryPlanDocumentDefinition";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
 
 const ListWithMargin = styled.ul`
   margin-top: 1rem;
@@ -13,7 +15,6 @@ const ListWithMargin = styled.ul`
 
 const IconListItem = styled.li`
   list-style: none;
-  align-items: flex-end;
   display: flex;
   margin-bottom: 1rem;
   & > * {
@@ -25,10 +26,15 @@ interface SavePlanProps {
   onClear: () => void;
 }
 
-const FlexAnchor = styled(Anchor)``;
-
 const SavePlan: React.FC<SavePlanProps> = (props) => {
   const dispatch = useDispatch();
+
+  const customerMeals = useSelector(customerSelectionsSelector);
+
+  if (!customerMeals) {
+    return <Text>You need to select some meals</Text>;
+  }
+
   return (
     <React.Fragment>
       <ExtendedParagraph>
@@ -52,33 +58,36 @@ const SavePlan: React.FC<SavePlanProps> = (props) => {
       <ListWithMargin>
         <IconListItem>
           <Plan />
-          <FlexAnchor
+          <Anchor
             onClick={() => {
-              // NOOP
+              const document = generateDeliveryPlanDocumentDefinition(
+                customerMeals
+              );
+              downloadPdf(document, "plan.pdf");
             }}
           >
             Delivery Plan
-          </FlexAnchor>
+          </Anchor>
         </IconListItem>
         <IconListItem>
           <Restaurant />
-          <FlexAnchor
+          <Anchor
             onClick={() => {
               // NOOP
             }}
           >
             Cook Plan
-          </FlexAnchor>
+          </Anchor>
         </IconListItem>
         <IconListItem>
           <Tag />
-          <FlexAnchor
+          <Anchor
             onClick={() => {
               // NOOP
             }}
           >
             Labels
-          </FlexAnchor>
+          </Anchor>
         </IconListItem>
       </ListWithMargin>
     </React.Fragment>
