@@ -15,6 +15,7 @@ import styled from "styled-components";
 
 interface ToPackTableProps {
   onNext: () => void;
+  onClear: () => void;
 }
 
 export const SectionWithPageBreak = styled.section`
@@ -71,6 +72,7 @@ const ToPackTable: React.FC<ToPackTableProps> = (props) => {
         <Button
           onClick={(): void => {
             dispatch(clearPlanner());
+            props.onClear();
           }}
           label="Clear"
         />

@@ -1,12 +1,10 @@
-import { Select, TableCell, TableRow, Text, base } from "grommet";
+import { TableCell, TableRow, Text, base } from "grommet";
 import CustomerMealsSelection from "../../types/CustomerMealsSelection";
 import React from "react";
 import Recipe from "../../domain/Recipe";
-import { adjustCustomerSelection } from "./planner-reducer";
-import { createMealWithVariantString } from "../../lib/plan-meals";
-import deepEqual from "deep-equal";
+import ToPackCell from "./ToPackCell";
+import deepMemo from "../../lib/deepMemo";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
 
 interface ToPackRowProps {
   customerSelection: CustomerMealsSelection[number];
@@ -25,8 +23,6 @@ const AlternatingTableRow = styled(TableRow)`
 `;
 
 const ToPackRowUnMemoized: React.FC<ToPackRowProps> = (props) => {
-  const dispatch = useDispatch();
-
   return (
     <AlternatingTableRow>
       <TableCell className="customerName">
@@ -36,38 +32,17 @@ const ToPackRowUnMemoized: React.FC<ToPackRowProps> = (props) => {
         </Text>
       </TableCell>
       {[...new Array(props.columns)].map((_item, index) => (
-        <TableCell key={index}>
-          <Select
-            plain
-            size="small"
-            options={props.deliveryMeals}
-            placeholder="None"
-            valueKey="name"
-            labelKey={(meal: Recipe) =>
-              createMealWithVariantString(
-                props.customerSelection.customer,
-                meal
-              )
-            }
-            value={props.customerSelection.meals[index]}
-            onChange={(event) =>
-              dispatch(
-                adjustCustomerSelection({
-                  index,
-                  customer: props.customerSelection.customer,
-                  recipe: event.value,
-                })
-              )
-            }
-          />
-        </TableCell>
+        <ToPackCell
+          key={`${props.customerSelection.customer.id}-${index}`}
+          index={index}
+          deliveryMeals={props.deliveryMeals}
+          customerSelection={props.customerSelection}
+        />
       ))}
     </AlternatingTableRow>
   );
 };
 
-const ToPackRow = React.memo(ToPackRowUnMemoized, (oldProps, newProps) => {
-  return deepEqual(oldProps, newProps);
-});
+const ToPackRow = deepMemo(ToPackRowUnMemoized);
 
 export default ToPackRow;

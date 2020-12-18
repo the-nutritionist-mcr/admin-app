@@ -1,7 +1,8 @@
-import { Anchor, Heading, Tab, Tabs, ThemeContext, base } from "grommet";
+import { Heading, Tab, Tabs, ThemeContext, base } from "grommet";
 
 import ChooseMeals from "./ChooseMeals";
 import React from "react";
+import SavePlan from "./SavePlan";
 import ToPackTable from "./ToPackTable";
 import { fetchCustomers } from "../customers/customersSlice";
 import { fetchRecipes } from "../../features/recipes/recipesSlice";
@@ -15,6 +16,8 @@ const Planner: React.FC = () => {
   const nextTab = React.useCallback(() => setTab((oldTab) => oldTab + 1), [
     setTab,
   ]);
+
+  const onClear = React.useCallback(() => setTab(0), [setTab]);
 
   React.useEffect(() => {
     (async () => {
@@ -58,22 +61,12 @@ const Planner: React.FC = () => {
         </Tab>
         <Tab title="Allocate">
           <ThemeContext.Extend value={resetEdgeSize}>
-            <ToPackTable onNext={nextTab} />
+            <ToPackTable onNext={nextTab} onClear={onClear} />
           </ThemeContext.Extend>
         </Tab>
         <Tab title="Plan">
           <ThemeContext.Extend value={resetEdgeSize}>
-            <ul>
-              <li>
-                <Anchor
-                  onClick={() => {
-                    // NOOP
-                  }}
-                >
-                  Labels
-                </Anchor>
-              </li>
-            </ul>
+            <SavePlan onClear={onClear} />
           </ThemeContext.Extend>
         </Tab>
       </Tabs>
