@@ -19,6 +19,7 @@ import {
 } from "../recipes/recipesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import EditRecipesDialog from "./EditRecipesDialog";
+import { HotOrCold } from "../../domain/Recipe";
 import React from "react";
 import RecipesRow from "../recipes/RecipesRow";
 import { fetchExclusions } from "../exclusions/exclusionsSlice";
@@ -52,6 +53,8 @@ const Recipes: React.FC = () => {
           <EditRecipesDialog
             recipe={{
               id: "0",
+              shortName: "",
+              hotOrCold: HotOrCold.Hot,
               name: "",
               description: "",
               potentialExclusions: [],

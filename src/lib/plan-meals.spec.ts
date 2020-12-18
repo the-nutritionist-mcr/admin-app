@@ -1,10 +1,10 @@
 import * as planMeals from "./plan-meals";
 
 import Customer, { Snack } from "../domain/Customer";
+import Recipe, { HotOrCold } from "../domain/Recipe";
 import CustomerMealsSelection from "../types/CustomerMealsSelection";
 import DeliveryDay from "../types/DeliveryDay";
 import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
-import Recipe from "../domain/Recipe";
 import { mock as mockExtended } from "jest-mock-extended";
 
 describe("chooseMeals", () => {
@@ -105,6 +105,8 @@ describe("chooseMeals", () => {
       {
         id: "1",
         name: "foo",
+        hotOrCold: HotOrCold.Hot,
+        shortName: "f",
         potentialExclusions: [
           {
             id: "0",
@@ -120,6 +122,8 @@ describe("chooseMeals", () => {
       },
       {
         id: "2",
+        hotOrCold: HotOrCold.Hot,
+        shortName: "ba",
         name: "bar",
         potentialExclusions: [],
       },
@@ -300,18 +304,24 @@ describe("makePlan", () => {
   it("Collects together all recipes correctly when there is no variants and there is only one type of meal", () => {
     const recipeOne: Recipe = {
       id: "0",
+      hotOrCold: HotOrCold.Hot,
+      shortName: "foo",
       name: "foo-recipe",
       potentialExclusions: [],
     };
 
     const recipeTwo: Recipe = {
       id: "1",
+      hotOrCold: HotOrCold.Hot,
+      shortName: "bar",
       name: "bar-recipe",
       potentialExclusions: [],
     };
 
     const recipeThree: Recipe = {
       id: "2",
+      hotOrCold: HotOrCold.Hot,
+      shortName: "baz",
       name: "baz-recipe",
       potentialExclusions: [],
     };
@@ -417,18 +427,24 @@ describe("makePlan", () => {
 
     const recipeOne: Recipe = {
       id: "0",
+      hotOrCold: HotOrCold.Hot,
+      shortName: "foo",
       name: "foo-recipe",
       potentialExclusions: [fishExclusion],
     };
 
     const recipeTwo: Recipe = {
       id: "1",
+      hotOrCold: HotOrCold.Hot,
+      shortName: "bar",
       name: "bar-recipe",
       potentialExclusions: [],
     };
 
     const recipeThree: Recipe = {
       id: "2",
+      hotOrCold: HotOrCold.Hot,
+      shortName: "baz",
       name: "baz-recipe",
       potentialExclusions: [],
     };

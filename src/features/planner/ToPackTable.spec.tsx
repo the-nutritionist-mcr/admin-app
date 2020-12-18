@@ -58,7 +58,9 @@ describe("The pack table", () => {
       )
       .mockReturnValue(delivery);
 
-    const wrapper = shallow(<ToPackTable onNext={jest.fn()} />);
+    const wrapper = shallow(
+      <ToPackTable onClear={jest.fn()} onNext={jest.fn()} />
+    );
 
     const customers = wrapper.find(ToPackRow);
 
@@ -108,7 +110,9 @@ describe("The pack table", () => {
       )
       .mockReturnValue(delivery);
 
-    const wrapper = shallow(<ToPackTable onNext={jest.fn()} />);
+    const wrapper = shallow(
+      <ToPackTable onClear={jest.fn()} onNext={jest.fn()} />
+    );
 
     const customers = wrapper.find(ToPackRow);
 

@@ -9,6 +9,7 @@ import {
   UpdateRecipeMutationVariables,
 } from "./query-variables-types";
 import { resetAllWhenMocks, when } from "jest-when";
+import { HotOrCold } from "../domain/Recipe";
 import { mocked } from "ts-jest/utils";
 
 jest.mock("./database");
@@ -47,6 +48,9 @@ describe("listRecipes", () => {
       {
         id: "0",
         name: "foo",
+        shortName: "f",
+        hotOrCold: HotOrCold.Hot,
+
         description: "bar",
         exclusionIds: [],
       },
@@ -55,12 +59,16 @@ describe("listRecipes", () => {
         id: "1",
         name: "baz",
         exclusionIds: [],
+        shortName: "b",
+        hotOrCold: HotOrCold.Hot,
       },
 
       {
         id: "2",
         name: "bap",
         exclusionIds: [],
+        shortName: "ba",
+        hotOrCold: HotOrCold.Hot,
       },
     ];
 
@@ -142,16 +150,22 @@ describe("listRecipes", () => {
         name: "lovely",
         description: "nice",
         exclusionIds: ["8", "10"],
+        shortName: "l",
+        hotOrCold: HotOrCold.Hot,
       },
 
       {
         id: "1",
         name: "james",
         exclusionIds: ["15", "21"],
+        shortName: "j",
+        hotOrCold: HotOrCold.Hot,
       },
 
       {
         id: "2",
+        shortName: "f",
+        hotOrCold: HotOrCold.Hot,
         name: "Alex",
         exclusionIds: [],
       },
@@ -211,6 +225,8 @@ describe("Createrecipe", () => {
     process.env.RECIPE_EXCLUSIONS_TABLE = "recipe-exclusions-table";
     const recipe: CreateRecipeMutationVariables["input"] = {
       name: "sausage",
+      hotOrCold: HotOrCold.Hot,
+      shortName: "fo",
       exclusionIds: ["4", "3"],
     };
 
@@ -227,6 +243,8 @@ describe("Createrecipe", () => {
         record: {
           id: "called-1",
           name: "sausage",
+          hotOrCold: HotOrCold.Hot,
+          shortName: "fo",
           exclusionIds: ["called-2", "called-3"],
         },
       },
@@ -261,6 +279,8 @@ describe("Createrecipe", () => {
     process.env.EXCLUSIONS_TABLE = "exclusions-table";
     process.env.RECIPE_EXCLUSIONS_TABLE = "recipe-exclusions-table";
     const recipe: CreateRecipeMutationVariables["input"] = {
+      hotOrCold: HotOrCold.Hot,
+      shortName: "f",
       name: "fish",
       exclusionIds: [],
     };
@@ -275,6 +295,8 @@ describe("Createrecipe", () => {
       {
         table: "recipes-table",
         record: {
+          hotOrCold: HotOrCold.Hot,
+          shortName: "f",
           id: "the-id",
           name: "fish",
           exclusionIds: [],
@@ -373,6 +395,8 @@ describe("Update recipe", () => {
 
     const input: UpdateRecipeMutationVariables["input"] = {
       id: "0",
+      shortName: "foo",
+      hotOrCold: HotOrCold.Hot,
       name: "foo-bar",
       exclusionIds: ["2", "3"],
     };
@@ -424,6 +448,8 @@ describe("Update recipe", () => {
       );
 
     const input: UpdateRecipeMutationVariables["input"] = {
+      hotOrCold: HotOrCold.Hot,
+      shortName: "foo",
       id: "0",
       name: "foobar",
       exclusionIds: ["2", "3"],
@@ -486,6 +512,8 @@ describe("Update recipe", () => {
     const input: UpdateRecipeMutationVariables["input"] = {
       id: "0",
       name: "baz",
+      hotOrCold: HotOrCold.Hot,
+      shortName: "ba",
       description: "fat",
       exclusionIds: ["2"],
     };
@@ -552,12 +580,16 @@ describe("Update recipe", () => {
     const input: UpdateRecipeMutationVariables["input"] = {
       id: "0",
       name: "a-recipe",
+      hotOrCold: HotOrCold.Hot,
+      shortName: "blah",
       exclusionIds: ["2", "3", "4"],
     };
 
     const inDataBase: UpdateRecipeMutationVariables["input"] = {
       id: "0",
       name: "the-recipe",
+      hotOrCold: HotOrCold.Hot,
+      shortName: "the",
       exclusionIds: ["10", "15"],
     };
 
@@ -613,6 +645,8 @@ describe("Delete recipe", () => {
     const recipe: UpdateRecipeMutationVariables["input"] = {
       id: "0",
       name: "foo",
+      hotOrCold: HotOrCold.Hot,
+      shortName: "f",
       exclusionIds: ["8", "10"],
     };
 
