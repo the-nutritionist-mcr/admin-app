@@ -1,8 +1,8 @@
 import { Anchor, Box, Button, Heading, Text } from "grommet";
-import { Plan, Restaurant, Tag } from "grommet-icons";
 import { clearPlanner, customerSelectionsSelector } from "./planner-reducer";
 import { useDispatch, useSelector } from "react-redux";
 import { ExtendedParagraph } from "../../components";
+import { Plan } from "grommet-icons";
 import React from "react";
 import downloadPdf from "../../lib/downloadPdf";
 import generateDeliveryPlanDocumentDefinition from "../../lib/generateDeliveryPlanDocumentDefinition";
@@ -67,26 +67,6 @@ const SavePlan: React.FC<SavePlanProps> = (props) => {
             }}
           >
             Delivery Plan
-          </Anchor>
-        </IconListItem>
-        <IconListItem>
-          <Restaurant />
-          <Anchor
-            onClick={() => {
-              // NOOP
-            }}
-          >
-            Cook Plan
-          </Anchor>
-        </IconListItem>
-        <IconListItem>
-          <Tag />
-          <Anchor
-            onClick={() => {
-              // NOOP
-            }}
-          >
-            Labels
           </Anchor>
         </IconListItem>
       </ListWithMargin>
