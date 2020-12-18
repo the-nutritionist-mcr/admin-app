@@ -3,6 +3,7 @@ import CustomerMealsSelection from "../../types/CustomerMealsSelection";
 import React from "react";
 import Recipe from "../../domain/Recipe";
 import { adjustCustomerSelection } from "./planner-reducer";
+import { createMealWithVariantString } from "../../lib/plan-meals";
 import deepEqual from "deep-equal";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
@@ -37,12 +38,22 @@ const ToPackRowUnMemoized: React.FC<ToPackRowProps> = (props) => {
       {[...new Array(props.columns)].map((_item, index) => (
         <TableCell key={index}>
           <Select
+            size="small"
             plain
-            options={props.deliveryMeals}
+            options={props.deliveryMeals.map((meal) =>
+              createMealWithVariantString(
+                props.customerSelection.customer,
+                meal
+              )
+            )}
             placeholder="None"
-            labelKey="name"
-            valueKey="name"
-            value={props.customerSelection.meals[index]}
+            value={
+              props.customerSelection.meals[index] &&
+              createMealWithVariantString(
+                props.customerSelection.customer,
+                props.customerSelection.meals[index]
+              )
+            }
             onChange={(event) =>
               dispatch(
                 adjustCustomerSelection({

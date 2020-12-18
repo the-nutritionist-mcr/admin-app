@@ -51,6 +51,11 @@ export const chooseMeals = (
   }));
 };
 
+export const createMealWithVariantString = (
+  customer: Customer,
+  meal: Recipe
+): string => `${meal.name} (${createVariantString(customer, meal)})`;
+
 export const createVariantString = (
   customer: Customer,
   meal: Recipe

@@ -1,4 +1,4 @@
-import { Box, Button, Table, Text } from "grommet";
+import { Box, Button, Table, Text, ThemeContext } from "grommet";
 import {
   clearPlanner,
   customerSelectionsSelector,
@@ -76,27 +76,39 @@ const ToPackTable: React.FC<ToPackTableProps> = (props) => {
         />
         <Button primary label="Next" onClick={(): void => props.onNext()} />
       </Box>
-      <Table alignSelf="start">
-        <PrintableTbody>
-          {customerMeals
-            .slice()
-            .sort((a, b) =>
-              a.customer.surname.toLowerCase() >
-              b.customer.surname.toLowerCase()
-                ? 1
-                : // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-                  -1
-            )
-            .map((customerPlan) => (
-              <ToPackRow
-                key={customerPlan.customer.id}
-                columns={columns}
-                customerSelection={customerPlan}
-                deliveryMeals={deliveryMeals}
-              />
-            ))}
-        </PrintableTbody>
-      </Table>
+      <ThemeContext.Extend
+        value={{
+          global: {
+            text: {
+              medium: {
+                size: "10pt",
+              },
+            },
+          },
+        }}
+      >
+        <Table alignSelf="start">
+          <PrintableTbody>
+            {customerMeals
+              .slice()
+              .sort((a, b) =>
+                a.customer.surname.toLowerCase() >
+                b.customer.surname.toLowerCase()
+                  ? 1
+                  : // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+                    -1
+              )
+              .map((customerPlan) => (
+                <ToPackRow
+                  key={customerPlan.customer.id}
+                  columns={columns}
+                  customerSelection={customerPlan}
+                  deliveryMeals={deliveryMeals}
+                />
+              ))}
+          </PrintableTbody>
+        </Table>
+      </ThemeContext.Extend>
     </SectionWithPageBreak>
   );
 };

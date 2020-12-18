@@ -23,6 +23,17 @@ const Planner: React.FC = () => {
     })();
   }, [dispatch]);
 
+  const clearEdgeSize = {
+    tabs: {
+      gap: "medium",
+    },
+    global: {
+      edgeSize: {
+        small: "0",
+      },
+    },
+  };
+
   const resetEdgeSize = {
     global: {
       edgeSize: {
@@ -32,54 +43,41 @@ const Planner: React.FC = () => {
   };
 
   return (
-    <React.Fragment>
+    <ThemeContext.Extend value={clearEdgeSize}>
       <Heading level={2}>Planner</Heading>
-      <ThemeContext.Extend
-        value={{
-          tabs: {
-            gap: "medium",
-          },
-          global: {
-            edgeSize: {
-              small: "0",
-            },
-          },
-        }}
+      <Tabs
+        alignControls="start"
+        margin="none"
+        activeIndex={tab}
+        onActive={(index) => setTab(index)}
       >
-        <Tabs
-          alignControls="start"
-          margin="none"
-          activeIndex={tab}
-          onActive={(index) => setTab(index)}
-        >
-          <Tab title="Choose">
-            <ThemeContext.Extend value={resetEdgeSize}>
-              <ChooseMeals onNext={nextTab} />
-            </ThemeContext.Extend>
-          </Tab>
-          <Tab title="Allocate">
-            <ThemeContext.Extend value={resetEdgeSize}>
-              <ToPackTable onNext={nextTab} />
-            </ThemeContext.Extend>
-          </Tab>
-          <Tab title="Plan">
-            <ThemeContext.Extend value={resetEdgeSize}>
-              <ul>
-                <li>
-                  <Anchor
-                    onClick={() => {
-                      // NOOP
-                    }}
-                  >
-                    Labels
-                  </Anchor>
-                </li>
-              </ul>
-            </ThemeContext.Extend>
-          </Tab>
-        </Tabs>
-      </ThemeContext.Extend>
-    </React.Fragment>
+        <Tab title="Choose">
+          <ThemeContext.Extend value={resetEdgeSize}>
+            <ChooseMeals onNext={nextTab} />
+          </ThemeContext.Extend>
+        </Tab>
+        <Tab title="Allocate">
+          <ThemeContext.Extend value={resetEdgeSize}>
+            <ToPackTable onNext={nextTab} />
+          </ThemeContext.Extend>
+        </Tab>
+        <Tab title="Plan">
+          <ThemeContext.Extend value={resetEdgeSize}>
+            <ul>
+              <li>
+                <Anchor
+                  onClick={() => {
+                    // NOOP
+                  }}
+                >
+                  Labels
+                </Anchor>
+              </li>
+            </ul>
+          </ThemeContext.Extend>
+        </Tab>
+      </Tabs>
+    </ThemeContext.Extend>
   );
 };
 
