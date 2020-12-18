@@ -4,6 +4,8 @@ query ListRecipesQuery {
     description
     id
     name
+    shortName
+    hotOrCold
     potentialExclusions {
       allergen
       id

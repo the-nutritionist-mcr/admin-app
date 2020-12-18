@@ -81,7 +81,7 @@ const ChooseMeals: React.FC<ChooseMealsProps> = (props) => {
             placeholder="None"
             value={plan ?? ""}
             labelKey={(labelPlan: undefined | Recipe): string | undefined =>
-              labelPlan?.shortName
+              labelPlan?.name
             }
             onChange={(event: { value: Recipe | undefined }): void => {
               const newChoice = recipes.find(

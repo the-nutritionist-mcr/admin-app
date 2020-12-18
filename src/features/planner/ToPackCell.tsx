@@ -1,4 +1,4 @@
-import { Select, TableCell } from "grommet";
+import { Select, TableCell, ThemeContext } from "grommet";
 import CustomerMealsSelection from "../../types/CustomerMealsSelection";
 import React from "react";
 import Recipe from "../../domain/Recipe";
@@ -30,18 +30,31 @@ const UnMemoizedToPackCell: React.FC<ToPackCellProps> = (props) => {
 
   return (
     <TableCell key={props.index}>
-      <Select
-        plain
-        size="small"
-        options={props.deliveryMeals}
-        placeholder="None"
-        valueKey="name"
-        labelKey={(meal: Recipe) =>
-          createMealWithVariantString(props.customerSelection.customer, meal)
-        }
-        value={props.customerSelection.meals[props.index]}
-        onChange={onChange}
-      />
+      <ThemeContext.Extend
+        value={{
+          global: {
+            input: {
+              padding: "0",
+              font: {
+                weight: 400,
+              },
+            },
+          },
+        }}
+      >
+        <Select
+          plain
+          size="xsmall"
+          options={props.deliveryMeals}
+          placeholder="None"
+          valueKey="name"
+          labelKey={(meal: Recipe) =>
+            createMealWithVariantString(props.customerSelection.customer, meal)
+          }
+          value={props.customerSelection.meals[props.index]}
+          onChange={onChange}
+        />
+      </ThemeContext.Extend>
     </TableCell>
   );
 };
