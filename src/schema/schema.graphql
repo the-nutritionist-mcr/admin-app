@@ -32,6 +32,8 @@ type Recipe {
 
 input UpdateRecipeInput {
   id: ID!
+  hotOrCold: String!
+  shortName: String!
   name: String!
   description: String
   exclusionIds: [ID!]!
@@ -43,6 +45,8 @@ input DeleteRecipeInput {
 
 input RecipeInput {
   name: String!
+  hotOrCold: String!
+  shortName: String!
   description: String
   exclusionIds: [ID!]!
 }
