@@ -82,7 +82,7 @@ const Recipes: React.FC = () => {
                 <strong>Description</strong>
               </TableCell>
               <TableCell>
-                <strong>Potential Exclusions</strong>
+                <strong>Customisations</strong>
               </TableCell>
               <TableCell>
                 <strong>Actions</strong>
