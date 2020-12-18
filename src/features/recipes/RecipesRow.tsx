@@ -23,6 +23,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
 
   return (
     <TableRow>
+      <TableCell>{props.recipe.shortName}</TableCell>
       <TableCell>{props.recipe.name}</TableCell>
       <TableCell>{props.recipe.description}</TableCell>
       <TableCell>
