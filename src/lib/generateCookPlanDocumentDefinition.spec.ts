@@ -49,11 +49,15 @@ describe("generateCookPlanDocumentDefinition", () => {
               body: [
                 [
                   { text: "foo", fontSize: 15, bold: true },
-                  { ul: ["baz x 8", "bap x 2"] },
+                  { ul: ["bap x 2", "baz x 8"] },
                 ],
                 [
                   { text: "bar", fontSize: 15, bold: true },
-                  { ul: ["foo x 1", "bar x 8"] },
+                  { ul: ["bar x 8", "foo x 1"] },
+                ],
+                [
+                  { text: "Total cooked", fontSize: 15, bold: true },
+                  { text: `19 meals`, fontSize: 15, bold: true },
                 ],
               ],
             },

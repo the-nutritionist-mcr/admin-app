@@ -13,14 +13,31 @@ const generateCookPlanDocumentDefinition = (
 
   const date = new Date(Date.now());
 
-  const body = cookPlan.map((planItem) => [
-    { text: planItem.recipe.name, fontSize: 15, bold: true },
-    {
-      ul: Object.keys(planItem.plan).map(
-        (key) => `${key} x ${planItem.plan[key]}`
-      ),
-    },
-  ]);
+  const total = cookPlan.reduce<number>(
+    (finalNumber, planItem) =>
+      Object.keys(planItem.plan).reduce<number>(
+        (planFinalNumber, key) => planFinalNumber + planItem.plan[key],
+        0
+      ) + finalNumber,
+    0
+  );
+
+  const body = [
+    ...cookPlan.map((planItem) => [
+      { text: planItem.recipe.name, fontSize: 15, bold: true },
+      {
+        ul: Object.keys(planItem.plan)
+          .slice()
+          // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+          .sort((a, b) => (a > b ? 1 : -1))
+          .map((key) => `${key} x ${planItem.plan[key]}`),
+      },
+    ]),
+    [
+      { text: "Total cooked", fontSize: 15, bold: true },
+      { text: `${total} meals`, fontSize: 15, bold: true },
+    ],
+  ];
 
   return {
     content: [

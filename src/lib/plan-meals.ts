@@ -54,7 +54,7 @@ export const chooseMeals = (
 export const createMealWithVariantString = (
   customer: Customer,
   meal: Recipe
-): string => `${meal.shortName} (${createVariantString(customer, meal)})`;
+): string => `${meal.shortName}/${createVariantString(customer, meal)}`;
 
 export const createVariantString = (
   customer: Customer,
@@ -65,9 +65,9 @@ export const createVariantString = (
   });
 
   return matchingExclusions.length > 0
-    ? `${customer.plan.category} without ${matchingExclusions
+    ? `${customer.plan.category} (${matchingExclusions
         .map((exclusion) => exclusion.name)
-        .join(", ")}`
+        .join(", ")})`
     : `${customer.plan.category}`;
 };
 
@@ -75,7 +75,9 @@ export const makePlan = (chosenMeals: CustomerMealsSelection): CookPlan => {
   const plan: CookPlan = [];
   chosenMeals.forEach((customerMealSelection) =>
     customerMealSelection.meals.forEach((meal) => {
-      const existingRecipe = plan.find((planItem) => planItem.recipe === meal);
+      const existingRecipe = plan.find(
+        (planItem) => planItem.recipe.id === meal.id
+      );
       const mealVariant = createVariantString(
         customerMealSelection.customer,
         meal

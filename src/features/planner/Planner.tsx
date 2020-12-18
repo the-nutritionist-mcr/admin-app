@@ -59,12 +59,12 @@ const Planner: React.FC = () => {
             <ChooseMeals onNext={nextTab} />
           </ThemeContext.Extend>
         </Tab>
-        <Tab title="Allocate">
+        <Tab title="Finalize">
           <ThemeContext.Extend value={resetEdgeSize}>
             <ToPackTable onNext={nextTab} onClear={onClear} />
           </ThemeContext.Extend>
         </Tab>
-        <Tab title="Plan">
+        <Tab title="Download">
           <ThemeContext.Extend value={resetEdgeSize}>
             <SavePlan onClear={onClear} />
           </ThemeContext.Extend>
