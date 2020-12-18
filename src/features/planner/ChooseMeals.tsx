@@ -76,6 +76,9 @@ const ChooseMeals: React.FC<ChooseMealsProps> = (props) => {
         {planned.map((plan, index) => (
           <Select
             key={index}
+            dropAlign={{
+              bottom: "top",
+            }}
             name={`meal-${index}`}
             options={recipes}
             placeholder="None"
