@@ -38,22 +38,18 @@ const ToPackRowUnMemoized: React.FC<ToPackRowProps> = (props) => {
       {[...new Array(props.columns)].map((_item, index) => (
         <TableCell key={index}>
           <Select
-            size="small"
             plain
-            options={props.deliveryMeals.map((meal) =>
+            size="small"
+            options={props.deliveryMeals}
+            placeholder="None"
+            valueKey="name"
+            labelKey={(meal: Recipe) =>
               createMealWithVariantString(
                 props.customerSelection.customer,
                 meal
               )
-            )}
-            placeholder="None"
-            value={
-              props.customerSelection.meals[index] &&
-              createMealWithVariantString(
-                props.customerSelection.customer,
-                props.customerSelection.meals[index]
-              )
             }
+            value={props.customerSelection.meals[index]}
             onChange={(event) =>
               dispatch(
                 adjustCustomerSelection({
