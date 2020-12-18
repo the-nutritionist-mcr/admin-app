@@ -1,11 +1,13 @@
 import { Anchor, Box, Button, Heading, Text } from "grommet";
+import { Plan, Restaurant } from "grommet-icons";
 import { clearPlanner, customerSelectionsSelector } from "./planner-reducer";
 import { useDispatch, useSelector } from "react-redux";
 import { ExtendedParagraph } from "../../components";
-import { Plan } from "grommet-icons";
 import React from "react";
 import downloadPdf from "../../lib/downloadPdf";
+import generateCookPlanDocumentDefinition from "../../lib/generateCookPlanDocumentDefinition";
 import generateDeliveryPlanDocumentDefinition from "../../lib/generateDeliveryPlanDocumentDefinition";
+import { makePlan } from "../../lib/plan-meals";
 import styled from "styled-components";
 
 const ListWithMargin = styled.ul`
@@ -64,10 +66,24 @@ const SavePlan: React.FC<SavePlanProps> = (props) => {
               const document = generateDeliveryPlanDocumentDefinition(
                 customerMeals
               );
-              downloadPdf(document, "plan.pdf");
+              downloadPdf(document, "delivery-plan.pdf");
             }}
           >
             Delivery Plan
+          </Anchor>
+        </IconListItem>
+
+        <IconListItem>
+          <Restaurant />
+          <Anchor
+            onClick={() => {
+              const document = generateCookPlanDocumentDefinition(
+                makePlan(customerMeals)
+              );
+              downloadPdf(document, "cook-plan.pdf");
+            }}
+          >
+            Cook Plan
           </Anchor>
         </IconListItem>
       </ListWithMargin>
