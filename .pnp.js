@@ -244,6 +244,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                     "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:1.0.10",
                   ],
                   ["jest-when", "npm:3.0.1"],
+                  ["js-file-download", "npm:0.4.12"],
                   ["jsonlint", "npm:1.6.3"],
                   ["jspdf", "npm:2.2.0"],
                   [
@@ -39371,6 +39372,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
         ],
         [
+          "js-file-download",
+          [
+            [
+              "npm:0.4.12",
+              {
+                packageLocation:
+                  "./.yarn/cache/js-file-download-npm-0.4.12-60d6f838a7-35470d0d90.zip/node_modules/js-file-download/",
+                packageDependencies: [["js-file-download", "npm:0.4.12"]],
+                linkType: "HARD",
+              },
+            ],
+          ],
+        ],
+        [
           "js-library-detector",
           [
             [
@@ -54482,6 +54497,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                     "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:1.0.10",
                   ],
                   ["jest-when", "npm:3.0.1"],
+                  ["js-file-download", "npm:0.4.12"],
                   ["jsonlint", "npm:1.6.3"],
                   ["jspdf", "npm:2.2.0"],
                   [

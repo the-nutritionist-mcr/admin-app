@@ -1,11 +1,13 @@
 import { Anchor, Box, Button, Heading, Text } from "grommet";
-import { Plan, Restaurant } from "grommet-icons";
+import { Plan, Restaurant, Tag } from "grommet-icons";
 import { clearPlanner, customerSelectionsSelector } from "./planner-reducer";
 import { useDispatch, useSelector } from "react-redux";
 import { ExtendedParagraph } from "../../components";
 import React from "react";
+import createLabelData from "../../lib/createLabelData";
 import downloadPdf from "../../lib/downloadPdf";
 import generateCookPlanDocumentDefinition from "../../lib/generateCookPlanDocumentDefinition";
+import generateCsvStringFromObjectArray from "../../lib/generateCsvStringFromObjectArray";
 import generateDeliveryPlanDocumentDefinition from "../../lib/generateDeliveryPlanDocumentDefinition";
 import { makePlan } from "../../lib/plan-meals";
 import styled from "styled-components";
@@ -84,6 +86,20 @@ const SavePlan: React.FC<SavePlanProps> = (props) => {
             }}
           >
             Cook Plan
+          </Anchor>
+        </IconListItem>
+
+        <IconListItem>
+          <Tag />
+          <Anchor
+            onClick={() => {
+              const data = createLabelData(customerMeals);
+              const string = generateCsvStringFromObjectArray(data);
+              // eslint-disable-next-line no-console
+              console.log(string);
+            }}
+          >
+            Labels
           </Anchor>
         </IconListItem>
       </ListWithMargin>

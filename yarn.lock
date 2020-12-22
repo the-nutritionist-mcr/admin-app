@@ -17780,6 +17780,13 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"js-file-download@npm:^0.4.12":
+  version: 0.4.12
+  resolution: "js-file-download@npm:0.4.12"
+  checksum: 35470d0d90cc7deb9fd4ae4e58edda4370339f5620ffdf00d3f87ceac1f3574fc5b7bdeb38dbf3cb23ecdbc2592b5c0dfc29bc98085440ebcd36e1dad44c25fa
+  languageName: node
+  linkType: hard
+
 "js-library-detector@npm:^6.4.0":
   version: 6.4.0
   resolution: "js-library-detector@npm:6.4.0"
@@ -26416,6 +26423,7 @@ resolve@1.18.1:
     jest-enzyme: ^7.1.2
     jest-mock-extended: ^1.0.10
     jest-when: ^3.0.1
+    js-file-download: ^0.4.12
     jsonlint: ^1.6.3
     jspdf: ^2.2.0
     jspdf-autotable: ^3.5.13

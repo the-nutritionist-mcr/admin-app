@@ -6,6 +6,20 @@ describe("Generate CSV string", () => {
     );
   });
 
+  it("creates empty cells where the value is undefined", () => {
+    const bar = [
+      {
+        foo: undefined,
+        baz: "bap",
+      },
+    ];
+
+    const result = generateCsvStringFromObjectArray(bar);
+
+    const splitResult = result.split("\r\n");
+    expect(splitResult[1]).toEqual(",bap");
+  });
+
   it("generates rows separated with CRLF", () => {
     const bar = [
       {
