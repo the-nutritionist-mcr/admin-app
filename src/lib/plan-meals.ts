@@ -56,7 +56,10 @@ export const createMealWithVariantString = (
   meal: Recipe
 ): string => `${meal.shortName}/${createVariantString(customer, meal)}`;
 
-export const createVariant = (customer: Customer, meal: Recipe) => {
+export const createVariant = (
+  customer: Customer,
+  meal: Recipe
+): { customisation: boolean; allergen: boolean; string: string } => {
   const matchingExclusions = customer.exclusions.filter((allergen) => {
     return meal.potentialExclusions.some((value) => value.id === allergen.id);
   });

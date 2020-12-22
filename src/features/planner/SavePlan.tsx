@@ -96,7 +96,7 @@ const SavePlan: React.FC<SavePlanProps> = (props) => {
             onClick={() => {
               const data = createLabelData(customerMeals);
               const string = generateCsvStringFromObjectArray(data);
-              fileDownload(string, "file.csv");
+              fileDownload(string, "labels.csv");
             }}
           >
             Labels
