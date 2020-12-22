@@ -403,19 +403,19 @@ describe("makePlan", () => {
       (individualPlan) => individualPlan.recipe.name === recipeOne.name
     );
 
-    expect(firstPlan?.plan["Mass"]).toEqual(3);
+    expect(firstPlan?.plan["Mass"].count).toEqual(3);
 
     const secondPlan = actual.find(
       (individualPlan) => individualPlan.recipe.name === recipeTwo.name
     );
 
-    expect(secondPlan?.plan["Mass"]).toEqual(2);
+    expect(secondPlan?.plan["Mass"].count).toEqual(2);
 
     const thirdPlan = actual.find(
       (individualPlan) => individualPlan.recipe.name === recipeThree.name
     );
 
-    expect(thirdPlan?.plan["Mass"]).toEqual(1);
+    expect(thirdPlan?.plan["Mass"].count).toEqual(1);
   });
 
   it("Groups matching allergens together as a 'variant'", () => {
@@ -526,7 +526,7 @@ describe("makePlan", () => {
       (individualPlan) => individualPlan.recipe.name === recipeOne.name
     );
 
-    expect(firstPlan?.plan["Mass (fish)"]).toEqual(1);
-    expect(firstPlan?.plan["Mass"]).toEqual(2);
+    expect(firstPlan?.plan["Mass (fish)"].count).toEqual(1);
+    expect(firstPlan?.plan["Mass"].count).toEqual(2);
   });
 });

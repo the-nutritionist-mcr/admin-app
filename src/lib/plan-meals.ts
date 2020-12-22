@@ -56,6 +56,25 @@ export const createMealWithVariantString = (
   meal: Recipe
 ): string => `${meal.shortName}/${createVariantString(customer, meal)}`;
 
+export const createVariant = (customer: Customer, meal: Recipe) => {
+  const matchingExclusions = customer.exclusions.filter((allergen) => {
+    return meal.potentialExclusions.some((value) => value.id === allergen.id);
+  });
+
+  const string =
+    matchingExclusions.length > 0
+      ? `${customer.plan.category} (${matchingExclusions
+          .map((exclusion) => exclusion.name)
+          .join(", ")})`
+      : `${customer.plan.category}`;
+
+  return {
+    customisation: matchingExclusions.length > 0,
+    allergen: matchingExclusions.length > 0 && matchingExclusions[0].allergen,
+    string,
+  };
+};
+
 export const createVariantString = (
   customer: Customer,
   meal: Recipe
@@ -78,21 +97,22 @@ export const makePlan = (chosenMeals: CustomerMealsSelection): CookPlan => {
       const existingRecipe = plan.find(
         (planItem) => planItem.recipe.id === meal.id
       );
-      const mealVariant = createVariantString(
-        customerMealSelection.customer,
-        meal
-      );
+      const mealVariant = createVariant(customerMealSelection.customer, meal);
+
       if (!existingRecipe) {
         plan.push({
           recipe: meal,
-          plan: { [mealVariant]: 1 },
+          plan: { [mealVariant.string]: { ...mealVariant, count: 1 } },
         });
       } else if (
-        Object.prototype.hasOwnProperty.call(existingRecipe.plan, mealVariant)
+        Object.prototype.hasOwnProperty.call(
+          existingRecipe.plan,
+          mealVariant.string
+        )
       ) {
-        existingRecipe.plan[mealVariant]++;
+        existingRecipe.plan[mealVariant.string].count++;
       } else {
-        existingRecipe.plan[mealVariant] = 1;
+        existingRecipe.plan[mealVariant.string] = { ...mealVariant, count: 1 };
       }
     })
   );

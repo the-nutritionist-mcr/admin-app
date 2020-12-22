@@ -14,8 +14,16 @@ describe("generateCookPlanDocumentDefinition", () => {
           potentialExclusions: [],
         },
         plan: {
-          baz: 8,
-          bap: 2,
+          baz: {
+            customisation: true,
+            allergen: false,
+            count: 8,
+          },
+          bap: {
+            count: 2,
+            allergen: true,
+            customisation: true,
+          },
         },
       },
       {
@@ -27,8 +35,16 @@ describe("generateCookPlanDocumentDefinition", () => {
           potentialExclusions: [],
         },
         plan: {
-          foo: 1,
-          bar: 8,
+          foo: {
+            count: 1,
+            allergen: false,
+            customisation: false,
+          },
+          bar: {
+            count: 8,
+            allergen: false,
+            customisation: false,
+          },
         },
       },
     ];
@@ -49,11 +65,21 @@ describe("generateCookPlanDocumentDefinition", () => {
               body: [
                 [
                   { text: "foo", fontSize: 15, bold: true },
-                  { ul: ["bap x 2", "baz x 8"] },
+                  {
+                    ul: [
+                      expect.objectContaining({ text: "bap x 2" }),
+                      expect.objectContaining({ text: "baz x 8" }),
+                    ],
+                  },
                 ],
                 [
                   { text: "bar", fontSize: 15, bold: true },
-                  { ul: ["bar x 8", "foo x 1"] },
+                  {
+                    ul: [
+                      expect.objectContaining({ text: "bar x 8" }),
+                      expect.objectContaining({ text: "foo x 1" }),
+                    ],
+                  },
                 ],
                 [
                   { text: "Total cooked", fontSize: 15, bold: true },

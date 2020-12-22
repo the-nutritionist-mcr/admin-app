@@ -1,5 +1,26 @@
 import CookPlan from "../types/CookPlan";
 import type { DocumentDefinition } from "./downloadPdf";
+import { base } from "grommet";
+
+const formatPlanItem = (
+  name: string,
+  planItem: { count: number; allergen: boolean; customisation: boolean }
+) => {
+  const color = planItem.customisation
+    ? base.global?.colors?.["status-error"]
+    : "#000000";
+
+  const finalColor = planItem.allergen ? base.global?.colors?.brand : color;
+
+  const bold = finalColor !== "#000000";
+
+  return {
+    bold,
+    markerColor: finalColor,
+    color: finalColor,
+    text: `${name} x ${planItem.count}`,
+  };
+};
 
 const generateCookPlanDocumentDefinition = (
   cookPlan: CookPlan
@@ -16,7 +37,7 @@ const generateCookPlanDocumentDefinition = (
   const total = cookPlan.reduce<number>(
     (finalNumber, planItem) =>
       Object.keys(planItem.plan).reduce<number>(
-        (planFinalNumber, key) => planFinalNumber + planItem.plan[key],
+        (planFinalNumber, key) => planFinalNumber + planItem.plan[key].count,
         0
       ) + finalNumber,
     0
@@ -30,7 +51,7 @@ const generateCookPlanDocumentDefinition = (
           .slice()
           // eslint-disable-next-line @typescript-eslint/no-magic-numbers
           .sort((a, b) => (a > b ? 1 : -1))
-          .map((key) => `${key} x ${planItem.plan[key]}`),
+          .map((key) => formatPlanItem(key, planItem.plan[key])),
       },
     ]),
     [
