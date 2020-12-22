@@ -6,6 +6,7 @@ import { ExtendedParagraph } from "../../components";
 import React from "react";
 import createLabelData from "../../lib/createLabelData";
 import downloadPdf from "../../lib/downloadPdf";
+import fileDownload from "js-file-download";
 import generateCookPlanDocumentDefinition from "../../lib/generateCookPlanDocumentDefinition";
 import generateCsvStringFromObjectArray from "../../lib/generateCsvStringFromObjectArray";
 import generateDeliveryPlanDocumentDefinition from "../../lib/generateDeliveryPlanDocumentDefinition";
@@ -95,8 +96,7 @@ const SavePlan: React.FC<SavePlanProps> = (props) => {
             onClick={() => {
               const data = createLabelData(customerMeals);
               const string = generateCsvStringFromObjectArray(data);
-              // eslint-disable-next-line no-console
-              console.log(string);
+              fileDownload(string, "file.csv");
             }}
           >
             Labels
