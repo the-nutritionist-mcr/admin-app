@@ -13,7 +13,9 @@ const useCustomers = (): UseCustomersReturnValue => {
   const customers = useSelector(allCustomersSelector);
 
   React.useEffect(() => {
-    dispatch(fetchCustomers());
+    if (customers.length === 0) {
+      dispatch(fetchCustomers());
+    }
   }, [dispatch]);
 
   return {
