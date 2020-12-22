@@ -2,6 +2,7 @@ import { allCustomersSelector, fetchCustomers } from "./customersSlice";
 import { resetAllWhenMocks, when } from "jest-when";
 import { useDispatch, useSelector } from "react-redux";
 import Customer from "../../domain/Customer";
+import { fetchExclusions } from "../exclusions/exclusionsSlice";
 import { mock } from "jest-mock-extended";
 import { mocked } from "ts-jest/utils";
 import { renderHook } from "@testing-library/react-hooks";
@@ -10,6 +11,7 @@ import useCustomers from "./useCustomers";
 
 jest.mock("react-redux");
 jest.mock("./customersSlice");
+jest.mock("../exclusions/exclusionsSlice");
 
 const flushPromises = () => new Promise(setImmediate);
 
@@ -19,10 +21,14 @@ describe("useCustomers", () => {
     jest.clearAllMocks();
   });
 
-  it("Should immediately dispatch fetchCustomers if there aren't any loaded", async () => {
+  it("Should immediately dispatch fetchCustomers and fetchExclusions if there aren't any loaded", async () => {
     const mockDispatch = jest.fn();
     mocked(fetchCustomers, true).mockReturnValue(
       ("customer-action" as unknown) as ReturnType<typeof fetchCustomers>
+    );
+
+    mocked(fetchExclusions, true).mockReturnValue(
+      ("exclusion-action" as unknown) as ReturnType<typeof fetchExclusions>
     );
     mocked(useDispatch, true).mockReturnValue(mockDispatch);
     when(mocked(useSelector, true))
@@ -33,6 +39,10 @@ describe("useCustomers", () => {
 
     await waitFor(() =>
       expect(mockDispatch).toHaveBeenCalledWith("customer-action")
+    );
+
+    await waitFor(() =>
+      expect(mockDispatch).toHaveBeenCalledWith("exclusion-action")
     );
   });
 

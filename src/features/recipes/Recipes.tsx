@@ -11,10 +11,8 @@ import {
 } from "grommet";
 
 import {
-  allRecipesSelector,
   createRecipe,
   errorSelector,
-  fetchRecipes,
   updateRecipe,
 } from "../recipes/recipesSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,18 +20,13 @@ import EditRecipesDialog from "./EditRecipesDialog";
 import { HotOrCold } from "../../domain/Recipe";
 import React from "react";
 import RecipesRow from "../recipes/RecipesRow";
-import { fetchExclusions } from "../exclusions/exclusionsSlice";
+import useRecipes from "./useRecipes";
 
 const Recipes: React.FC = () => {
-  const recipes = useSelector(allRecipesSelector);
+  const dispatch = useDispatch();
+  const { recipes } = useRecipes();
   const error = useSelector(errorSelector);
   const [showCreate, setShowCreate] = React.useState(false);
-  const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    dispatch(fetchRecipes());
-    dispatch(fetchExclusions());
-  }, [dispatch]);
 
   return (
     <React.Fragment>
