@@ -83,6 +83,7 @@ const ChooseMeals: React.FC<ChooseMealsProps> = (props) => {
             options={recipes}
             placeholder="None"
             value={plan ?? ""}
+            valueKey={plan?.name}
             labelKey={(labelPlan: undefined | Recipe): string | undefined =>
               labelPlan?.name
             }
