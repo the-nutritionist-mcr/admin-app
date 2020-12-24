@@ -15,7 +15,6 @@ const useExclusions = (): UseExclusionsReturnValue => {
   React.useEffect(() => {
     if (exclusions.length === 0) {
       dispatch(fetchExclusions());
-      dispatch(fetchExclusions());
     }
   }, [dispatch]);
 
