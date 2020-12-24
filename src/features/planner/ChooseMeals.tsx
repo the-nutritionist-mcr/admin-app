@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 import DeliveryDay from "../../types/DeliveryDay";
 import { ExtendedParagraph } from "../../components";
 import React from "react";
-import Recipe from "../../domain/Recipe";
 import { allRecipesSelector } from "../../features/recipes/recipesSlice";
 
 interface ChooseMealsProps {
@@ -80,16 +79,12 @@ const ChooseMeals: React.FC<ChooseMealsProps> = (props) => {
               bottom: "top",
             }}
             name={`meal-${index}`}
-            options={recipes}
+            options={recipes.map((recipe) => recipe.name)}
             placeholder="None"
-            value={plan ?? ""}
-            valueKey={plan?.name}
-            labelKey={(labelPlan: undefined | Recipe): string | undefined =>
-              labelPlan?.name
-            }
-            onChange={(event: { value: Recipe | undefined }): void => {
+            value={plan?.name ?? ""}
+            onChange={(event: { value: string | undefined }): void => {
               const newChoice = recipes.find(
-                (recipe) => recipe.id === event?.value?.id
+                (recipe) => recipe.name === event?.value
               );
               dispatch(selectMeal({ index, recipe: newChoice }));
             }}
