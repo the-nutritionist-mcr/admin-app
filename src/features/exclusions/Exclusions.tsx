@@ -39,7 +39,7 @@ const Exclusions: React.FC = () => {
             allergen: false,
           }}
           show={showCreate}
-          title="Create Exclusion"
+          title="Create Customisation"
           thunk={createExclusion}
           onOk={(): void => {
             setShowCreate(false);

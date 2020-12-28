@@ -69,7 +69,7 @@ const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
                 name="hotOrCold"
               />
             </FormField>
-            <FormField name="potentialExclusions" label="Exclusions">
+            <FormField name="potentialExclusions" label="Customisations">
               <Select
                 multiple
                 closeOnChange={false}
