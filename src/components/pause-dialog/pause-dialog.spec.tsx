@@ -117,4 +117,46 @@ describe("The pause dialog", () => {
 
     expect(firstOfMonthButton.at(0).prop("disabled")).toEqual(true);
   });
+
+  it("Doesn't allow you to select end pause dates before start pause dates", () => {
+    const mockMoment = mock<Moment>();
+    mockMoment.calendar.mockReturnValue("The Date");
+    mocked(moment, true).mockReturnValue(mockMoment);
+
+    const customer = mock<Customer>();
+    customer.pauseStart = undefined;
+    customer.pauseEnd = undefined;
+
+    const wrapper = mount(
+      <PauseDialog
+        show={true}
+        customer={customer}
+        onOk={jest.fn()}
+        onCancel={jest.fn()}
+      />
+    );
+
+    const twentyEightOfMonthStartPauseButton = wrapper
+      .find("[aria-label='Start Pause']")
+      .findWhere((node) => node.text() === "28")
+      .find("div")
+      .find("button");
+
+    act(() => {
+      twentyEightOfMonthStartPauseButton.prop("onClick")?.(
+        {} as React.MouseEvent
+      );
+    });
+
+    wrapper.update();
+
+    const twentySecondOfMonthEndPauseButton = wrapper
+      .find("[aria-label='End Pause']")
+      .findWhere((node) => node.text() === "22")
+      .find("div")
+      .find("button");
+    expect(twentySecondOfMonthEndPauseButton.at(0).prop("disabled")).toEqual(
+      true
+    );
+  });
 });

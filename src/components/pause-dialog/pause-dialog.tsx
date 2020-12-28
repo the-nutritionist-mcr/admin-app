@@ -34,6 +34,7 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
   const pauseEndToShow = pauseEnd ?? props.customer.pauseEnd;
 
   const todayIso = new Date(Date.now()).toISOString();
+  const pauseEndStartBound = pauseStart ?? todayIso;
   const hundredYearsFromNow = new Date(Date.now());
   hundredYearsFromNow.setFullYear(
     new Date(Date.now()).getFullYear() + HUNDRED_YEARS_IN_FUTURE
@@ -105,7 +106,10 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
                   a11yTitle: "End Pause",
                   daysOfWeek: true,
                   size: "small",
-                  bounds: [todayIso, hundredYearsFromNow.toISOString()],
+                  bounds: [
+                    pauseEndStartBound,
+                    hundredYearsFromNow.toISOString(),
+                  ],
                 }}
               />
               <Box pad={{ top: "small" }}>
