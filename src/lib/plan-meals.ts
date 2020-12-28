@@ -8,24 +8,30 @@ import isActive from "./isActive";
 
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 const getDeliveryMeals = (
-  mealsPerDay: number,
+  mealsPerWeek: number,
   delivery: DeliveryDay
 ): number => {
-  switch (mealsPerDay) {
+  switch (mealsPerWeek) {
     case 5:
       return delivery === "Monday" ? 3 : 2;
     case 6:
       return 3;
+    case 7:
+      return delivery === "Monday" ? 3 : 4;
     case 10:
       return delivery === "Monday" ? 6 : 4;
     case 12:
       return 6;
+    case 14:
+      return delivery === "Monday" ? 6 : 8;
     case 15:
       return delivery === "Monday" ? 9 : 6;
     case 18:
       return 9;
+    case 21:
+      return delivery === "Monday" ? 9 : 12;
   }
-  throw new Error(`${mealsPerDay} meals per week is not currently supported`);
+  throw new Error(`${mealsPerWeek} meals per week is not currently supported`);
 };
 /* eslint-enable @typescript-eslint/no-magic-numbers */
 

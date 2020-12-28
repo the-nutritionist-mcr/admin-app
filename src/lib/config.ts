@@ -4,7 +4,7 @@ import Plan from "../domain/Plan";
 export type PlanCategory = "Mass" | "EQ" | "Micro" | "Ultra-Micro";
 
 // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-export const daysPerWeekOptions = [6, 5];
+export const daysPerWeekOptions = [7, 6, 5];
 
 export const plans: Plan[] = [
   {

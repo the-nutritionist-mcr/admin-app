@@ -168,17 +168,21 @@ describe("chooseMeals", () => {
   });
 
   it.each([
-    [9, "Monday", 3, 6],
+    [9, "Monday", 3, 7],
+    [6, "Monday", 2, 7],
+    [3, "Monday", 1, 7],
+    [12, "Thursday", 3, 7],
+    [8, "Thursday", 2, 7],
+    [4, "Thursday", 1, 7],
+    [9, "Thursday", 3, 6],
+    [6, "Thursday", 2, 6],
+    [3, "Thursday", 1, 6],
     [9, "Monday", 3, 5],
     [6, "Monday", 2, 6],
     [6, "Monday", 2, 5],
     [3, "Monday", 1, 5],
-    [3, "Monday", 1, 6],
-    [9, "Thursday", 3, 6],
     [6, "Thursday", 3, 5],
-    [6, "Thursday", 2, 6],
     [4, "Thursday", 2, 5],
-    [3, "Thursday", 1, 6],
     [2, "Thursday", 1, 5],
   ])(
     "plans %d meals per %s delivery for customers on %d meals/%d day plans",
