@@ -265,6 +265,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ],
                   ["mochawesome-merge", "npm:4.2.0"],
                   ["mochawesome-report-generator", "npm:5.1.0"],
+                  ["mockdate", "npm:3.0.2"],
                   ["moment", "npm:2.29.1"],
                   ["node-fetch", "npm:2.6.1"],
                   ["pdfmake", "npm:0.1.68"],
@@ -43120,6 +43121,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
         ],
         [
+          "mockdate",
+          [
+            [
+              "npm:3.0.2",
+              {
+                packageLocation:
+                  "./.yarn/cache/mockdate-npm-3.0.2-14482dcf0f-27a242abaa.zip/node_modules/mockdate/",
+                packageDependencies: [["mockdate", "npm:3.0.2"]],
+                linkType: "HARD",
+              },
+            ],
+          ],
+        ],
+        [
           "moment",
           [
             [
@@ -54518,6 +54533,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ],
                   ["mochawesome-merge", "npm:4.2.0"],
                   ["mochawesome-report-generator", "npm:5.1.0"],
+                  ["mockdate", "npm:3.0.2"],
                   ["moment", "npm:2.29.1"],
                   ["node-fetch", "npm:2.6.1"],
                   ["pdfmake", "npm:0.1.68"],

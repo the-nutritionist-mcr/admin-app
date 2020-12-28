@@ -20,6 +20,8 @@ interface PauseDialogProps {
   onCancel: () => void;
 }
 
+const HUNDRED_YEARS_IN_FUTURE = 100;
+
 const PauseDialog: React.FC<PauseDialogProps> = (props) => {
   const [pauseStart, setPauseStart] = React.useState<string | undefined>(
     props.customer.pauseStart
@@ -30,6 +32,12 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
 
   const pauseStartToShow = pauseStart ?? props.customer.pauseStart;
   const pauseEndToShow = pauseEnd ?? props.customer.pauseEnd;
+
+  const todayIso = new Date(Date.now()).toISOString();
+  const hundredYearsFromNow = new Date(Date.now());
+  hundredYearsFromNow.setFullYear(
+    new Date(Date.now()).getFullYear() + HUNDRED_YEARS_IN_FUTURE
+  );
 
   const friendlyStart = pauseStartToShow
     ? `from ${moment(new Date(pauseStartToShow)).calendar(
@@ -72,15 +80,17 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
             <FormField name="pauseStart">
               <DateInput
                 inline={true}
+                defaultValue={todayIso}
                 name="pauseStart"
                 calendarProps={{
                   a11yTitle: "Start Pause",
                   size: "small",
                   daysOfWeek: true,
+                  bounds: [todayIso, hundredYearsFromNow.toISOString()],
                 }}
               />
               <Box pad={{ top: "small" }}>
-                <Text alignSelf="center">
+                <Text a11yTitle="Selected start date" alignSelf="center">
                   <strong>{friendlyStart}</strong>
                 </Text>
               </Box>
@@ -95,10 +105,11 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
                   a11yTitle: "End Pause",
                   daysOfWeek: true,
                   size: "small",
+                  bounds: [todayIso, hundredYearsFromNow.toISOString()],
                 }}
               />
               <Box pad={{ top: "small" }}>
-                <Text alignSelf="center">
+                <Text alignSelf="center" a11yTitle="Selected end date">
                   <strong>{friendlyEnd}</strong>
                 </Text>
               </Box>

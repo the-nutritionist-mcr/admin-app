@@ -19945,6 +19945,13 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"mockdate@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "mockdate@npm:3.0.2"
+  checksum: 27a242abaa48f170f6174988b3cd597806715c11d8dc644efa466ca4f1b899e66e6d0618808df60f8a7807c89e6e316b832138f2028039d1caf23341e3d01f90
+  languageName: node
+  linkType: hard
+
 "moment@npm:^2.19.3, moment@npm:^2.27.0, moment@npm:^2.29.1":
   version: 2.29.1
   resolution: "moment@npm:2.29.1"
@@ -26438,6 +26445,7 @@ resolve@1.18.1:
     mochawesome: ^6.2.1
     mochawesome-merge: ^4.2.0
     mochawesome-report-generator: ^5.1.0
+    mockdate: ^3.0.2
     moment: ^2.29.1
     node-fetch: ^2.6.1
     pdfmake: ^0.1.68
