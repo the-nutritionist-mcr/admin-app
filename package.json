@@ -200,6 +200,7 @@
   },
   "eslintConfig": {
     "ignorePatterns": [
+      ".pnp.js",
       "*.d.ts",
       "dist",
       "amplify/**",
