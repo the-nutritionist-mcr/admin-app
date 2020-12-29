@@ -1,21 +1,25 @@
 import { Heading, Tab, Tabs, ThemeContext, base } from "grommet";
+import { useDispatch, useSelector } from "react-redux";
 
 import ChooseMeals from "./ChooseMeals";
 import React from "react";
 import SavePlan from "./SavePlan";
 import ToPackTable from "./ToPackTable";
+import { deliveryDaySelector } from "./planner-reducer";
 import { fetchCustomers } from "../customers/customersSlice";
 import { fetchRecipes } from "../../features/recipes/recipesSlice";
-import { useDispatch } from "react-redux";
 
 const Planner: React.FC = () => {
   const dispatch = useDispatch();
 
   const [tab, setTab] = React.useState(0);
 
-  const nextTab = React.useCallback(() => setTab((oldTab) => oldTab + 1), [
-    setTab,
-  ]);
+  const deliveryDay = useSelector(deliveryDaySelector);
+
+  const nextTab = React.useCallback(
+    () => deliveryDay && setTab((oldTab) => oldTab + 1),
+    [setTab, deliveryDay]
+  );
 
   const onClear = React.useCallback(() => setTab(0), [setTab]);
 
