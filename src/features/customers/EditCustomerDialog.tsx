@@ -189,6 +189,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
                   name="address"
                   label="Address"
                   contentProps={{ fill: true }}
+                  required
                 >
                   <TextArea fill={true} name="address" />
                 </FormField>

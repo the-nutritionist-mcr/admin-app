@@ -13,11 +13,13 @@ describe("generateDeliveryPlanPdf", () => {
     mockCustomerOne.firstName = "Ben";
     mockCustomerOne.surname = "Wainwright";
     mockCustomerOne.salutation = "Mr";
+    mockCustomerOne.address = "address-one,nextline";
 
     const mockCustomerTwo = mock<Customer>();
     mockCustomerTwo.firstName = "Lawrence";
     mockCustomerTwo.surname = "Davis";
     mockCustomerTwo.salutation = "Mrs";
+    mockCustomerTwo.address = "address-two,nextline";
 
     const selection = [
       {
@@ -55,15 +57,24 @@ describe("generateDeliveryPlanPdf", () => {
           expect.objectContaining({
             table: {
               headerRows: 0,
+              dontBreakRows: true,
               body: [
                 [
-                  { fontSize: 13, bold: true, text: "Davis, Lawrence" },
+                  [
+                    { fontSize: 13, bold: true, text: "Davis, Lawrence" },
+                    "address-two",
+                    "nextline",
+                  ],
                   "foo",
                   "foo",
                   "foo",
                 ],
                 [
-                  { fontSize: 13, bold: true, text: "Wainwright, Ben" },
+                  [
+                    { fontSize: 13, bold: true, text: "Wainwright, Ben" },
+                    "address-one",
+                    "nextline",
+                  ],
                   "foo",
                   "foo",
                   "",

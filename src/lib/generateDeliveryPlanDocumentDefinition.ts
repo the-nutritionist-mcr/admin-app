@@ -20,11 +20,14 @@ const generateDeliveryPlanDocumentDefinition = (
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     .sort((a, b) => (a.customer.surname > b.customer.surname ? 1 : -1))
     .map((selection) => [
-      {
-        fontSize: 13,
-        text: generateNameString(selection.customer),
-        bold: true,
-      },
+      [
+        {
+          fontSize: 13,
+          text: generateNameString(selection.customer),
+          bold: true,
+        },
+        ...selection.customer.address.split(","),
+      ],
       ...new Array(columns)
         .fill("")
         .map((item, index) =>
@@ -57,6 +60,7 @@ const generateDeliveryPlanDocumentDefinition = (
       {
         table: {
           headerRows: 0,
+          dontBreakRows: true,
           body,
         },
       },
