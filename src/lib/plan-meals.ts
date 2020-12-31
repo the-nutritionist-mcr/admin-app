@@ -7,7 +7,7 @@ import Recipe from "../domain/Recipe";
 import isActive from "./isActive";
 
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-const getDeliveryMeals = (
+const calculateMealsPerDeliveryFromMealsPerWeek = (
   mealsPerWeek: number,
   delivery: DeliveryDay
 ): number => {
@@ -35,26 +35,62 @@ const getDeliveryMeals = (
 };
 /* eslint-enable @typescript-eslint/no-magic-numbers */
 
+const createNSizedUndefinedArray = (n: number): undefined[] => [
+  ...new Array(n),
+];
+
+const getTotalMealCount = (customers: Customer[], delivery: DeliveryDay) =>
+  customers.reduce<number>(
+    (totalMeals, customer) =>
+      totalMeals +
+      calculateMealsPerDeliveryFromMealsPerWeek(
+        customer.daysPerWeek * customer.plan.mealsPerDay,
+        delivery
+      ),
+    0
+  );
+
+const generateMealSelection = (
+  count: number,
+  chosenPlans: Recipe[]
+): Recipe[] =>
+  createNSizedUndefinedArray(count).map(
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    (_value, index) => chosenPlans[index % chosenPlans.length]
+  );
+
 export const chooseMeals = (
   delivery: DeliveryDay,
   plans: DeliveryMealsSelection,
   customers: Customer[]
 ): CustomerMealsSelection => {
+  type ExcludesUndefined = <T>(x: T | undefined) => x is T;
+
   const chosenPlans = plans.filter(Boolean) as Recipe[];
-  return customers.filter(isActive).map((customer) => ({
-    customer,
-    meals: [
-      ...new Array(
-        getDeliveryMeals(
-          customer.daysPerWeek * customer.plan.mealsPerDay,
-          delivery
-        )
-      ),
-    ]
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      .map((_value, index) => chosenPlans[index % plans.length])
-      .filter(Boolean),
-  }));
+  const mealCount = getTotalMealCount(customers, delivery);
+  const selection = generateMealSelection(mealCount, chosenPlans);
+  const sortedCustomers = customers.slice().sort((a, b) =>
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    a.surname.toLowerCase() > b.surname.toLowerCase() ? 1 : -1
+  );
+
+  return sortedCustomers.filter(isActive).map((customer) => {
+    const mealsPerWeek = customer.daysPerWeek * customer.plan.mealsPerDay;
+
+    const mealsPerDelivery = calculateMealsPerDeliveryFromMealsPerWeek(
+      mealsPerWeek,
+      delivery
+    );
+
+    const meals = createNSizedUndefinedArray(mealsPerDelivery)
+      .map(() => selection.shift())
+      .filter((Boolean as unknown) as ExcludesUndefined);
+
+    return {
+      customer,
+      meals,
+    };
+  });
 };
 
 export const createMealWithVariantString = (

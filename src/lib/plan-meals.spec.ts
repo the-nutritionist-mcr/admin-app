@@ -188,11 +188,17 @@ describe("chooseMeals", () => {
     "plans %d meals per %s delivery for customers on %d meals/%d day plans",
     (meals: number, day: string, mealsPerDay: number, daysPerWeek: number) => {
       const mealOne = mockExtended<Recipe>();
+      mealOne.id = "1";
       const mealTwo = mockExtended<Recipe>();
+      mealTwo.id = "2";
       const mealThree = mockExtended<Recipe>();
+      mealThree.id = "3";
       const mealFour = mockExtended<Recipe>();
+      mealFour.id = "4";
       const mealFive = mockExtended<Recipe>();
+      mealFive.id = "5";
       const mealSix = mockExtended<Recipe>();
+      mealSix.id = "6";
 
       const mealsSelection: DeliveryMealsSelection = [
         mealOne,
@@ -212,8 +218,8 @@ describe("chooseMeals", () => {
       const customerOne: Customer = {
         id: "1",
         salutation: "Mr",
-        firstName: "foo-customer",
-        surname: "foo",
+        firstName: "bar-customer",
+        surname: "bar-surname",
         telephone: "123",
         address: "123123",
         email: "foo-email",
@@ -234,8 +240,8 @@ describe("chooseMeals", () => {
         salutation: "Mr",
         address: "asdasd",
         telephone: "1231",
-        firstName: "bar-customer",
-        surname: "asdasd",
+        firstName: "foo-customer",
+        surname: "foo-surname",
         email: "bar-email",
         daysPerWeek,
         snack: Snack.None,
@@ -252,8 +258,8 @@ describe("chooseMeals", () => {
       const customerThree: Customer = {
         id: "3",
         telephone: "123",
-        firstName: "baz-customer",
-        surname: "asd",
+        firstName: "zah-customer",
+        surname: "zah-surname",
         address: "asdasd",
         salutation: "Mr",
         email: "baz-email",
@@ -281,21 +287,82 @@ describe("chooseMeals", () => {
       expect(actual[1].meals).toHaveLength(meals);
 
       [...new Array(meals)].forEach((_item, index) => {
-        expect(actual[1].meals[index]).toBe(
-          mealsSelection[index % mealsSelection.length]
+        expect(actual[1].meals[index].id).toEqual(
+          mealsSelection[index % mealsSelection.length]?.id
         );
       });
 
       expect(actual[2].customer).toEqual(customerThree);
       expect(actual[2].meals).toHaveLength(6);
-      expect(actual[2].meals[0]).toBe(mealOne);
-      expect(actual[2].meals[1]).toBe(mealTwo);
-      expect(actual[2].meals[2]).toBe(mealThree);
-      expect(actual[2].meals[3]).toBe(mealFour);
-      expect(actual[2].meals[4]).toBe(mealFive);
-      expect(actual[2].meals[5]).toBe(mealSix);
     }
   );
+
+  it("Does not plan the same meals to customer that are next to each other when they have less than six meals", () => {
+    const customerOne: Customer = {
+      id: "1",
+      salutation: "Mr",
+      firstName: "foo-customer",
+      surname: "foo",
+      telephone: "123",
+      address: "123123",
+      email: "foo-email",
+      daysPerWeek: 6,
+      snack: Snack.None,
+      breakfast: false,
+      plan: {
+        name: "Mass 2",
+        category: "Mass",
+        mealsPerDay: 1,
+        costPerMeal: 885,
+      },
+      exclusions: [],
+    };
+
+    const customerTwo: Customer = {
+      id: "2",
+      salutation: "Mr",
+      address: "asdasd",
+      telephone: "1231",
+      firstName: "bar-customer",
+      surname: "asdasd",
+      email: "bar-email",
+      daysPerWeek: 6,
+      snack: Snack.None,
+      breakfast: true,
+      plan: {
+        category: "Mass",
+        name: "Mass 5",
+        mealsPerDay: 1,
+        costPerMeal: 885,
+      },
+      exclusions: [],
+    };
+
+    const mealOne = mockExtended<Recipe>();
+    const mealTwo = mockExtended<Recipe>();
+    const mealThree = mockExtended<Recipe>();
+    const mealFour = mockExtended<Recipe>();
+    const mealFive = mockExtended<Recipe>();
+    const mealSix = mockExtended<Recipe>();
+
+    const mealsSelection: DeliveryMealsSelection = [
+      mealOne,
+      mealTwo,
+      mealThree,
+      mealFour,
+      mealFive,
+      mealSix,
+    ];
+
+    const actual = planMeals.chooseMeals("Monday", mealsSelection, [
+      customerOne,
+      customerTwo,
+    ]);
+
+    expect(actual[0].meals[0]).not.toBe(actual[1].meals[0]);
+    expect(actual[0].meals[1]).not.toBe(actual[1].meals[1]);
+    expect(actual[0].meals[2]).not.toBe(actual[1].meals[2]);
+  });
 });
 
 describe("makePlan", () => {
