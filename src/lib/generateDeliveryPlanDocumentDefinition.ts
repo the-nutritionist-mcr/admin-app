@@ -2,7 +2,8 @@ import Customer from "../domain/Customer";
 import CustomerMealsSelection from "../types/CustomerMealsSelection";
 import type { DocumentDefinition } from "./downloadPdf";
 import Recipe from "../domain/Recipe";
-import { createMealWithVariantString } from "../lib/plan-meals";
+import { createVariant } from "../lib/plan-meals";
+import formatPlanItem from "./formatPlanItem";
 
 const generateNameString = (customer: Customer) =>
   `${customer.surname}, ${customer.firstName}`;
@@ -34,12 +35,15 @@ const generateDeliveryPlanDocumentDefinition = (
         .fill("")
         .map((item, index) =>
           index < selection.meals.length
-            ? createMealWithVariantString(
+            ? createVariant(
                 selection.customer,
                 selection.meals[index],
                 allMeals
               )
-            : ""
+            : null
+        )
+        .map((item) =>
+          item ? formatPlanItem(item.mealWithVariantString, item) : ""
         ),
     ]);
 

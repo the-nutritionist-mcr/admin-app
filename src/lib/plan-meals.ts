@@ -104,7 +104,12 @@ export const createVariant = (
   customer: Customer,
   meal: Recipe,
   allMeals: Recipe[]
-): { customisation: boolean; allergen: boolean; string: string } => {
+): {
+  customisation: boolean;
+  allergen: boolean;
+  string: string;
+  mealWithVariantString: string;
+} => {
   const realMeal = allMeals.find((theMeal) => theMeal.id === meal.id);
   const matchingExclusions = customer.exclusions.filter((allergen) => {
     return realMeal?.potentialExclusions.some(
@@ -122,6 +127,11 @@ export const createVariant = (
   return {
     customisation: matchingExclusions.length > 0,
     allergen: matchingExclusions.length > 0 && matchingExclusions[0].allergen,
+    mealWithVariantString: createMealWithVariantString(
+      customer,
+      meal,
+      allMeals
+    ),
     string,
   };
 };

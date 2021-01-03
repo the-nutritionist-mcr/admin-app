@@ -1,26 +1,6 @@
 import CookPlan from "../types/CookPlan";
 import type { DocumentDefinition } from "./downloadPdf";
-import { base } from "grommet";
-
-const formatPlanItem = (
-  name: string,
-  planItem: { count: number; allergen: boolean; customisation: boolean }
-) => {
-  const color = planItem.customisation
-    ? base.global?.colors?.["status-error"]
-    : "#000000";
-
-  const finalColor = planItem.allergen ? base.global?.colors?.brand : color;
-
-  const bold = finalColor !== "#000000";
-
-  return {
-    bold,
-    markerColor: finalColor,
-    color: finalColor,
-    text: `${name} x ${planItem.count}`,
-  };
-};
+import formatPlanItem from "./formatPlanItem";
 
 const generateCookPlanDocumentDefinition = (
   cookPlan: CookPlan
@@ -51,7 +31,12 @@ const generateCookPlanDocumentDefinition = (
           .slice()
           // eslint-disable-next-line @typescript-eslint/no-magic-numbers
           .sort((a, b) => (a > b ? 1 : -1))
-          .map((key) => formatPlanItem(key, planItem.plan[key])),
+          .map((key) =>
+            formatPlanItem(
+              `${key} x ${planItem.plan[key].count}`,
+              planItem.plan[key]
+            )
+          ),
       },
     ]),
     [
