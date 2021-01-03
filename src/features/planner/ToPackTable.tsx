@@ -12,6 +12,7 @@ import Recipe from "../../domain/Recipe";
 
 import ToPackRow from "./ToPackRow";
 import styled from "styled-components";
+import useRecipes from "../recipes/useRecipes";
 
 interface ToPackTableProps {
   onNext: () => void;
@@ -29,6 +30,7 @@ const ToPackTable: React.FC<ToPackTableProps> = (props) => {
 
   const customerMeals = useSelector(customerSelectionsSelector);
   const planned = useSelector(plannedMealsSelector);
+  const { recipes } = useRecipes();
 
   if (!customerMeals) {
     return <Text>You need to select some meals</Text>;
@@ -106,6 +108,7 @@ const ToPackTable: React.FC<ToPackTableProps> = (props) => {
                   columns={columns}
                   customerSelection={customerPlan}
                   deliveryMeals={deliveryMeals}
+                  allRecipes={recipes}
                 />
               ))}
           </PrintableTbody>

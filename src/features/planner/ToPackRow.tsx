@@ -9,6 +9,7 @@ import styled from "styled-components";
 interface ToPackRowProps {
   customerSelection: CustomerMealsSelection[number];
   deliveryMeals: Recipe[];
+  allRecipes: Recipe[];
   columns: number;
 }
 
@@ -36,6 +37,7 @@ const ToPackRowUnMemoized: React.FC<ToPackRowProps> = (props) => {
           key={`${props.customerSelection.customer.id}-${index}`}
           index={index}
           deliveryMeals={props.deliveryMeals}
+          allRecipes={props.allRecipes}
           customerSelection={props.customerSelection}
         />
       ))}

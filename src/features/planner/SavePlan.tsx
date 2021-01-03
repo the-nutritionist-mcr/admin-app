@@ -12,6 +12,7 @@ import generateCsvStringFromObjectArray from "../../lib/generateCsvStringFromObj
 import generateDeliveryPlanDocumentDefinition from "../../lib/generateDeliveryPlanDocumentDefinition";
 import { makePlan } from "../../lib/plan-meals";
 import styled from "styled-components";
+import useRecipes from "../recipes/useRecipes";
 
 const ListWithMargin = styled.ul`
   margin-top: 1rem;
@@ -36,6 +37,7 @@ const SavePlan: React.FC<SavePlanProps> = (props) => {
   const dispatch = useDispatch();
 
   const customerMeals = useSelector(customerSelectionsSelector);
+  const { recipes } = useRecipes();
 
   if (!customerMeals) {
     return <Text>You need to select some meals</Text>;
@@ -67,7 +69,8 @@ const SavePlan: React.FC<SavePlanProps> = (props) => {
           <Anchor
             onClick={() => {
               const document = generateDeliveryPlanDocumentDefinition(
-                customerMeals
+                customerMeals,
+                recipes
               );
               downloadPdf(document, "delivery-plan.pdf");
             }}
@@ -81,7 +84,7 @@ const SavePlan: React.FC<SavePlanProps> = (props) => {
           <Anchor
             onClick={() => {
               const document = generateCookPlanDocumentDefinition(
-                makePlan(customerMeals)
+                makePlan(customerMeals, recipes)
               );
               downloadPdf(document, "cook-plan.pdf");
             }}

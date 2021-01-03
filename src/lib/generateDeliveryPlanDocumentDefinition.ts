@@ -1,13 +1,15 @@
 import Customer from "../domain/Customer";
 import CustomerMealsSelection from "../types/CustomerMealsSelection";
 import type { DocumentDefinition } from "./downloadPdf";
+import Recipe from "../domain/Recipe";
 import { createMealWithVariantString } from "../lib/plan-meals";
 
 const generateNameString = (customer: Customer) =>
   `${customer.surname}, ${customer.firstName}`;
 
 const generateDeliveryPlanDocumentDefinition = (
-  selections: CustomerMealsSelection
+  selections: CustomerMealsSelection,
+  allMeals: Recipe[]
 ): DocumentDefinition => {
   const columns = selections.reduce<number>(
     (numColumns, customer) =>
@@ -34,7 +36,8 @@ const generateDeliveryPlanDocumentDefinition = (
           index < selection.meals.length
             ? createMealWithVariantString(
                 selection.customer,
-                selection.meals[index]
+                selection.meals[index],
+                allMeals
               )
             : ""
         ),

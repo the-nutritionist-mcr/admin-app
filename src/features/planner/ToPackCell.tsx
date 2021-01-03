@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 interface ToPackCellProps {
   index: number;
   deliveryMeals: Recipe[];
+  allRecipes: Recipe[];
   customerSelection: CustomerMealsSelection[number];
 }
 
@@ -49,7 +50,11 @@ const UnMemoizedToPackCell: React.FC<ToPackCellProps> = (props) => {
           placeholder="None"
           valueKey="name"
           labelKey={(meal: Recipe) =>
-            createMealWithVariantString(props.customerSelection.customer, meal)
+            createMealWithVariantString(
+              props.customerSelection.customer,
+              meal,
+              props.allRecipes
+            )
           }
           value={props.customerSelection.meals[props.index]}
           onChange={onChange}

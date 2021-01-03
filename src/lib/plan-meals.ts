@@ -95,15 +95,21 @@ export const chooseMeals = (
 
 export const createMealWithVariantString = (
   customer: Customer,
-  meal: Recipe
-): string => `${meal.shortName}/${createVariantString(customer, meal)}`;
+  meal: Recipe,
+  allMeals: Recipe[]
+): string =>
+  `${meal.shortName}/${createVariantString(customer, meal, allMeals)}`;
 
 export const createVariant = (
   customer: Customer,
-  meal: Recipe
+  meal: Recipe,
+  allMeals: Recipe[]
 ): { customisation: boolean; allergen: boolean; string: string } => {
+  const realMeal = allMeals.find((theMeal) => theMeal.id === meal.id);
   const matchingExclusions = customer.exclusions.filter((allergen) => {
-    return meal.potentialExclusions.some((value) => value.id === allergen.id);
+    return realMeal?.potentialExclusions.some(
+      (value) => value.id === allergen.id
+    );
   });
 
   const string =
@@ -122,10 +128,15 @@ export const createVariant = (
 
 export const createVariantString = (
   customer: Customer,
-  meal: Recipe
+  meal: Recipe,
+  allMeals: Recipe[]
 ): string => {
+  const realMeal = allMeals.find((theMeal) => theMeal.id === meal.id);
+  // eslint-disable-next-line sonarjs/no-identical-functions
   const matchingExclusions = customer.exclusions.filter((allergen) => {
-    return meal.potentialExclusions.some((value) => value.id === allergen.id);
+    return realMeal?.potentialExclusions.some(
+      (value) => value.id === allergen.id
+    );
   });
 
   return matchingExclusions.length > 0
@@ -135,14 +146,22 @@ export const createVariantString = (
     : `${customer.plan.category}`;
 };
 
-export const makePlan = (chosenMeals: CustomerMealsSelection): CookPlan => {
+export const makePlan = (
+  chosenMeals: CustomerMealsSelection,
+  allMeals: Recipe[]
+): CookPlan => {
   const plan: CookPlan = [];
   chosenMeals.forEach((customerMealSelection) =>
     customerMealSelection.meals.forEach((meal) => {
       const existingRecipe = plan.find(
         (planItem) => planItem.recipe.id === meal.id
       );
-      const mealVariant = createVariant(customerMealSelection.customer, meal);
+
+      const mealVariant = createVariant(
+        customerMealSelection.customer,
+        meal,
+        allMeals
+      );
 
       if (!existingRecipe) {
         plan.push({
