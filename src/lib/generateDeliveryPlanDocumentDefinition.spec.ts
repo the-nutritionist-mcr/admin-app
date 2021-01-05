@@ -31,10 +31,20 @@ describe("generateDeliveryPlanPdf", () => {
 
     const selection = [
       {
+        extras: {
+          breakfast: 0,
+          snack: 0,
+          largeSnack: 0,
+        },
         customer: mockCustomerOne,
         meals: [recipes[0], recipes[1]],
       },
       {
+        extras: {
+          breakfast: 0,
+          snack: 0,
+          largeSnack: 0,
+        },
         customer: mockCustomerTwo,
         meals: [recipes[2], recipes[3], recipes[4]],
       },
@@ -82,6 +92,7 @@ describe("generateDeliveryPlanPdf", () => {
                     "address-two",
                     "nextline",
                   ],
+                  "No extras",
                   "foo",
                   "foo",
                   "foo",
@@ -92,6 +103,7 @@ describe("generateDeliveryPlanPdf", () => {
                     "address-one",
                     "nextline",
                   ],
+                  "No extras",
                   "foo",
                   "foo",
                   "",

@@ -145,6 +145,7 @@ const plannerReducer = (state: AppState, action?: AnyAction): AppState => {
       }
 
       const newSelections = newState.planner.customerSelections.map((item) => ({
+        extras: { ...item.extras },
         customer: {
           ...item.customer,
           plan: { ...item.customer.plan },

@@ -1,6 +1,8 @@
+import Customer, { Snack } from "../domain/Customer";
+import CustomerMealsSelection, {
+  Extras,
+} from "../types/CustomerMealsSelection";
 import CookPlan from "../types/CookPlan";
-import Customer from "../domain/Customer";
-import CustomerMealsSelection from "../types/CustomerMealsSelection";
 import DeliveryDay from "../types/DeliveryDay";
 import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
 import Recipe from "../domain/Recipe";
@@ -59,6 +61,15 @@ const generateMealSelection = (
     (_value, index) => chosenPlans[index % chosenPlans.length]
   );
 
+const generateExtras = (customer: Customer, meals: Recipe[]): Extras => {
+  const extrasCount = meals.length / customer.plan.mealsPerDay;
+  return {
+    breakfast: customer.breakfast ? extrasCount : 0,
+    largeSnack: customer.snack === Snack.Large ? extrasCount : 0,
+    snack: customer.snack === Snack.Standard ? extrasCount : 0,
+  };
+};
+
 export const chooseMeals = (
   delivery: DeliveryDay,
   plans: DeliveryMealsSelection,
@@ -89,6 +100,7 @@ export const chooseMeals = (
     return {
       customer,
       meals,
+      extras: generateExtras(customer, meals),
     };
   });
 };
@@ -159,8 +171,20 @@ export const createVariantString = (
 export const makePlan = (
   chosenMeals: CustomerMealsSelection,
   allMeals: Recipe[]
-): CookPlan => {
+): { extras: Extras; plan: CookPlan } => {
   const plan: CookPlan = [];
+  const extras = {
+    breakfast: 0,
+    snack: 0,
+    largeSnack: 0,
+  };
+
+  chosenMeals.forEach((customerMealSelection) => {
+    extras.breakfast += customerMealSelection.extras.breakfast;
+    extras.largeSnack += customerMealSelection.extras.largeSnack;
+    extras.snack += customerMealSelection.extras.snack;
+  });
+
   chosenMeals.forEach((customerMealSelection) =>
     customerMealSelection.meals.forEach((meal) => {
       const existingRecipe = plan.find(
@@ -190,5 +214,5 @@ export const makePlan = (
       }
     })
   );
-  return plan;
+  return { plan, extras };
 };

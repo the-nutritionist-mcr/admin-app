@@ -1,10 +1,15 @@
 import CookPlan from "../types/CookPlan";
 import type { DocumentDefinition } from "./downloadPdf";
+import { Extras } from "../types/CustomerMealsSelection";
 import formatPlanItem from "./formatPlanItem";
 
-const generateCookPlanDocumentDefinition = (
-  cookPlan: CookPlan
-): DocumentDefinition => {
+const generateCookPlanDocumentDefinition = ({
+  plan,
+  extras,
+}: {
+  plan: CookPlan;
+  extras: Extras;
+}): DocumentDefinition => {
   const options = {
     weekday: "long",
     year: "numeric",
@@ -14,7 +19,7 @@ const generateCookPlanDocumentDefinition = (
 
   const date = new Date(Date.now());
 
-  const total = cookPlan.reduce<number>(
+  const total = plan.reduce<number>(
     (finalNumber, planItem) =>
       Object.keys(planItem.plan).reduce<number>(
         (planFinalNumber, key) => planFinalNumber + planItem.plan[key].count,
@@ -24,7 +29,7 @@ const generateCookPlanDocumentDefinition = (
   );
 
   const body = [
-    ...cookPlan.map((planItem) => [
+    ...plan.map((planItem) => [
       { text: planItem.recipe.name, fontSize: 15, bold: true },
       {
         ul: Object.keys(planItem.plan)
@@ -39,6 +44,20 @@ const generateCookPlanDocumentDefinition = (
           ),
       },
     ]),
+    [
+      {
+        text: "Extras",
+        fontSize: 15,
+        bold: true,
+      },
+      {
+        ul: [
+          `Breakfasts x ${extras.breakfast}`,
+          `Snacks x ${extras.snack}`,
+          `Large Snacks x ${extras.largeSnack}`,
+        ],
+      },
+    ],
     [
       { text: "Total cooked", fontSize: 15, bold: true },
       { text: `${total} meals`, fontSize: 15, bold: true },

@@ -1,5 +1,7 @@
+import CustomerMealsSelection, {
+  Extras,
+} from "../types/CustomerMealsSelection";
 import Customer from "../domain/Customer";
-import CustomerMealsSelection from "../types/CustomerMealsSelection";
 import type { DocumentDefinition } from "./downloadPdf";
 import Recipe from "../domain/Recipe";
 import { createVariant } from "../lib/plan-meals";
@@ -7,6 +9,28 @@ import formatPlanItem from "./formatPlanItem";
 
 const generateNameString = (customer: Customer) =>
   `${customer.surname}, ${customer.firstName}`;
+
+const generateExtrasCell = (extras: Extras) => {
+  const extrasList = [];
+
+  if (extras.breakfast) {
+    extrasList.push(`Breakfast x ${extras.breakfast}`);
+  }
+
+  if (extras.snack) {
+    extrasList.push(`Standard snack x ${extras.snack}`);
+  }
+
+  if (extras.largeSnack) {
+    extrasList.push(`Large snack x ${extras.largeSnack}`);
+  }
+
+  if (extrasList.length === 0) {
+    return "No extras";
+  }
+
+  return { ul: extrasList };
+};
 
 const generateDeliveryPlanDocumentDefinition = (
   selections: CustomerMealsSelection,
@@ -31,6 +55,7 @@ const generateDeliveryPlanDocumentDefinition = (
         },
         ...selection.customer.address.split(","),
       ],
+      generateExtrasCell(selection.extras),
       ...new Array(columns)
         .fill("")
         .map((item, index) =>

@@ -90,11 +90,21 @@ describe("The planner slice", () => {
 
       initialState.planner.customerSelections = [
         {
+          extras: {
+            breakfast: 0,
+            snack: 0,
+            largeSnack: 0,
+          },
           customer: mockCustomer1,
           meals: [mockRecipe1, mockRecipe2, mockRecipe3],
         },
 
         {
+          extras: {
+            breakfast: 0,
+            snack: 0,
+            largeSnack: 0,
+          },
           customer: mockCustomer2,
           meals: [mockRecipe5, mockRecipe2],
         },
@@ -162,11 +172,21 @@ describe("The planner slice", () => {
 
       initialState.planner.customerSelections = [
         {
+          extras: {
+            breakfast: 0,
+            snack: 0,
+            largeSnack: 0,
+          },
           customer: mockCustomer1,
           meals: [mockRecipe1, mockRecipe2, mockRecipe3],
         },
 
         {
+          extras: {
+            breakfast: 0,
+            snack: 0,
+            largeSnack: 0,
+          },
           customer: mockCustomer2,
           meals: [mockRecipe5, mockRecipe2],
         },
@@ -215,11 +235,21 @@ describe("The planner slice", () => {
 
       const mockOutcome: CustomerMealsSelection = [
         {
+          extras: {
+            breakfast: 0,
+            snack: 0,
+            largeSnack: 0,
+          },
           customer: mockCustomer1,
           meals: [mockRecipe1, mockRecipe2, mockRecipe3],
         },
 
         {
+          extras: {
+            breakfast: 0,
+            snack: 0,
+            largeSnack: 0,
+          },
           customer: mockCustomer2,
           meals: [mockRecipe5, mockRecipe2],
         },

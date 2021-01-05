@@ -368,8 +368,8 @@ describe("chooseMeals", () => {
 describe("makePlan", () => {
   it("Returns an empty array if there is nothing in the cookplan", () => {
     const actual = planMeals.makePlan([], []);
-    expect(actual).toBeInstanceOf(Array);
-    expect(actual).toHaveLength(0);
+    expect(actual.plan).toBeInstanceOf(Array);
+    expect(actual.plan).toHaveLength(0);
   });
 
   it("Collects together all recipes correctly when there is no variants and there is only one type of meal", () => {
@@ -401,6 +401,11 @@ describe("makePlan", () => {
 
     const plan: CustomerMealsSelection = [
       {
+        extras: {
+          breakfast: 0,
+          snack: 0,
+          largeSnack: 0,
+        },
         meals: [recipeOne, recipeTwo],
         customer: {
           id: "0",
@@ -423,6 +428,11 @@ describe("makePlan", () => {
         },
       },
       {
+        extras: {
+          breakfast: 0,
+          snack: 0,
+          largeSnack: 0,
+        },
         meals: [recipeOne],
         customer: {
           id: "1",
@@ -445,6 +455,11 @@ describe("makePlan", () => {
         },
       },
       {
+        extras: {
+          breakfast: 0,
+          snack: 0,
+          largeSnack: 0,
+        },
         meals: [recipeOne, recipeTwo, recipeThree],
         customer: {
           id: "2",
@@ -470,21 +485,21 @@ describe("makePlan", () => {
 
     const actual = planMeals.makePlan(plan, allRecipes);
 
-    expect(actual).toHaveLength(3);
+    expect(actual.plan).toHaveLength(3);
 
-    const firstPlan = actual.find(
+    const firstPlan = actual.plan.find(
       (individualPlan) => individualPlan.recipe.name === recipeOne.name
     );
 
     expect(firstPlan?.plan["Mass"].count).toEqual(3);
 
-    const secondPlan = actual.find(
+    const secondPlan = actual.plan.find(
       (individualPlan) => individualPlan.recipe.name === recipeTwo.name
     );
 
     expect(secondPlan?.plan["Mass"].count).toEqual(2);
 
-    const thirdPlan = actual.find(
+    const thirdPlan = actual.plan.find(
       (individualPlan) => individualPlan.recipe.name === recipeThree.name
     );
 
@@ -526,6 +541,11 @@ describe("makePlan", () => {
 
     const plan: CustomerMealsSelection = [
       {
+        extras: {
+          breakfast: 0,
+          snack: 0,
+          largeSnack: 0,
+        },
         meals: [recipeOne, recipeTwo],
         customer: {
           id: "0",
@@ -548,6 +568,11 @@ describe("makePlan", () => {
         },
       },
       {
+        extras: {
+          breakfast: 0,
+          snack: 0,
+          largeSnack: 0,
+        },
         meals: [recipeOne],
         customer: {
           id: "1",
@@ -570,6 +595,11 @@ describe("makePlan", () => {
         },
       },
       {
+        extras: {
+          breakfast: 0,
+          snack: 0,
+          largeSnack: 0,
+        },
         meals: [recipeOne, recipeTwo, recipeThree],
         customer: {
           id: "2",
@@ -595,9 +625,9 @@ describe("makePlan", () => {
 
     const actual = planMeals.makePlan(plan, allRecipes);
 
-    expect(actual).toHaveLength(3);
+    expect(actual.plan).toHaveLength(3);
 
-    const firstPlan = actual.find(
+    const firstPlan = actual.plan.find(
       (individualPlan) => individualPlan.recipe.name === recipeOne.name
     );
 

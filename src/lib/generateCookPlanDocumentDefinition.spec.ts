@@ -49,7 +49,10 @@ describe("generateCookPlanDocumentDefinition", () => {
       },
     ];
 
-    const definition = generateCookPlanDocumentDefinition(plan);
+    const definition = generateCookPlanDocumentDefinition({
+      plan,
+      extras: { breakfast: 0, snack: 0, largeSnack: 0 },
+    });
 
     expect(definition).toEqual(
       expect.objectContaining({
@@ -75,6 +78,7 @@ describe("generateCookPlanDocumentDefinition", () => {
                     ul: ["bar x 8", "foo x 1"],
                   },
                 ],
+                expect.anything(),
                 [
                   { text: "Total cooked", fontSize: 15, bold: true },
                   { text: `19 meals`, fontSize: 15, bold: true },

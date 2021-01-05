@@ -73,10 +73,20 @@ describe("create label data", () => {
 
     const plan: CustomerMealsSelection = [
       {
+        extras: {
+          breakfast: 0,
+          snack: 0,
+          largeSnack: 0,
+        },
         meals: [recipeOne, recipeTwo, recipeThree],
         customer: customerOne,
       },
       {
+        extras: {
+          breakfast: 0,
+          snack: 0,
+          largeSnack: 0,
+        },
         meals: [recipeOne],
         customer: customerTwo,
       },
@@ -161,10 +171,20 @@ describe("create label data", () => {
 
     const plan: CustomerMealsSelection = [
       {
+        extras: {
+          breakfast: 0,
+          snack: 0,
+          largeSnack: 0,
+        },
         meals: [recipeOne, recipeTwo, recipeThree],
         customer: customerOne,
       },
       {
+        extras: {
+          breakfast: 0,
+          snack: 0,
+          largeSnack: 0,
+        },
         meals: [recipeOne],
         customer: customerTwo,
       },
