@@ -1,6 +1,6 @@
+import { createMealWithVariantString, createVariant } from "../lib/plan-meals";
 import Customer from "../domain/Customer";
 import Recipe from "../domain/Recipe";
-import { createMealWithVariantString } from "../lib/plan-meals";
 import generateDeliveryPlanDocumentDefinition from "./generateDeliveryPlanDocumentDefinition";
 import { mock } from "jest-mock-extended";
 import { mocked } from "ts-jest/utils";
@@ -21,20 +21,37 @@ describe("generateDeliveryPlanPdf", () => {
     mockCustomerTwo.salutation = "Mrs";
     mockCustomerTwo.address = "address-two,nextline";
 
+    const recipes = [
+      mock<Recipe>(),
+      mock<Recipe>(),
+      mock<Recipe>(),
+      mock<Recipe>(),
+      mock<Recipe>(),
+    ];
+
     const selection = [
       {
         customer: mockCustomerOne,
-        meals: [mock<Recipe>(), mock<Recipe>()],
+        meals: [recipes[0], recipes[1]],
       },
       {
         customer: mockCustomerTwo,
-        meals: [mock<Recipe>(), mock<Recipe>(), mock<Recipe>()],
+        meals: [recipes[2], recipes[3], recipes[4]],
       },
     ];
 
     mocked(createMealWithVariantString, true).mockReturnValue("foo");
+    mocked(createVariant, true).mockReturnValue({
+      customisation: false,
+      allergen: false,
+      mealWithVariantString: "foo",
+      string: "foo",
+    });
 
-    const definition = generateDeliveryPlanDocumentDefinition(selection);
+    const definition = generateDeliveryPlanDocumentDefinition(
+      selection,
+      recipes
+    );
 
     expect(definition).toEqual(
       expect.objectContaining({

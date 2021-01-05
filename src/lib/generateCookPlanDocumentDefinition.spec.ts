@@ -15,14 +15,14 @@ describe("generateCookPlanDocumentDefinition", () => {
         },
         plan: {
           baz: {
-            customisation: true,
+            customisation: false,
             allergen: false,
             count: 8,
           },
           bap: {
             count: 2,
-            allergen: true,
-            customisation: true,
+            allergen: false,
+            customisation: false,
           },
         },
       },
@@ -66,19 +66,13 @@ describe("generateCookPlanDocumentDefinition", () => {
                 [
                   { text: "foo", fontSize: 15, bold: true },
                   {
-                    ul: [
-                      expect.objectContaining({ text: "bap x 2" }),
-                      expect.objectContaining({ text: "baz x 8" }),
-                    ],
+                    ul: ["bap x 2", "baz x 8"],
                   },
                 ],
                 [
                   { text: "bar", fontSize: 15, bold: true },
                   {
-                    ul: [
-                      expect.objectContaining({ text: "bar x 8" }),
-                      expect.objectContaining({ text: "foo x 1" }),
-                    ],
+                    ul: ["bar x 8", "foo x 1"],
                   },
                 ],
                 [

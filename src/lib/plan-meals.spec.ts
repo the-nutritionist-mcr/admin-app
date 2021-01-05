@@ -367,7 +367,7 @@ describe("chooseMeals", () => {
 
 describe("makePlan", () => {
   it("Returns an empty array if there is nothing in the cookplan", () => {
-    const actual = planMeals.makePlan([]);
+    const actual = planMeals.makePlan([], []);
     expect(actual).toBeInstanceOf(Array);
     expect(actual).toHaveLength(0);
   });
@@ -396,6 +396,8 @@ describe("makePlan", () => {
       name: "baz-recipe",
       potentialExclusions: [],
     };
+
+    const allRecipes = [recipeOne, recipeTwo, recipeThree];
 
     const plan: CustomerMealsSelection = [
       {
@@ -466,7 +468,7 @@ describe("makePlan", () => {
       },
     ];
 
-    const actual = planMeals.makePlan(plan);
+    const actual = planMeals.makePlan(plan, allRecipes);
 
     expect(actual).toHaveLength(3);
 
@@ -519,6 +521,8 @@ describe("makePlan", () => {
       name: "baz-recipe",
       potentialExclusions: [],
     };
+
+    const allRecipes = [recipeOne, recipeTwo, recipeThree];
 
     const plan: CustomerMealsSelection = [
       {
@@ -589,7 +593,7 @@ describe("makePlan", () => {
       },
     ];
 
-    const actual = planMeals.makePlan(plan);
+    const actual = planMeals.makePlan(plan, allRecipes);
 
     expect(actual).toHaveLength(3);
 

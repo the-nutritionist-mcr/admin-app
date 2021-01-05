@@ -1,9 +1,20 @@
 import { base } from "grommet";
 
+interface FormattedPlanItem {
+  bold: boolean;
+  markerColor: string;
+  color: string;
+  text: string;
+}
+
 const formatPlanItem = (
   text: string,
   planItem: { allergen: boolean; customisation: boolean }
-) => {
+): FormattedPlanItem | string => {
+  if (!planItem.customisation && !planItem.allergen) {
+    return text;
+  }
+
   const color = planItem.customisation
     ? base.global?.colors?.["status-error"]
     : "#000000";
@@ -14,8 +25,8 @@ const formatPlanItem = (
 
   return {
     bold,
-    markerColor: finalColor,
-    color: finalColor,
+    markerColor: finalColor as string,
+    color: finalColor as string,
     text,
   };
 };
