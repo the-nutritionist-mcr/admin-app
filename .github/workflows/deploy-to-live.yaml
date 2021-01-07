@@ -175,7 +175,7 @@ jobs:
 
   deploy-to-prod:
     name: Deploy to Prod
-    needs: [unit-test, lint]
+    needs: [deploy-to-test]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
