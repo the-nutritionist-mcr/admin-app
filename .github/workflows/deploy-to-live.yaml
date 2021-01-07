@@ -1,4 +1,4 @@
-name: Deploy (prod)
+name: Production deploy pipeline
 on:
   push:
     branches:
@@ -55,7 +55,7 @@ jobs:
       - name: Lint
         uses: borales/actions-yarn@v2.3.0
         with:
-          cmd: lint
+          cmd: lint:full
 
   deploy-to-test:
     name: Deploy to Test
@@ -120,62 +120,62 @@ jobs:
           name: backend-outputs
           path: src/backend-outputs.json
 
-  run-e2es:
-    name: Run E2E tests
-    needs: [deploy-to-test]
-    runs-on: ubuntu-latest
-    container:
-      image: cypress/base
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v1
-      - name: Install Cypress deps
-        run: apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
-      - name: Configure node 12
-        uses: actions/setup-node@v1
-        with:
-          node-version: "12"
-      - uses: actions/cache@v2
-        with:
-          path: "**/.yarn"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - uses: actions/download-artifact@v2
-        with:
-          name: backend-outputs
-          path: "src"
-      - name: Yarn install
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: install
+  # run-e2es:
+  #   name: Run E2E tests
+  #   needs: [deploy-to-test]
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: cypress/base
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v1
+  #     - name: Install Cypress deps
+  #       run: apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+  #     - name: Configure node 12
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: "12"
+  #     - uses: actions/cache@v2
+  #       with:
+  #         path: "**/.yarn"
+  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+  #     - uses: actions/download-artifact@v2
+  #       with:
+  #         name: backend-outputs
+  #         path: "src"
+  #     - name: Yarn install
+  #       uses: borales/actions-yarn@v2.3.0
+  #       with:
+  #         cmd: install
 
-      - name: Install cypress
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: cypress install
-      - name: Turnstyle
-        uses: softprops/turnstyle@v1
-        with:
-          poll-interval-seconds: 30
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Install cypress
+  #       uses: borales/actions-yarn@v2.3.0
+  #       with:
+  #         cmd: cypress install
+  #     - name: Turnstyle
+  #       uses: softprops/turnstyle@v1
+  #       with:
+  #         poll-interval-seconds: 30
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run tests
-        run: yarn test:cypress
-        env:
-          CYPRESS_BASE_URL: https://test.tnm-admin.com
-          CYPRESS_USER: ${{ secrets.CYPRESS_USER }}
-          CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
-      - uses: actions/upload-artifact@v2
-        with:
-          name: backend-outputs
-          path: cypress/videos/**/*
+  #     - name: Run tests
+  #       run: yarn test:cypress
+  #       env:
+  #         CYPRESS_BASE_URL: https://test.tnm-admin.com
+  #         CYPRESS_USER: ${{ secrets.CYPRESS_USER }}
+  #         CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         AWS_REGION: us-east-1
+  #     - uses: actions/upload-artifact@v2
+  #       with:
+  #         name: backend-outputs
+  #         path: cypress/videos/**/*
 
   deploy-to-prod:
     name: Deploy to Prod
-    needs: [run-e2es]
+    needs: [unit-test, lint]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
