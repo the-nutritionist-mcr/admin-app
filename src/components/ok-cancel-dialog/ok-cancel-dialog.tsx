@@ -13,6 +13,7 @@ import { Checkmark, Close } from "grommet-icons";
 import { ApiRequestFunction } from "../../lib/apiRequestCreator";
 import React from "react";
 import assertFC from "../../lib/assertFC";
+import { debounce } from "lodash";
 import { useDispatch } from "react-redux";
 
 interface OkCancelDialogProps<T = undefined> {
@@ -25,12 +26,20 @@ interface OkCancelDialogProps<T = undefined> {
   onCancel: () => void;
 }
 
+const ON_SUBMIT_DEBOUNCE = 500;
+
 function OkCancelDialogContainer<T>(
   props: React.PropsWithChildren<OkCancelDialogProps<T>>
 ): React.ReactElement | null {
   const thingValue = props.thing ? { ...props.thing } : props.thing;
   const [thing, setThing] = React.useState<T | undefined>(thingValue);
   const dispatch = useDispatch();
+  const onSubmit = debounce(async (): Promise<void> => {
+    if (thing) {
+      await dispatch(props.thunk?.(thing));
+    }
+    props.onOk();
+  }, ON_SUBMIT_DEBOUNCE);
   const contents = (
     <React.Fragment>
       <CardHeader margin="none" pad="medium" alignSelf="center">
@@ -61,12 +70,7 @@ function OkCancelDialogContainer<T>(
   const dialogWithOrWithoutForm = props.thing ? (
     <Form
       value={thing}
-      onSubmit={async (): Promise<void> => {
-        if (thing) {
-          await dispatch(props.thunk?.(thing));
-        }
-        props.onOk();
-      }}
+      onSubmit={onSubmit}
       onChange={(nextData: unknown): void => {
         setThing(nextData as T);
         props.onChange?.(nextData);

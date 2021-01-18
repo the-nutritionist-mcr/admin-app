@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ApiRequestFunction } from "../../lib/apiRequestCreator";
 import React from "react";
 import { allExclusionsSelector } from "../../features/exclusions/exclusionsSlice";
+import { debounce } from "lodash";
 
 interface EditRecipesDialogProps {
   recipe: Recipe;
@@ -26,10 +27,19 @@ interface EditRecipesDialogProps {
   onCancel: () => void;
 }
 
+const ONSUBMIT_DEBOUNCE = 500;
+
 const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
   const [recipe, setRecipe] = React.useState(props.recipe);
   const dispatch = useDispatch();
   const exclusions = useSelector(allExclusionsSelector);
+
+  const onSubmit = debounce(async (): Promise<void> => {
+    // eslint-disable-next-line no-console
+    console.log("SUBMITTING");
+    await dispatch(props.thunk(recipe));
+    props.onOk();
+  }, ONSUBMIT_DEBOUNCE);
 
   return (
     <Layer>
@@ -43,10 +53,7 @@ const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
           onChange={(nextRecipeData: any): void => {
             setRecipe(nextRecipeData);
           }}
-          onSubmit={async (): Promise<void> => {
-            await dispatch(props.thunk(recipe));
-            props.onOk();
-          }}
+          onSubmit={onSubmit}
         >
           <CardHeader margin="none" pad="medium" alignSelf="center">
             <Heading margin="none" level={3}>

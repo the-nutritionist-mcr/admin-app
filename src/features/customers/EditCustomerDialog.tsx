@@ -27,6 +27,7 @@ import { ApiRequestFunction } from "../../lib/apiRequestCreator";
 import LoadingState from "../../types/LoadingState";
 import React from "react";
 import { Spinning } from "grommet-controls";
+import { debounce } from "lodash";
 import { loadingSelector } from "../../lib/rootReducer";
 
 interface EditCustomerDialogProps {
@@ -38,6 +39,8 @@ interface EditCustomerDialogProps {
   title: string;
   onCancel: () => void;
 }
+
+const SUBMIT_DEBOUNCE = 500;
 
 const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
   const dispatch = useDispatch();
@@ -55,6 +58,15 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
   const exclusions = useSelector(allExclusionsSelector);
 
   const isLoading = useSelector(loadingSelector) === LoadingState.Loading;
+  const onSubmit = debounce(async (): Promise<void> => {
+    const submittingCustomer = {
+      ...customer,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      breakfast: (customer.breakfast as any) === "Yes",
+    };
+    await dispatch(props.thunk(submittingCustomer));
+    props.onOk();
+  }, SUBMIT_DEBOUNCE);
 
   return props?.show ? (
     <Layer>
@@ -81,15 +93,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
 
             setCustomer(nextCustomer);
           }}
-          onSubmit={async (): Promise<void> => {
-            const submittingCustomer = {
-              ...customer,
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              breakfast: (customer.breakfast as any) === "Yes",
-            };
-            await dispatch(props.thunk(submittingCustomer));
-            props.onOk();
-          }}
+          onSubmit={onSubmit}
         >
           <CardHeader margin="none" pad="medium" alignSelf="center">
             <Heading margin="none" level={3}>
