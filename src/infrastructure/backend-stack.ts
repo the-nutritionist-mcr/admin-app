@@ -284,11 +284,11 @@ export default class BackendStack extends cdk.Stack {
     customersResource.addMethod("GET", scanCustomersIntegration, methodOptions);
 
     const apiKey = restApi.addApiKey("RestApiKey", {
-      apiKeyName: "tnm-rest-api-key",
+      apiKeyName: `${name}-rest-api-key`,
     });
 
     const plan = restApi.addUsagePlan("UsagePlan", {
-      name: "websiteUsage",
+      name: `${name}-website-usage`,
       apiKey,
     });
 
