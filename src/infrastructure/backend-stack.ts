@@ -272,15 +272,20 @@ export default class BackendStack extends cdk.Stack {
       },
     });
 
-    const methodOptions = {
+    const methodOptions: apiGateway.MethodOptions = {
       methodResponses: [
         { statusCode: "200" },
         { statusCode: "400" },
         { statusCode: "500" },
       ],
+      apiKeyRequired: true,
     };
 
     customersResource.addMethod("GET", scanCustomersIntegration, methodOptions);
+
+    restApi.addApiKey("RestApiKey", {
+      apiKeyName: "tnm-rest-api-key",
+    });
 
     customersTable.grantFullAccess(resolverLambda);
     resolverLambda.addEnvironment("CUSTOMERS_TABLE", customersTable.tableName);
