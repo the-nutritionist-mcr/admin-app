@@ -1,7 +1,9 @@
+import * as apiGateway from "@aws-cdk/aws-apigateway";
 import * as appsync from "@aws-cdk/aws-appsync";
 import * as cdk from "@aws-cdk/core";
 import * as cognito from "@aws-cdk/aws-cognito";
 import * as ddb from "@aws-cdk/aws-dynamodb";
+import * as iam from "@aws-cdk/aws-iam";
 import * as lambda from "@aws-cdk/aws-lambda";
 import addProjectTags from "./addProjectTags";
 import path from "path";
@@ -202,6 +204,83 @@ export default class BackendStack extends cdk.Stack {
         type: ddb.AttributeType.STRING,
       },
     });
+
+    const restApi = new apiGateway.RestApi(this, "DataApi", {
+      defaultCorsPreflightOptions: {
+        allowOrigins: apiGateway.Cors.ALL_ORIGINS,
+      },
+      restApiName: `${name}RestApi`,
+    });
+
+    const customersResource = restApi.root.addResource("customers");
+
+    const getCustomersPolicy = new iam.Policy(this, "ScanCustomersPolicy", {
+      statements: [
+        new iam.PolicyStatement({
+          actions: ["dynamodb:Scan"],
+          effect: iam.Effect.ALLOW,
+          resources: [customersTable.tableArn],
+        }),
+      ],
+    });
+
+    const scanCustomersRole = new iam.Role(this, "ScanCustomersRole", {
+      assumedBy: new iam.ServicePrincipal("apigateway.amazonaws.com"),
+    });
+
+    scanCustomersRole.attachInlinePolicy(getCustomersPolicy);
+
+    const errorResponses: apiGateway.IntegrationResponse[] = [
+      {
+        selectionPattern: "400",
+        statusCode: "400",
+        responseTemplates: {
+          "application/json": `{
+            "error": "Bad input!"
+          }`,
+        },
+      },
+      {
+        selectionPattern: "5\\d{2}",
+        statusCode: "500",
+        responseTemplates: {
+          "application/json": `{
+            "error": "Internal Service Error!"
+          }`,
+        },
+      },
+    ];
+
+    const integrationResponses = [
+      {
+        statusCode: "200",
+      },
+      ...errorResponses,
+    ];
+
+    const scanCustomersIntegration = new apiGateway.AwsIntegration({
+      action: "Scan",
+      service: "dynamodb",
+      options: {
+        credentialsRole: scanCustomersRole,
+        integrationResponses,
+        requestTemplates: {
+          "application/json": `{
+            "TableName": "${customersTable.tableName}"
+          }`,
+        },
+      },
+    });
+
+    const methodOptions = {
+      methodResponses: [
+        { statusCode: "200" },
+        { statusCode: "400" },
+        { statusCode: "500" },
+      ],
+    };
+
+    customersResource.addMethod("GET", scanCustomersIntegration, methodOptions);
 
     customersTable.grantFullAccess(resolverLambda);
     resolverLambda.addEnvironment("CUSTOMERS_TABLE", customersTable.tableName);
