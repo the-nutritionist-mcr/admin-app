@@ -283,9 +283,16 @@ export default class BackendStack extends cdk.Stack {
 
     customersResource.addMethod("GET", scanCustomersIntegration, methodOptions);
 
-    restApi.addApiKey("RestApiKey", {
+    const apiKey = restApi.addApiKey("RestApiKey", {
       apiKeyName: "tnm-rest-api-key",
     });
+
+    const plan = restApi.addUsagePlan("UsagePlan", {
+      name: "websiteUsage",
+      apiKey,
+    });
+
+    plan.addApiStage({ stage: restApi.deploymentStage });
 
     customersTable.grantFullAccess(resolverLambda);
     resolverLambda.addEnvironment("CUSTOMERS_TABLE", customersTable.tableName);
