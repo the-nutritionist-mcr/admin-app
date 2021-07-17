@@ -117,54 +117,50 @@ input DeleteCustomerInput {
   id: ID!
 }
 
-
 type Query {
   getExclusionById(exclusionId: String!): Exclusion
-  @aws_auth(cognito_groups: ["user", "admin"])
+    @aws_auth(cognito_groups: ["user", "admin"])
 
-  listExclusions: [Exclusion]
-  @aws_auth(cognito_groups: ["user", "admin"])
+  listExclusions: [Exclusion] @aws_auth(cognito_groups: ["user", "admin"])
 
   getRecipeById(recipeId: String!): Recipe
-  @aws_auth(cognito_groups: ["user", "admin"])
+    @aws_auth(cognito_groups: ["user", "admin"])
 
-  listRecipes: [Recipe]
-  @aws_auth(cognito_groups: ["user", "admin"])
+  listRecipes: [Recipe] @aws_auth(cognito_groups: ["user", "admin"])
 
   getCustomerById(customerId: String!): Customer
-  @aws_auth(cognito_groups: ["user", "admin"])
+    @aws_auth(cognito_groups: ["user", "admin"])
 
-  listCustomers: [Customer]
-  @aws_auth(cognito_groups: ["user", "admin"])
+  listCustomers: [Customer] @aws_auth(cognito_groups: ["user", "admin"])
 }
 
 type Mutation {
   updateRecipe(input: UpdateRecipeInput): Recipe
-  @aws_auth(cognito_groups: ["user", "admin"])
+    @aws_auth(cognito_groups: ["user", "admin"])
 
   deleteRecipe(input: DeleteRecipeInput): String
-  @aws_auth(cognito_groups: ["user", "admin"])
+    @aws_auth(cognito_groups: ["user", "admin"])
 
   createRecipe(input: RecipeInput): Recipe
-  @aws_auth(cognito_groups: ["user", "admin"])
+    @aws_auth(cognito_groups: ["user", "admin"])
 
   updateCustomer(input: UpdateCustomerInput): Customer
-  @aws_auth(cognito_groups: ["user", "admin"])
+    @aws_auth(cognito_groups: ["user", "admin"])
 
   createCustomer(input: CustomerInput): Customer
-  @aws_auth(cognito_groups: ["user", "admin"])
+    @aws_auth(cognito_groups: ["user", "admin"])
 
   deleteCustomer(input: DeleteCustomerInput): String
-  @aws_auth(cognito_groups: ["user", "admin"])
+    @aws_auth(cognito_groups: ["user", "admin"])
 
   updateExclusion(input: UpdateExclusionInput): Exclusion
-  @aws_auth(cognito_groups: ["user", "admin"])
+    @aws_auth(cognito_groups: ["user", "admin"])
 
   createExclusion(input: ExclusionInput): Exclusion
-  @aws_auth(cognito_groups: ["user", "admin"])
+    @aws_auth(cognito_groups: ["user", "admin"])
 
   deleteExclusion(input: DeleteExclusionInput): String
-  @aws_auth(cognito_groups: ["user", "admin"])
+    @aws_auth(cognito_groups: ["user", "admin"])
 }
 
 type Plan {

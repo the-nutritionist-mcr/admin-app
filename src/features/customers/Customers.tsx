@@ -19,9 +19,19 @@ import LoadingState from "../../types/LoadingState";
 import React from "react";
 import { Spinning } from "grommet-controls";
 import { createCustomer } from "./customersSlice";
+import fileDownload from "js-file-download";
+import generateCsvStringFromObjectArray from "../../lib/generateCsvStringFromObjectArray";
 import { loadingSelector } from "../../lib/rootReducer";
 import useCustomers from "./useCustomers";
 import { useSelector } from "react-redux";
+
+const convertCustomerToSimpleObject = (
+  customer: Customer
+): { [key: string]: string | number | boolean | undefined } => ({
+  ...customer,
+  plan: customer.plan.name,
+  exclusions: customer.exclusions.map((exclusion) => exclusion.name).join(","),
+});
 
 const Customers: React.FC = () => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
@@ -39,6 +49,16 @@ const Customers: React.FC = () => {
           onClick={(): void => setShowCreateCustomer(true)}
           label="New"
           a11yTitle="New Customer"
+        />
+        <Button
+          primary
+          size="small"
+          onClick={(): void => {
+            const string = generateCsvStringFromObjectArray(
+              customers.map(convertCustomerToSimpleObject)
+            );
+            fileDownload(string, "customers.csv");
+          }}
         />
         {showCreateCustomer && (
           <EditCustomerDialog
