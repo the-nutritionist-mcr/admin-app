@@ -1,3 +1,4 @@
+import { curry, pipe } from "ramda";
 /**
  * Implementation is based on https://tools.ietf.org/html/rfc4180#section-2
  */
@@ -7,15 +8,28 @@ type ValueType = string | number | boolean | undefined;
 const containsStringOf = (field: string, chars: string[]) =>
   chars.some((char) => field.includes(char));
 
-const joinFields = (fields: ValueType[]) =>
-  fields
-    .map((field) => (typeof field === "number" ? String(field) : field))
-    .map((field) => (typeof field === "boolean" ? String(field) : field))
-    .map((field) => field?.replace(/"/gu, '""') ?? "")
-    .map((field) =>
-      containsStringOf(field, [",", '"', "\r\n"]) ? `"${field}"` : field
-    )
-    .join(",");
+const convertTypeToString = curry(
+  (type: ValueType, field: string): ValueType =>
+    typeof field === type ? String(field) : field
+);
+
+const surroundFieldsWithSpecialCharactersInQuotes = curry(
+  (chars: string[], field: string) =>
+    containsStringOf(field, chars) ? `"${field}"` : field
+);
+
+const escapeQuotes = (field: string | undefined) =>
+  field?.replace(/"/gu, '""') ?? "";
+
+const processField = pipe(
+  convertTypeToString("number"),
+  convertTypeToString("boolean"),
+  escapeQuotes,
+  surroundFieldsWithSpecialCharactersInQuotes([",", '"', "\r\n"])
+);
+
+const createCsvRowString = (fields: ValueType[]) =>
+  fields.map(processField).join(",");
 
 interface ArbitraryObjectType {
   [key: string]: ValueType;
@@ -34,11 +48,13 @@ const generateCsvStringFromObjectArray = (
 
   const rows = inputObjectArray
     .map((row) =>
-      joinFields(columnHeaders.map((columnHeader) => row[columnHeader]))
+      createCsvRowString(columnHeaders.map((columnHeader) => row[columnHeader]))
     )
     .join("\r\n");
 
-  return `${joinFields(columnHeaders)}\r\n${rows}`;
+  const headerRow = createCsvRowString(columnHeaders);
+
+  return `${headerRow}\r\n${rows}`;
 };
 
 export default generateCsvStringFromObjectArray;
