@@ -30,13 +30,15 @@ const generateCsvStringFromObjectArray = (
     );
   }
 
-  const keys = Object.keys(inputObjectArray[0]);
+  const columnHeaders = Object.keys(inputObjectArray[0]);
 
   const rows = inputObjectArray
-    .map((rowObject) => joinFields(keys.map((key) => rowObject[key])))
+    .map((row) =>
+      joinFields(columnHeaders.map((columnHeader) => row[columnHeader]))
+    )
     .join("\r\n");
 
-  return `${joinFields(keys)}\r\n${rows}`;
+  return `${joinFields(columnHeaders)}\r\n${rows}`;
 };
 
 export default generateCsvStringFromObjectArray;
