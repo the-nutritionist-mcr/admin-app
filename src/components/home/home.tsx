@@ -4,7 +4,7 @@ import React from "react";
 import { useHome } from "./hooks";
 
 const Home: React.FC = () => {
-  const { activePlans } = useHome();
+  const { activePlans, inActivePlans, totalPlans } = useHome();
   return (
     <React.Fragment>
       <Heading level={2}>Welcome</Heading>
@@ -28,7 +28,14 @@ const Home: React.FC = () => {
       <Paragraph>
         <ul>
           <li>
-            Currently Active plans: <strong>{activePlans}</strong>
+            Total customers on file: <strong>{totalPlans}</strong>
+          </li>
+          <li>
+            Active: <strong>{activePlans}</strong>
+          </li>
+
+          <li>
+            Inactive: <strong>{inActivePlans}</strong>
           </li>
         </ul>
       </Paragraph>
