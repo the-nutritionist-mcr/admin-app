@@ -58,6 +58,7 @@ const PlanHeader: FC<PlanHeaderProps> = (props) => {
             </ThemeContext.Extend>
           </TableCell>
         ))}
+        <TableCell>Total</TableCell>
       </TableRow>
     </TableHeader>
   );

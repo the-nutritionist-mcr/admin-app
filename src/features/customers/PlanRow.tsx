@@ -1,8 +1,8 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { TableRow, TableCell, Select, ThemeContext, base } from "grommet";
 import styled from "styled-components";
 
-const SELECT_RANGE = 21;
+const SELECT_RANGE = 50;
 
 interface PlanRowProps {
   plan: string;
@@ -24,8 +24,7 @@ const AlternatingTableRow = styled(TableRow)`
 `;
 
 const PlanRow: FC<PlanRowProps> = (props) => {
-  const [quantities, setQuantities] = useState<number[]>(props.quantities);
-  // eslint-disable-next-line no-console
+  const totalMeals = props.quantities.reduce((accum, item) => accum + item, 0);
   return (
     <AlternatingTableRow>
       <TableCell>{props.plan}</TableCell>
@@ -46,17 +45,18 @@ const PlanRow: FC<PlanRowProps> = (props) => {
             <Select
               plain
               options={selectRange.map((item) => String(item))}
-              value={String(quantities[index])}
+              value={String(props.quantities[index])}
               onChange={(event) => {
-                const newQuantities = [...quantities];
+                const newQuantities = [...props.quantities];
                 newQuantities[index] = Number.parseInt(event.value, 10);
-                setQuantities(newQuantities);
                 props.onChange(props.plan, newQuantities);
               }}
             />
           </ThemeContext.Extend>
         </TableCell>
       ))}
+
+      <TableCell>{totalMeals}</TableCell>
     </AlternatingTableRow>
   );
 };

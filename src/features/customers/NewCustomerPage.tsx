@@ -11,7 +11,6 @@ import {
   TextArea,
   Button,
 } from "grommet";
-import { Checkmark, Close } from "grommet-icons";
 import React, { FC } from "react";
 import { daysPerWeekOptions, plans } from "../../lib/config";
 import { Snack } from "../../domain/Customer";
@@ -21,11 +20,9 @@ import { useDispatch, useSelector } from "react-redux";
 // import { allExclusionsSelector } from "../../features/exclusions/exclusionsSlice";
 import { loadingSelector } from "../../lib/rootReducer";
 import LoadingState from "../../types/LoadingState";
-import { Spinning } from "grommet-controls";
-import PlanTable from "./PlanTable";
+import PlanPanel from "./PlanPanel";
 
 const SUBMIT_DEBOUNCE = 500;
-const TAB_SIZE = 2;
 
 const defaultCustomer = {
   id: "0",
@@ -67,10 +64,6 @@ const NewCustomerPage: FC = () => {
   }, SUBMIT_DEBOUNCE);
   return (
     <>
-      <Header align="center" justify="start" gap="small">
-        <Heading level={2}>New Customer</Heading>
-      </Header>
-
       <Form
         value={customer}
         onReset={(): void => {
@@ -95,6 +88,19 @@ const NewCustomerPage: FC = () => {
         }}
         onSubmit={onSubmit}
       >
+        <Header justify="start" gap="small">
+          <Heading level={2}>New Customer</Heading>
+
+          <Button
+            primary
+            disabled={isLoading}
+            label="Save"
+            type="submit"
+            name="submit"
+          />
+          <Button primary label="Cancel" />
+        </Header>
+
         <Heading level={3}>Personal Details</Heading>
         <Box direction="row" wrap={true} gap="3rem">
           <FormField name="salutation" label="Salutation" required>
@@ -171,30 +177,8 @@ const NewCustomerPage: FC = () => {
             </FormField>
           </ThemeContext.Extend>
         </Box>
-
-        <Heading level={3}>Plan</Heading>
-        <PlanTable
-          onChange={(plan) => {
-            // eslint-disable-next-line no-console
-            console.log(JSON.stringify(plan, null, TAB_SIZE));
-          }}
-        />
-
-        <Button
-          icon={
-            isLoading ? (
-              <Spinning size="small" />
-            ) : (
-              <Checkmark size="small" color="brand" />
-            )
-          }
-          disabled={isLoading}
-          label="Ok"
-          type="submit"
-          name="submit"
-        />
-        <Button icon={<Close size="small" color="brand" />} label="Cancel" />
-        <Button type="reset" name="reset" label="Reset" />
+        <Heading level={3}>Customer Plan</Heading>
+        <PlanPanel />
       </Form>
     </>
   );
