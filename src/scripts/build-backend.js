@@ -3,7 +3,7 @@
 /* eslint-disable promise/always-return */
 const path = require("path");
 const { build } = require("esbuild");
-const { pnpPlugin } = require("@yarnpkg/esbuild-plugin-pnp");
+// Const { pnpPlugin } = require("@yarnpkg/esbuild-plugin-pnp");
 
 const root = path.resolve(__dirname, "..", "..");
 const src = path.resolve(root, "src");
@@ -16,10 +16,11 @@ const outfile = path.resolve(dist, "bundles", "backend", "index.js");
 build({
   entryPoints: [inFile],
   outfile,
+  platform: "node",
   bundle: true,
   tsconfig: path.resolve(config, "tsconfig.backend.json"),
   sourcemap: true,
-  plugins: [pnpPlugin()],
+  //  Plugins: [pnpPlugin()],
 })
   .then(() => {
     console.log("Successfully built backend");
