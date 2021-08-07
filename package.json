@@ -147,7 +147,7 @@
     "deploy:frontend": "yarn build:frontend && cdk deploy --require-approval never --all --outputs-file src/frontend-outputs.json",
     "deploy:backend": "yarn build:backend && DO_BACKEND=yes cdk deploy --require-approval never --all --outputs-file src/backend-outputs.json",
     "lint": "eslint .",
-    "tsc:watch": "tsc --project ./config/tsconfig.incremental.json --watch",
+    "tsc:watch": "tsc --project ./app-config/tsconfig.incremental.json --watch",
     "test:noisy": "react-scripts test --verbose",
     "test": "react-scripts test --silent",
     "start:and-wait": "yarn start & yarn wait-on http://localhost:3000",
