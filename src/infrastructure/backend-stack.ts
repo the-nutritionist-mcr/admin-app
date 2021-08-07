@@ -5,6 +5,7 @@ import * as cognito from "@aws-cdk/aws-cognito";
 import * as ddb from "@aws-cdk/aws-dynamodb";
 import * as iam from "@aws-cdk/aws-iam";
 import * as lambda from "@aws-cdk/aws-lambda";
+import * as nodejsLambda from "@aws-cdk/aws-lambda-nodejs";
 import addProjectTags from "./addProjectTags";
 import path from "path";
 
@@ -104,17 +105,19 @@ export default class BackendStack extends cdk.Stack {
       value: api.graphqlUrl,
     });
 
-    const resolverLambda = new lambda.Function(this, "AppResolverLambda", {
-      functionName: `${name}-resolver-lambda`,
-      runtime: lambda.Runtime.NODEJS_12_X,
-      handler: "index.handler",
-      code: lambda.Code.fromAsset(
-        path.resolve(__dirname, "..", "..", "dist", "bundles", "backend")
-      ),
-      memorySize: 1024,
-    });
+    const root = path.resolve(__dirname, "..", "..");
 
-    resolverLambda;
+    const resolverLambda = new nodejsLambda.NodejsFunction(
+      this,
+      "AppResolverLambda",
+      {
+        functionName: `${name}-resolver-lambda`,
+        runtime: lambda.Runtime.NODEJS_14_X,
+        entry: path.resolve(root, "src", "backend", "index.ts"),
+        handler: "handler",
+        memorySize: 1024,
+      }
+    );
 
     const lambdaDataSource = api.addLambdaDataSource(
       "lambdaDataSource",

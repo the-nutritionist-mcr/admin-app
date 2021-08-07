@@ -4,7 +4,7 @@
 /coverage
 
 # cdk
-/template
+/cdk.out
 
 # production
 /build
