@@ -162,6 +162,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                     "@wojtekmaj/enzyme-adapter-react-17",
                     "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:0.3.2",
                   ],
+                  [
+                    "@yarnpkg/esbuild-plugin-pnp",
+                    "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:1.0.0",
+                  ],
                   ["EventEmitter", "npm:1.0.0"],
                   ["aws-amplify", "npm:3.3.11"],
                   [
@@ -178,6 +182,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["deep-equal", "npm:2.0.5"],
                   ["dynamodb-empty", "npm:1.0.1"],
                   ["enzyme", "npm:3.11.0"],
+                  ["esbuild", "npm:0.12.18"],
                   ["eslint", "npm:7.14.0"],
                   [
                     "eslint-config-benwainwright",
@@ -341,7 +346,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                     "use-deep-compare-effect",
                     "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:1.5.0",
                   ],
-                  ["uuid", "npm:8.3.1"],
+                  ["uuid", "npm:8.3.2"],
                   ["wait-on", "npm:5.2.0"],
                   ["web-vitals", "npm:0.2.4"],
                   [
@@ -23737,6 +23742,40 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
         ],
         [
+          "@yarnpkg/esbuild-plugin-pnp",
+          [
+            [
+              "npm:1.0.0",
+              {
+                packageLocation:
+                  "./.yarn/cache/@yarnpkg-esbuild-plugin-pnp-npm-1.0.0-2de5bc9557-d3d9b0f366.zip/node_modules/@yarnpkg/esbuild-plugin-pnp/",
+                packageDependencies: [
+                  ["@yarnpkg/esbuild-plugin-pnp", "npm:1.0.0"],
+                ],
+                linkType: "SOFT",
+              },
+            ],
+            [
+              "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:1.0.0",
+              {
+                packageLocation:
+                  "./.yarn/$$virtual/@yarnpkg-esbuild-plugin-pnp-virtual-205ef16dc2/0/cache/@yarnpkg-esbuild-plugin-pnp-npm-1.0.0-2de5bc9557-d3d9b0f366.zip/node_modules/@yarnpkg/esbuild-plugin-pnp/",
+                packageDependencies: [
+                  [
+                    "@yarnpkg/esbuild-plugin-pnp",
+                    "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:1.0.0",
+                  ],
+                  ["@types/esbuild", null],
+                  ["esbuild", "npm:0.12.18"],
+                  ["tslib", "npm:1.14.1"],
+                ],
+                packagePeers: ["@types/esbuild", "esbuild"],
+                linkType: "HARD",
+              },
+            ],
+          ],
+        ],
+        [
           "EventEmitter",
           [
             [
@@ -34188,6 +34227,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["es6-iterator", "npm:2.0.3"],
                   ["es6-symbol", "npm:3.1.3"],
                 ],
+                linkType: "HARD",
+              },
+            ],
+          ],
+        ],
+        [
+          "esbuild",
+          [
+            [
+              "npm:0.12.18",
+              {
+                packageLocation:
+                  "./.yarn/unplugged/esbuild-npm-0.12.18-82e539688f/node_modules/esbuild/",
+                packageDependencies: [["esbuild", "npm:0.12.18"]],
                 linkType: "HARD",
               },
             ],
@@ -58638,6 +58691,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                     "@wojtekmaj/enzyme-adapter-react-17",
                     "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:0.3.2",
                   ],
+                  [
+                    "@yarnpkg/esbuild-plugin-pnp",
+                    "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:1.0.0",
+                  ],
                   ["EventEmitter", "npm:1.0.0"],
                   ["aws-amplify", "npm:3.3.11"],
                   [
@@ -58654,6 +58711,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                   ["deep-equal", "npm:2.0.5"],
                   ["dynamodb-empty", "npm:1.0.1"],
                   ["enzyme", "npm:3.11.0"],
+                  ["esbuild", "npm:0.12.18"],
                   ["eslint", "npm:7.14.0"],
                   [
                     "eslint-config-benwainwright",
@@ -58817,7 +58875,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
                     "use-deep-compare-effect",
                     "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:1.5.0",
                   ],
-                  ["uuid", "npm:8.3.1"],
+                  ["uuid", "npm:8.3.2"],
                   ["wait-on", "npm:5.2.0"],
                   ["web-vitals", "npm:0.2.4"],
                   [

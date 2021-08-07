@@ -8235,6 +8235,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@yarnpkg/esbuild-plugin-pnp@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@yarnpkg/esbuild-plugin-pnp@npm:1.0.0"
+  dependencies:
+    tslib: ^1.13.0
+  peerDependencies:
+    esbuild: ">=0.8.36"
+  bin:
+    esbuild-plugin-pnp: ./lib/cli.js
+  checksum: d3d9b0f366ba1f78c98b5d8943f880de8550626057c02ba9e0835ff0bc8dd3384230249720462cd75264129115c1d249c820590794d3c5fc70ff6eaeae466fa0
+  languageName: node
+  linkType: hard
+
 "EventEmitter@npm:^1.0.0":
   version: 1.0.0
   resolution: "EventEmitter@npm:1.0.0"
@@ -13974,6 +13987,15 @@ __metadata:
     es6-iterator: ^2.0.3
     es6-symbol: ^3.1.1
   checksum: 8dfd50b2919e16cf246ea9d5f9271eef466924248bc98a48a718cc149d0f67b708628c8e4bd32fa945a813c7780f94270f21ac16fff33c854a348db7e19f084d
+  languageName: node
+  linkType: hard
+
+"esbuild@npm:^0.12.18":
+  version: 0.12.18
+  resolution: "esbuild@npm:0.12.18"
+  bin:
+    esbuild: bin/esbuild
+  checksum: 70c73ecc04c1fe6b1b9caeda3636de6d6d9f201bc79488ee42fe3e13b887e09eeccd2e0177aba9070331be9c23690afb0a4724326b0416469053a276f8fa45e6
   languageName: node
   linkType: hard
 
@@ -27860,6 +27882,7 @@ resolve@1.18.1:
     "@types/webpack-dev-server": ^3.11.1
     "@typescript-eslint/eslint-plugin": latest
     "@wojtekmaj/enzyme-adapter-react-17": ^0.3.2
+    "@yarnpkg/esbuild-plugin-pnp": ^1.0.0
     EventEmitter: ^1.0.0
     aws-amplify: ^3.3.11
     aws-appsync: ^4.0.1
@@ -27873,6 +27896,7 @@ resolve@1.18.1:
     deep-equal: ^2.0.5
     dynamodb-empty: ^1.0.1
     enzyme: ^3.11.0
+    esbuild: ^0.12.18
     eslint: ^7.13.0
     eslint-config-benwainwright: "https://github.com/benwainwright/eslint-config-benwainwright"
     eslint-import-resolver-node: ^0.3.4
@@ -27943,7 +27967,7 @@ resolve@1.18.1:
     typescript: ^3.9.5
     use-debounce: ^5.1.0
     use-deep-compare-effect: ^1.4.0
-    uuid: ^8.3.1
+    uuid: ^8.3.2
     wait-on: ^5.2.0
     web-vitals: ^0.2.2
     webpack: ^5.10.0
@@ -28210,7 +28234,7 @@ resolve@1.18.1:
   languageName: node
   linkType: hard
 
-"tslib@npm:^1.10.0, tslib@npm:^1.11.1, tslib@npm:^1.8.0, tslib@npm:^1.8.1, tslib@npm:^1.9.0, tslib@npm:^1.9.3":
+"tslib@npm:^1.10.0, tslib@npm:^1.11.1, tslib@npm:^1.13.0, tslib@npm:^1.8.0, tslib@npm:^1.8.1, tslib@npm:^1.9.0, tslib@npm:^1.9.3":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: f44fe7f216946b17d3e3074df3746372703cf24e9127b4c045511456e8e4bf25515fb0a1bb3937676cc305651c5d4fcb6377b0588a4c6a957e748c4c28905d17
