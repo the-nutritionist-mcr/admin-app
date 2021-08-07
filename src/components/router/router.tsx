@@ -21,6 +21,10 @@ const LazyExclusions = React.lazy(
   async () => import("../../features/exclusions/Exclusions")
 );
 
+const LazyNewCustomer = React.lazy(
+  async () => import("../../features/customers/NewCustomerPage")
+);
+
 const Router: React.FC = () => (
   <React.Suspense
     fallback={
@@ -49,6 +53,9 @@ const Router: React.FC = () => (
       </AuthenticatedRoute>
       <AuthenticatedRoute path="/customisations" groups={["user", "admin"]}>
         <LazyExclusions />
+      </AuthenticatedRoute>
+      <AuthenticatedRoute path="/new-customer" groups={["user", "admin"]}>
+        <LazyNewCustomer />
       </AuthenticatedRoute>
     </Switch>
   </React.Suspense>
