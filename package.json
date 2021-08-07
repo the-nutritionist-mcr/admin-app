@@ -23,8 +23,11 @@
     "@aws-sdk/protocol-http": "^1.0.0-rc.8",
     "@aws-sdk/querystring-builder": "^1.0.0-rc.8",
     "@aws-sdk/url-parser-node": "^1.0.0-rc.8",
+    "@babel/core": "7.12.3",
     "@material-ui/core": "^4.11.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "@reduxjs/toolkit": "^1.4.0",
+    "@svgr/webpack": "5.5.0",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^10.2.1",
     "@testing-library/react-hooks": "^3.7.0",
@@ -49,6 +52,8 @@
     "@types/styled-components": "^5.1.4",
     "@types/testing-library__react-hooks": "^3.4.1",
     "@types/uuid": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.3.2",
     "@yarnpkg/esbuild-plugin-pnp": "^1.0.0",
     "EventEmitter": "^1.0.0",
@@ -59,25 +64,43 @@
     "aws-lambda": "^1.0.6",
     "aws-sdk": "^2.807.0",
     "aws-sdk-mock": "^5.1.0",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.6.0",
+    "babel-loader": "8.1.0",
+    "babel-plugin-named-asset-import": "^0.3.7",
+    "babel-preset-react-app": "^10.0.0",
+    "bfj": "^7.0.2",
+    "camelcase": "^6.1.0",
+    "case-sensitive-paths-webpack-plugin": "2.3.0",
     "copy-dynamodb-table": "^2.0.20",
+    "css-loader": "4.3.0",
     "deep-equal": "^2.0.5",
+    "dotenv": "8.2.0",
+    "dotenv-expand": "5.1.0",
     "dynamodb-empty": "^1.0.1",
     "enzyme": "^3.11.0",
     "esbuild": "^0.12.18",
-    "eslint": "^7.13.0",
+    "eslint": "^7.11.0",
     "eslint-config-benwainwright": "https://github.com/benwainwright/eslint-config-benwainwright",
+    "eslint-config-react-app": "^6.0.0",
     "eslint-import-resolver-node": "^0.3.4",
     "eslint-plugin-array-func": "^3.1.7",
     "eslint-plugin-filenames": "^1.3.2",
+    "eslint-plugin-flowtype": "^5.2.0",
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-sonarjs": "^0.5.0",
     "eslint-plugin-spellcheck": "^0.0.17",
+    "eslint-plugin-testing-library": "^3.9.2",
     "eslint-plugin-unicorn": "^23.0.0",
+    "eslint-webpack-plugin": "^2.5.2",
     "execa": "^5.0.0",
+    "file-loader": "6.1.1",
     "flux": "^3.1.3",
     "fontsource-roboto": "^3.0.3",
     "fs-extra": "^9.0.1",
@@ -87,9 +110,15 @@
     "grommet-controls": "^3.0.1",
     "grommet-icons": "^4.5.0",
     "history": "^5.0.0",
+    "html-webpack-plugin": "4.5.0",
     "husky": "^4.3.0",
+    "identity-obj-proxy": "3.0.0",
+    "jest": "26.6.0",
+    "jest-circus": "26.6.0",
     "jest-enzyme": "^7.1.2",
     "jest-mock-extended": "^1.0.10",
+    "jest-resolve": "26.6.0",
+    "jest-watch-typeahead": "0.6.1",
     "jest-when": "^3.0.1",
     "js-file-download": "^0.4.12",
     "jsonlint": "^1.6.3",
@@ -102,6 +131,7 @@
     "lodash.debounce": "^4.0.8",
     "lodash.template": "^4.5.0",
     "loglevel": "^1.7.1",
+    "mini-css-extract-plugin": "0.11.3",
     "mocha": "^8.2.1",
     "mochawesome": "^6.2.1",
     "mochawesome-merge": "^4.2.0",
@@ -109,38 +139,59 @@
     "mockdate": "^3.0.2",
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
+    "optimize-css-assets-webpack-plugin": "5.0.4",
     "pdfmake": "^0.1.68",
+    "pnp-webpack-plugin": "1.6.4",
     "polished": "^4.0.3",
+    "postcss-flexbugs-fixes": "4.2.1",
+    "postcss-loader": "3.0.0",
+    "postcss-normalize": "8.0.1",
+    "postcss-preset-env": "6.7.0",
+    "postcss-safe-parser": "5.0.2",
     "prettier": "^2.1.2",
+    "prompts": "2.4.0",
     "ramda": "^0.27.1",
     "react": "17.0.1",
+    "react-app-polyfill": "^2.0.0",
+    "react-dev-utils": "^11.0.3",
     "react-dom": "17.0.1",
     "react-error-boundary": "^3.1.0",
     "react-redux": "^7.2.2",
-    "react-refresh": "^0.9.0",
+    "react-refresh": "^0.8.3",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
     "react-test-renderer": "17.0.1",
     "redux": "^4.0.5",
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.3.0",
+    "resolve": "1.18.1",
+    "resolve-url-loader": "^3.1.2",
+    "sass-loader": "^10.0.5",
+    "semver": "7.3.2",
     "source-map-support": "^0.5.19",
     "start-server-and-test": "^1.11.5",
+    "style-loader": "1.3.0",
     "styled-components": "^5.2.1",
+    "terser-webpack-plugin": "4.2.3",
     "ts-jest": "^26.4.4",
     "ts-loader": "^8.0.11",
     "ts-node": "^9.1.0",
+    "ts-pnp": "1.2.0",
     "typescript": "^3.9.5",
+    "url-loader": "4.1.1",
     "use-debounce": "^5.1.0",
     "use-deep-compare-effect": "^1.4.0",
     "uuid": "^8.3.2",
     "wait-on": "^5.2.0",
     "web-vitals": "^0.2.2",
+    "webpack": "4.44.2",
+    "webpack-dev-server": "3.11.1",
+    "webpack-manifest-plugin": "2.2.0",
+    "workbox-webpack-plugin": "5.1.4",
     "yaml-lint": "^1.2.4"
   },
   "scripts": {
-    "start": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) react-scripts start",
-    "build:frontend": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) react-scripts build",
+    "start": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) node scripts/start.js",
+    "build:frontend": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) node scripts/build.js",
     "build:backend": "yarn node src/scripts/build-backend.js",
     "clear-tables": "ts-node src/scripts/do-clear-database.ts",
     "clone-prod-tables-to-dev": "ts-node src/scripts/clone-prod-db.ts",
@@ -148,12 +199,11 @@
     "deploy:backend": "yarn build:backend && DO_BACKEND=yes cdk deploy --require-approval never --all --outputs-file src/backend-outputs.json",
     "lint": "eslint .",
     "tsc:watch": "tsc --project ./app-config/tsconfig.incremental.json --watch",
-    "test:noisy": "react-scripts test --verbose",
-    "test": "react-scripts test --silent",
+    "test:noisy": "node scripts/test.js --verbose",
+    "test": "node scripts/test.js --silent",
     "start:and-wait": "yarn start & yarn wait-on http://localhost:3000",
     "test:cypress": "cypress run",
-    "test:ci": "CI=true react-scripts test --silent --coverage",
-    "eject": "react-scripts eject",
+    "test:ci": "CI=true node scripts/test.js --silent --coverage",
     "amplify:CustomGraphqlResolver": "tsc && mv ./dist/amplify/backend/function/CustomGraphqlResolver/ts ./amplify/backend/function/CustomGraphqlResolver/src",
     "build:models": "graphql-codegen --config codegen.yml"
   },
@@ -177,7 +227,7 @@
     "verbose": true,
     "tasks": {
       "*.{js,ts,jsx,tsx}": [
-        "react-scripts test --watchAll=false --findRelatedTests"
+        "node scripts/test.js --watchAll=false --findRelatedTests"
       ],
       "*.json": [
         "jsonlint"
@@ -185,9 +235,57 @@
     }
   },
   "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts"
+    ],
+    "setupFiles": [
+      "react-app-polyfill/jsdom"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.ts"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+    ],
+    "testEnvironment": "jsdom",
+    "testRunner": "/Users/benwainwright1/repos/tnm/node_modules/jest-circus/runner.js",
+    "transform": {
+      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
+      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+    },
     "transformIgnorePatterns": [
       "<rootDir>/node_modules/(?!grommet-controls)"
     ],
+    "modulePaths": [
+      "/Users/benwainwright1/repos/tnm/src"
+    ],
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web",
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+    },
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "web.ts",
+      "ts",
+      "web.tsx",
+      "tsx",
+      "json",
+      "web.jsx",
+      "jsx",
+      "node"
+    ],
+    "watchPlugins": [
+      "jest-watch-typeahead/filename",
+      "jest-watch-typeahead/testname"
+    ],
+    "resetMocks": true,
     "coveragePathIgnorePatterns": [
       "src/fixtures",
       "src/API.ts",
@@ -206,6 +304,8 @@
       "*.d.ts",
       "dist",
       "amplify/**",
+      "config",
+      "scripts",
       "src/API.ts",
       "template",
       "coverage",
@@ -251,5 +351,10 @@
     "@graphql-codegen/typescript": "1.19.0",
     "@typescript-eslint/eslint-plugin": "latest",
     "cypress": "latest"
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
   }
 }
