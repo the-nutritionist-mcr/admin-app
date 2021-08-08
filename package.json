@@ -262,7 +262,7 @@
       "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ],
     "testEnvironment": "jsdom",
-    "testRunner": "/Users/benwainwright1/repos/tnm/node_modules/jest-circus/runner.js",
+    "testRunner": "jest-circus/runner",
     "transform": {
       "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "esbuild-jest",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
