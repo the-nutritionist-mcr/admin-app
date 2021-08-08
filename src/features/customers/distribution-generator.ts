@@ -10,6 +10,15 @@ import {
 } from "./types";
 import deepEqual from "deep-equal";
 
+/*
+ * Distribute a target item across an arbitrary number of deliveries
+ * depending on the days of the week.
+ *
+ * Where there is an odd number of deliveries, the extra item
+ * will be added to the first delivery, except in the case of
+ * seven days a week, where it gets added to the second delivery
+ * (for the weekend)
+ */
 const distributeItems = (
   inputPlan: Delivery[],
   daysPerWeek: DaysPerWeek,
@@ -40,6 +49,10 @@ const distributeItems = (
   return distribution;
 };
 
+/**
+ * Multiply the quantities of a target item within a list of items
+ * based on a supplied multiple
+ */
 const multiplyItem = (
   items: Item[],
   multiple: number,
@@ -51,6 +64,10 @@ const multiplyItem = (
       : item
   );
 
+/**
+ * Multiply the quantities of a target item within a list of deliveries
+ * based on a supplied multiple
+ */
 const multiplyItems = (
   inputPlan: Delivery[],
   multiple: number,
@@ -62,6 +79,10 @@ const multiplyItems = (
     extras: multiplyItem(delivery.extras, multiple, targetItem),
   }));
 
+/**
+ * Generate the default delivery days based on global configuration
+ * before any quantities are added
+ */
 const makeDefaultDeliveryPlan = (
   plannerConfig: PlannerConfig,
   plan: PlanConfiguration
@@ -77,6 +98,9 @@ const makeDefaultDeliveryPlan = (
     })),
   }));
 
+/**
+ * Generate a default customer plan configuration
+ */
 const getDefaultConfig = (config: PlannerConfig): PlanConfiguration => ({
   daysPerWeek: 6,
   mealsPerDay: 2,
@@ -86,6 +110,9 @@ const getDefaultConfig = (config: PlannerConfig): PlanConfiguration => ({
   planType: config.planLabels[0],
 });
 
+/**
+ * Generate a new Delivery plan
+ */
 export const makeNewPlan = (
   defaultSettings: PlannerConfig,
   configuration?: Partial<PlanConfiguration>,
@@ -106,6 +133,10 @@ export const makeNewPlan = (
   };
 };
 
+/**
+ * Check a given customer plan to see whether they are on
+ * a custom delivery plan or not
+ */
 export const isCustomDeliveryPlan = (
   plan: CustomerPlan,
   defaultSettings: PlannerConfig
@@ -115,6 +146,10 @@ export const isCustomDeliveryPlan = (
     generateDistribution(plan.configuration, defaultSettings)
   );
 
+/**
+ * Generate the meal delivery distribution based on the plan
+ * configuration
+ */
 export const generateDistribution = (
   config: PlanConfiguration,
   defaultSettings: PlannerConfig

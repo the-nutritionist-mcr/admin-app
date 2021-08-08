@@ -407,7 +407,7 @@ describe("The plan panel", () => {
       expect(message).not.toBeInTheDocument();
     });
 
-    it("resets the deliveries table back to match the 'Custom Plan' when you click on it", () => {
+    it("resets the deliveries table back to match the 'Customer Plan' when you click on it", () => {
       render(
         <PlanPanel
           exclusions={[]}
