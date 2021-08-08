@@ -168,30 +168,26 @@ export const generateDistribution = (
   config: PlanConfiguration,
   defaultSettings: PlannerConfig
 ): Delivery[] => {
-  const distributeAcrossConfiguredDaysAndMultiply = distributeAndMultiply(
-    config.daysPerWeek
-  );
+  const hydrateQuantities = distributeAndMultiply(config.daysPerWeek);
 
-  const distributeAndMultiplyExtras = config.extrasChosen.reduce(
-    (accum, extra) =>
+  const hydrateExtras = config.extrasChosen.reduce(
+    (accumulatorFunction, extra) =>
       pipe<Delivery[], Delivery[], Delivery[]>(
-        accum,
-        distributeAcrossConfiguredDaysAndMultiply(
-          extra,
-          "extras",
-          config.totalPlans
-        )
+        accumulatorFunction,
+        hydrateQuantities(extra, "extras", config.totalPlans)
       ),
     (d: Delivery[]) => d
   );
 
-  return pipe<PlanConfiguration, Delivery[], Delivery[], Delivery[]>(
-    makeDefaultDeliveryPlan(defaultSettings),
-    distributeAcrossConfiguredDaysAndMultiply(
+  const defaultPlanFromConfig = makeDefaultDeliveryPlan(defaultSettings);
+
+  return pipe(
+    defaultPlanFromConfig,
+    hydrateQuantities(
       config.planType,
       "items",
       config.mealsPerDay * config.totalPlans
     ),
-    distributeAndMultiplyExtras
+    hydrateExtras
   )(config);
 };
