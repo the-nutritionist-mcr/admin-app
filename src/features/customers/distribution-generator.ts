@@ -179,9 +179,9 @@ export const generateDistribution = (
     ),
 
     config.extrasChosen.reduce(
-      (accumulatorFunction, extra) =>
-        pipe<Delivery[], Delivery[], Delivery[]>(
-          accumulatorFunction,
+      (func, extra) =>
+        pipe(
+          func,
           distributeAndMultiply(
             config.daysPerWeek,
             extra,
