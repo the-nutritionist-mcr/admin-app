@@ -116,7 +116,7 @@
     "fs-extra": "^10.0.0",
     "git-rev-sync": "^3.0.1",
     "graphql": "^15.4.0",
-    "grommet": "^2.17.4",
+    "grommet": "2.17.2",
     "grommet-controls": "^3.0.1",
     "grommet-icons": "^4.5.0",
     "history": "^5.0.0",
