@@ -57,9 +57,8 @@ const executeAction = <T>(
 };
 
 export const clearPlanner = createAction("clearPlanner");
-export const adjustCustomerSelection = createAction<CustomerSelectionAdjustPayload>(
-  "adjustCustomerSelection"
-);
+export const adjustCustomerSelection =
+  createAction<CustomerSelectionAdjustPayload>("adjustCustomerSelection");
 export const selectMeal = createAction<RecipeSelectPayload>("selectMeal");
 export const selectDay = createAction<DeliveryDay>("selectDay");
 export const generateCustomerMeals = createAction("generateCustomerMeals");

@@ -44,7 +44,7 @@ describe("List exclusions", () => {
     when(mocked(database.getAll, true))
       .calledWith("exclusions-table")
       .mockResolvedValue(
-        (mockExclusions as unknown) as Record<string, unknown>[]
+        mockExclusions as unknown as Record<string, unknown>[]
       );
 
     const results = await exclusions.listExclusions();

@@ -25,7 +25,7 @@ describe("fetchCustomers", () => {
 
     const dispatch = jest.fn();
 
-    await thunk(dispatch, jest.fn(), (jest.fn() as unknown) as void);
+    await thunk(dispatch, jest.fn(), jest.fn() as unknown as void);
 
     expect(dispatch).toHaveBeenCalledWith(
       fetchCustomers.fulfilled(["foo", "bar"])

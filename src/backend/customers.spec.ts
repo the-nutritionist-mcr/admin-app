@@ -123,7 +123,7 @@ describe("listCustomers", () => {
     expect(result).toHaveLength(3);
     expect(result[1].exclusions).toHaveLength(0);
     expect(
-      ((result as unknown) as Record<string, unknown>)["exclusionIds"]
+      (result as unknown as Record<string, unknown>)["exclusionIds"]
     ).not.toBeDefined();
   });
 
@@ -250,13 +250,13 @@ describe("listCustomers", () => {
         expect.arrayContaining(["8", "10", "15", "21"])
       )
       .mockResolvedValue(
-        (customerExclusions as unknown) as Record<string, unknown>[]
+        customerExclusions as unknown as Record<string, unknown>[]
       );
 
     when(mocked(database.getAllByIds, true))
       .calledWith("exclusions-table", expect.arrayContaining(["1", "3", "4"]))
       .mockResolvedValue(
-        (mockExclusions as unknown) as Record<string, unknown>[]
+        mockExclusions as unknown as Record<string, unknown>[]
       );
 
     const result = await customers.listCustomers();
@@ -315,7 +315,7 @@ describe("Createcustomer", () => {
     when(mocked(database.getAllByIds, true))
       .calledWith("exclusions-table", expect.arrayContaining(["4", "3"]))
       .mockResolvedValue(
-        (mockExclusions as unknown) as Record<string, unknown>[]
+        mockExclusions as unknown as Record<string, unknown>[]
       );
 
     const returnedCustomer = await customers.createCustomer(customer);
@@ -431,7 +431,7 @@ describe("Createcustomer", () => {
     process.env.CUSTOMER_EXCLUSIONS_TABLE = "foo";
     await expect(
       customers.createCustomer(
-        ({} as unknown) as CreateCustomerMutationVariables["input"]
+        {} as unknown as CreateCustomerMutationVariables["input"]
       )
     ).rejects.toThrow(new Error("process.env.CUSTOMERS_TABLE not set"));
   });
@@ -441,7 +441,7 @@ describe("Createcustomer", () => {
     process.env.CUSTOMERS_TABLE = "foo";
     await expect(
       customers.createCustomer(
-        ({} as unknown) as CreateCustomerMutationVariables["input"]
+        {} as unknown as CreateCustomerMutationVariables["input"]
       )
     ).rejects.toThrow(
       new Error("process.env.CUSTOMER_EXCLUSIONS_TABLE not set")
@@ -453,7 +453,7 @@ describe("Createcustomer", () => {
     process.env.CUSTOMERS_TABLE = "foo";
     await expect(
       customers.createCustomer(
-        ({} as unknown) as CreateCustomerMutationVariables["input"]
+        {} as unknown as CreateCustomerMutationVariables["input"]
       )
     ).rejects.toThrow(new Error("process.env.EXCLUSIONS_TABLE not set"));
   });
@@ -503,13 +503,13 @@ describe("Update customer", () => {
         expect.arrayContaining(["0"])
       )
       .mockResolvedValue(
-        (customerExclusions as unknown) as Record<string, unknown>[]
+        customerExclusions as unknown as Record<string, unknown>[]
       );
 
     when(mocked(database.getAllByIds, true))
       .calledWith("exclusions-table", expect.arrayContaining(["2", "3"]))
       .mockResolvedValue(
-        (mockExclusions as unknown) as Record<string, unknown>[]
+        mockExclusions as unknown as Record<string, unknown>[]
       );
 
     const input: UpdateCustomerMutationVariables["input"] = {
@@ -538,7 +538,7 @@ describe("Update customer", () => {
       expect(customer.address).toEqual("");
       expect(customer.telephone).toEqual("999");
       expect(
-        ((customer as unknown) as UpdateCustomerMutationVariables["input"])
+        (customer as unknown as UpdateCustomerMutationVariables["input"])
           .exclusionIds
       ).toBeUndefined();
       expect(customer.exclusions).toHaveLength(2);
@@ -576,7 +576,7 @@ describe("Update customer", () => {
         expect.arrayContaining(["0"])
       )
       .mockResolvedValue(
-        (customerExclusions as unknown) as Record<string, unknown>[]
+        customerExclusions as unknown as Record<string, unknown>[]
       );
 
     const input: UpdateCustomerMutationVariables["input"] = {
@@ -650,7 +650,7 @@ describe("Update customer", () => {
         expect.arrayContaining(["0"])
       )
       .mockResolvedValue(
-        (customerExclusions as unknown) as Record<string, unknown>[]
+        customerExclusions as unknown as Record<string, unknown>[]
       );
 
     const input: UpdateCustomerMutationVariables["input"] = {
@@ -729,7 +729,7 @@ describe("Update customer", () => {
         expect.arrayContaining(["0"])
       )
       .mockResolvedValue(
-        (customerExclusions as unknown) as Record<string, unknown>[]
+        customerExclusions as unknown as Record<string, unknown>[]
       );
 
     const input: UpdateCustomerMutationVariables["input"] = {
@@ -803,7 +803,7 @@ describe("Delete customer", () => {
     process.env.CUSTOMER_EXCLUSIONS_TABLE = "foo";
     await expect(
       customers.deleteCustomer(
-        ({} as unknown) as DeleteCustomerMutationVariables["input"]
+        {} as unknown as DeleteCustomerMutationVariables["input"]
       )
     ).rejects.toThrow(new Error("process.env.CUSTOMERS_TABLE not set"));
   });
@@ -812,7 +812,7 @@ describe("Delete customer", () => {
     process.env.CUSTOMERS_TABLE = "foo";
     await expect(
       customers.deleteCustomer(
-        ({} as unknown) as DeleteCustomerMutationVariables["input"]
+        {} as unknown as DeleteCustomerMutationVariables["input"]
       )
     ).rejects.toThrow(
       new Error("process.env.CUSTOMER_EXCLUSIONS_TABLE not set")

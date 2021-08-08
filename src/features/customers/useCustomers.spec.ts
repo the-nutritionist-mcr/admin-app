@@ -24,11 +24,11 @@ describe("useCustomers", () => {
   it("Should immediately dispatch fetchCustomers and fetchExclusions if there aren't any loaded", async () => {
     const mockDispatch = jest.fn();
     mocked(fetchCustomers, true).mockReturnValue(
-      ("customer-action" as unknown) as ReturnType<typeof fetchCustomers>
+      "customer-action" as unknown as ReturnType<typeof fetchCustomers>
     );
 
     mocked(fetchExclusions, true).mockReturnValue(
-      ("exclusion-action" as unknown) as ReturnType<typeof fetchExclusions>
+      "exclusion-action" as unknown as ReturnType<typeof fetchExclusions>
     );
     mocked(useDispatch, true).mockReturnValue(mockDispatch);
     when(mocked(useSelector, true))
@@ -49,7 +49,7 @@ describe("useCustomers", () => {
   it("Should not load customers if some are already loaded in the redux store", async () => {
     const mockDispatch = jest.fn();
     mocked(fetchCustomers, true).mockReturnValue(
-      ("customer-action" as unknown) as ReturnType<typeof fetchCustomers>
+      "customer-action" as unknown as ReturnType<typeof fetchCustomers>
     );
     mocked(useDispatch, true).mockReturnValue(mockDispatch);
     when(mocked(useSelector, true))

@@ -95,7 +95,7 @@ export const chooseMeals = (
 
     const meals = createNSizedUndefinedArray(mealsPerDelivery)
       .map(() => selection.shift())
-      .filter((Boolean as unknown) as ExcludesUndefined);
+      .filter(Boolean as unknown as ExcludesUndefined);
 
     return {
       customer,

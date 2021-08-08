@@ -9,6 +9,7 @@ import {
   PlanConfiguration,
 } from "./types";
 import deepEqual from "deep-equal";
+import { curry, pipe } from "ramda";
 
 /*
  * Distribute a target item across an arbitrary number of deliveries
@@ -19,84 +20,99 @@ import deepEqual from "deep-equal";
  * seven days a week, where it gets added to the second delivery
  * (for the weekend)
  */
-const distributeItems = (
-  inputPlan: Delivery[],
-  daysPerWeek: DaysPerWeek,
-  targetItem: string,
-  section: Exclude<keyof Delivery, "deliveryDay">
-): Delivery[] => {
-  const distribution = [...new Array(daysPerWeek === 7 ? 6 : daysPerWeek)]
-    .map(() => targetItem)
-    .reduce<Delivery[]>((deliveries, item, index) => {
-      const found = deliveries[index % 2][section].find(
-        (foundItem) => foundItem.name === item
+const distributeItems = curry(
+  (
+    daysPerWeek: DaysPerWeek,
+    targetItem: string,
+    section: Exclude<keyof Delivery, "deliveryDay">,
+    inputPlan: Delivery[]
+  ): Delivery[] => {
+    const distribution = [
+      ...new Array(
+        daysPerWeek === DAYS_IN_WEEK ? daysPerWeek - 1 : daysPerWeek
+      ),
+    ]
+      .map(() => targetItem)
+      .reduce<Delivery[]>((deliveries, item, index) => {
+        const found = deliveries[index % 2][section].find(
+          (foundItem) => foundItem.name === item
+        );
+        if (found) {
+          found.quantity++;
+        }
+        return deliveries;
+      }, inputPlan);
+
+    if (daysPerWeek === DAYS_IN_WEEK) {
+      const found = distribution[1][section].find(
+        (foundItem) => foundItem.name === targetItem
       );
       if (found) {
         found.quantity++;
       }
-      return deliveries;
-    }, inputPlan);
-
-  if (daysPerWeek === DAYS_IN_WEEK) {
-    const found = distribution[1][section].find(
-      (foundItem) => foundItem.name === targetItem
-    );
-    if (found) {
-      found.quantity++;
     }
-  }
 
-  return distribution;
-};
+    return distribution;
+  }
+);
+
+const distributeAndMultiply = curry(
+  (
+    daysPerWeek: DaysPerWeek,
+    target: string,
+    section: Exclude<keyof Delivery, "deliveryDay">,
+    multiple: number,
+    inputPlan: Delivery[]
+  ) =>
+    pipe<Delivery[], Delivery[], Delivery[]>(
+      distributeItems(daysPerWeek, target, section),
+      multiplyItems(target, multiple)
+    )(inputPlan)
+);
 
 /**
  * Multiply the quantities of a target item within a list of items
  * based on a supplied multiple
  */
-const multiplyItem = (
-  items: Item[],
-  multiple: number,
-  targetItem: string
-): Item[] =>
-  items.map((item) =>
-    item.name === targetItem
-      ? { ...item, quantity: item.quantity * multiple }
-      : item
-  );
+const multiplyItem = curry(
+  (items: Item[], multiple: number, targetItem: string): Item[] =>
+    items.map((item) =>
+      item.name === targetItem
+        ? { ...item, quantity: item.quantity * multiple }
+        : item
+    )
+);
 
 /**
  * Multiply the quantities of a target item within a list of deliveries
  * based on a supplied multiple
  */
-const multiplyItems = (
-  inputPlan: Delivery[],
-  multiple: number,
-  targetItem: string
-): Delivery[] =>
-  inputPlan.map((delivery) => ({
-    ...delivery,
-    items: multiplyItem(delivery.items, multiple, targetItem),
-    extras: multiplyItem(delivery.extras, multiple, targetItem),
-  }));
+const multiplyItems = curry(
+  (targetItem: string, multiple: number, inputPlan: Delivery[]): Delivery[] =>
+    inputPlan.map((delivery) => ({
+      ...delivery,
+      items: multiplyItem(delivery.items, multiple, targetItem),
+      extras: multiplyItem(delivery.extras, multiple, targetItem),
+    }))
+);
 
 /**
  * Generate the default delivery days based on global configuration
  * before any quantities are added
  */
-const makeDefaultDeliveryPlan = (
-  plannerConfig: PlannerConfig,
-  plan: PlanConfiguration
-): Delivery[] =>
-  plan.deliveryDays.map(() => ({
-    items: plannerConfig.planLabels.map((label) => ({
-      name: label,
-      quantity: 0,
-    })),
-    extras: plannerConfig.extrasLabels.map((label) => ({
-      name: label,
-      quantity: 0,
-    })),
-  }));
+const makeDefaultDeliveryPlan = curry(
+  (plannerConfig: PlannerConfig, plan: PlanConfiguration): Delivery[] =>
+    plan.deliveryDays.map(() => ({
+      items: plannerConfig.planLabels.map((label) => ({
+        name: label,
+        quantity: 0,
+      })),
+      extras: plannerConfig.extrasLabels.map((label) => ({
+        name: label,
+        quantity: 0,
+      })),
+    }))
+);
 
 /**
  * Generate a default customer plan configuration
@@ -119,10 +135,8 @@ export const makeNewPlan = (
   currentPlan?: CustomerPlan,
   customDeliveryplan?: Delivery[]
 ): CustomerPlan => {
-  const defaultConfig = getDefaultConfig(defaultSettings);
-
   const newConfig: PlanConfiguration = {
-    ...defaultConfig,
+    ...getDefaultConfig(defaultSettings),
     ...(currentPlan?.configuration ?? {}),
     ...configuration,
   };
@@ -154,27 +168,30 @@ export const generateDistribution = (
   config: PlanConfiguration,
   defaultSettings: PlannerConfig
 ): Delivery[] => {
-  const defaultPlan = makeDefaultDeliveryPlan(defaultSettings, config);
-  const distribution = distributeItems(
-    defaultPlan,
-    config.daysPerWeek,
-    config.planType,
-    "items"
+  const distributeAcrossConfiguredDaysAndMultiply = distributeAndMultiply(
+    config.daysPerWeek
   );
 
-  const afterMultiply = multiplyItems(
-    distribution,
-    config.mealsPerDay * config.totalPlans,
-    config.planType
-  );
-
-  return config.extrasChosen.reduce<Delivery[]>(
-    (currentPlan, extra) =>
-      multiplyItems(
-        distributeItems(currentPlan, config.daysPerWeek, extra, "extras"),
-        config.totalPlans,
-        extra
+  const distributeAndMultiplyExtras = config.extrasChosen.reduce(
+    (accum, extra) =>
+      pipe<Delivery[], Delivery[], Delivery[]>(
+        accum,
+        distributeAcrossConfiguredDaysAndMultiply(
+          extra,
+          "extras",
+          config.totalPlans
+        )
       ),
-    afterMultiply
+    (d: Delivery[]) => d
   );
+
+  return pipe<PlanConfiguration, Delivery[], Delivery[], Delivery[]>(
+    makeDefaultDeliveryPlan(defaultSettings),
+    distributeAcrossConfiguredDaysAndMultiply(
+      config.planType,
+      "items",
+      config.mealsPerDay * config.totalPlans
+    ),
+    distributeAndMultiplyExtras
+  )(config);
 };

@@ -89,7 +89,7 @@ describe("listRecipes", () => {
     expect(result).toHaveLength(3);
     expect(result[1].potentialExclusions).toHaveLength(0);
     expect(
-      ((result as unknown) as Record<string, unknown>)["exclusionIds"]
+      (result as unknown as Record<string, unknown>)["exclusionIds"]
     ).not.toBeDefined();
   });
 
@@ -181,13 +181,13 @@ describe("listRecipes", () => {
         expect.arrayContaining(["8", "10", "15", "21"])
       )
       .mockResolvedValue(
-        (recipeExclusions as unknown) as Record<string, unknown>[]
+        recipeExclusions as unknown as Record<string, unknown>[]
       );
 
     when(mocked(database.getAllByIds, true))
       .calledWith("exclusions-table", expect.arrayContaining(["1", "3", "4"]))
       .mockResolvedValue(
-        (mockExclusions as unknown) as Record<string, unknown>[]
+        mockExclusions as unknown as Record<string, unknown>[]
       );
 
     const result = await recipes.listRecipes();
@@ -233,7 +233,7 @@ describe("Createrecipe", () => {
     when(mocked(database.getAllByIds, true))
       .calledWith("exclusions-table", expect.arrayContaining(["4", "3"]))
       .mockResolvedValue(
-        (mockExclusions as unknown) as Record<string, unknown>[]
+        mockExclusions as unknown as Record<string, unknown>[]
       );
 
     const returnedRecipe = await recipes.createRecipe(recipe);
@@ -314,7 +314,7 @@ describe("Createrecipe", () => {
     process.env.RECIPE_EXCLUSIONS_TABLE = "foo";
     await expect(
       recipes.createRecipe(
-        ({} as unknown) as CreateRecipeMutationVariables["input"]
+        {} as unknown as CreateRecipeMutationVariables["input"]
       )
     ).rejects.toThrow(new Error("process.env.RECIPES_TABLE not set"));
   });
@@ -324,7 +324,7 @@ describe("Createrecipe", () => {
     process.env.RECIPES_TABLE = "foo";
     await expect(
       recipes.createRecipe(
-        ({} as unknown) as CreateRecipeMutationVariables["input"]
+        {} as unknown as CreateRecipeMutationVariables["input"]
       )
     ).rejects.toThrow(new Error("process.env.RECIPE_EXCLUSIONS_TABLE not set"));
   });
@@ -334,7 +334,7 @@ describe("Createrecipe", () => {
     process.env.RECIPES_TABLE = "foo";
     await expect(
       recipes.createRecipe(
-        ({} as unknown) as CreateRecipeMutationVariables["input"]
+        {} as unknown as CreateRecipeMutationVariables["input"]
       )
     ).rejects.toThrow(new Error("process.env.EXCLUSIONS_TABLE not set"));
   });
@@ -384,13 +384,13 @@ describe("Update recipe", () => {
         expect.arrayContaining(["0"])
       )
       .mockResolvedValue(
-        (recipeExclusions as unknown) as Record<string, unknown>[]
+        recipeExclusions as unknown as Record<string, unknown>[]
       );
 
     when(mocked(database.getAllByIds, true))
       .calledWith("exclusions-table", expect.arrayContaining(["2", "3"]))
       .mockResolvedValue(
-        (mockExclusions as unknown) as Record<string, unknown>[]
+        mockExclusions as unknown as Record<string, unknown>[]
       );
 
     const input: UpdateRecipeMutationVariables["input"] = {
@@ -406,7 +406,7 @@ describe("Update recipe", () => {
     if (recipe) {
       expect(recipe.name).toEqual("foo-bar");
       expect(
-        ((recipe as unknown) as UpdateRecipeMutationVariables["input"])
+        (recipe as unknown as UpdateRecipeMutationVariables["input"])
           .exclusionIds
       ).toBeUndefined();
       expect(recipe.potentialExclusions).toHaveLength(2);
@@ -444,7 +444,7 @@ describe("Update recipe", () => {
         expect.arrayContaining(["0"])
       )
       .mockResolvedValue(
-        (recipeExclusions as unknown) as Record<string, unknown>[]
+        recipeExclusions as unknown as Record<string, unknown>[]
       );
 
     const input: UpdateRecipeMutationVariables["input"] = {
@@ -506,7 +506,7 @@ describe("Update recipe", () => {
         expect.arrayContaining(["0"])
       )
       .mockResolvedValue(
-        (recipeExclusions as unknown) as Record<string, unknown>[]
+        recipeExclusions as unknown as Record<string, unknown>[]
       );
 
     const input: UpdateRecipeMutationVariables["input"] = {
@@ -574,7 +574,7 @@ describe("Update recipe", () => {
         expect.arrayContaining(["0"])
       )
       .mockResolvedValue(
-        (recipeExclusions as unknown) as Record<string, unknown>[]
+        recipeExclusions as unknown as Record<string, unknown>[]
       );
 
     const input: UpdateRecipeMutationVariables["input"] = {
@@ -624,7 +624,7 @@ describe("Delete recipe", () => {
     process.env.RECIPE_EXCLUSIONS_TABLE = "foo";
     await expect(
       recipes.deleteRecipe(
-        ({} as unknown) as DeleteRecipeMutationVariables["input"]
+        {} as unknown as DeleteRecipeMutationVariables["input"]
       )
     ).rejects.toThrow(new Error("process.env.RECIPES_TABLE not set"));
   });
@@ -633,7 +633,7 @@ describe("Delete recipe", () => {
     process.env.RECIPES_TABLE = "foo";
     await expect(
       recipes.deleteRecipe(
-        ({} as unknown) as DeleteRecipeMutationVariables["input"]
+        {} as unknown as DeleteRecipeMutationVariables["input"]
       )
     ).rejects.toThrow(new Error("process.env.RECIPE_EXCLUSIONS_TABLE not set"));
   });

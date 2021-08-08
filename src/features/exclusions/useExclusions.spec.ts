@@ -24,7 +24,7 @@ describe("useExclusions", () => {
     const mockDispatch = jest.fn();
 
     mocked(fetchExclusions, true).mockReturnValue(
-      ("exclusions-action" as unknown) as ReturnType<typeof fetchExclusions>
+      "exclusions-action" as unknown as ReturnType<typeof fetchExclusions>
     );
     mocked(useDispatch, true).mockReturnValue(mockDispatch);
     when(mocked(useSelector, true))
@@ -41,7 +41,7 @@ describe("useExclusions", () => {
   it("Should not load exclusions if some are already loaded in the redux store", async () => {
     const mockDispatch = jest.fn();
     mocked(fetchExclusions, true).mockReturnValue(
-      ("exclusions-action" as unknown) as ReturnType<typeof fetchExclusions>
+      "exclusions-action" as unknown as ReturnType<typeof fetchExclusions>
     );
     mocked(useDispatch, true).mockReturnValue(mockDispatch);
     when(mocked(useSelector, true))

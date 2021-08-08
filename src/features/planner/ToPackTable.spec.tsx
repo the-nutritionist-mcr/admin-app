@@ -37,12 +37,9 @@ describe("The pack table", () => {
     customerFour.id = "3";
     customerFour.surname = "Barnes";
 
-    const meals = [
-      customerOne,
-      customerTwo,
-      customerThree,
-      customerFour,
-    ].map((customer) => ({ customer, meals: [] }));
+    const meals = [customerOne, customerTwo, customerThree, customerFour].map(
+      (customer) => ({ customer, meals: [] })
+    );
 
     const delivery: DeliveryMealsSelection = [];
 

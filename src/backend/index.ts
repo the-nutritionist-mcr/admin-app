@@ -50,59 +50,57 @@ type Result =
   | ExtractPromiseType<ReturnType<typeof updateRecipe>>;
 
 /* eslint-disable import/prefer-default-export */
-export const handler: AppSyncResolverHandler<
-  AllQueryVariables,
-  Result
-> = async (event) => {
-  if (isListCustomersQuery(event)) {
-    return await listCustomers();
-  }
+export const handler: AppSyncResolverHandler<AllQueryVariables, Result> =
+  async (event) => {
+    if (isListCustomersQuery(event)) {
+      return await listCustomers();
+    }
 
-  if (isCreateCustomersQuery(event)) {
-    return await createCustomer(event.arguments.input);
-  }
+    if (isCreateCustomersQuery(event)) {
+      return await createCustomer(event.arguments.input);
+    }
 
-  if (isDeleteCustomerMutation(event)) {
-    return await deleteCustomer(event.arguments.input);
-  }
+    if (isDeleteCustomerMutation(event)) {
+      return await deleteCustomer(event.arguments.input);
+    }
 
-  if (isUpdateCustomerMutation(event)) {
-    return await updateCustomer(event.arguments.input);
-  }
+    if (isUpdateCustomerMutation(event)) {
+      return await updateCustomer(event.arguments.input);
+    }
 
-  if (isListExclusionsQuery(event)) {
-    return await listExclusions();
-  }
+    if (isListExclusionsQuery(event)) {
+      return await listExclusions();
+    }
 
-  if (isCreateExclusionMutation(event)) {
-    return await createExclusion(event.arguments.input);
-  }
+    if (isCreateExclusionMutation(event)) {
+      return await createExclusion(event.arguments.input);
+    }
 
-  if (isUpdateExclusionMutation(event)) {
-    return await updateExclusion(event.arguments.input);
-  }
+    if (isUpdateExclusionMutation(event)) {
+      return await updateExclusion(event.arguments.input);
+    }
 
-  if (isDeleteExclusionMutation(event)) {
-    return await deleteExclusion(event.arguments.input);
-  }
+    if (isDeleteExclusionMutation(event)) {
+      return await deleteExclusion(event.arguments.input);
+    }
 
-  if (isCreateRecipesQuery(event)) {
-    return await createRecipe(event.arguments.input);
-  }
+    if (isCreateRecipesQuery(event)) {
+      return await createRecipe(event.arguments.input);
+    }
 
-  if (isListRecipesQuery(event)) {
-    return await listRecipes();
-  }
+    if (isListRecipesQuery(event)) {
+      return await listRecipes();
+    }
 
-  if (isUpdateRecipeMutation(event)) {
-    return await updateRecipe(event.arguments.input);
-  }
+    if (isUpdateRecipeMutation(event)) {
+      return await updateRecipe(event.arguments.input);
+    }
 
-  if (isDeleteRecipeMutation(event)) {
-    return await deleteRecipe(event.arguments.input);
-  }
+    if (isDeleteRecipeMutation(event)) {
+      return await deleteRecipe(event.arguments.input);
+    }
 
-  throw new Error(`Resolver cannot handle '${event.info.fieldName}'`);
-};
+    throw new Error(`Resolver cannot handle '${event.info.fieldName}'`);
+  };
 
 /* eslint-enable import/prefer-default-export */

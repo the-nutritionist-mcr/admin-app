@@ -45,7 +45,7 @@ const ToPackTable: React.FC<ToPackTableProps> = (props) => {
   type ExcludesUndefined = <T>(x: T | undefined) => x is T;
 
   const deliveryMeals = planned
-    .filter((Boolean as unknown) as ExcludesUndefined)
+    .filter(Boolean as unknown as ExcludesUndefined)
     .reduce<Recipe[]>((meals, meal) => {
       if (!meals.find((mealNeedle) => mealNeedle.name === meal.name)) {
         meals.push(meal);

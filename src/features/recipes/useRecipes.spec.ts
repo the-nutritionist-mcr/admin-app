@@ -24,11 +24,11 @@ describe("useRecipes", () => {
   it("Should immediately dispatch fetchRecipes and fetchExclusions if there aren't any loaded", async () => {
     const mockDispatch = jest.fn();
     mocked(fetchRecipes, true).mockReturnValue(
-      ("recipe-action" as unknown) as ReturnType<typeof fetchRecipes>
+      "recipe-action" as unknown as ReturnType<typeof fetchRecipes>
     );
 
     mocked(fetchExclusions, true).mockReturnValue(
-      ("exclusions-action" as unknown) as ReturnType<typeof fetchExclusions>
+      "exclusions-action" as unknown as ReturnType<typeof fetchExclusions>
     );
     mocked(useDispatch, true).mockReturnValue(mockDispatch);
     when(mocked(useSelector, true))
@@ -49,7 +49,7 @@ describe("useRecipes", () => {
   it("Should not load recipes if some are already loaded in the redux store", async () => {
     const mockDispatch = jest.fn();
     mocked(fetchRecipes, true).mockReturnValue(
-      ("recipe-action" as unknown) as ReturnType<typeof fetchRecipes>
+      "recipe-action" as unknown as ReturnType<typeof fetchRecipes>
     );
     mocked(useDispatch, true).mockReturnValue(mockDispatch);
     when(mocked(useSelector, true))

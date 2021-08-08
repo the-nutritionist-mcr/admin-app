@@ -7,13 +7,8 @@ const createLabelData = (
 ): Record<string, ValueType>[] => {
   const data = customerSelection.map((selection) => {
     /* eslint-disable @typescript-eslint/no-unused-vars */
-    const {
-      id,
-      exclusions,
-      createdAt,
-      updatedAt,
-      ...customer
-    } = selection.customer;
+    const { id, exclusions, createdAt, updatedAt, ...customer } =
+      selection.customer;
 
     const meals = selection.meals.map(
       // eslint-disable-next-line @typescript-eslint/no-shadow
