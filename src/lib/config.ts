@@ -16,7 +16,7 @@ export const planLabels: string[] = [
 
 export const defaultDeliveryDays = ["Monday", "Thursday"];
 
-export const extras: string[] = ["Breakfast", "Snack", "Large Snack"];
+export const extrasLabels: string[] = ["Breakfast", "Snack", "Large Snack"];
 
 export const plans: Plan[] = [
   {

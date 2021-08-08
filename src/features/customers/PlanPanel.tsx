@@ -1,100 +1,72 @@
 import React, { FC } from "react";
-import { Box, FormField, Select, Heading } from "grommet";
-import { planLabels, extras, defaultDeliveryDays } from "../../lib/config";
+import {
+  Box,
+  FormField,
+  Select,
+  Heading,
+  CheckBoxGroup,
+  Header,
+  Button,
+  Paragraph,
+} from "grommet";
 import PlanTable from "./PlanTable";
-import styled from "styled-components";
+import { generateDistribution } from "./distribution-generator";
+import { PlannerConfig, CustomerPlan } from "./types";
 
-const ListItem = styled.li`
-  margin: 1rem 0;
-`;
-
-const TAB_WIDTH = 2;
-
-export interface CustomerPlan {
-  deliveries: Delivery[];
+interface PlanPanelProps {
+  plannerConfig: PlannerConfig;
 }
 
-export interface Item {
-  name: string;
-  quantity: number;
-}
-
-export interface Delivery {
-  deliveryDay: string;
-  items: Item[];
-}
-
-/* eslint-disable @typescript-eslint/no-magic-numbers */
-const generatePlan = (
-  daysPerWeek: number,
-  mealsPerDay: number,
-  totalPlans: number,
-  mealSize: string
-): CustomerPlan => {
-  const defaultPlan: CustomerPlan = {
-    deliveries: defaultDeliveryDays.map((day) => ({
-      deliveryDay: day,
-      items: [
-        ...planLabels.map((label) => ({ name: label, quantity: 0 })),
-        ...extras.map((extra) => ({ name: extra, quantity: 0 })),
-      ],
-    })),
-  };
-
-  return [...new Array(daysPerWeek)]
-    .map(() => mealSize)
-    .reduce<CustomerPlan>((accum, item, index) => {
-      const found = accum.deliveries[index % 2].items.find(
-        (foundItem) => foundItem.name === item
-      );
-      const perDay = mealsPerDay * totalPlans;
-      if (found) {
-        found.quantity += perDay;
-      }
-      return accum;
-    }, defaultPlan);
-};
-
-/* eslint-enable @typescript-eslint/no-magic-numbers */
-
-const PlanPanel: FC = () => {
+const PlanPanel: FC<PlanPanelProps> = (props) => {
   const [customPlan, setCustomPlan] = React.useState<
     CustomerPlan | undefined
   >();
   const [daysPerWeek, setDaysPerWeek] = React.useState(1);
   const [mealsPerDay, setMealsPerDay] = React.useState(1);
   const [totalPlans, setTotalPlans] = React.useState(1);
-  const [mealSize, setMealSize] = React.useState(planLabels[0]);
+  const [extrasChosen, setExtrasChosen] = React.useState<string[]>([]);
+  const [mealSize, setMealSize] = React.useState(
+    props.plannerConfig.planLabels[0]
+  );
 
-  const defaultPlan = generatePlan(
+  const defaultPlan = generateDistribution(
     daysPerWeek,
     mealsPerDay,
     totalPlans,
-    mealSize
+    mealSize,
+    extrasChosen,
+    props.plannerConfig
   );
 
-  // eslint-disable-next-line no-console
-  console.log(JSON.stringify(defaultPlan, null, TAB_WIDTH));
   return (
-    <>
+    <Box direction="column" gap="small">
+      <Header justify="start" gap="small">
+        <Heading level={3}>Customer Plan</Heading>
+        {customPlan ? (
+          <Button
+            label="Clear Custom Plan"
+            onClick={() => setCustomPlan(undefined)}
+          />
+        ) : null}
+      </Header>
       <Box direction="row" gap="large">
         <FormField label="Days per week">
           <Select
             options={["1", "2", "3", "4", "5", "6", "7"]}
             value={String(daysPerWeek)}
+            disabled={Boolean(customPlan)}
             onChange={(event) => {
               setDaysPerWeek(Number.parseInt(event.value, 10));
-              setCustomPlan(undefined);
             }}
           />
         </FormField>
         <FormField label="Meals per day">
           <Select
+            disabled={Boolean(customPlan)}
             options={["1", "2", "3", "4"]}
             value={String(mealsPerDay)}
             onChange={(event) => {
               setMealsPerDay(Number.parseInt(event.value, 10));
-              setCustomPlan(undefined);
             }}
           />
         </FormField>
@@ -102,49 +74,65 @@ const PlanPanel: FC = () => {
           <Select
             options={["1", "2", "3", "4"]}
             value={String(totalPlans)}
+            disabled={Boolean(customPlan)}
             onChange={(event) => {
               setTotalPlans(Number.parseInt(event.value, 10));
-              setCustomPlan(undefined);
             }}
           />
         </FormField>
 
         <FormField label="Plan Variant">
           <Select
-            options={planLabels}
+            options={props.plannerConfig.planLabels}
             value={String(mealSize)}
+            disabled={Boolean(customPlan)}
             onChange={(event) => {
               setMealSize(event.value);
-              setCustomPlan(undefined);
             }}
           />
         </FormField>
       </Box>
-      <ul>
-        <ListItem>
+      <Box direction="row" gap="large">
+        <CheckBoxGroup
+          pad="medium"
+          disabled={Boolean(customPlan)}
+          options={props.plannerConfig.extrasLabels}
+          value={extrasChosen}
+          // eslint-disable-next-line no-console
+          onChange={(event) =>
+            setExtrasChosen((event?.value ?? []) as string[])
+          }
+        />
+      </Box>
+      {!customPlan && (
+        <Paragraph fill>
           {daysPerWeek} days x {mealsPerDay} meals x {totalPlans} plans ={" "}
           <strong>
             {daysPerWeek * mealsPerDay * totalPlans} meals per week
           </strong>
-        </ListItem>
-        {customPlan && (
-          <ListItem>
-            This customer is on a <strong>custom plan</strong>. If you make any
-            further selections in the above boxes, the plan quantities will be
-            reset back to the defaults.
-          </ListItem>
-        )}
-      </ul>
+        </Paragraph>
+      )}
+      {customPlan && (
+        <Paragraph fill>
+          This customer is on a <strong>custom plan</strong>. Click the above
+          button to reset the plan to the default distribution.{" "}
+          <strong>
+            Note: changes will not be stored in the database until you press the
+            save button at the top of the page
+          </strong>
+        </Paragraph>
+      )}
       <Heading level={3}>Meal Deliveries</Heading>
       <Box direction="row">
         <PlanTable
           plan={customPlan ?? defaultPlan}
+          plannerConfig={props.plannerConfig}
           onChange={(plan) => {
             setCustomPlan(plan);
           }}
         />
       </Box>
-    </>
+    </Box>
   );
 };
 export default PlanPanel;

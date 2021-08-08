@@ -1,13 +1,13 @@
 import React, { FC } from "react";
 import { Table, TableBody } from "grommet";
-import PlanHeader from "./PlanHeader";
-import { planLabels, extras, defaultDeliveryDays } from "../../lib/config";
 import PlanRow from "./PlanRow";
-import { CustomerPlan } from "./PlanPanel";
+import PlanHeader from "./PlanHeader";
+import { CustomerPlan, PlannerConfig } from "./types";
 
 interface PlanTableProps {
   onChange: (plan: CustomerPlan) => void;
   plan: CustomerPlan;
+  plannerConfig: PlannerConfig;
 }
 
 const PlanTable: FC<PlanTableProps> = (props) => {
@@ -16,14 +16,16 @@ const PlanTable: FC<PlanTableProps> = (props) => {
       deliveries: props.plan.deliveries.map((delivery, index) => ({
         deliveryDay: days[index],
         items: delivery.items,
+        extras: delivery.extras,
       })),
     };
     props.onChange(newPlan);
   };
 
-  const changeQuantity = (planString: string, newQuantities: number[]) => {
-    // eslint-disable-next-line no-console
-    console.log(newQuantities);
+  const changeItemsQuantities = (
+    planString: string,
+    newQuantities: number[]
+  ) => {
     const newPlan = {
       deliveries: props.plan.deliveries.map((delivery, index) => ({
         ...delivery,
@@ -38,37 +40,55 @@ const PlanTable: FC<PlanTableProps> = (props) => {
     props.onChange(newPlan);
   };
 
+  const changeExtrasQuantities = (
+    planString: string,
+    newQuantities: number[]
+  ) => {
+    const newPlan = {
+      deliveries: props.plan.deliveries.map((delivery, index) => ({
+        ...delivery,
+        extras: delivery.extras.map((extra) =>
+          extra.name === planString
+            ? { ...extra, quantity: newQuantities[index] }
+            : extra
+        ),
+      })),
+    };
+
+    props.onChange(newPlan);
+  };
+
   return (
     <Table>
       <PlanHeader
         onChange={changeDays}
-        defaultDeliveryDays={defaultDeliveryDays}
+        defaultDeliveryDays={props.plannerConfig.defaultDeliveryDays}
       />
       <TableBody>
-        {planLabels.map((label) => (
+        {props.plannerConfig.planLabels.map((label) => (
           <PlanRow
             key={label}
-            onChange={changeQuantity}
+            onChange={changeItemsQuantities}
             plan={label}
             quantities={props.plan.deliveries.map(
               (delivery) =>
                 delivery.items.find((item) => item.name === label)?.quantity ??
                 0
             )}
-            defaultDeliveryDays={defaultDeliveryDays}
+            defaultDeliveryDays={props.plannerConfig.defaultDeliveryDays}
           />
         ))}
-        {extras.map((extra) => (
+        {props.plannerConfig.extrasLabels.map((extra) => (
           <PlanRow
-            onChange={changeQuantity}
+            onChange={changeExtrasQuantities}
             key={extra}
             plan={extra}
             quantities={props.plan.deliveries.map(
               (delivery) =>
-                delivery.items.find((item) => item.name === extra)?.quantity ??
-                0
+                delivery.extras.find((extras) => extras.name === extra)
+                  ?.quantity ?? 0
             )}
-            defaultDeliveryDays={defaultDeliveryDays}
+            defaultDeliveryDays={props.plannerConfig.defaultDeliveryDays}
           />
         ))}
       </TableBody>

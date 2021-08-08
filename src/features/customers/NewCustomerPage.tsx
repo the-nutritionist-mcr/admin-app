@@ -12,7 +12,13 @@ import {
   Button,
 } from "grommet";
 import React, { FC } from "react";
-import { daysPerWeekOptions, plans } from "../../lib/config";
+import {
+  daysPerWeekOptions,
+  plans,
+  planLabels,
+  extrasLabels,
+  defaultDeliveryDays,
+} from "../../lib/config";
 import { Snack } from "../../domain/Customer";
 import { createCustomer } from "./customersSlice";
 import { debounce } from "lodash";
@@ -177,8 +183,13 @@ const NewCustomerPage: FC = () => {
             </FormField>
           </ThemeContext.Extend>
         </Box>
-        <Heading level={3}>Customer Plan</Heading>
-        <PlanPanel />
+        <PlanPanel
+          plannerConfig={{
+            planLabels,
+            extrasLabels,
+            defaultDeliveryDays,
+          }}
+        />
       </Form>
     </>
   );
