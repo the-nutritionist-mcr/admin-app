@@ -26,35 +26,45 @@ const distributeItems = curry(
     targetItem: string,
     section: Exclude<keyof Delivery, "deliveryDay">,
     inputPlan: Delivery[]
-  ): Delivery[] => {
-    const distribution = [
-      ...new Array(
-        daysPerWeek === DAYS_IN_WEEK ? daysPerWeek - 1 : daysPerWeek
-      ),
-    ]
+  ): Delivery[] =>
+    [...new Array(daysPerWeek === DAYS_IN_WEEK ? daysPerWeek - 1 : daysPerWeek)]
       .map(() => targetItem)
-      .reduce<Delivery[]>((deliveries, item, index) => {
-        const found = deliveries[index % 2][section].find(
-          (foundItem) => foundItem.name === item
-        );
-        if (found) {
-          found.quantity++;
-        }
-        return deliveries;
-      }, inputPlan);
-
-    if (daysPerWeek === DAYS_IN_WEEK) {
-      const found = distribution[1][section].find(
-        (foundItem) => foundItem.name === targetItem
-      );
-      if (found) {
-        found.quantity++;
-      }
-    }
-
-    return distribution;
-  }
+      .reduce<Delivery[]>(
+        (deliveries, item, index) =>
+          incrementFoundInDeliveries(deliveries, index % 2, section, item),
+        inputPlan
+      )
+      .map((delivery, index) =>
+        daysPerWeek === DAYS_IN_WEEK && index === 1
+          ? incrementTarget(delivery, section, targetItem)
+          : delivery
+      )
 );
+
+const incrementFoundInDeliveries = curry(
+  (
+    deliveries: Delivery[],
+    index: number,
+    section: Exclude<keyof Delivery, "deliveryDay">,
+    target: string
+  ) =>
+    deliveries.map((delivery, deliveryIndex) =>
+      deliveryIndex !== index
+        ? delivery
+        : incrementTarget(delivery, section, target)
+    )
+);
+
+const incrementTarget = (
+  delivery: Delivery,
+  section: Exclude<keyof Delivery, "deliveryDay">,
+  target: string
+) => ({
+  ...delivery,
+  [section]: delivery[section].map((item) =>
+    item.name === target ? { ...item, quantity: item.quantity + 1 } : item
+  ),
+});
 
 const distributeAndMultiply = curry(
   (
