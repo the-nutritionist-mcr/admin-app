@@ -11,17 +11,25 @@ import {
 } from "grommet";
 import PlanTable from "./PlanTable";
 import { generateDistribution } from "./distribution-generator";
-import { PlannerConfig, CustomerPlan } from "./types";
+import { PlannerConfig, CustomerPlan, DaysPerWeek } from "./types";
 
 interface PlanPanelProps {
   plannerConfig: PlannerConfig;
 }
 
+const assertDaysPerWeek: (num: number) => asserts num is DaysPerWeek = (
+  num
+) => {
+  if (num <= 0 || num > 7) {
+    throw new Error(`${num} is not a valid DaysPerWeek value`);
+  }
+};
+
 const PlanPanel: FC<PlanPanelProps> = (props) => {
   const [customPlan, setCustomPlan] = React.useState<
     CustomerPlan | undefined
   >();
-  const [daysPerWeek, setDaysPerWeek] = React.useState(6);
+  const [daysPerWeek, setDaysPerWeek] = React.useState<DaysPerWeek>(6);
   const [mealsPerDay, setMealsPerDay] = React.useState(2);
   const [totalPlans, setTotalPlans] = React.useState(1);
   const [extrasChosen, setExtrasChosen] = React.useState<string[]>([]);
@@ -57,7 +65,9 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
             value={String(daysPerWeek)}
             disabled={Boolean(customPlan)}
             onChange={(event) => {
-              setDaysPerWeek(Number.parseInt(event.value, 10));
+              const value: number = Number.parseInt(event.value, 10);
+              assertDaysPerWeek(value);
+              setDaysPerWeek(value);
             }}
           />
         </FormField>
@@ -108,16 +118,8 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
           }
         />
       </Box>
-      {!customPlan && (
-        <Paragraph fill>
-          {daysPerWeek} days x {mealsPerDay} meals x {totalPlans} plans ={" "}
-          <strong>
-            {daysPerWeek * mealsPerDay * totalPlans} meals per week
-          </strong>
-        </Paragraph>
-      )}
       {customPlan && (
-        <Paragraph fill>
+        <Paragraph data-testid="summary" fill>
           This customer is on a <strong>custom plan</strong>. Click the above
           button to reset the plan to the default distribution.{" "}
           <strong>

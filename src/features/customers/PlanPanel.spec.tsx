@@ -23,27 +23,6 @@ describe("The plan panel", () => {
     );
   });
 
-  it("defaults to 6 days per week, 2 meals per day and the first item in the variant list", () => {
-    render(
-      <PlanPanel
-        plannerConfig={{
-          defaultDeliveryDays: ["Monday", "Thursday"],
-          extrasLabels: ["One", "Two"],
-          planLabels: ["EQ", "Mass"],
-        }}
-      />
-    );
-
-    const daysPerWeek = screen.getByTestId("daysPerWeek");
-    expect(daysPerWeek).toHaveDisplayValue("6");
-
-    const mealsPerDay = screen.getByTestId("mealsPerDay");
-    expect(mealsPerDay).toHaveDisplayValue("2");
-
-    const planName = screen.getByTestId("planVariant");
-    expect(planName).toHaveDisplayValue("EQ");
-  });
-
   const getRowCells = (rowHeader: string) =>
     getAllByRole(
       screen.getByRole("row", { name: (name) => name.startsWith(rowHeader) }),
@@ -57,133 +36,204 @@ describe("The plan panel", () => {
     });
 
   const clickDropItem = (item: string) =>
-    userEvent.click(getByText(screen.getByRole("menubar"), item));
+    act(() => userEvent.click(getByText(screen.getByRole("menubar"), item)));
+
+  const clickButtonWithName = (name: string) =>
+    act(() => userEvent.click(screen.getByRole("button", { name })));
 
   const changeSelectBox = (testId: string, newValue: string) => {
     const box = screen.getByTestId(testId);
     act(() => {
       userEvent.click(box);
     });
-    act(() => {
-      clickDropItem(newValue);
-    });
+    clickDropItem(newValue);
   };
 
-  it("zeros the other rows when you change the plan to a different variant", () => {
-    render(
-      <PlanPanel
-        plannerConfig={{
-          defaultDeliveryDays: ["Monday", "Thursday"],
-          extrasLabels: ["One", "Two"],
-          planLabels: ["EQ", "Mass", "Micro"],
-        }}
-      />
+  describe("customer plan section", () => {
+    it("Displays a message highlighting that a customer is on a custom plan when something is changed in the meal deliveries section", () => {
+      render(
+        <PlanPanel
+          plannerConfig={{
+            defaultDeliveryDays: ["Monday", "Thursday"],
+            extrasLabels: ["Breakfast", "Snack", "Large Snack"],
+            planLabels: ["EQ", "Mass", "Micro"],
+          }}
+        />
+      );
+
+      changeSelectBox("daysPerWeek", "5");
+      changeSelectBox("planVariant", "Micro");
+
+      const cells = getRowCells("Micro");
+
+      userEvent.click(getByRole(cells[0], "button"));
+
+      clickDropItem("3");
+
+      const summary = screen.getByTestId("summary");
+      expect(summary).toHaveTextContent(
+        "This customer is on a custom plan. Click the above button to reset the plan to the default distribution. Note: changes will not be stored in the database until you press the save button at the top of the page"
+      );
+    });
+
+    it("Does not display the custom plan message before changes are made in the meal deliveries table", () => {
+      render(
+        <PlanPanel
+          plannerConfig={{
+            defaultDeliveryDays: ["Monday", "Thursday"],
+            extrasLabels: ["Breakfast", "Snack", "Large Snack"],
+            planLabels: ["EQ", "Mass", "Micro"],
+          }}
+        />
+      );
+
+      changeSelectBox("daysPerWeek", "5");
+      changeSelectBox("planVariant", "Micro");
+
+      const summary = screen.queryByTestId("summary");
+      expect(summary).not.toBeInTheDocument();
+    });
+
+    it("displays the correct total at the end of a meal deliveries row when the amounts were filled in by a preset plan", () => {
+      render(
+        <PlanPanel
+          plannerConfig={{
+            defaultDeliveryDays: ["Monday", "Thursday"],
+            extrasLabels: ["One", "Two"],
+            planLabels: ["EQ", "Mass", "Micro"],
+          }}
+        />
+      );
+
+      changeSelectBox("daysPerWeek", "5");
+      changeSelectBox("mealsPerDay", "4");
+      changeSelectBox("totalPlans", "2");
+      changeSelectBox("planVariant", "Micro");
+
+      const cells = getRowCells("Micro");
+      expect(cells[2]).toHaveTextContent("40");
+    });
+    it("zeros the other rows when you change the plan to a different variant", () => {
+      render(
+        <PlanPanel
+          plannerConfig={{
+            defaultDeliveryDays: ["Monday", "Thursday"],
+            extrasLabels: ["One", "Two"],
+            planLabels: ["EQ", "Mass", "Micro"],
+          }}
+        />
+      );
+
+      changeSelectBox("daysPerWeek", "2");
+      changeSelectBox("mealsPerDay", "4");
+      changeSelectBox("totalPlans", "1");
+      changeSelectBox("planVariant", "Micro");
+
+      const cells = getRowCells("EQ");
+
+      expect(getByRole(cells[0], "textbox")).toHaveDisplayValue(String("0"));
+      expect(getByRole(cells[1], "textbox")).toHaveDisplayValue(String("0"));
+    });
+
+    it("adds some extras to the distribution when the relavent extras checkbox is selected", () => {
+      render(
+        <PlanPanel
+          plannerConfig={{
+            defaultDeliveryDays: ["Monday", "Thursday"],
+            extrasLabels: ["Smoothie", "Breakfast", "Snack", "Large Snack"],
+            planLabels: ["EQ", "Mass", "Micro"],
+          }}
+        />
+      );
+
+      clickCheckBox("Breakfast");
+      clickCheckBox("Large Snack");
+
+      const breakfast = getRowCells("Breakfast");
+      changeSelectBox("daysPerWeek", "5");
+      expect(getByRole(breakfast[0], "textbox")).toHaveDisplayValue("3");
+      expect(getByRole(breakfast[1], "textbox")).toHaveDisplayValue("2");
+
+      const largeSnack = getRowCells("Large Snack");
+      changeSelectBox("daysPerWeek", "5");
+      expect(getByRole(largeSnack[0], "textbox")).toHaveDisplayValue("3");
+      expect(getByRole(largeSnack[1], "textbox")).toHaveDisplayValue("2");
+
+      const smoothie = getRowCells("Smoothie");
+      changeSelectBox("daysPerWeek", "5");
+      expect(getByRole(smoothie[0], "textbox")).toHaveDisplayValue("0");
+      expect(getByRole(smoothie[1], "textbox")).toHaveDisplayValue("0");
+    });
+
+    it.each`
+      daysPerWeek | mealsPerDay | totalPlans | variant   | delivery1 | delivery2
+      ${1}        | ${1}        | ${1}       | ${"EQ"}   | ${1}      | ${0}
+      ${6}        | ${2}        | ${1}       | ${"EQ"}   | ${6}      | ${6}
+      ${6}        | ${2}        | ${3}       | ${"EQ"}   | ${18}     | ${18}
+      ${1}        | ${1}        | ${1}       | ${"Mass"} | ${1}      | ${0}
+      ${6}        | ${2}        | ${1}       | ${"Mass"} | ${6}      | ${6}
+      ${5}        | ${2}        | ${1}       | ${"Mass"} | ${6}      | ${4}
+      ${7}        | ${1}        | ${1}       | ${"Mass"} | ${3}      | ${4}
+      ${7}        | ${2}        | ${1}       | ${"Mass"} | ${6}      | ${8}
+      ${7}        | ${2}        | ${2}       | ${"Mass"} | ${12}     | ${16}
+    `(
+      `displays $delivery1 and $delivery2 in the $variant row when you change the plan selection to $totalPlans $variant, $mealsPerDay meals per day, $daysPerWeek days per week`,
+      ({
+        daysPerWeek,
+        mealsPerDay,
+        totalPlans,
+        variant,
+        delivery1,
+        delivery2,
+      }) => {
+        render(
+          <PlanPanel
+            plannerConfig={{
+              defaultDeliveryDays: ["Monday", "Thursday"],
+              extrasLabels: ["One", "Two"],
+              planLabels: ["EQ", "Mass"],
+            }}
+          />
+        );
+
+        changeSelectBox("daysPerWeek", daysPerWeek);
+        changeSelectBox("mealsPerDay", mealsPerDay);
+        changeSelectBox("totalPlans", totalPlans);
+        changeSelectBox("planVariant", variant);
+
+        const cells = getRowCells(variant);
+
+        expect(getByRole(cells[0], "textbox")).toHaveDisplayValue(
+          String(delivery1)
+        );
+        expect(getByRole(cells[1], "textbox")).toHaveDisplayValue(
+          String(delivery2)
+        );
+      }
     );
+    it("does not change snacks based on meals per day", () => {
+      render(
+        <PlanPanel
+          plannerConfig={{
+            defaultDeliveryDays: ["Monday", "Thursday"],
+            extrasLabels: ["Smoothie", "Breakfast", "Snack", "Large Snack"],
+            planLabels: ["EQ", "Mass", "Micro"],
+          }}
+        />
+      );
 
-    changeSelectBox("daysPerWeek", "2");
-    changeSelectBox("mealsPerDay", "4");
-    changeSelectBox("totalPlans", "1");
-    changeSelectBox("planVariant", "Micro");
+      clickCheckBox("Breakfast");
 
-    const cells = getRowCells("EQ");
+      const cells = getRowCells("Breakfast");
 
-    expect(getByRole(cells[0], "textbox")).toHaveDisplayValue(String("0"));
-    expect(getByRole(cells[1], "textbox")).toHaveDisplayValue(String("0"));
-  });
+      changeSelectBox("daysPerWeek", "5");
+      changeSelectBox("mealsPerDay", "3");
 
-  it("displays the correct total at the end of a row when the amounts were filled in by a preset plan", () => {
-    render(
-      <PlanPanel
-        plannerConfig={{
-          defaultDeliveryDays: ["Monday", "Thursday"],
-          extrasLabels: ["One", "Two"],
-          planLabels: ["EQ", "Mass", "Micro"],
-        }}
-      />
-    );
+      expect(getByRole(cells[0], "textbox")).toHaveDisplayValue("3");
+      expect(getByRole(cells[1], "textbox")).toHaveDisplayValue("2");
+    });
 
-    changeSelectBox("daysPerWeek", "5");
-    changeSelectBox("mealsPerDay", "4");
-    changeSelectBox("totalPlans", "2");
-    changeSelectBox("planVariant", "Micro");
-
-    const cells = getRowCells("Micro");
-    expect(cells[2]).toHaveTextContent("40");
-  });
-
-  it("adds some extras to the distribution when the relavent extras checkbox is selected", () => {
-    render(
-      <PlanPanel
-        plannerConfig={{
-          defaultDeliveryDays: ["Monday", "Thursday"],
-          extrasLabels: ["Smoothie", "Breakfast", "Snack", "Large Snack"],
-          planLabels: ["EQ", "Mass", "Micro"],
-        }}
-      />
-    );
-
-    clickCheckBox("Breakfast");
-    clickCheckBox("Large Snack");
-
-    const breakfast = getRowCells("Breakfast");
-    changeSelectBox("daysPerWeek", "5");
-    expect(getByRole(breakfast[0], "textbox")).toHaveDisplayValue("3");
-    expect(getByRole(breakfast[1], "textbox")).toHaveDisplayValue("2");
-
-    const largeSnack = getRowCells("Large Snack");
-    changeSelectBox("daysPerWeek", "5");
-    expect(getByRole(largeSnack[0], "textbox")).toHaveDisplayValue("3");
-    expect(getByRole(largeSnack[1], "textbox")).toHaveDisplayValue("2");
-
-    const smoothie = getRowCells("Smoothie");
-    changeSelectBox("daysPerWeek", "5");
-    expect(getByRole(smoothie[0], "textbox")).toHaveDisplayValue("0");
-    expect(getByRole(smoothie[1], "textbox")).toHaveDisplayValue("0");
-  });
-
-  it("does not change snacks based on meals per day", () => {
-    render(
-      <PlanPanel
-        plannerConfig={{
-          defaultDeliveryDays: ["Monday", "Thursday"],
-          extrasLabels: ["Smoothie", "Breakfast", "Snack", "Large Snack"],
-          planLabels: ["EQ", "Mass", "Micro"],
-        }}
-      />
-    );
-
-    clickCheckBox("Breakfast");
-
-    const cells = getRowCells("Breakfast");
-
-    changeSelectBox("daysPerWeek", "5");
-    changeSelectBox("mealsPerDay", "3");
-
-    expect(getByRole(cells[0], "textbox")).toHaveDisplayValue("3");
-    expect(getByRole(cells[1], "textbox")).toHaveDisplayValue("2");
-  });
-
-  it.each`
-    daysPerWeek | mealsPerDay | totalPlans | variant   | delivery1 | delivery2
-    ${1}        | ${1}        | ${1}       | ${"EQ"}   | ${1}      | ${0}
-    ${6}        | ${2}        | ${1}       | ${"EQ"}   | ${6}      | ${6}
-    ${6}        | ${2}        | ${3}       | ${"EQ"}   | ${18}     | ${18}
-    ${1}        | ${1}        | ${1}       | ${"Mass"} | ${1}      | ${0}
-    ${6}        | ${2}        | ${1}       | ${"Mass"} | ${6}      | ${6}
-    ${5}        | ${2}        | ${1}       | ${"Mass"} | ${6}      | ${4}
-    ${7}        | ${1}        | ${1}       | ${"Mass"} | ${3}      | ${4}
-    ${7}        | ${2}        | ${1}       | ${"Mass"} | ${6}      | ${8}
-    ${7}        | ${2}        | ${2}       | ${"Mass"} | ${12}     | ${16}
-  `(
-    `displays $delivery1 and $delivery2 in the $variant row when you change the plan selection to $totalPlans $variant, $mealsPerDay meals per day, $daysPerWeek days per week`,
-    ({
-      daysPerWeek,
-      mealsPerDay,
-      totalPlans,
-      variant,
-      delivery1,
-      delivery2,
-    }) => {
+    it("defaults to 6 days per week, 2 meals per day and the first item in the variant list", () => {
       render(
         <PlanPanel
           plannerConfig={{
@@ -194,19 +244,308 @@ describe("The plan panel", () => {
         />
       );
 
-      changeSelectBox("daysPerWeek", daysPerWeek);
-      changeSelectBox("mealsPerDay", mealsPerDay);
-      changeSelectBox("totalPlans", totalPlans);
-      changeSelectBox("planVariant", variant);
+      const daysPerWeek = screen.getByTestId("daysPerWeek");
+      expect(daysPerWeek).toHaveDisplayValue("6");
 
-      const cells = getRowCells(variant);
+      const mealsPerDay = screen.getByTestId("mealsPerDay");
+      expect(mealsPerDay).toHaveDisplayValue("2");
 
-      expect(getByRole(cells[0], "textbox")).toHaveDisplayValue(
-        String(delivery1)
+      const planName = screen.getByTestId("planVariant");
+      expect(planName).toHaveDisplayValue("EQ");
+    });
+  });
+
+  describe("clear custom plan button", () => {
+    it("is now shown by default", () => {
+      render(
+        <PlanPanel
+          plannerConfig={{
+            defaultDeliveryDays: ["Monday", "Thursday"],
+            extrasLabels: ["One", "Two"],
+            planLabels: ["EQ", "Mass", "Micro"],
+          }}
+        />
       );
-      expect(getByRole(cells[1], "textbox")).toHaveDisplayValue(
-        String(delivery2)
+
+      const clearButton = screen.queryByRole("button", {
+        name: "Clear Custom Plan",
+      });
+      expect(clearButton).not.toBeInTheDocument();
+    });
+
+    it("is not shown when you make changes to the customer plan", () => {
+      render(
+        <PlanPanel
+          plannerConfig={{
+            defaultDeliveryDays: ["Monday", "Thursday"],
+            extrasLabels: ["One", "Two"],
+            planLabels: ["EQ", "Mass", "Micro"],
+          }}
+        />
       );
-    }
-  );
+
+      changeSelectBox("daysPerWeek", "1");
+      changeSelectBox("mealsPerDay", "3");
+
+      const clearButton = screen.queryByRole("button", {
+        name: "Clear Custom Plan",
+      });
+      expect(clearButton).not.toBeInTheDocument();
+    });
+
+    it("is shown if you make a change in the deliveries box", () => {
+      render(
+        <PlanPanel
+          plannerConfig={{
+            defaultDeliveryDays: ["Monday", "Thursday"],
+            extrasLabels: ["One", "Two"],
+            planLabels: ["EQ", "Mass", "Micro"],
+          }}
+        />
+      );
+
+      changeSelectBox("daysPerWeek", "6");
+      changeSelectBox("mealsPerDay", "2");
+
+      const cells = getRowCells("Micro");
+
+      userEvent.click(getByRole(cells[0], "button"));
+
+      clickDropItem("2");
+
+      const clearButton = screen.queryByRole("button", {
+        name: "Clear Custom Plan",
+      });
+      expect(clearButton).toBeInTheDocument();
+    });
+
+    it("is not shown when you make changes to the customer plan", () => {
+      render(
+        <PlanPanel
+          plannerConfig={{
+            defaultDeliveryDays: ["Monday", "Thursday"],
+            extrasLabels: ["One", "Two"],
+            planLabels: ["EQ", "Mass", "Micro"],
+          }}
+        />
+      );
+
+      changeSelectBox("daysPerWeek", "1");
+      changeSelectBox("mealsPerDay", "3");
+
+      const clearButton = screen.queryByRole("button", {
+        name: "Clear Custom Plan",
+      });
+      expect(clearButton).not.toBeInTheDocument();
+    });
+
+    it("removes the custom plan message when you click on it", () => {
+      render(
+        <PlanPanel
+          plannerConfig={{
+            defaultDeliveryDays: ["Monday", "Thursday"],
+            extrasLabels: ["One", "Two"],
+            planLabels: ["EQ", "Mass", "Micro"],
+          }}
+        />
+      );
+
+      changeSelectBox("daysPerWeek", "6");
+      changeSelectBox("mealsPerDay", "2");
+      changeSelectBox("planVariant", "Mass");
+
+      const microCells = getRowCells("Micro");
+      act(() => {
+        userEvent.click(getByRole(microCells[0], "button"));
+      });
+
+      clickDropItem("2");
+
+      clickButtonWithName("Clear Custom Plan");
+
+      const message = screen.queryByTestId("summary");
+      expect(message).not.toBeInTheDocument();
+    });
+
+    it("resets the deliveries table back to match the 'Custom Plan' when you click on it", () => {
+      render(
+        <PlanPanel
+          plannerConfig={{
+            defaultDeliveryDays: ["Monday", "Thursday"],
+            extrasLabels: ["One", "Two"],
+            planLabels: ["EQ", "Mass", "Micro"],
+          }}
+        />
+      );
+
+      changeSelectBox("daysPerWeek", "6");
+      changeSelectBox("mealsPerDay", "2");
+      changeSelectBox("planVariant", "Mass");
+
+      const microCells = getRowCells("Micro");
+      act(() => {
+        userEvent.click(getByRole(microCells[0], "button"));
+      });
+
+      clickDropItem("2");
+      const massCells = getRowCells("Mass");
+
+      act(() => {
+        userEvent.click(getByRole(massCells[1], "button"));
+      });
+
+      clickDropItem("0");
+      clickButtonWithName("Clear Custom Plan");
+
+      const microCellsAfter = getRowCells("Micro");
+      expect(getByRole(microCellsAfter[0], "textbox")).toHaveDisplayValue("0");
+
+      const massCellsAfter = getRowCells("Mass");
+      expect(getByRole(massCellsAfter[1], "textbox")).toHaveDisplayValue("6");
+    });
+
+    it("reenables the 'Customer Plan' fields when you click on it", () => {
+      render(
+        <PlanPanel
+          plannerConfig={{
+            defaultDeliveryDays: ["Monday", "Thursday"],
+            extrasLabels: ["One", "Two"],
+            planLabels: ["EQ", "Mass", "Micro"],
+          }}
+        />
+      );
+
+      changeSelectBox("daysPerWeek", "6");
+      changeSelectBox("mealsPerDay", "2");
+
+      const cells = getRowCells("Micro");
+
+      act(() => {
+        userEvent.click(getByRole(cells[0], "button"));
+      });
+
+      clickDropItem("2");
+
+      clickButtonWithName("Clear Custom Plan");
+
+      const daysPerWeek = screen.getByTestId("daysPerWeek").closest("button");
+      expect(daysPerWeek).not.toHaveAttribute("disabled");
+
+      const mealsPerDay = screen.getByTestId("mealsPerDay").closest("button");
+      expect(mealsPerDay).not.toHaveAttribute("disabled");
+
+      const totalPlans = screen.getByTestId("totalPlans").closest("button");
+      expect(totalPlans).not.toHaveAttribute("disabled");
+
+      const variant = screen.getByTestId("planVariant").closest("button");
+      expect(variant).not.toHaveAttribute("disabled");
+
+      const oneExtra = screen.getByLabelText("One").closest("input");
+      expect(oneExtra).not.toHaveAttribute("disabled");
+
+      const twoExtra = screen.getByLabelText("Two").closest("input");
+      expect(twoExtra).not.toHaveAttribute("disabled");
+    });
+  });
+
+  describe("meal deliveries table", () => {
+    it("disables all the 'Customer Plan' fields if you make direct changes", () => {
+      render(
+        <PlanPanel
+          plannerConfig={{
+            defaultDeliveryDays: ["Monday", "Thursday"],
+            extrasLabels: ["One", "Two"],
+            planLabels: ["EQ", "Mass", "Micro"],
+          }}
+        />
+      );
+
+      changeSelectBox("daysPerWeek", "5");
+      changeSelectBox("mealsPerDay", "3");
+
+      const cells = getRowCells("Mass");
+
+      userEvent.click(getByRole(cells[0], "button"));
+
+      clickDropItem("4");
+
+      const daysPerWeek = screen.getByTestId("daysPerWeek").closest("button");
+      expect(daysPerWeek).toHaveAttribute("disabled");
+
+      const mealsPerDay = screen.getByTestId("mealsPerDay").closest("button");
+      expect(mealsPerDay).toHaveAttribute("disabled");
+
+      const totalPlans = screen.getByTestId("totalPlans").closest("button");
+      expect(totalPlans).toHaveAttribute("disabled");
+
+      const variant = screen.getByTestId("planVariant").closest("button");
+      expect(variant).toHaveAttribute("disabled");
+
+      const oneExtra = screen.getByLabelText("One").closest("input");
+      expect(oneExtra).toHaveAttribute("disabled");
+
+      const twoExtra = screen.getByLabelText("Two").closest("input");
+      expect(twoExtra).toHaveAttribute("disabled");
+    });
+
+    it("Allows direct changes to be made in multiple columns and rows which are still reflected in the row total", () => {
+      render(
+        <PlanPanel
+          plannerConfig={{
+            defaultDeliveryDays: ["Monday", "Thursday"],
+            extrasLabels: ["One", "Two"],
+            planLabels: ["EQ", "Mass", "Micro"],
+          }}
+        />
+      );
+
+      changeSelectBox("daysPerWeek", "5");
+      changeSelectBox("mealsPerDay", "3");
+
+      const massCells = getRowCells("Mass");
+
+      act(() => {
+        userEvent.click(getByRole(massCells[0], "button"));
+      });
+
+      clickDropItem("4");
+      const massCellsAfterClick = getRowCells("Mass");
+
+      act(() => {
+        userEvent.click(getByRole(massCellsAfterClick[1], "button"));
+      });
+      clickDropItem("7");
+
+      const massCellsAfterBothClicks = getRowCells("Mass");
+      expect(massCellsAfterBothClicks);
+
+      expect(
+        getByRole(massCellsAfterBothClicks[0], "textbox")
+      ).toHaveDisplayValue("4");
+
+      expect(
+        getByRole(massCellsAfterBothClicks[1], "textbox")
+      ).toHaveDisplayValue("7");
+
+      expect(massCellsAfterBothClicks[2]).toHaveTextContent("11");
+
+      const microCells = getRowCells("Micro");
+      act(() => {
+        userEvent.click(getByRole(microCells[0], "button"));
+      });
+      clickDropItem("1");
+
+      const microCellsAfterClick = getRowCells("Micro");
+      expect(getByRole(microCellsAfterClick[0], "textbox")).toHaveDisplayValue(
+        "1"
+      );
+
+      expect(microCellsAfterClick[2]).toHaveTextContent("1");
+
+      const eqCells = getRowCells("EQ");
+      expect(getByRole(eqCells[0], "textbox")).toHaveDisplayValue("9");
+
+      expect(getByRole(eqCells[1], "textbox")).toHaveDisplayValue("6");
+    });
+  });
 });

@@ -1,8 +1,14 @@
-import { CustomerPlan, Item, PlannerConfig, Delivery } from "./types";
+import {
+  CustomerPlan,
+  Item,
+  PlannerConfig,
+  Delivery,
+  DaysPerWeek,
+} from "./types";
 
 const distributeItems = (
   inputPlan: CustomerPlan,
-  daysPerWeek: 1 | 2 | 3 | 4 | 5 | 6 | 7,
+  daysPerWeek: DaysPerWeek,
   targetItem: string,
   section: Exclude<keyof Delivery, "deliveryDay">
 ): CustomerPlan => {
@@ -71,7 +77,7 @@ const makeDefaultPlan = (plannerConfig: PlannerConfig): CustomerPlan => ({
 });
 
 export const generateDistribution = (
-  daysPerWeek: number,
+  daysPerWeek: DaysPerWeek,
   mealsPerDay: number,
   totalPlans: number,
   mealSize: string,
