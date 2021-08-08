@@ -27,7 +27,7 @@ const PlanHeader: FC<PlanHeaderProps> = (props) => {
   return (
     <TableHeader>
       <TableRow>
-        <TableCell>
+        <TableCell scope="col">
           <strong>Plan</strong>
         </TableCell>
         {[...new Array(props.defaultDeliveryDays.length)].map((_, index) => (

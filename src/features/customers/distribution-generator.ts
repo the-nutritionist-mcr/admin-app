@@ -2,11 +2,11 @@ import { CustomerPlan, Item, PlannerConfig, Delivery } from "./types";
 
 const distributeItems = (
   inputPlan: CustomerPlan,
-  daysPerWeek: number,
+  daysPerWeek: 1 | 2 | 3 | 4 | 5 | 6 | 7,
   targetItem: string,
   section: Exclude<keyof Delivery, "deliveryDay">
-): CustomerPlan =>
-  [...new Array(daysPerWeek)]
+): CustomerPlan => {
+  const distribution = [...new Array(daysPerWeek === 7 ? 6 : daysPerWeek)]
     .map(() => targetItem)
     .reduce<CustomerPlan>(
       (accum, item, index) => {
@@ -20,6 +20,18 @@ const distributeItems = (
       },
       { ...inputPlan }
     );
+
+  if (daysPerWeek === 7) {
+    const found = distribution.deliveries[1][section].find(
+      (foundItem) => foundItem.name === targetItem
+    );
+    if (found) {
+      found.quantity++;
+    }
+  }
+
+  return distribution;
+};
 
 const multiplyItem = (
   items: Item[],

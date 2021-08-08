@@ -7,8 +7,8 @@ export type PlanCategory = "Mass" | "EQ" | "Micro" | "Ultra-Micro";
 export const daysPerWeekOptions = [7, 6, 5];
 
 export const planLabels: string[] = [
-  "Mass",
   "EQ",
+  "Mass",
   "Micro",
   "Ultra-Micro",
   "Carb Free",

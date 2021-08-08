@@ -21,8 +21,8 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
   const [customPlan, setCustomPlan] = React.useState<
     CustomerPlan | undefined
   >();
-  const [daysPerWeek, setDaysPerWeek] = React.useState(1);
-  const [mealsPerDay, setMealsPerDay] = React.useState(1);
+  const [daysPerWeek, setDaysPerWeek] = React.useState(6);
+  const [mealsPerDay, setMealsPerDay] = React.useState(2);
   const [totalPlans, setTotalPlans] = React.useState(1);
   const [extrasChosen, setExtrasChosen] = React.useState<string[]>([]);
   const [mealSize, setMealSize] = React.useState(
@@ -52,6 +52,7 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
       <Box direction="row" gap="large">
         <FormField label="Days per week">
           <Select
+            data-testid="daysPerWeek"
             options={["1", "2", "3", "4", "5", "6", "7"]}
             value={String(daysPerWeek)}
             disabled={Boolean(customPlan)}
@@ -62,6 +63,7 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
         </FormField>
         <FormField label="Meals per day">
           <Select
+            data-testid="mealsPerDay"
             disabled={Boolean(customPlan)}
             options={["1", "2", "3", "4"]}
             value={String(mealsPerDay)}
@@ -72,6 +74,7 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
         </FormField>
         <FormField label="Total Plans">
           <Select
+            data-testid="totalPlans"
             options={["1", "2", "3", "4"]}
             value={String(totalPlans)}
             disabled={Boolean(customPlan)}
@@ -83,6 +86,7 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
 
         <FormField label="Plan Variant">
           <Select
+            data-testid="planVariant"
             options={props.plannerConfig.planLabels}
             value={String(mealSize)}
             disabled={Boolean(customPlan)}

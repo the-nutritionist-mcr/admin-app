@@ -27,9 +27,9 @@ const PlanRow: FC<PlanRowProps> = (props) => {
   const totalMeals = props.quantities.reduce((accum, item) => accum + item, 0);
   return (
     <AlternatingTableRow>
-      <TableCell>{props.plan}</TableCell>
+      <TableCell scope="row">{props.plan}</TableCell>
       {[...new Array(props.defaultDeliveryDays.length)].map((_, index) => (
-        <TableCell key={`${props.plan}-${index + 1}`} scope="col">
+        <TableCell key={`${props.plan}-${index + 1}`}>
           <ThemeContext.Extend
             value={{
               global: {
