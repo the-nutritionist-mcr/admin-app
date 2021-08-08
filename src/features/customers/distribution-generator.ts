@@ -167,27 +167,28 @@ export const isCustomDeliveryPlan = (
 export const generateDistribution = (
   config: PlanConfiguration,
   defaultSettings: PlannerConfig
-): Delivery[] => {
-  const hydrateQuantities = distributeAndMultiply(config.daysPerWeek);
+): Delivery[] =>
+  pipe(
+    () => makeDefaultDeliveryPlan(defaultSettings, config),
 
-  const hydrateExtras = config.extrasChosen.reduce(
-    (accumulatorFunction, extra) =>
-      pipe<Delivery[], Delivery[], Delivery[]>(
-        accumulatorFunction,
-        hydrateQuantities(extra, "extras", config.totalPlans)
-      ),
-    (d: Delivery[]) => d
-  );
-
-  const defaultPlanFromConfig = makeDefaultDeliveryPlan(defaultSettings);
-
-  return pipe(
-    defaultPlanFromConfig,
-    hydrateQuantities(
+    distributeAndMultiply(
+      config.daysPerWeek,
       config.planType,
       "items",
       config.mealsPerDay * config.totalPlans
     ),
-    hydrateExtras
-  )(config);
-};
+
+    config.extrasChosen.reduce(
+      (accumulatorFunction, extra) =>
+        pipe<Delivery[], Delivery[], Delivery[]>(
+          accumulatorFunction,
+          distributeAndMultiply(
+            config.daysPerWeek,
+            extra,
+            "extras",
+            config.totalPlans
+          )
+        ),
+      (d: Delivery[]) => d
+    )
+  )();
