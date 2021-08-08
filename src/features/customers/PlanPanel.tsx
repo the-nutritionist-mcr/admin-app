@@ -10,14 +10,15 @@ import {
   Paragraph,
 } from "grommet";
 import MealDeliveriesTable from "./MealDeliveriesTable";
-import { makeNewPlan } from "./distribution-generator";
-import { PlannerConfig, DaysPerWeek, Delivery, CustomerPlan } from "./types";
+import { makeNewPlan, isCustomDeliveryPlan } from "./distribution-generator";
+import { PlannerConfig, DaysPerWeek, CustomerPlan } from "./types";
 import Exclusion from "../../domain/Exclusion";
 
 interface PlanPanelProps {
   plannerConfig: PlannerConfig;
   exclusions: Exclusion[];
-  onChange: (newCustomerPlan: CustomerPlan) => void;
+  plan?: CustomerPlan;
+  onChange?: (newCustomerPlan: CustomerPlan) => void;
 }
 
 const assertDaysPerWeek: (num: number) => asserts num is DaysPerWeek = (
@@ -39,13 +40,20 @@ const daysOfWeek = [
 ];
 
 const PlanPanel: FC<PlanPanelProps> = (props) => {
-  const [customDeliveryPlan, setCustomDeliveryPlan] = React.useState<
-    Delivery[] | undefined
-  >();
-
   const [customerPlan, setCustomerPlan] = React.useState<CustomerPlan>(
-    makeNewPlan(props.plannerConfig)
+    props.plan ?? makeNewPlan(props.plannerConfig)
   );
+
+  const customDeliveryPlan = isCustomDeliveryPlan(
+    customerPlan,
+    props.plannerConfig
+  );
+
+  const updatePlan = (...args: Parameters<typeof makeNewPlan>) => {
+    const plan = makeNewPlan(...args);
+    props.onChange?.(plan);
+    setCustomerPlan(plan);
+  };
 
   return (
     <Box direction="column" gap="small">
@@ -54,7 +62,9 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
         {customDeliveryPlan ? (
           <Button
             label="Clear Custom Plan"
-            onClick={() => setCustomDeliveryPlan(undefined)}
+            onClick={() =>
+              updatePlan(props.plannerConfig, customerPlan.configuration)
+            }
           />
         ) : null}
       </Header>
@@ -64,16 +74,14 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
             data-testid="daysPerWeek"
             options={["1", "2", "3", "4", "5", "6", "7"]}
             value={String(customerPlan.configuration.daysPerWeek)}
-            disabled={Boolean(customDeliveryPlan)}
+            disabled={customDeliveryPlan}
             onChange={(event) => {
               const value: number = Number.parseInt(event.value, 10);
               assertDaysPerWeek(value);
-              setCustomerPlan(
-                makeNewPlan(
-                  props.plannerConfig,
-                  { daysPerWeek: value },
-                  customerPlan
-                )
+              updatePlan(
+                props.plannerConfig,
+                { daysPerWeek: value },
+                customerPlan
               );
             }}
           />
@@ -81,18 +89,16 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
         <FormField label="Meals per day">
           <Select
             data-testid="mealsPerDay"
-            disabled={Boolean(customDeliveryPlan)}
+            disabled={customDeliveryPlan}
             options={["1", "2", "3", "4"]}
             value={String(customerPlan.configuration.mealsPerDay)}
-            onChange={(event) => {
-              setCustomerPlan(
-                makeNewPlan(
-                  props.plannerConfig,
-                  { mealsPerDay: Number.parseInt(event.value, 10) },
-                  customerPlan
-                )
-              );
-            }}
+            onChange={(event) =>
+              updatePlan(
+                props.plannerConfig,
+                { mealsPerDay: Number.parseInt(event.value, 10) },
+                customerPlan
+              )
+            }
           />
         </FormField>
         <FormField label="Total Plans">
@@ -100,16 +106,14 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
             data-testid="totalPlans"
             options={["1", "2", "3", "4"]}
             value={String(customerPlan.configuration.totalPlans)}
-            disabled={Boolean(customDeliveryPlan)}
-            onChange={(event) => {
-              setCustomerPlan(
-                makeNewPlan(
-                  props.plannerConfig,
-                  { totalPlans: Number.parseInt(event.value, 10) },
-                  customerPlan
-                )
-              );
-            }}
+            disabled={customDeliveryPlan}
+            onChange={(event) =>
+              updatePlan(
+                props.plannerConfig,
+                { totalPlans: Number.parseInt(event.value, 10) },
+                customerPlan
+              )
+            }
           />
         </FormField>
 
@@ -118,16 +122,14 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
             data-testid="planVariant"
             options={props.plannerConfig.planLabels}
             value={String(customerPlan.configuration.planType)}
-            disabled={Boolean(customDeliveryPlan)}
-            onChange={(event) => {
-              setCustomerPlan(
-                makeNewPlan(
-                  props.plannerConfig,
-                  { planType: event.value },
-                  customerPlan
-                )
-              );
-            }}
+            disabled={customDeliveryPlan}
+            onChange={(event) =>
+              updatePlan(
+                props.plannerConfig,
+                { planType: event.value },
+                customerPlan
+              )
+            }
           />
         </FormField>
       </Box>
@@ -147,12 +149,10 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
                   ...customerPlan.configuration.deliveryDays,
                 ];
                 newDeliveryDays[index] = event.value;
-                setCustomerPlan(
-                  makeNewPlan(
-                    props.plannerConfig,
-                    { deliveryDays: newDeliveryDays },
-                    customerPlan
-                  )
+                updatePlan(
+                  props.plannerConfig,
+                  { deliveryDays: newDeliveryDays },
+                  customerPlan
                 );
               }}
             />
@@ -173,17 +173,15 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
       <Box direction="row" gap="large">
         <CheckBoxGroup
           pad="medium"
-          disabled={Boolean(customDeliveryPlan)}
+          disabled={customDeliveryPlan}
           options={props.plannerConfig.extrasLabels}
           value={customerPlan.configuration.extrasChosen}
           // eslint-disable-next-line no-console
           onChange={(event) =>
-            setCustomerPlan(
-              makeNewPlan(
-                props.plannerConfig,
-                { extrasChosen: (event?.value ?? []) as string[] },
-                customerPlan
-              )
+            updatePlan(
+              props.plannerConfig,
+              { extrasChosen: (event?.value ?? []) as string[] },
+              customerPlan
             )
           }
         />
@@ -200,12 +198,12 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
       <Heading level={3}>Meal Deliveries</Heading>
       <Box direction="row">
         <MealDeliveriesTable
-          deliveries={customDeliveryPlan ?? customerPlan.deliveries}
+          deliveries={customerPlan.deliveries}
           deliveryDays={customerPlan.configuration.deliveryDays}
           plannerConfig={props.plannerConfig}
-          onChange={(deliveryPlan) => {
-            setCustomDeliveryPlan(deliveryPlan);
-          }}
+          onChange={(deliveryPlan) =>
+            updatePlan(props.plannerConfig, {}, customerPlan, deliveryPlan)
+          }
         />
       </Box>
     </Box>

@@ -4,7 +4,6 @@ export interface Item {
 }
 
 export interface Delivery {
-  deliveryDay: string;
   items: Item[];
   extras: Item[];
 }

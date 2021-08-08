@@ -19,7 +19,7 @@ import {
   extrasLabels,
   defaultDeliveryDays,
 } from "../../lib/config";
-import { Snack } from "../../domain/Customer";
+import Customer, { Snack } from "../../domain/Customer";
 // import { createCustomer } from "./customersSlice";
 import { debounce } from "lodash";
 import { useSelector } from "react-redux";
@@ -28,6 +28,7 @@ import { loadingSelector } from "../../lib/rootReducer";
 import LoadingState from "../../types/LoadingState";
 import PlanPanel from "./PlanPanel";
 import useExclusions from "../../features/exclusions/useExclusions";
+import { makeNewPlan } from "./distribution-generator";
 
 const SUBMIT_DEBOUNCE = 500;
 
@@ -42,13 +43,18 @@ const defaultCustomer = {
   email: "",
   daysPerWeek: daysPerWeekOptions[0],
   plan: plans[0],
+  newPlan: makeNewPlan({
+    planLabels,
+    extrasLabels,
+    defaultDeliveryDays,
+  }),
   snack: Snack.None,
   breakfast: false,
   exclusions: [],
 };
 
 const NewCustomerPage: FC = () => {
-  const [customer, setCustomer] = React.useState(defaultCustomer);
+  const [customer, setCustomer] = React.useState<Customer>(defaultCustomer);
 
   const propsCustomer = {
     ...defaultCustomer,
@@ -186,10 +192,16 @@ const NewCustomerPage: FC = () => {
           </ThemeContext.Extend>
         </Box>
         <PlanPanel
+          plan={customer.newPlan}
           plannerConfig={{
             planLabels,
             extrasLabels,
             defaultDeliveryDays,
+          }}
+          onChange={(plan) => {
+            // eslint-disable-next-line no-console
+            console.log(plan);
+            setCustomer({ ...customer, newPlan: plan });
           }}
           exclusions={exclusions}
         />

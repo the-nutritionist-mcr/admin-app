@@ -1,3 +1,5 @@
+const DAYS_IN_WEEK = 7;
+
 import {
   Item,
   PlannerConfig,
@@ -6,6 +8,7 @@ import {
   CustomerPlan,
   PlanConfiguration,
 } from "./types";
+import deepEqual from "deep-equal";
 
 const distributeItems = (
   inputPlan: Delivery[],
@@ -25,7 +28,7 @@ const distributeItems = (
       return deliveries;
     }, inputPlan);
 
-  if (daysPerWeek === 7) {
+  if (daysPerWeek === DAYS_IN_WEEK) {
     const found = distribution[1][section].find(
       (foundItem) => foundItem.name === targetItem
     );
@@ -59,9 +62,11 @@ const multiplyItems = (
     extras: multiplyItem(delivery.extras, multiple, targetItem),
   }));
 
-const makeDefaultDeliveryPlan = (plannerConfig: PlannerConfig): Delivery[] =>
-  plannerConfig.defaultDeliveryDays.map((day) => ({
-    deliveryDay: day,
+const makeDefaultDeliveryPlan = (
+  plannerConfig: PlannerConfig,
+  plan: PlanConfiguration
+): Delivery[] =>
+  plan.deliveryDays.map(() => ({
     items: plannerConfig.planLabels.map((label) => ({
       name: label,
       quantity: 0,
@@ -84,7 +89,8 @@ const getDefaultConfig = (config: PlannerConfig): PlanConfiguration => ({
 export const makeNewPlan = (
   defaultSettings: PlannerConfig,
   configuration?: Partial<PlanConfiguration>,
-  currentPlan?: CustomerPlan
+  currentPlan?: CustomerPlan,
+  customDeliveryplan?: Delivery[]
 ): CustomerPlan => {
   const defaultConfig = getDefaultConfig(defaultSettings);
 
@@ -95,15 +101,25 @@ export const makeNewPlan = (
   };
   return {
     configuration: newConfig,
-    deliveries: generateDistribution(newConfig, defaultSettings),
+    deliveries:
+      customDeliveryplan ?? generateDistribution(newConfig, defaultSettings),
   };
 };
+
+export const isCustomDeliveryPlan = (
+  plan: CustomerPlan,
+  defaultSettings: PlannerConfig
+): boolean =>
+  !deepEqual(
+    plan.deliveries,
+    generateDistribution(plan.configuration, defaultSettings)
+  );
 
 export const generateDistribution = (
   config: PlanConfiguration,
   defaultSettings: PlannerConfig
 ): Delivery[] => {
-  const defaultPlan = makeDefaultDeliveryPlan(defaultSettings);
+  const defaultPlan = makeDefaultDeliveryPlan(defaultSettings, config);
   const distribution = distributeItems(
     defaultPlan,
     config.daysPerWeek,

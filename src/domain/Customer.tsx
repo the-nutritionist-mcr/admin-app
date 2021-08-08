@@ -1,5 +1,6 @@
 import Exclusion from "./Exclusion";
 import Plan from "./Plan";
+import { CustomerPlan } from "../features/customers/types";
 
 export enum Snack {
   None = "None",
@@ -24,6 +25,7 @@ export default interface Customer {
   pauseEnd?: string;
   daysPerWeek: number;
   plan: Plan;
+  newPlan?: CustomerPlan;
   legacyPrice?: number;
   snack: Snack;
   breakfast: boolean;
