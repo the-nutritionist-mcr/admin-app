@@ -20,13 +20,14 @@ import {
   defaultDeliveryDays,
 } from "../../lib/config";
 import { Snack } from "../../domain/Customer";
-import { createCustomer } from "./customersSlice";
+// import { createCustomer } from "./customersSlice";
 import { debounce } from "lodash";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 // import { allExclusionsSelector } from "../../features/exclusions/exclusionsSlice";
 import { loadingSelector } from "../../lib/rootReducer";
 import LoadingState from "../../types/LoadingState";
 import PlanPanel from "./PlanPanel";
+import useExclusions from "../../features/exclusions/useExclusions";
 
 const SUBMIT_DEBOUNCE = 500;
 
@@ -54,19 +55,22 @@ const NewCustomerPage: FC = () => {
     breakfast: false,
   };
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  // const exclusions = useSelector(allExclusionsSelector);
+  const { exclusions } = useExclusions();
 
   const isLoading = useSelector(loadingSelector) === LoadingState.Loading;
 
-  const onSubmit = debounce(async (): Promise<void> => {
+  const onSubmit = debounce(() => {
     const submittingCustomer = {
       ...customer,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       breakfast: (customer.breakfast as any) === "Yes",
     };
-    await dispatch(createCustomer(submittingCustomer));
+
+    // eslint-disable-next-line no-console
+    console.log(submittingCustomer);
+    //await dispatch(createCustomer(submittingCustomer));
   }, SUBMIT_DEBOUNCE);
   return (
     <>
@@ -77,8 +81,6 @@ const NewCustomerPage: FC = () => {
         }}
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onChange={(nextCustomerData: any): void => {
-          // eslint-disable-next-line no-console
-          console.log(nextCustomerData);
           const nextCustomer = {
             ...nextCustomerData,
             startDate:
@@ -189,6 +191,7 @@ const NewCustomerPage: FC = () => {
             extrasLabels,
             defaultDeliveryDays,
           }}
+          exclusions={exclusions}
         />
       </Form>
     </>

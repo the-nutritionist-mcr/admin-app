@@ -9,8 +9,18 @@ export interface Delivery {
   extras: Item[];
 }
 
+export interface PlanConfiguration {
+  planType: string;
+  daysPerWeek: DaysPerWeek;
+  mealsPerDay: number;
+  totalPlans: number;
+  deliveryDays: string[];
+  extrasChosen: string[];
+}
+
 export interface CustomerPlan {
   deliveries: Delivery[];
+  configuration: PlanConfiguration;
 }
 
 export interface PlannerConfig {

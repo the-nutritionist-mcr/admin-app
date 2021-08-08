@@ -14,6 +14,7 @@ describe("The plan panel", () => {
   it("renders without errors when supplied the appropriate props", () => {
     render(
       <PlanPanel
+        exclusions={[]}
         plannerConfig={{
           defaultDeliveryDays: ["Monday", "Thursday"],
           extrasLabels: ["One", "Two"],
@@ -50,9 +51,36 @@ describe("The plan panel", () => {
   };
 
   describe("customer plan section", () => {
+    it("Changes the delivery day in the meal deliveries table if you change the delivery day", () => {
+      render(
+        <PlanPanel
+          exclusions={[]}
+          plannerConfig={{
+            defaultDeliveryDays: ["Monday", "Thursday"],
+            extrasLabels: ["Breakfast", "Snack", "Large Snack"],
+            planLabels: ["EQ", "Mass", "Micro"],
+          }}
+        />
+      );
+
+      changeSelectBox("delivery-0-select", "Wednesday");
+      changeSelectBox("delivery-1-select", "Friday");
+
+      const wednesdayHeader = screen.queryByRole("columnheader", {
+        name: "Wednesday",
+      });
+      expect(wednesdayHeader).toBeInTheDocument();
+
+      const fridayHeader = screen.queryByRole("columnheader", {
+        name: "Friday",
+      });
+      expect(fridayHeader).toBeInTheDocument();
+    });
+
     it("Displays a message highlighting that a customer is on a custom plan when something is changed in the meal deliveries section", () => {
       render(
         <PlanPanel
+          exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
             extrasLabels: ["Breakfast", "Snack", "Large Snack"],
@@ -72,13 +100,14 @@ describe("The plan panel", () => {
 
       const summary = screen.getByTestId("summary");
       expect(summary).toHaveTextContent(
-        "This customer is on a custom plan. Click the above button to reset the plan to the default distribution. Note: changes will not be stored in the database until you press the save button at the top of the page"
+        "This customer is on a custom plan. Click the above button to reset the plan to the default distribution."
       );
     });
 
     it("Does not display the custom plan message before changes are made in the meal deliveries table", () => {
       render(
         <PlanPanel
+          exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
             extrasLabels: ["Breakfast", "Snack", "Large Snack"],
@@ -97,6 +126,7 @@ describe("The plan panel", () => {
     it("displays the correct total at the end of a meal deliveries row when the amounts were filled in by a preset plan", () => {
       render(
         <PlanPanel
+          exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
             extrasLabels: ["One", "Two"],
@@ -116,6 +146,7 @@ describe("The plan panel", () => {
     it("zeros the other rows when you change the plan to a different variant", () => {
       render(
         <PlanPanel
+          exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
             extrasLabels: ["One", "Two"],
@@ -138,6 +169,7 @@ describe("The plan panel", () => {
     it("adds some extras to the distribution when the relavent extras checkbox is selected", () => {
       render(
         <PlanPanel
+          exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
             extrasLabels: ["Smoothie", "Breakfast", "Snack", "Large Snack"],
@@ -188,6 +220,7 @@ describe("The plan panel", () => {
       }) => {
         render(
           <PlanPanel
+            exclusions={[]}
             plannerConfig={{
               defaultDeliveryDays: ["Monday", "Thursday"],
               extrasLabels: ["One", "Two"],
@@ -214,6 +247,7 @@ describe("The plan panel", () => {
     it("does not change snacks based on meals per day", () => {
       render(
         <PlanPanel
+          exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
             extrasLabels: ["Smoothie", "Breakfast", "Snack", "Large Snack"],
@@ -236,6 +270,7 @@ describe("The plan panel", () => {
     it("defaults to 6 days per week, 2 meals per day and the first item in the variant list", () => {
       render(
         <PlanPanel
+          exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
             extrasLabels: ["One", "Two"],
@@ -259,6 +294,7 @@ describe("The plan panel", () => {
     it("is now shown by default", () => {
       render(
         <PlanPanel
+          exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
             extrasLabels: ["One", "Two"],
@@ -276,6 +312,7 @@ describe("The plan panel", () => {
     it("is not shown when you make changes to the customer plan", () => {
       render(
         <PlanPanel
+          exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
             extrasLabels: ["One", "Two"],
@@ -296,6 +333,7 @@ describe("The plan panel", () => {
     it("is shown if you make a change in the deliveries box", () => {
       render(
         <PlanPanel
+          exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
             extrasLabels: ["One", "Two"],
@@ -322,6 +360,7 @@ describe("The plan panel", () => {
     it("is not shown when you make changes to the customer plan", () => {
       render(
         <PlanPanel
+          exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
             extrasLabels: ["One", "Two"],
@@ -342,6 +381,7 @@ describe("The plan panel", () => {
     it("removes the custom plan message when you click on it", () => {
       render(
         <PlanPanel
+          exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
             extrasLabels: ["One", "Two"],
@@ -370,6 +410,7 @@ describe("The plan panel", () => {
     it("resets the deliveries table back to match the 'Custom Plan' when you click on it", () => {
       render(
         <PlanPanel
+          exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
             extrasLabels: ["One", "Two"],
@@ -407,6 +448,7 @@ describe("The plan panel", () => {
     it("reenables the 'Customer Plan' fields when you click on it", () => {
       render(
         <PlanPanel
+          exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
             extrasLabels: ["One", "Two"],
@@ -452,6 +494,7 @@ describe("The plan panel", () => {
     it("disables all the 'Customer Plan' fields if you make direct changes", () => {
       render(
         <PlanPanel
+          exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
             extrasLabels: ["One", "Two"],
@@ -488,9 +531,10 @@ describe("The plan panel", () => {
       expect(twoExtra).toHaveAttribute("disabled");
     });
 
-    it("Allows direct changes to be made in multiple columns and rows which are still reflected in the row total", () => {
+    it("allows direct changes to be made in multiple columns and rows which are still reflected in the row total", () => {
       render(
         <PlanPanel
+          exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
             extrasLabels: ["One", "Two"],

@@ -1,34 +1,32 @@
 import {
-  CustomerPlan,
   Item,
   PlannerConfig,
   Delivery,
   DaysPerWeek,
+  CustomerPlan,
+  PlanConfiguration,
 } from "./types";
 
 const distributeItems = (
-  inputPlan: CustomerPlan,
+  inputPlan: Delivery[],
   daysPerWeek: DaysPerWeek,
   targetItem: string,
   section: Exclude<keyof Delivery, "deliveryDay">
-): CustomerPlan => {
+): Delivery[] => {
   const distribution = [...new Array(daysPerWeek === 7 ? 6 : daysPerWeek)]
     .map(() => targetItem)
-    .reduce<CustomerPlan>(
-      (accum, item, index) => {
-        const found = accum.deliveries[index % 2][section].find(
-          (foundItem) => foundItem.name === item
-        );
-        if (found) {
-          found.quantity++;
-        }
-        return accum;
-      },
-      { ...inputPlan }
-    );
+    .reduce<Delivery[]>((deliveries, item, index) => {
+      const found = deliveries[index % 2][section].find(
+        (foundItem) => foundItem.name === item
+      );
+      if (found) {
+        found.quantity++;
+      }
+      return deliveries;
+    }, inputPlan);
 
   if (daysPerWeek === 7) {
-    const found = distribution.deliveries[1][section].find(
+    const found = distribution[1][section].find(
       (foundItem) => foundItem.name === targetItem
     );
     if (found) {
@@ -51,19 +49,18 @@ const multiplyItem = (
   );
 
 const multiplyItems = (
-  inputPlan: CustomerPlan,
+  inputPlan: Delivery[],
   multiple: number,
   targetItem: string
-): CustomerPlan => ({
-  deliveries: inputPlan.deliveries.map((delivery) => ({
+): Delivery[] =>
+  inputPlan.map((delivery) => ({
     ...delivery,
     items: multiplyItem(delivery.items, multiple, targetItem),
     extras: multiplyItem(delivery.extras, multiple, targetItem),
-  })),
-});
+  }));
 
-const makeDefaultPlan = (plannerConfig: PlannerConfig): CustomerPlan => ({
-  deliveries: plannerConfig.defaultDeliveryDays.map((day) => ({
+const makeDefaultDeliveryPlan = (plannerConfig: PlannerConfig): Delivery[] =>
+  plannerConfig.defaultDeliveryDays.map((day) => ({
     deliveryDay: day,
     items: plannerConfig.planLabels.map((label) => ({
       name: label,
@@ -73,36 +70,58 @@ const makeDefaultPlan = (plannerConfig: PlannerConfig): CustomerPlan => ({
       name: label,
       quantity: 0,
     })),
-  })),
+  }));
+
+const getDefaultConfig = (config: PlannerConfig): PlanConfiguration => ({
+  daysPerWeek: 6,
+  mealsPerDay: 2,
+  totalPlans: 1,
+  extrasChosen: [],
+  deliveryDays: config.defaultDeliveryDays,
+  planType: config.planLabels[0],
 });
 
-export const generateDistribution = (
-  daysPerWeek: DaysPerWeek,
-  mealsPerDay: number,
-  totalPlans: number,
-  mealSize: string,
-  chosenExtras: string[],
-  plannerConfig: PlannerConfig
+export const makeNewPlan = (
+  defaultSettings: PlannerConfig,
+  configuration?: Partial<PlanConfiguration>,
+  currentPlan?: CustomerPlan
 ): CustomerPlan => {
-  const defaultPlan = makeDefaultPlan(plannerConfig);
+  const defaultConfig = getDefaultConfig(defaultSettings);
+
+  const newConfig: PlanConfiguration = {
+    ...defaultConfig,
+    ...(currentPlan?.configuration ?? {}),
+    ...configuration,
+  };
+  return {
+    configuration: newConfig,
+    deliveries: generateDistribution(newConfig, defaultSettings),
+  };
+};
+
+export const generateDistribution = (
+  config: PlanConfiguration,
+  defaultSettings: PlannerConfig
+): Delivery[] => {
+  const defaultPlan = makeDefaultDeliveryPlan(defaultSettings);
   const distribution = distributeItems(
     defaultPlan,
-    daysPerWeek,
-    mealSize,
+    config.daysPerWeek,
+    config.planType,
     "items"
   );
 
   const afterMultiply = multiplyItems(
     distribution,
-    mealsPerDay * totalPlans,
-    mealSize
+    config.mealsPerDay * config.totalPlans,
+    config.planType
   );
 
-  return chosenExtras.reduce<CustomerPlan>(
+  return config.extrasChosen.reduce<Delivery[]>(
     (currentPlan, extra) =>
       multiplyItems(
-        distributeItems(currentPlan, daysPerWeek, extra, "extras"),
-        totalPlans,
+        distributeItems(currentPlan, config.daysPerWeek, extra, "extras"),
+        config.totalPlans,
         extra
       ),
     afterMultiply
