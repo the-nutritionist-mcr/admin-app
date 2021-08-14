@@ -6,6 +6,7 @@ import {
   getByText,
   getAllByRole,
   getByRole,
+  prettyDOM
 } from "@testing-library/react";
 import PlanPanel from "./PlanPanel";
 import userEvent from "@testing-library/user-event";
@@ -94,7 +95,9 @@ describe("The plan panel", () => {
 
       const cells = getRowCells("Micro");
 
-      userEvent.click(getByRole(cells[0], "button"));
+      act(() => {
+        userEvent.click(getByRole(cells[0], "button"));
+      })
 
       clickDropItem("3");
 
@@ -347,7 +350,9 @@ describe("The plan panel", () => {
 
       const cells = getRowCells("Micro");
 
-      userEvent.click(getByRole(cells[0], "button"));
+      act(() => {
+        userEvent.click(getByRole(cells[0], "button"));
+      });
 
       clickDropItem("2");
 
@@ -506,9 +511,12 @@ describe("The plan panel", () => {
       changeSelectBox("daysPerWeek", "5");
       changeSelectBox("mealsPerDay", "3");
 
+
       const cells = getRowCells("Mass");
 
-      userEvent.click(getByRole(cells[0], "button"));
+      act(() => {
+        userEvent.click(getByRole(cells[0], "button"));
+      })
 
       clickDropItem("4");
 
