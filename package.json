@@ -221,7 +221,8 @@
     "test:cypress": "cypress run",
     "test:ci": "CI=true node scripts/test.js --silent --coverage",
     "amplify:CustomGraphqlResolver": "tsc && mv ./dist/amplify/backend/function/CustomGraphqlResolver/ts ./amplify/backend/function/CustomGraphqlResolver/src",
-    "build:models": "graphql-codegen --config codegen.yml"
+    "build:models": "graphql-codegen --config codegen.yml",
+    "prepare": "husky install"
   },
   "husky": {
     "hooks": {
