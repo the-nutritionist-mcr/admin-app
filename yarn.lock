@@ -5540,6 +5540,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testing-library/dom@npm:^8.1.0":
+  version: 8.1.0
+  resolution: "@testing-library/dom@npm:8.1.0"
+  dependencies:
+    "@babel/code-frame": ^7.10.4
+    "@babel/runtime": ^7.12.5
+    "@types/aria-query": ^4.2.0
+    aria-query: ^4.2.2
+    chalk: ^4.1.0
+    dom-accessibility-api: ^0.5.6
+    lz-string: ^1.4.4
+    pretty-format: ^27.0.2
+  checksum: 8d3778b59c08dba4f1ba62823c0dad0990d2fcbd0396fcf0b8a2c4ce7420f8c5adbcae708f8f58a75ead749bd06d9ef4285187763abb18ac464ed47c2f8e332b
+  languageName: node
+  linkType: hard
+
 "@testing-library/jest-dom@npm:^5.11.6":
   version: 5.14.1
   resolution: "@testing-library/jest-dom@npm:5.14.1"
@@ -22447,7 +22463,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"pretty-format@npm:^27.0.0, pretty-format@npm:^27.0.6":
+"pretty-format@npm:^27.0.0, pretty-format@npm:^27.0.2, pretty-format@npm:^27.0.6":
   version: 27.0.6
   resolution: "pretty-format@npm:27.0.6"
   dependencies:
@@ -26292,6 +26308,7 @@ resolve@^2.0.0-next.3:
     "@babel/plugin-proposal-object-rest-spread": ^7.14.7
     "@babel/plugin-transform-async-to-generator": ^7.14.5
     "@babel/plugin-transform-exponentiation-operator": ^7.14.5
+    "@babel/plugin-transform-modules-commonjs": ^7.15.0
     "@babel/preset-env": ^7.15.0
     "@graphql-codegen/cli": 1.19.4
     "@graphql-codegen/introspection": 1.18.1
@@ -26300,6 +26317,7 @@ resolve@^2.0.0-next.3:
     "@pmmmwh/react-refresh-webpack-plugin": 0.4.3
     "@reduxjs/toolkit": ^1.4.0
     "@svgr/webpack": 5.5.0
+    "@testing-library/dom": ^8.1.0
     "@testing-library/jest-dom": ^5.11.6
     "@testing-library/react": ^10.2.1
     "@testing-library/react-hooks": ^3.7.0
