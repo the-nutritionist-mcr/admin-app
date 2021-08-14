@@ -11,7 +11,7 @@ interface UseRecipesReturnValue {
 const useRecipes = (): UseRecipesReturnValue => {
   const dispatch = useDispatch();
 
-  const recipes = useSelector(allRecipesSelector).sort(recipe => recipe.)
+  const recipes = useSelector(allRecipesSelector);
 
   React.useEffect(() => {
     if (recipes.length === 0) {
