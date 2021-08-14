@@ -370,5 +370,6 @@
     "presets": [
       "react-app"
     ]
-  }
+  },
+  "packageManager": "yarn@3.0.1-rc.2"
 }
