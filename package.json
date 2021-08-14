@@ -89,6 +89,7 @@
     "bfj": "^7.0.2",
     "camelcase": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
+    "conventional-changelog-conventionalcommits": "^4.6.0",
     "copy-dynamodb-table": "^2.0.20",
     "css-loader": "4.3.0",
     "deep-equal": "^2.0.5",

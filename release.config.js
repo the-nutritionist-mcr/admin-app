@@ -1,38 +1,70 @@
-  module.exports = {
-    "branches": ["main", "develop"],
-    "plugins": [
+module.exports = {
+  "branches": ["main", "develop"],
+  "plugins": [
+    [
+      "@semantic-release/npm",
+      {
+        "npmPublish": false,
+      }
+    ],
+
+    [
       "@semantic-release/commit-analyzer",
-      [
-        "@semantic-release/release-notes-generator", 
-        {
-          "preset": "conventionalcommits",
-          "releaseRules": [
-            { "type": "feat", "release":"minor" },
-            { "type": "fix", "release": "patch" },
-            { "type": "docs", "release": false },
-            { "type": "style", "release": false },
-            { "type": "refactor", "release": false },
-            { "type": "perf", "release": "patch" },
-            { "type": "test", "release": false },
-            { "type": "build", "release": false },
-            { "type": "ci", "release": false },
-            { "type": "chore", "release": false },
-            { "type": "revert", "release": "patch" },
+      {
+        "preset": "conventionalcommits",
+        "releaseRules": [
+          { "type": "feat", "release":"minor" },
+          { "type": "fix", "release": "patch" },
+          { "type": "docs", "release": false },
+          { "type": "style", "release": false },
+          { "type": "refactor", "release": false },
+          { "type": "perf", "release": "patch" },
+          { "type": "test", "release": false },
+          { "type": "build", "release": false },
+          { "type": "ci", "release": false },
+          { "type": "chore", "release": false },
+          { "type": "revert", "release": "patch" },
+        ]
+      }
+    ]
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "preset": "conventionalcommits",
+        "linkCompare": true,
+        "linkReferences": true,
+        "presetConfig": {
+          "commitUrlFormat": "{{host}}/{{owner}}/{{repository}}/commit/{{hash}}",
+          "compareUrlFormat": "{{host}}/{{owner}}/{{repository}}/compare/{{previousTag}}...{{currentTag}}",
+          "types": [
+            { "type": "feat", "section":"Features" },
+            { "type": "fix", "section": "Bug Fixes" },
+            { "type": "docs", "hidden": true },
+            { "type": "style", "hidden": true },
+            { "type": "refactor", "hidden": true},
+            { "type": "perf", "hidden": true },
+            { "type": "test", "hidden": true },
+            { "type": "build", "hidden": true },
+            { "type": "ci", "hidden": true },
+            { "type": "chore", "hidden": true },
+            { "type": "revert", "hidden": true},
           ]
         }
-      ],
-      [
-        "@semantic-release/git",
-        {
-          "assets": ["CHANGELOG.md"],
-        }
-      ],
-      [
-        "@semantic-release/exec",
-        {
-          "publishCmd" : "yarn deploy:all"
-        }
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["CHANGELOG.md"],
+      }
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        "publishCmd" : "yarn deploy:all",
+        "failCmd": "git tag -d ${nextRelease.version} && git push --delete origin ${nextRelease.version}"
+      }
 
-      ]
+    ]
   ]
 }
