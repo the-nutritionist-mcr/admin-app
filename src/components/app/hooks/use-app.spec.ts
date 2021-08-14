@@ -1,4 +1,5 @@
-import { Auth, Hub } from "aws-amplify";
+import { Hub } from "@aws-amplify/core";
+import { Auth } from "@aws-amplify/auth";
 import { act, renderHook } from "@testing-library/react-hooks";
 import { HubPayload } from "@aws-amplify/core/lib-esm/Hub";
 import { errorSelector } from "../../../lib/rootReducer";

@@ -1,6 +1,6 @@
 import { Box, Header, Heading, Text } from "grommet";
 import { Cafeteria, Configure, Home, Logout, Plan, User } from "grommet-icons";
-import { Auth } from "aws-amplify";
+import { Auth } from "@aws-amplify/auth";
 import LoadingState from "../../types/LoadingState";
 import { MenuButton } from "..";
 import React from "react";

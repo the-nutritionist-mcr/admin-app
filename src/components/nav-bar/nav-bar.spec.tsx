@@ -1,4 +1,4 @@
-import { Auth } from "aws-amplify";
+import { Auth } from "@aws-amplify/auth";
 import { MenuButton } from "..";
 import { NavBar } from ".";
 import React from "react";

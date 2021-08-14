@@ -1,4 +1,5 @@
-import { Auth, Hub } from "aws-amplify";
+import { Hub } from "@aws-amplify/core";
+import { Auth } from "@aws-amplify/auth";
 import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { clearError } from "../../../lib/apiRequestCreator";
