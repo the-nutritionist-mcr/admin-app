@@ -26,7 +26,7 @@ module.exports = {
           { "type": "revert", "release": "patch" },
         ]
       }
-    ]
+    ],
     [
       "@semantic-release/release-notes-generator",
       {
