@@ -1,13 +1,7 @@
 module.exports = {
   "branches": ["main", "develop"],
+  "repositoryUrl":"https://github.com/benwainwright/tnm",
   "plugins": [
-    [
-      "@semantic-release/npm",
-      {
-        "npmPublish": false,
-      }
-    ],
-
     [
       "@semantic-release/commit-analyzer",
       {
@@ -15,6 +9,7 @@ module.exports = {
         "releaseRules": [
           { "type": "feat", "release":"minor" },
           { "type": "fix", "release": "patch" },
+          { "type": "vuln", "release": "patch" },
           { "type": "docs", "release": false },
           { "type": "style", "release": false },
           { "type": "refactor", "release": false },
@@ -39,6 +34,7 @@ module.exports = {
           "types": [
             { "type": "feat", "section":"Features" },
             { "type": "fix", "section": "Bug Fixes" },
+            { "type": "vuln", "section": "Security Updates" },
             { "type": "docs", "hidden": true },
             { "type": "style", "hidden": true },
             { "type": "refactor", "hidden": true},
@@ -52,6 +48,19 @@ module.exports = {
         }
       }
     ],
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "docs/CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/npm",
+      {
+        "npmPublish": false,
+      }
+    ],
+
     [
       "@semantic-release/git",
       {

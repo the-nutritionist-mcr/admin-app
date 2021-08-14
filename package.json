@@ -1,6 +1,6 @@
 {
   "name": "tnm",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "repository": "git@github.com:benwainwright/tnm.git",
   "dependencies": {
@@ -39,6 +39,7 @@
     "@material-ui/core": "^4.11.0",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "@reduxjs/toolkit": "^1.4.0",
+    "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/exec": "^5.0.0",
     "@semantic-release/git": "^9.0.0",
@@ -89,6 +90,7 @@
     "bfj": "^7.0.2",
     "camelcase": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
+    "conventional-changelog": "^3.1.24",
     "conventional-changelog-conventionalcommits": "^4.6.0",
     "copy-dynamodb-table": "^2.0.20",
     "css-loader": "4.3.0",

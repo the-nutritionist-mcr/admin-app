@@ -73,6 +73,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@material-ui/core", "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:4.12.3"],
             ["@pmmmwh/react-refresh-webpack-plugin", "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:0.4.3"],
             ["@reduxjs/toolkit", "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:1.6.1"],
+            ["@semantic-release/changelog", "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:5.0.1"],
             ["@semantic-release/commit-analyzer", "virtual:8924e8d59805337e7a19e634bdfbbc384686bca15ae190e067207ef959355830a53ae266fea7b44391079976d8b695c352861bddce9f82f95903dbf02b963483#npm:8.0.1"],
             ["@semantic-release/exec", "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:5.0.0"],
             ["@semantic-release/git", "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:9.0.0"],
@@ -123,6 +124,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bfj", "npm:7.0.2"],
             ["camelcase", "npm:6.2.0"],
             ["case-sensitive-paths-webpack-plugin", "npm:2.3.0"],
+            ["conventional-changelog", "npm:3.1.24"],
             ["conventional-changelog-conventionalcommits", "npm:4.6.0"],
             ["copy-dynamodb-table", "npm:2.2.1"],
             ["css-loader", "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:4.3.0"],
@@ -10736,6 +10738,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@hutson/parse-repository-url", [
+        ["npm:3.0.2", {
+          "packageLocation": "./.yarn/cache/@hutson-parse-repository-url-npm-3.0.2-ae5ef1b671-39992c5f18.zip/node_modules/@hutson/parse-repository-url/",
+          "packageDependencies": [
+            ["@hutson/parse-repository-url", "npm:3.0.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@iarna/toml", [
         ["npm:2.2.5", {
           "packageLocation": "./.yarn/cache/@iarna-toml-npm-2.2.5-6da1399e8e-b63b2b2c4f.zip/node_modules/@iarna/toml/",
@@ -11962,6 +11973,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [
             "rxjs",
             "zen-observable"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@semantic-release/changelog", [
+        ["npm:5.0.1", {
+          "packageLocation": "./.yarn/cache/@semantic-release-changelog-npm-5.0.1-6a4fde8bb8-71212ce237.zip/node_modules/@semantic-release/changelog/",
+          "packageDependencies": [
+            ["@semantic-release/changelog", "npm:5.0.1"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:5.0.1", {
+          "packageLocation": "./.yarn/__virtual__/@semantic-release-changelog-virtual-346f04dc07/0/cache/@semantic-release-changelog-npm-5.0.1-6a4fde8bb8-71212ce237.zip/node_modules/@semantic-release/changelog/",
+          "packageDependencies": [
+            ["@semantic-release/changelog", "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:5.0.1"],
+            ["@semantic-release/error", "npm:2.2.0"],
+            ["@types/semantic-release", null],
+            ["aggregate-error", "npm:3.1.0"],
+            ["fs-extra", "npm:9.1.0"],
+            ["lodash", "npm:4.17.21"],
+            ["semantic-release", "npm:17.4.4"]
+          ],
+          "packagePeers": [
+            "@types/semantic-release",
+            "semantic-release"
           ],
           "linkType": "HARD",
         }]
@@ -14244,6 +14281,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/acorn-walk-npm-7.2.0-5f8b515308-9252158a79.zip/node_modules/acorn-walk/",
           "packageDependencies": [
             ["acorn-walk", "npm:7.2.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["add-stream", [
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/add-stream-npm-1.0.0-a5a0c0498c-3e9e8b0b8f.zip/node_modules/add-stream/",
+          "packageDependencies": [
+            ["add-stream", "npm:1.0.0"]
           ],
           "linkType": "HARD",
         }]
@@ -18580,12 +18626,52 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["conventional-changelog", [
+        ["npm:3.1.24", {
+          "packageLocation": "./.yarn/cache/conventional-changelog-npm-3.1.24-11de891016-54253a3e37.zip/node_modules/conventional-changelog/",
+          "packageDependencies": [
+            ["conventional-changelog", "npm:3.1.24"],
+            ["conventional-changelog-angular", "npm:5.0.12"],
+            ["conventional-changelog-atom", "npm:2.0.8"],
+            ["conventional-changelog-codemirror", "npm:2.0.8"],
+            ["conventional-changelog-conventionalcommits", "npm:4.6.0"],
+            ["conventional-changelog-core", "npm:4.2.3"],
+            ["conventional-changelog-ember", "npm:2.0.9"],
+            ["conventional-changelog-eslint", "npm:3.0.9"],
+            ["conventional-changelog-express", "npm:2.0.6"],
+            ["conventional-changelog-jquery", "npm:3.0.11"],
+            ["conventional-changelog-jshint", "npm:2.0.9"],
+            ["conventional-changelog-preset-loader", "npm:2.3.4"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["conventional-changelog-angular", [
         ["npm:5.0.12", {
           "packageLocation": "./.yarn/cache/conventional-changelog-angular-npm-5.0.12-0dd88eb3f8-552db8762d.zip/node_modules/conventional-changelog-angular/",
           "packageDependencies": [
             ["conventional-changelog-angular", "npm:5.0.12"],
             ["compare-func", "npm:2.0.0"],
+            ["q", "npm:1.5.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["conventional-changelog-atom", [
+        ["npm:2.0.8", {
+          "packageLocation": "./.yarn/cache/conventional-changelog-atom-npm-2.0.8-ab61571c15-12ecbd928f.zip/node_modules/conventional-changelog-atom/",
+          "packageDependencies": [
+            ["conventional-changelog-atom", "npm:2.0.8"],
+            ["q", "npm:1.5.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["conventional-changelog-codemirror", [
+        ["npm:2.0.8", {
+          "packageLocation": "./.yarn/cache/conventional-changelog-codemirror-npm-2.0.8-342d72f6a3-cf331db40c.zip/node_modules/conventional-changelog-codemirror/",
+          "packageDependencies": [
+            ["conventional-changelog-codemirror", "npm:2.0.8"],
             ["q", "npm:1.5.1"]
           ],
           "linkType": "HARD",
@@ -18603,12 +18689,111 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["conventional-changelog-core", [
+        ["npm:4.2.3", {
+          "packageLocation": "./.yarn/cache/conventional-changelog-core-npm-4.2.3-3347f58b12-0e174d17c6.zip/node_modules/conventional-changelog-core/",
+          "packageDependencies": [
+            ["conventional-changelog-core", "npm:4.2.3"],
+            ["add-stream", "npm:1.0.0"],
+            ["conventional-changelog-writer", "npm:5.0.0"],
+            ["conventional-commits-parser", "npm:3.2.1"],
+            ["dateformat", "npm:3.0.3"],
+            ["get-pkg-repo", "npm:4.1.2"],
+            ["git-raw-commits", "npm:2.0.10"],
+            ["git-remote-origin-url", "npm:2.0.0"],
+            ["git-semver-tags", "npm:4.1.1"],
+            ["lodash", "npm:4.17.21"],
+            ["normalize-package-data", "npm:3.0.2"],
+            ["q", "npm:1.5.1"],
+            ["read-pkg", "npm:3.0.0"],
+            ["read-pkg-up", "npm:3.0.0"],
+            ["through2", "npm:4.0.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["conventional-changelog-ember", [
+        ["npm:2.0.9", {
+          "packageLocation": "./.yarn/cache/conventional-changelog-ember-npm-2.0.9-2276834930-30c7bd48ce.zip/node_modules/conventional-changelog-ember/",
+          "packageDependencies": [
+            ["conventional-changelog-ember", "npm:2.0.9"],
+            ["q", "npm:1.5.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["conventional-changelog-eslint", [
+        ["npm:3.0.9", {
+          "packageLocation": "./.yarn/cache/conventional-changelog-eslint-npm-3.0.9-62c523a901-402ae73a8c.zip/node_modules/conventional-changelog-eslint/",
+          "packageDependencies": [
+            ["conventional-changelog-eslint", "npm:3.0.9"],
+            ["q", "npm:1.5.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["conventional-changelog-express", [
+        ["npm:2.0.6", {
+          "packageLocation": "./.yarn/cache/conventional-changelog-express-npm-2.0.6-8a37ff0369-c139fa9878.zip/node_modules/conventional-changelog-express/",
+          "packageDependencies": [
+            ["conventional-changelog-express", "npm:2.0.6"],
+            ["q", "npm:1.5.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["conventional-changelog-jquery", [
+        ["npm:3.0.11", {
+          "packageLocation": "./.yarn/cache/conventional-changelog-jquery-npm-3.0.11-d4ff10c6e2-df1145467c.zip/node_modules/conventional-changelog-jquery/",
+          "packageDependencies": [
+            ["conventional-changelog-jquery", "npm:3.0.11"],
+            ["q", "npm:1.5.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["conventional-changelog-jshint", [
+        ["npm:2.0.9", {
+          "packageLocation": "./.yarn/cache/conventional-changelog-jshint-npm-2.0.9-ef6b791bee-ec96144b75.zip/node_modules/conventional-changelog-jshint/",
+          "packageDependencies": [
+            ["conventional-changelog-jshint", "npm:2.0.9"],
+            ["compare-func", "npm:2.0.0"],
+            ["q", "npm:1.5.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["conventional-changelog-preset-loader", [
+        ["npm:2.3.4", {
+          "packageLocation": "./.yarn/cache/conventional-changelog-preset-loader-npm-2.3.4-a907f2e49a-23a889b7fc.zip/node_modules/conventional-changelog-preset-loader/",
+          "packageDependencies": [
+            ["conventional-changelog-preset-loader", "npm:2.3.4"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["conventional-changelog-writer", [
         ["npm:4.1.0", {
           "packageLocation": "./.yarn/cache/conventional-changelog-writer-npm-4.1.0-a660c822b9-6fce8f64f5.zip/node_modules/conventional-changelog-writer/",
           "packageDependencies": [
             ["conventional-changelog-writer", "npm:4.1.0"],
             ["compare-func", "npm:2.0.0"],
+            ["conventional-commits-filter", "npm:2.0.7"],
+            ["dateformat", "npm:3.0.3"],
+            ["handlebars", "npm:4.7.7"],
+            ["json-stringify-safe", "npm:5.0.1"],
+            ["lodash", "npm:4.17.21"],
+            ["meow", "npm:8.1.2"],
+            ["semver", "npm:6.3.0"],
+            ["split", "npm:1.0.1"],
+            ["through2", "npm:4.0.2"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:5.0.0", {
+          "packageLocation": "./.yarn/cache/conventional-changelog-writer-npm-5.0.0-acebc38f2a-c310b949d3.zip/node_modules/conventional-changelog-writer/",
+          "packageDependencies": [
+            ["conventional-changelog-writer", "npm:5.0.0"],
             ["conventional-commits-filter", "npm:2.0.7"],
             ["dateformat", "npm:3.0.3"],
             ["handlebars", "npm:4.7.7"],
@@ -23611,6 +23796,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["get-pkg-repo", [
+        ["npm:4.1.2", {
+          "packageLocation": "./.yarn/cache/get-pkg-repo-npm-4.1.2-24def331f9-c756ed1991.zip/node_modules/get-pkg-repo/",
+          "packageDependencies": [
+            ["get-pkg-repo", "npm:4.1.2"],
+            ["@hutson/parse-repository-url", "npm:3.0.2"],
+            ["hosted-git-info", "npm:4.0.2"],
+            ["meow", "npm:7.1.1"],
+            ["through2", "npm:2.0.5"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["get-stdin", [
         ["npm:6.0.0", {
           "packageLocation": "./.yarn/cache/get-stdin-npm-6.0.0-22ebabe125-593f6fb4ff.zip/node_modules/get-stdin/",
@@ -23718,6 +23916,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["git-remote-origin-url", [
+        ["npm:2.0.0", {
+          "packageLocation": "./.yarn/cache/git-remote-origin-url-npm-2.0.0-319debe0d1-85263a09c0.zip/node_modules/git-remote-origin-url/",
+          "packageDependencies": [
+            ["git-remote-origin-url", "npm:2.0.0"],
+            ["gitconfiglocal", "npm:1.0.0"],
+            ["pify", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["git-rev-sync", [
         ["npm:3.0.1", {
           "packageLocation": "./.yarn/cache/git-rev-sync-npm-3.0.1-b74ad9c59e-998144d650.zip/node_modules/git-rev-sync/",
@@ -23726,6 +23935,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["escape-string-regexp", "npm:1.0.5"],
             ["graceful-fs", "npm:4.1.15"],
             ["shelljs", "npm:0.8.4"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["git-semver-tags", [
+        ["npm:4.1.1", {
+          "packageLocation": "./.yarn/cache/git-semver-tags-npm-4.1.1-93b9747811-e16d02a515.zip/node_modules/git-semver-tags/",
+          "packageDependencies": [
+            ["git-semver-tags", "npm:4.1.1"],
+            ["meow", "npm:8.1.2"],
+            ["semver", "npm:6.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["gitconfiglocal", [
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/gitconfiglocal-npm-1.0.0-905970379d-e6d2764c15.zip/node_modules/gitconfiglocal/",
+          "packageDependencies": [
+            ["gitconfiglocal", "npm:1.0.0"],
+            ["ini", "npm:1.3.8"]
           ],
           "linkType": "HARD",
         }]
@@ -30290,6 +30520,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["meow", [
+        ["npm:7.1.1", {
+          "packageLocation": "./.yarn/cache/meow-npm-7.1.1-8aa72d593e-87bba177ab.zip/node_modules/meow/",
+          "packageDependencies": [
+            ["meow", "npm:7.1.1"],
+            ["@types/minimist", "npm:1.2.2"],
+            ["camelcase-keys", "npm:6.2.2"],
+            ["decamelize-keys", "npm:1.1.0"],
+            ["hard-rejection", "npm:2.1.0"],
+            ["minimist-options", "npm:4.1.0"],
+            ["normalize-package-data", "npm:2.5.0"],
+            ["read-pkg-up", "npm:7.0.1"],
+            ["redent", "npm:3.0.0"],
+            ["trim-newlines", "npm:3.0.1"],
+            ["type-fest", "npm:0.13.1"],
+            ["yargs-parser", "npm:18.1.3"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:8.1.2", {
           "packageLocation": "./.yarn/cache/meow-npm-8.1.2-bcfe48d4f3-bc23bf1b44.zip/node_modules/meow/",
           "packageDependencies": [
@@ -38702,6 +38950,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@material-ui/core", "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:4.12.3"],
             ["@pmmmwh/react-refresh-webpack-plugin", "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:0.4.3"],
             ["@reduxjs/toolkit", "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:1.6.1"],
+            ["@semantic-release/changelog", "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:5.0.1"],
             ["@semantic-release/commit-analyzer", "virtual:8924e8d59805337e7a19e634bdfbbc384686bca15ae190e067207ef959355830a53ae266fea7b44391079976d8b695c352861bddce9f82f95903dbf02b963483#npm:8.0.1"],
             ["@semantic-release/exec", "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:5.0.0"],
             ["@semantic-release/git", "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:9.0.0"],
@@ -38752,6 +39001,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bfj", "npm:7.0.2"],
             ["camelcase", "npm:6.2.0"],
             ["case-sensitive-paths-webpack-plugin", "npm:2.3.0"],
+            ["conventional-changelog", "npm:3.1.24"],
             ["conventional-changelog-conventionalcommits", "npm:4.6.0"],
             ["copy-dynamodb-table", "npm:2.2.1"],
             ["css-loader", "virtual:4c8d32054aa4925b6adbedca96d0d077933b7076aa866a02dcff0af94e8001803ce8ba799a0680b1a15928cb2d2c9e6cabd41cc6b092ffad1767e8774dadb6a2#npm:4.3.0"],
@@ -39411,6 +39661,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["type-fest", [
+        ["npm:0.13.1", {
+          "packageLocation": "./.yarn/cache/type-fest-npm-0.13.1-7f4486b973-e6bf2e3c44.zip/node_modules/type-fest/",
+          "packageDependencies": [
+            ["type-fest", "npm:0.13.1"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:0.16.0", {
           "packageLocation": "./.yarn/cache/type-fest-npm-0.16.0-e1b8ff05d9-1a4102c06d.zip/node_modules/type-fest/",
           "packageDependencies": [
