@@ -73,7 +73,8 @@ module.exports = {
       "@semantic-release/exec",
       {
         "publishCmd" : "yarn deploy:all",
-        "failCmd": "git tag -d ${nextRelease.version} && git push --delete origin ${nextRelease.version}"
+        "failCmd": "git tag -d ${nextRelease.version} && git push --delete origin ${nextRelease.version}",
+        "successCmd": "yarn ts-node src/scripts/update-trello.ts"
       }
 
     ]

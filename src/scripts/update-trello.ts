@@ -65,7 +65,7 @@ const trello = {
 
 // return await fetch("https://api.trello.com/1/boards/OfdLJmww/cards")
 
-(async () => {
+const commentNewCommits = async () => {
   const boardData = await trello.get("/boards/OfdLJmww/cards");
 
   const getCardIdFromBoardData = (ticket: string) =>
@@ -155,4 +155,8 @@ const trello = {
     })
   );
   console.log("Finished adding comments!");
-})();
+};
+
+if(process.env.DEPLOYMENT_ENVIRONMENT === 'prod')  {
+  commentNewCommits()
+}

@@ -190,6 +190,8 @@ jobs:
       - name: Release
         run: yarn semantic-release
         env:
+          TRELLO_TOKEN: ${{ secrets.TRELLO_TOKEN }}
+          TRELLO_KEY: ${{ secrets.TRELLO_KEY }}
           DEPLOYMENT_ENVIRONMENT: prod
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
