@@ -1,4 +1,4 @@
-import { Heading, } from "grommet";
+import { Heading, Paragraph } from "grommet";
 import React from "react";
 import notes from "../../CHANGELOG.md"
 import ReactMarkdown from "react-markdown";
@@ -50,6 +50,9 @@ const Home: React.FC = () => {
       <Heading level={2}>
         Releases
       </Heading>
+      <Paragraph fill>
+        These release notes are automatically generated from logs of changes made to the code base, so they should stay up to date. If you have any questions about any changes that have been made, or to report a bug, please email me directly at ben@thenutritionistmcr.com.
+      </Paragraph>
       {/* eslint-disable react/display-name */}
       <ReactMarkdown components={{
         h2: ({...props}) => <Heading margin="small" {...props} level={3} />,
