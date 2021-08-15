@@ -84,9 +84,7 @@ jobs:
 
 
       - name: Release
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: semantic-release
+        run: yarnsemantic-release
         env:
           DEPLOYMENT_ENVIRONMENT: prod
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
