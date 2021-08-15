@@ -170,6 +170,7 @@
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
     "optimize-css-assets-webpack-plugin": "5.0.4",
+    "path-parse": "1.0.7",
     "pdfmake": "^0.1.68",
     "pnp-webpack-plugin": "1.6.4",
     "polished": "^4.0.3",
