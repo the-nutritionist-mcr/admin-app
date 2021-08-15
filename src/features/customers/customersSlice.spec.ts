@@ -18,7 +18,7 @@ describe("fetchCustomers", () => {
       .mockReturnValue({ query: "go-go-go", variables: {}, authToken: 'foo'});
 
     when(mocked(API.graphql))
-      .calledWith({ query: "go-go-go", variables: {} })
+      .calledWith({ query: "go-go-go", variables: {}, authToken: 'foo' })
       .mockResolvedValue({ data: { listCustomers: ["foo", "bar"] } });
 
     const thunk = fetchCustomers();

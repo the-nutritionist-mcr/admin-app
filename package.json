@@ -313,7 +313,8 @@
     ],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+      "^.+\\.md$": "<rootDir>/src/testSupport/string-file-stub.js",
+      "^.+\\.module\\.(css|sass|scss|md)$": "identity-obj-proxy"
     },
     "moduleFileExtensions": [
       "web.js",

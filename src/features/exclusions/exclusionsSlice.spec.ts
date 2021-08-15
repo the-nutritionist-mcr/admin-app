@@ -18,7 +18,7 @@ describe("fetchExclusions", () => {
       .mockReturnValue({ query: "go-go-go", variables: {}, authToken: 'foo' });
 
     when(mocked(API.graphql))
-      .calledWith({ query: "go-go-go", variables: {} })
+      .calledWith({ query: "go-go-go", variables: {}, authToken: 'foo'})
       .mockResolvedValue({ data: { listExclusions: ["foo", "bar"] } });
 
     const thunk = fetchExclusions();
