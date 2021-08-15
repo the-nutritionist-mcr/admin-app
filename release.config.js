@@ -9,6 +9,7 @@ module.exports = {
         "releaseRules": [
           { "type": "feat", "release":"minor" },
           { "type": "fix", "release": "patch" },
+          { "type": "test", "release": false },
           { "type": "vuln", "release": "patch" },
           { "type": "docs", "release": false },
           { "type": "style", "release": false },
@@ -33,6 +34,7 @@ module.exports = {
           "compareUrlFormat": "{{host}}/{{owner}}/{{repository}}/compare/{{previousTag}}...{{currentTag}}",
           "types": [
             { "type": "feat", "section":"Features" },
+            { "type": "test", "hidden": true },
             { "type": "fix", "section": "Bug Fixes" },
             { "type": "vuln", "section": "Security Updates" },
             { "type": "docs", "hidden": true },
