@@ -1,5 +1,5 @@
 module.exports = {
-  "branches": ["main"],
+  "branches": ["main", "develop"],
   "repositoryUrl":"https://github.com/benwainwright/tnm",
   "plugins": [
     [
