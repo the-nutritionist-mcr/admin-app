@@ -77,9 +77,100 @@ jobs:
         env:
           NODE_OPTIONS: --max_old_space_size=4096
 
+  cdk-synth-dev-backend:
+    name: CDK Synth Backend (dev)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: Synth Dev Backend
+        run: cdk synth
+
+        env:
+          DO_BACKEND: true
+          DEPLOYMENT_ENVIRONMENT: dev
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+
+  cdk-synth-prod-backend:
+    name: CDK Synth Backend (dev)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: Synth Dev Backend
+        run: cdk synth
+
+        env:
+          DO_BACKEND: true
+          DEPLOYMENT_ENVIRONMENT: prod
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+
+  cdk-synth-dev-frontend:
+    name: CDK Synth Backend (dev)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: Synth Dev Backend
+        run: cdk synth
+
+        env:
+          DEPLOYMENT_ENVIRONMENT: dev
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+
+  cdk-synth-prod-frontend:
+    name: CDK Synth Backend (dev)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: Synth Dev Backend
+        run: cdk synth
+
+        env:
+          DEPLOYMENT_ENVIRONMENT: prod
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+        
+
   release:
     name: Release
-    needs: [lint, unit-test, types, build]
+    needs: [lint, unit-test, types, build, dry-run-dev]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -102,6 +193,7 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
 
 
 
