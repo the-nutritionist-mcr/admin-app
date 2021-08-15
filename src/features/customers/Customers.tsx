@@ -26,7 +26,8 @@ import useCustomers from "./useCustomers";
 import { useSelector } from "react-redux";
 
 const convertCustomerToSimpleObject = (
-  customer: Customer
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  { newPlan, ...customer }: Customer
 ): { [key: string]: string | number | boolean | undefined } => ({
   ...customer,
   plan: customer.plan.name,

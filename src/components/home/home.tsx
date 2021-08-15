@@ -64,6 +64,8 @@ const Home: React.FC = () => {
         components={{
           h2: ({ ...props }) => <Heading margin="small" {...props} level={3} />,
           h3: ({ ...props }) => <Heading margin="small" {...props} level={4} />,
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           li: ({ ...props }) => <StyledLi {...props} />,
         }}
       >
