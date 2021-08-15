@@ -19,7 +19,7 @@ jobs:
       - name: Yarn install
         run: yarn install
       - name: Test
-        run: yurn test:ci
+        run: yarn test:ci
       - uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
