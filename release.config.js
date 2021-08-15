@@ -1,5 +1,7 @@
 module.exports = {
-  "branches": ["main", "develop"],
+  "branches": [
+    "main", 
+  ],
   "repositoryUrl":"https://github.com/benwainwright/tnm",
   "plugins": [
     [
@@ -9,6 +11,7 @@ module.exports = {
         "releaseRules": [
           { "type": "feat", "release":"minor" },
           { "type": "fix", "release": "patch" },
+          { "type": "test", "release": false },
           { "type": "vuln", "release": "patch" },
           { "type": "docs", "release": false },
           { "type": "style", "release": false },
@@ -33,6 +36,7 @@ module.exports = {
           "compareUrlFormat": "{{host}}/{{owner}}/{{repository}}/compare/{{previousTag}}...{{currentTag}}",
           "types": [
             { "type": "feat", "section":"Features" },
+            { "type": "test", "hidden": true },
             { "type": "fix", "section": "Bug Fixes" },
             { "type": "vuln", "section": "Security Updates" },
             { "type": "docs", "hidden": true },
@@ -54,26 +58,12 @@ module.exports = {
         "changelogFile": "src/CHANGELOG.md"
       }
     ],
-    [
-      "@semantic-release/npm",
-      {
-        "npmPublish": false,
-      }
-    ],
-
+    "@semantic-release/npm",
     [
       "@semantic-release/git",
       {
-        "assets": ["CHANGELOG.md"],
+        "assets": ["src/CHANGELOG.md", "package.json"],
       }
     ],
-    [
-      "@semantic-release/exec",
-      {
-        "publishCmd" : "yarn deploy:all",
-        "failCmd": "git tag -d ${nextRelease.version} && git push --delete origin ${nextRelease.version}"
-      }
-
-    ]
   ]
 }

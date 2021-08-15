@@ -13,8 +13,6 @@ jest.mock("react-redux");
 jest.mock("./recipesSlice");
 jest.mock("../exclusions/exclusionsSlice");
 
-const flushPromises = () => new Promise(setImmediate);
-
 describe("useRecipes", () => {
   beforeEach(() => {
     resetAllWhenMocks();
@@ -57,7 +55,6 @@ describe("useRecipes", () => {
       .calledWith(allRecipesSelector as any)
       .mockReturnValue([mock<Recipe>()]);
     renderHook(() => useRecipes());
-    await flushPromises();
 
     expect(mockDispatch).not.toHaveBeenCalledWith("recipe-action");
   });

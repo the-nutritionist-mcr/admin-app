@@ -85,7 +85,8 @@ const generateDeliveryPlanDocumentDefinition = (
       {
         text: `TNM Delivery Plan (printed ${date.toLocaleDateString(
           undefined,
-          options
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          options as any
         )})`,
         style: "header",
       },

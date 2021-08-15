@@ -1,0 +1,263 @@
+name: Test and release
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "**.md"
+
+jobs:
+  build-backend:
+    name: Build Backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+      - name: Yarn install
+        run: yarn install
+      - name: Build
+        run: yarn build:backend
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: backend
+          path: dist/bundles/backend
+
+  build-frontend:
+    name: Build frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+      - name: Yarn install
+        run: yarn install
+      - name: Build
+        run: yarn build:frontend
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: build
+
+  # types:
+  #   name: Check types
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Configure node 12
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: "12"
+  #     - name: Yarn install
+  #       run: yarn install
+  #     - name: Types
+  #       run: yarn tsc
+
+  # unit-test:
+  #   name: Unit test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Configure node 12
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: "12"
+  #     - name: Yarn install
+  #       run: yarn install
+  #     - name: Test
+  #       run: yarn test:ci
+  #     - uses: codecov/codecov-action@v1
+  #       with:
+  #         token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+  #         directory: coverage
+  #         flags: unittests
+  #         verbose: true
+
+  # lint:
+  #   name: Lint
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Configure node 12
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: "12"
+  #     - name: Yarn install
+  #       run: yarn install
+  #     - name: Lint
+  #       run: yarn lint
+  #       env:
+  #         NODE_OPTIONS: --max_old_space_size=4096
+
+  # cdk-synth-dev-backend:
+  #   name: CDK Synth Backend (dev)
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Configure node 12
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: "12"
+
+  #     - name: Yarn install
+  #       run: yarn install
+
+  #     - name: Synth Dev Backend
+  #       run: yarn cdk synth
+
+  #       env:
+  #         DO_BACKEND: true
+  #         DEPLOYMENT_ENVIRONMENT: dev
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         AWS_REGION: us-east-1
+
+  # cdk-synth-prod-backend:
+  #   name: CDK Synth Backend (prod)
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Configure node 12
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: "12"
+
+  #     - name: Yarn install
+  #       run: yarn install
+
+  #     - name: Synth ProdBackend
+  #       run: yarn cdk synth
+
+  #       env:
+  #         DO_BACKEND: true
+  #         DEPLOYMENT_ENVIRONMENT: prod
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         AWS_REGION: us-east-1
+
+  # cdk-synth-dev-frontend:
+  #   name: CDK Synth Frontend (dev)
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Configure node 12
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: "12"
+
+  #     - name: Yarn install
+  #       run: yarn install
+
+  #     - name: Make empty build folder
+  #       run: mkdir build && touch build/file
+
+  #     - name: Synth Dev Frontend
+  #       run: yarn cdk synth
+
+  #       env:
+  #         DEPLOYMENT_ENVIRONMENT: dev
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         AWS_REGION: us-east-1
+
+  # cdk-synth-prod-frontend:
+  #   name: CDK Synth Frontend (prod)
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Configure node 12
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: "12"
+
+  #     - name: Yarn install
+  #       run: yarn install
+
+  #     - name: Make empty build folder
+  #       run: mkdir build && touch build/file
+
+  #     - name: Synth Prod Frontend
+  #       run: yarn cdk synth
+
+  #       env:
+  #         DEPLOYMENT_ENVIRONMENT: prod
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         AWS_REGION: us-east-1
+
+  # semgrep:
+  #   name: Semgrep
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: returntocorp/semgrep-action@v1
+  #       with:
+  #         publishToken: ${{ secrets.SEMGREP_APP_TOKEN }}
+  #         publishDeployment: 2475
+
+  # codeql:
+  #   name: CodeQL Analysis
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Initialize CodeQL
+  #     uses: github/codeql-action/init@v1
+  #     with:
+  #       languages: ${{ matrix.language }}
+
+  #   - name: Perform CodeQL Analysis
+  #     uses: github/codeql-action/analyze@v1
+
+  release:
+    name: Release Package
+    needs: 
+    # - lint
+    # - unit-test
+    # - types
+    - build-backend
+    - build-frontend
+    # - cdk-synth-dev-backend
+    # - cdk-synth-dev-frontend
+    # - cdk-synth-prod-backend
+    # - cdk-synth-prod-frontend
+    # - semgrep
+    # - codeql
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: Download Backend
+        uses: actions/download-artifact@v2
+        with:
+          name: backend
+          path: backend
+
+      - name: Download Frontend
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: build
+
+      - name: Release Package
+        run: yarn semantic-release
+        env:
+          NPM_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+
+
+
