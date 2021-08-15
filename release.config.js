@@ -1,5 +1,7 @@
 module.exports = {
-  "branches": ["main", "develop"],
+  "branches": [
+    "develop"
+  ],
   "repositoryUrl":"https://github.com/benwainwright/tnm",
   "plugins": [
     [
@@ -53,30 +55,15 @@ module.exports = {
     [
       "@semantic-release/changelog",
       {
-        "changelogFile": "src/CHANGELOG.md"
+        "changelogFile": "CHANGELOG.md"
       }
     ],
-    [
-      "@semantic-release/npm",
-      {
-        "npmPublish": false,
-      }
-    ],
-
+    "@semantic-release/npm",
     [
       "@semantic-release/git",
       {
-        "assets": ["src/CHANGELOG.md", "package.json"],
+        "assets": ["CHANGELOG.md", "package.json"],
       }
     ],
-    [
-      "@semantic-release/exec",
-      {
-        "publishCmd" : "yarn deploy:all",
-        "failCmd": "git tag -d ${nextRelease.version} && git push --delete origin ${nextRelease.version}",
-        "successCmd": "yarn ts-node src/scripts/update-trello.ts"
-      }
-
-    ]
   ]
 }

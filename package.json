@@ -71,6 +71,7 @@
     "@types/react-router-dom": "^5.1.6",
     "@types/redux-localstorage": "^1.0.8",
     "@types/styled-components": "^5.1.4",
+    "@types/testing-library__jest-dom": "^5.14.1",
     "@types/testing-library__react-hooks": "^3.4.1",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
@@ -227,9 +228,13 @@
     "workbox-webpack-plugin": "5.1.4",
     "yaml-lint": "^1.2.4"
   },
+  "files": [
+    "build/**/*",
+    "src/infrastructure/**/*"
+  ],
   "scripts": {
     "start": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) node scripts/start.js",
-    "build:frontend": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) node scripts/build.js",
+    "build:frontend": "cp CHANGELOG.md src/CHANGELOG.md && REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) node scripts/build.js",
     "clear-tables": "ts-node src/scripts/do-clear-database.ts",
     "clone-prod-tables-to-dev": "ts-node src/scripts/clone-prod-db.ts",
     "deploy:frontend": "yarn build:frontend && cdk deploy --require-approval never --all --outputs-file src/frontend-outputs.json",
@@ -403,5 +408,8 @@
     "husky@7.0.1": {
       "unplugged": true
     }
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }

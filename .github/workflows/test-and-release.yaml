@@ -2,7 +2,6 @@ name: Test and release
 on:
   push:
     branches:
-      - main
       - develop
 
     paths-ignore:
@@ -22,6 +21,11 @@ jobs:
         run: yarn install
       - name: Build
         run: yarn build:frontend
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: build
 
   types:
     name: Check types
@@ -72,3 +76,32 @@ jobs:
         run: yarn lint
         env:
           NODE_OPTIONS: --max_old_space_size=4096
+
+  release:
+    name: Release
+    needs: [lint, unit-test, types, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: Download Frontend
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: build
+
+      - name: Release Frontend
+        run: yarn semantic-release
+        env:
+          NPM_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+
+
