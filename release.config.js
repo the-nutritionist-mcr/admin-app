@@ -1,6 +1,6 @@
 module.exports = {
   "branches": [
-    "develop"
+    "develop", 
   ],
   "repositoryUrl":"https://github.com/benwainwright/tnm",
   "plugins": [
@@ -55,14 +55,14 @@ module.exports = {
     [
       "@semantic-release/changelog",
       {
-        "changelogFile": "CHANGELOG.md"
+        "changelogFile": "src/CHANGELOG.md"
       }
     ],
     "@semantic-release/npm",
     [
       "@semantic-release/git",
       {
-        "assets": ["CHANGELOG.md", "package.json"],
+        "assets": ["src/CHANGELOG.md", "package.json"],
       }
     ],
   ]
