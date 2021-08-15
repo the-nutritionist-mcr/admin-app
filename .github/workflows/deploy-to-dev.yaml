@@ -46,6 +46,8 @@ jobs:
           cmd: install
       - name: Lint
         run: yarn lint
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
   deploy:
     name: Deploy
     needs: [unit-test, lint]
