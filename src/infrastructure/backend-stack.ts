@@ -111,13 +111,12 @@ export default class BackendStack extends cdk.Stack {
       this,
       "AppResolverLambda",
       {
-
         bundling: {
           externalModules: [
-            'aws-sdk',
-            'uuid',
-            'source-map-support',
-            'loglevel'
+            "aws-sdk",
+            "uuid",
+            "source-map-support",
+            "loglevel",
           ],
         },
         functionName: `${name}-resolver-lambda`,
@@ -125,7 +124,6 @@ export default class BackendStack extends cdk.Stack {
         entry: path.resolve(root, "src", "backend", "index.ts"),
         handler: "handler",
         memorySize: 1024,
-        
       }
     );
 

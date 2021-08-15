@@ -13,7 +13,6 @@ jest.mock("react-redux");
 jest.mock("./customersSlice");
 jest.mock("../exclusions/exclusionsSlice");
 
-
 describe("useCustomers", () => {
   beforeEach(() => {
     resetAllWhenMocks();

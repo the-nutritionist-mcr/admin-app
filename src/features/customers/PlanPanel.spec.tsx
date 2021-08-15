@@ -5,7 +5,7 @@ import {
   act,
   getByText,
   getAllByRole,
-  getByRole
+  getByRole,
 } from "@testing-library/react";
 import PlanPanel from "./PlanPanel";
 import userEvent from "@testing-library/user-event";
@@ -96,7 +96,7 @@ describe("The plan panel", () => {
 
       act(() => {
         userEvent.click(getByRole(cells[0], "button"));
-      })
+      });
 
       clickDropItem("3");
 
@@ -510,12 +510,11 @@ describe("The plan panel", () => {
       changeSelectBox("daysPerWeek", "5");
       changeSelectBox("mealsPerDay", "3");
 
-
       const cells = getRowCells("Mass");
 
       act(() => {
         userEvent.click(getByRole(cells[0], "button"));
-      })
+      });
 
       clickDropItem("4");
 

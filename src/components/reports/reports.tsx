@@ -6,7 +6,7 @@ const Reports: React.FC = () => {
   const { activePlans, inActivePlans, totalPlans } = useHome();
   return (
     <React.Fragment>
-    <Heading level={2}>Reports</Heading>
+      <Heading level={2}>Reports</Heading>
       <Paragraph>
         <ul>
           <li>
