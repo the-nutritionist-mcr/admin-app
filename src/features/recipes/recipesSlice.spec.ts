@@ -15,7 +15,7 @@ describe("fetchRecipes", () => {
   it("Dispatches the fullfilled action with the results returend from the GraphQL API", async () => {
     when(mocked(graphqlOperation))
       .calledWith(listRecipesQuery)
-      .mockReturnValue({ query: "go-go-go", variables: {} });
+      .mockReturnValue({ query: "go-go-go", variables: {}, authToken: 'foo' });
 
     when(mocked(API.graphql))
       .calledWith({ query: "go-go-go", variables: {} })
