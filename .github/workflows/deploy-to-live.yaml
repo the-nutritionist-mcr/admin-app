@@ -17,13 +17,9 @@ jobs:
         with:
           node-version: "12"
       - name: Yarn install
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: install
+        run: yarn install
       - name: Test
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: test:ci
+        run: yarn test:ci
       - uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
@@ -41,13 +37,9 @@ jobs:
         with:
           node-version: "12"
       - name: Yarn install
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: install
+        run: yarn install
       - name: Lint
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: lint
+        run: yarn lint
 
   deploy-to-test:
     name: Deploy to Test
@@ -61,9 +53,8 @@ jobs:
         with:
           node-version: "12"
       - name: Yarn install
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: install
+        run: yarn install
+
       - name: Turnstyle
         uses: softprops/turnstyle@v1
         with:
@@ -72,9 +63,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy Backend
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: deploy:backend
+        run: yarn deploy:backend
         env:
           DEPLOYMENT_ENVIRONMENT: test
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -82,9 +71,7 @@ jobs:
           AWS_REGION: us-east-1
 
       - name: Deploy Frontend
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: deploy:frontend
+        run: yarn deploy:frontend
         env:
           DEPLOYMENT_ENVIRONMENT: test
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -177,9 +164,7 @@ jobs:
           path: "**/.yarn"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Yarn install
-        uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: install
+        run: yarn install
       - name: Turnstyle
         uses: softprops/turnstyle@v1
         with:
