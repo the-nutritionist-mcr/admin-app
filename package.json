@@ -2,6 +2,7 @@
   "name": "@benwainwright/tnm",
   "version": "1.0.0",
   "repository": "git@github.com:benwainwright/tnm.git",
+  "description": "A meal planning app for TNM",
   "dependencies": {
     "@aws-amplify/api": "4.0.9",
     "@aws-amplify/auth": "4.2.1",
