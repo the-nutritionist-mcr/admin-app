@@ -101,7 +101,7 @@ jobs:
           AWS_REGION: us-east-1
 
   cdk-synth-prod-backend:
-    name: CDK Synth Backend (dev)
+    name: CDK Synth Backend (prod)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -113,7 +113,7 @@ jobs:
       - name: Yarn install
         run: yarn install
 
-      - name: Synth Dev Backend
+      - name: Synth ProdBackend
         run: yarn cdk synth
 
         env:
@@ -124,7 +124,7 @@ jobs:
           AWS_REGION: us-east-1
 
   cdk-synth-dev-frontend:
-    name: CDK Synth Backend (dev)
+    name: CDK Synth Frontend (dev)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -136,7 +136,10 @@ jobs:
       - name: Yarn install
         run: yarn install
 
-      - name: Synth Dev Backend
+      - name: Make empty build folder
+        run: mkdir build && touch build/file
+
+      - name: Synth Dev Frontend
         run: yarn cdk synth
 
         env:
@@ -146,7 +149,7 @@ jobs:
           AWS_REGION: us-east-1
 
   cdk-synth-prod-frontend:
-    name: CDK Synth Backend (dev)
+    name: CDK Synth Frontend (prod)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -158,7 +161,10 @@ jobs:
       - name: Yarn install
         run: yarn install
 
-      - name: Synth Dev Backend
+      - name: Make empty build folder
+        run: mkdir build && touch build/file
+
+      - name: Synth Prod Frontend
         run: yarn cdk synth
 
         env:
