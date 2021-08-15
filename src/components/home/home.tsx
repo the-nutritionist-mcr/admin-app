@@ -15,16 +15,19 @@ const replaceNumberWithTrelloUrl = async () => {
   return (cardNumber: string) => {
     const number = cardNumber.split('-')[1].trim()
     const card = cards.find((foundCard: Card) => foundCard.idShort === Number.parseInt(number));
+    if(!card) {
+      return cardNumber
+    }
     return `[TRELLO-${number}](${card.url})`
   }
 }
 
 const transformNotes = (inputNotes: string): string => {
   return inputNotes
-    .replace(/\((?<date>\d{4}-\d{2}-\d{2})\)/gu, " - $<date>")
-    .replace(/\d{4}-\d{2}-\d{2}/gu, (match) => new Date(match).toDateString())
-    .replaceAll(/\(\S+?\)$/gmu, "")
-    // eslint-disable-next-line no-console
+    .replace(/\((?<date>\d{4}-\d{2}-\d{2})\)/gmu, " - $<date>")
+    .replace(/\d{4}-\d{2}-\d{2}/gmu, (match) => new Date(match).toDateString())
+    .replace(/\(\S+?\)$/gmu, "")
+    .replace(/^\* [a-z]/gmu, (match) => `* ${match.split(' ')[1].toUpperCase()}`)
 }
 
 const Home: React.FC = () => {
