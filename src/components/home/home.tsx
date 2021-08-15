@@ -3,12 +3,40 @@ import React from "react";
 import notes from "../../CHANGELOG.md"
 import ReactMarkdown from "react-markdown";
 
+interface Card {
+  idShort: number,
+  url: string
+}
+
+const replaceNumberWithTrelloUrl = async () => {
+  const result = await fetch("https://api.trello.com/1/boards/OfdLJmww/cards")
+  const cards = await result.json()
+
+  return (cardNumber: string) => {
+    const number = cardNumber.split('-')[1].trim()
+    const card = cards.find((foundCard: Card) => foundCard.idShort === Number.parseInt(number));
+    return `[TRELLO-${number}](${card.url})`
+  }
+}
+
 const transformNotes = (inputNotes: string): string => {
-  return inputNotes.replace(/\((?<date>\d{4}-\d{2}-\d{2})\)/gu, " - $<date>")
-  .replace(/\d{4}-\d{2}-\d{2}/gu, (match) => new Date(match).toDateString())
+  return inputNotes
+    .replace(/\((?<date>\d{4}-\d{2}-\d{2})\)/gu, " - $<date>")
+    .replace(/\d{4}-\d{2}-\d{2}/gu, (match) => new Date(match).toDateString())
+    .replaceAll(/\(\S+?\)$/gmu, "")
+    // eslint-disable-next-line no-console
 }
 
 const Home: React.FC = () => {
+  const [theNotes, setTheNotes] = React.useState<string>(notes)
+
+  React.useEffect(() => {
+    (async () => {
+    const ticketLoader = await replaceNumberWithTrelloUrl();
+    const newNotes = theNotes.replace(/TRELLO-\d+/gu, ticketLoader)
+    setTheNotes(newNotes)
+    })()
+  }, [])
   return (
     <React.Fragment>
       <Heading level={2}>
@@ -18,8 +46,7 @@ const Home: React.FC = () => {
       <ReactMarkdown components={{
         h2: ({...props}) => <Heading margin="small" {...props} level={3} />,
         h3: ({...props}) => <Heading margin="small" {...props} level={4} />
-        
-      }}>{transformNotes(notes)}</ReactMarkdown>
+      }}>{transformNotes(theNotes)}</ReactMarkdown>
       {/* eslint-enable react/display-name */}
     </React.Fragment>
   );
