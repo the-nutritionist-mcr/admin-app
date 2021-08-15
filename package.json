@@ -1,7 +1,6 @@
 {
-  "name": "tnm",
+  "name": "@benwainwright/tnm",
   "version": "1.0.0",
-  "private": true,
   "repository": "git@github.com:benwainwright/tnm.git",
   "dependencies": {
     "@aws-amplify/api": "4.0.9",
