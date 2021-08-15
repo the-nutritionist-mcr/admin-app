@@ -5,8 +5,7 @@ import {
   act,
   getByText,
   getAllByRole,
-  getByRole,
-  prettyDOM
+  getByRole
 } from "@testing-library/react";
 import PlanPanel from "./PlanPanel";
 import userEvent from "@testing-library/user-event";
