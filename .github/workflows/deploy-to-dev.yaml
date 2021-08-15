@@ -82,8 +82,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Release
-        run: yarn dlx semantic-release
+      - name: Deploy Backend
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: deploy:backend
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+          DEPLOYMENT_ENVIRONMENT: dev
+
+      - name: Deploy Frontend
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: deploy:frontend
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
