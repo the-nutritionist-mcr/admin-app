@@ -49,7 +49,7 @@ const Home: React.FC = () => {
       const newNotes = theNotes.replace(/TRELLO-\d+/gu, ticketLoader);
       setTheNotes(newNotes);
     })();
-  }, []);
+  }, [theNotes]);
   return (
     <React.Fragment>
       <Heading level={2}>Releases</Heading>
