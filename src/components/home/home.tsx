@@ -1,5 +1,6 @@
 import { Heading, Paragraph } from "grommet";
 import React from "react";
+// eslint-disable-next-line import/no-unresolved
 import notes from "../../CHANGELOG.md";
 import ReactMarkdown from "react-markdown";
 import styled from "styled-components";
