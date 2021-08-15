@@ -1,8 +1,14 @@
-## [1.0.0](https://github.com/benwainwright/tnm/compare/...v1.0.0) (2021-08-14)
+## [1.0.0](https://github.com/benwainwright/tnm/compare/...v1.0.0) (2021-08-15)
+
+
+### Features
+
+* automatically change TRELLO-123 to Trello links ([647f526](https://github.com/benwainwright/tnm/commit/647f5266c925a263d85a39d36f46a63572d0dcbf))
+* format the changelog date in words ([dc0569e](https://github.com/benwainwright/tnm/commit/dc0569e92b73159d7c7ef7e10feb79b5d17f54c2))
+* moved numbers to reports page and added autogenerate changelog to homepage ([ec66436](https://github.com/benwainwright/tnm/commit/ec66436bb4b459fd5dad5fa791f483b3689f7fb8))
 
 
 ### Bug Fixes
 
-* fix syntax error ([bc266bf](https://github.com/benwainwright/tnm/commit/bc266bf4291f7c853cf5fb333abb3e2601d5c308))
-* fixed login stuff ([b931b18](https://github.com/benwainwright/tnm/commit/b931b18e3fbef419066c9e99e93aaf8c67bf7c56))
-* upgrade to patch bug ([1d02168](https://github.com/benwainwright/tnm/commit/1d02168b2d45689e044be6e378fbf442aaeb8730))
+* fixed issue with the build by upgrading dependencies to the latest versions ([fc14cf8](https://github.com/benwainwright/tnm/commit/fc14cf851e45151c4ae2dfeb43e5f13852c97909))
+* fixed unable to login because of Amplify not accepting configuration ([37c5ac9](https://github.com/benwainwright/tnm/commit/37c5ac9fc88a30f0cdf8805a1bf3cd68bd264496))
