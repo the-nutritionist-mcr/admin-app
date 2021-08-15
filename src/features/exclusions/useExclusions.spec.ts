@@ -12,8 +12,6 @@ jest.mock("react-redux");
 jest.mock("./exclusionsSlice");
 jest.mock("../exclusions/exclusionsSlice");
 
-const flushPromises = () => new Promise(setImmediate);
-
 describe("useExclusions", () => {
   beforeEach(() => {
     resetAllWhenMocks();
@@ -49,7 +47,6 @@ describe("useExclusions", () => {
       .calledWith(allExclusionsSelector as any)
       .mockReturnValue([mock<Exclusion>()]);
     renderHook(() => useExclusions());
-    await flushPromises();
 
     expect(mockDispatch).not.toHaveBeenCalledWith("exclusions-action");
   });

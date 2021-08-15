@@ -13,7 +13,6 @@ jest.mock("react-redux");
 jest.mock("./customersSlice");
 jest.mock("../exclusions/exclusionsSlice");
 
-const flushPromises = () => new Promise(setImmediate);
 
 describe("useCustomers", () => {
   beforeEach(() => {
@@ -57,7 +56,6 @@ describe("useCustomers", () => {
       .calledWith(allCustomersSelector as any)
       .mockReturnValue([mock<Customer>()]);
     renderHook(() => useCustomers());
-    await flushPromises();
 
     expect(mockDispatch).not.toHaveBeenCalledWith("customer-action");
   });
