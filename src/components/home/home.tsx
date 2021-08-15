@@ -2,11 +2,16 @@ import { Heading, } from "grommet";
 import React from "react";
 import notes from "../../CHANGELOG.md"
 import ReactMarkdown from "react-markdown";
+import styled from "styled-components";
 
 interface Card {
   idShort: number,
   url: string
 }
+
+const StyledLi = styled.li`
+  margin-bottom: 0.4rem
+`
 
 const replaceNumberWithTrelloUrl = async () => {
   const result = await fetch("https://api.trello.com/1/boards/OfdLJmww/cards")
@@ -48,7 +53,8 @@ const Home: React.FC = () => {
       {/* eslint-disable react/display-name */}
       <ReactMarkdown components={{
         h2: ({...props}) => <Heading margin="small" {...props} level={3} />,
-        h3: ({...props}) => <Heading margin="small" {...props} level={4} />
+        h3: ({...props}) => <Heading margin="small" {...props} level={4} />,
+        li: ({...props}) => <StyledLi {...props} />
       }}>{transformNotes(theNotes)}</ReactMarkdown>
       {/* eslint-enable react/display-name */}
     </React.Fragment>
