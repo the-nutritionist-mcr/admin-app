@@ -185,7 +185,7 @@ jobs:
 
   release:
     name: Release
-    needs: [lint, unit-test, types, build, cdk-synth-dev-backend, cdk-synth-dev-frontend, cdk-synth-prod-backend, cdk-synth-prod-frontend]
+    needs: [lint, unit-test, types, build, cdk-synth-dev-backend, cdk-synth-dev-frontend, cdk-synth-prod-backend, cdk-synth-prod-frontend, semgrep]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
