@@ -1,3 +1,10 @@
+## [1.1.0](https://github.com/benwainwright/tnm/compare/v1.0.0...v1.1.0) (2021-08-16)
+
+
+### Features
+
+* added workflow. Feature commit to force a publish ([6192f75](https://github.com/benwainwright/tnm/commit/6192f751572d28c77dba41ddd45879c0542e4769))
+
 ## [1.0.0](https://github.com/benwainwright/tnm/compare/...v1.0.0) (2021-08-15)
 
 
