@@ -184,7 +184,7 @@ jobs:
           publishDeployment: 2475
 
   release:
-    name: Release
+    name: Release Package
     needs: [lint, unit-test, types, build, cdk-synth-dev-backend, cdk-synth-dev-frontend, cdk-synth-prod-backend, cdk-synth-prod-frontend, semgrep]
     runs-on: ubuntu-latest
     steps:
