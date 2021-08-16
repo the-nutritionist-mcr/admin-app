@@ -174,7 +174,7 @@ jobs:
           AWS_REGION: us-east-1
 
   semgrep:
-    name: Scan
+    name: 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
