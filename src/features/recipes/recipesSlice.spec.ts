@@ -15,10 +15,10 @@ describe("fetchRecipes", () => {
   it("Dispatches the fullfilled action with the results returend from the GraphQL API", async () => {
     when(mocked(graphqlOperation))
       .calledWith(listRecipesQuery)
-      .mockReturnValue({ query: "go-go-go", variables: {}, authToken: 'foo' });
+      .mockReturnValue({ query: "go-go-go", variables: {}, authToken: "foo" });
 
     when(mocked(API.graphql))
-      .calledWith({ query: "go-go-go", variables: {}, authToken: 'foo'})
+      .calledWith({ query: "go-go-go", variables: {}, authToken: "foo" })
       .mockResolvedValue({ data: { listRecipes: ["foo", "bar"] } });
 
     const thunk = fetchRecipes();

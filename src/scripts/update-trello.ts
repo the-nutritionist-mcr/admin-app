@@ -157,6 +157,6 @@ const commentNewCommits = async () => {
   console.log("Finished adding comments!");
 };
 
-if(process.env.DEPLOYMENT_ENVIRONMENT === 'prod')  {
-  commentNewCommits()
+if (process.env.DEPLOYMENT_ENVIRONMENT === "prod") {
+  commentNewCommits();
 }

@@ -20,7 +20,7 @@ build({
   bundle: true,
   tsconfig: path.resolve(config, "tsconfig.backend.json"),
   sourcemap: true,
-   plugins: [pnpPlugin()],
+  plugins: [pnpPlugin()],
 })
   .then(() => {
     console.log("Successfully built backend");

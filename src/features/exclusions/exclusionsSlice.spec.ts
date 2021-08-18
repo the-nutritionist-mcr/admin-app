@@ -15,10 +15,10 @@ describe("fetchExclusions", () => {
   it("Dispatches the fullfilled action with the results returend from the GraphQL API", async () => {
     when(mocked(graphqlOperation))
       .calledWith(listExclusionsQuery)
-      .mockReturnValue({ query: "go-go-go", variables: {}, authToken: 'foo' });
+      .mockReturnValue({ query: "go-go-go", variables: {}, authToken: "foo" });
 
     when(mocked(API.graphql))
-      .calledWith({ query: "go-go-go", variables: {}, authToken: 'foo'})
+      .calledWith({ query: "go-go-go", variables: {}, authToken: "foo" })
       .mockResolvedValue({ data: { listExclusions: ["foo", "bar"] } });
 
     const thunk = fetchExclusions();

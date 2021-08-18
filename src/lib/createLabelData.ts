@@ -18,7 +18,7 @@ const createLabelData = (
 
     const customerWithPlanFlattened = {
       ...customer,
-      newPlan: '',
+      newPlan: "",
       plan: selection.customer.plan.name,
     };
 

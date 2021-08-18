@@ -18,8 +18,9 @@ export const getAll = async <T>(table: string): Promise<T[]> => {
   /* eslint-enable @typescript-eslint/naming-convention */
 };
 
-const excludeDeleted = (items: AWS.DynamoDB.DocumentClient.ItemList | undefined) => 
-  items?.filter(item => !item.deleted)
+const excludeDeleted = (
+  items: AWS.DynamoDB.DocumentClient.ItemList | undefined
+) => items?.filter((item) => !item.deleted);
 
 export const getAllByGsis = async <T>(
   table: string,
@@ -76,7 +77,9 @@ export const getAllByIds = async <T>(
   const results = await dynamoDb.batchGet(batchParams).promise();
   /* eslint-enable @typescript-eslint/naming-convention */
 
-  return results.Responses ? (excludeDeleted(results.Responses[table]) as T[]) : [];
+  return results.Responses
+    ? (excludeDeleted(results.Responses[table]) as T[])
+    : [];
 };
 
 export const putAll = async <T>(
@@ -161,8 +164,8 @@ export const deleteAll = async (
         TransactItems: batch.map((item) => ({
           Update: {
             TableName: item.table,
-            UpdateExpression: 'SET deleted = :newvalue',
-            ExpressionAttributeValues: { ':newvalue': true },
+            UpdateExpression: "SET deleted = :newvalue",
+            ExpressionAttributeValues: { ":newvalue": true },
             Key: {
               id: item.id,
             },

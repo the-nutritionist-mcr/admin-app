@@ -2,12 +2,14 @@ import Amplify from "@aws-amplify/core";
 import { Auth } from "@aws-amplify/auth";
 
 export const configAmplify = async (): Promise<void> => {
-
-  const configResponse = await fetch(`${process.env.PUBLIC_URL}/backend-outputs.json`)
-  const backendConfig = await configResponse.json()
+  const configResponse = await fetch(
+    `${process.env.PUBLIC_URL}/backend-outputs.json`
+  );
+  const backendConfig = await configResponse.json();
 
   const stackConfigKey =
-    Object.keys(backendConfig).find((key) => key.includes("BackendStack")) ?? "";
+    Object.keys(backendConfig).find((key) => key.includes("BackendStack")) ??
+    "";
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const configObject = (backendConfig as any)[stackConfigKey];
@@ -28,4 +30,4 @@ export const configAmplify = async (): Promise<void> => {
 
   Amplify.configure(config);
   Auth.configure(config);
-}
+};

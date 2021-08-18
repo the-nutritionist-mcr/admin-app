@@ -10,7 +10,7 @@ import { withAuthenticator } from "@aws-amplify/ui-react";
 import { configAmplify } from "./config-amplify";
 
 const render = async (): Promise<void> => {
-  await configAmplify()
+  await configAmplify();
   log.trace("Beginning initial render");
   const AuthenticatedApp = withAuthenticator(App);
 

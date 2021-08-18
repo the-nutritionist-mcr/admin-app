@@ -28,8 +28,8 @@ const replaceNumberWithTrelloUrl = async () => {
   };
 };
 
-const transformNotes = (inputNotes: string): string => 
- inputNotes
+const transformNotes = (inputNotes: string): string =>
+  inputNotes
     .replace(/\((?<date>\d{4}-\d{2}-\d{2})\)/gmu, " - $<date>")
 
     .replace(/\d{4}-\d{2}-\d{2}/gmu, (match) => new Date(match).toDateString())
@@ -37,17 +37,21 @@ const transformNotes = (inputNotes: string): string =>
     .replace(
       /^\* [a-z]/gmu,
       (match) => `* ${match.split(" ")[1].toUpperCase()}`
-    ).replace(/^#+\s\[/gmu, '## [')
+    )
+    .replace(/^#+\s\[/gmu, "## [");
 
 const Home: React.FC = () => {
   const [theNotes, setTheNotes] = React.useState<string>("");
 
   React.useEffect(() => {
     (async () => {
-      const changeLogPromise = fetch(`${process.env.PUBLIC_URL}/CHANGELOG.md`)
+      const changeLogPromise = fetch(`${process.env.PUBLIC_URL}/CHANGELOG.md`);
       const ticketLoaderPromise = replaceNumberWithTrelloUrl();
-      const [log, ticketLoader] = await Promise.all([changeLogPromise, ticketLoaderPromise])
-      const body = await log.text()
+      const [log, ticketLoader] = await Promise.all([
+        changeLogPromise,
+        ticketLoaderPromise,
+      ]);
+      const body = await log.text();
       const hydratedNotes = body.replace(/TRELLO-\d+/gu, ticketLoader);
       setTheNotes(hydratedNotes);
     })();
@@ -65,8 +69,20 @@ const Home: React.FC = () => {
       {/* eslint-disable react/display-name */}
       <ReactMarkdown
         components={{
-          h2: ({ ...props }) => <Heading margin={{top: '1.5rem', bottom: '0'}} {...props} level={4} />,
-          h3: ({ ...props }) => <Heading margin={{top: '0.5rem', bottom: '0.4rem'}} {...props} level={5} />,
+          h2: ({ ...props }) => (
+            <Heading
+              margin={{ top: "1.5rem", bottom: "0" }}
+              {...props}
+              level={4}
+            />
+          ),
+          h3: ({ ...props }) => (
+            <Heading
+              margin={{ top: "0.5rem", bottom: "0.4rem" }}
+              {...props}
+              level={5}
+            />
+          ),
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           li: ({ ...props }) => <StyledLi {...props} />,
