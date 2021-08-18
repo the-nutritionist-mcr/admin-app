@@ -1,3 +1,10 @@
+## [1.1.0](https://github.com/benwainwright/tnm/compare/v1.0.2...v1.1.0) (2021-08-18)
+
+
+### Features
+
+* deleted items can now be recovered by contacting Ben ([581a84a](https://github.com/benwainwright/tnm/commit/581a84a9402c2431e716b3b5a43aba693977cc55))
+
 ### [1.0.2](https://github.com/benwainwright/tnm/compare/v1.0.1...v1.0.2) (2021-08-18)
 
 
