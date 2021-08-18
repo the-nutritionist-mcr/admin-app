@@ -1,3 +1,10 @@
+### [1.1.1](https://github.com/benwainwright/tnm/compare/v1.1.0...v1.1.1) (2021-08-18)
+
+
+### Bug Fixes
+
+* corrected broken backend deletion code ([d2d0241](https://github.com/benwainwright/tnm/commit/d2d0241954e154e612d0b87044805510409db17c))
+
 ## [1.1.0](https://github.com/benwainwright/tnm/compare/v1.0.2...v1.1.0) (2021-08-18)
 
 
