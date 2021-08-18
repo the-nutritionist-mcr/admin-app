@@ -1,8 +1,8 @@
 name: Deploy Application to Test
 on:
   workflow_dispatch:
-  # registry_package:
-  #   types: [published, updated]
+  registry_package:
+    types: [published, updated]
 
 jobs:
   deploy-to-test:
