@@ -1,3 +1,10 @@
+### [1.0.1](https://github.com/benwainwright/tnm/compare/v1.0.0...v1.0.1) (2021-08-18)
+
+
+### Bug Fixes
+
+* customers and recipes should no longer be duplicating themselves mysteriously ([dd28e67](https://github.com/benwainwright/tnm/commit/dd28e6767cac4fefef41816416600b84c5030d17))
+
 ## [1.0.0](https://github.com/benwainwright/tnm/compare/...v1.0.0) (2021-08-18)
 
 
