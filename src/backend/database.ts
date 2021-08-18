@@ -161,7 +161,8 @@ export const deleteAll = async (
         TransactItems: batch.map((item) => ({
           Update: {
             TableName: item.table,
-            UpdateExpression: 'SET deleted = true',
+            UpdateExpression: 'SET deleted = :newvalue',
+            ExpressionAttributeValues: { ':newvalue': true },
             Key: {
               id: item.id,
             },
