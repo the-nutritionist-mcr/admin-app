@@ -60,8 +60,8 @@ describe("The deleteAll method", () => {
     expect(paramsReceived).toHaveLength(2);
     expect(paramsReceived[0].TransactItems).toHaveLength(25);
     expect(paramsReceived[1].TransactItems).toHaveLength(5);
-    expect(paramsReceived[0].TransactItems[24].Delete?.Key.id).toEqual("24");
-    expect(paramsReceived[1].TransactItems[0].Delete?.Key.id).toEqual("25");
-    expect(paramsReceived[1].TransactItems[4].Delete?.Key.id).toEqual("28");
+    expect(paramsReceived[0].TransactItems[24].Update?.Key.id).toEqual("24");
+    expect(paramsReceived[1].TransactItems[0].Update?.Key.id).toEqual("25");
+    expect(paramsReceived[1].TransactItems[4].Update?.Key.id).toEqual("28");
   });
 });

@@ -14,9 +14,12 @@ export const getAll = async <T>(table: string): Promise<T[]> => {
 
   log.trace(JSON.stringify(params, null, NUM_TABS));
   const result = await dynamoDb.scan(params).promise();
-  return (result.Items as T[] | undefined) ?? [];
+  return (excludeDeleted(result.Items) as T[] | undefined) ?? [];
   /* eslint-enable @typescript-eslint/naming-convention */
 };
+
+const excludeDeleted = (items: AWS.DynamoDB.DocumentClient.ItemList | undefined) => 
+  items?.filter(item => !item.deleted)
 
 export const getAllByGsis = async <T>(
   table: string,
@@ -46,7 +49,7 @@ export const getAllByGsis = async <T>(
   );
   /* eslint-enable @typescript-eslint/naming-convention */
 
-  return results.flatMap((item) => item.Items ?? []) as T[];
+  return results.flatMap((item) => excludeDeleted(item.Items) ?? []) as T[];
 };
 
 export const getAllByIds = async <T>(
@@ -73,7 +76,7 @@ export const getAllByIds = async <T>(
   const results = await dynamoDb.batchGet(batchParams).promise();
   /* eslint-enable @typescript-eslint/naming-convention */
 
-  return results.Responses ? (results.Responses[table] as T[]) : [];
+  return results.Responses ? (excludeDeleted(results.Responses[table]) as T[]) : [];
 };
 
 export const putAll = async <T>(
@@ -156,8 +159,9 @@ export const deleteAll = async (
       /* eslint-disable @typescript-eslint/naming-convention */
       const params = {
         TransactItems: batch.map((item) => ({
-          Delete: {
+          Update: {
             TableName: item.table,
+            UpdateExpression: 'SET deleted = true',
             Key: {
               id: item.id,
             },
