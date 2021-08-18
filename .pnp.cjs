@@ -117,6 +117,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["aws-appsync", "virtual:b939c03314397eeca7e4b949c2dcceea8cca50bbe318556df05debd593c45e790f2e14230e8026ba6e2bdc042c13d6e15bedf0566bf0c7e3fef93d5e39568672#npm:4.1.1"],
             ["aws-cdk", "npm:1.118.0"],
             ["aws-cdk-local", "npm:1.65.8"],
+            ["aws-lambda", "npm:1.0.6"],
             ["aws-sdk", "npm:2.970.0"],
             ["aws-sdk-mock", "npm:5.2.1"],
             ["babel-eslint", "virtual:b939c03314397eeca7e4b949c2dcceea8cca50bbe318556df05debd593c45e790f2e14230e8026ba6e2bdc042c13d6e15bedf0566bf0c7e3fef93d5e39568672#npm:10.1.0"],
@@ -9536,6 +9537,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["aws-appsync", "virtual:b939c03314397eeca7e4b949c2dcceea8cca50bbe318556df05debd593c45e790f2e14230e8026ba6e2bdc042c13d6e15bedf0566bf0c7e3fef93d5e39568672#npm:4.1.1"],
             ["aws-cdk", "npm:1.118.0"],
             ["aws-cdk-local", "npm:1.65.8"],
+            ["aws-lambda", "npm:1.0.6"],
             ["aws-sdk", "npm:2.970.0"],
             ["aws-sdk-mock", "npm:5.2.1"],
             ["babel-eslint", "virtual:b939c03314397eeca7e4b949c2dcceea8cca50bbe318556df05debd593c45e790f2e14230e8026ba6e2bdc042c13d6e15bedf0566bf0c7e3fef93d5e39568672#npm:10.1.0"],
@@ -16165,6 +16167,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["aws-lambda", [
+        ["npm:1.0.6", {
+          "packageLocation": "./.yarn/cache/aws-lambda-npm-1.0.6-0430941d7f-ec9e1cf072.zip/node_modules/aws-lambda/",
+          "packageDependencies": [
+            ["aws-lambda", "npm:1.0.6"],
+            ["aws-sdk", "npm:2.968.0"],
+            ["commander", "npm:3.0.2"],
+            ["js-yaml", "npm:3.14.1"],
+            ["watchpack", "npm:2.2.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["aws-sdk", [
         ["npm:2.968.0", {
           "packageLocation": "./.yarn/unplugged/aws-sdk-npm-2.968.0-8e27fd7de1/node_modules/aws-sdk/",
@@ -19031,6 +19046,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/commander-npm-2.20.3-d8dcbaa39b-ab8c07884e.zip/node_modules/commander/",
           "packageDependencies": [
             ["commander", "npm:2.20.3"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:3.0.2", {
+          "packageLocation": "./.yarn/cache/commander-npm-3.0.2-7c81f1ab98-6d14ad030d.zip/node_modules/commander/",
+          "packageDependencies": [
+            ["commander", "npm:3.0.2"]
           ],
           "linkType": "HARD",
         }],
@@ -24974,6 +24996,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["glob-parent", "npm:5.1.2"],
             ["is-glob", "npm:4.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["glob-to-regexp", [
+        ["npm:0.4.1", {
+          "packageLocation": "./.yarn/cache/glob-to-regexp-npm-0.4.1-cd697e0fc7-e795f4e8f0.zip/node_modules/glob-to-regexp/",
+          "packageDependencies": [
+            ["glob-to-regexp", "npm:0.4.1"]
           ],
           "linkType": "HARD",
         }]
@@ -43594,6 +43625,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["graceful-fs", "npm:4.2.8"],
             ["neo-async", "npm:2.6.2"],
             ["watchpack-chokidar2", "npm:2.0.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:2.2.0", {
+          "packageLocation": "./.yarn/cache/watchpack-npm-2.2.0-fca5986ad5-e275f48fae.zip/node_modules/watchpack/",
+          "packageDependencies": [
+            ["watchpack", "npm:2.2.0"],
+            ["glob-to-regexp", "npm:0.4.1"],
+            ["graceful-fs", "npm:4.2.8"]
           ],
           "linkType": "HARD",
         }]

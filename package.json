@@ -261,6 +261,7 @@
     "@yarnpkg/esbuild-plugin-pnp": "^1.0.0",
     "EventEmitter": "^1.0.0",
     "aws-appsync": "^4.0.1",
+    "aws-lambda": "^1.0.6",
     "aws-sdk": "^2.807.0",
     "aws-sdk-mock": "^5.1.0",
     "babel-eslint": "^10.1.0",

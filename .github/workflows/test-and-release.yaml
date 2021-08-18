@@ -109,7 +109,7 @@ jobs:
         run: yarn install
 
       - name: Synth Dev Backend
-        run: mkdir backend && touchbackend/index.js && yarn cdk synth
+        run: mkdir backend && touch backend/index.js && yarn cdk synth
 
         env:
           DO_BACKEND: true
