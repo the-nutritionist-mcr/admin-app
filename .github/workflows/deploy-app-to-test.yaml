@@ -48,6 +48,7 @@ jobs:
       - name: Deploy Frontend
         run: |
           cd $PACKAGE_DIR
+          cp backend-outputs.json build
           cp CHANGELOG.md build
           npm run deploy:frontend
         env:

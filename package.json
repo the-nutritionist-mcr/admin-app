@@ -42,7 +42,7 @@
     "clear-tables": "ts-node src/scripts/do-clear-database.ts",
     "clone-prod-tables-to-dev": "ts-node src/scripts/clone-prod-db.ts",
     "deploy:frontend": "cdk deploy --require-approval never --all --outputs-file src/frontend-outputs.json",
-    "deploy:backend": "DO_BACKEND=yes cdk deploy --require-approval never --all --outputs-file src/backend-outputs.json",
+    "deploy:backend": "DO_BACKEND=yes cdk deploy --require-approval never --all --outputs-file backend-outputs.json",
     "deploy:all": "yarn deploy:backend && yarn deploy:frontend",
     "lint": "eslint .",
     "tsc:watch": "tsc --project ./app-config/tsconfig.incremental.json --watch",
