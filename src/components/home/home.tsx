@@ -28,16 +28,16 @@ const replaceNumberWithTrelloUrl = async () => {
   };
 };
 
-const transformNotes = (inputNotes: string): string => {
-  return inputNotes
+const transformNotes = (inputNotes: string): string => 
+ inputNotes
     .replace(/\((?<date>\d{4}-\d{2}-\d{2})\)/gmu, " - $<date>")
+
     .replace(/\d{4}-\d{2}-\d{2}/gmu, (match) => new Date(match).toDateString())
     .replace(/\(\S+?\)$/gmu, "")
     .replace(
       /^\* [a-z]/gmu,
       (match) => `* ${match.split(" ")[1].toUpperCase()}`
-    );
-};
+    ).replace(/^#+\s\[/gmu, '## [')
 
 const Home: React.FC = () => {
   const [theNotes, setTheNotes] = React.useState<string>("");
@@ -65,8 +65,8 @@ const Home: React.FC = () => {
       {/* eslint-disable react/display-name */}
       <ReactMarkdown
         components={{
-          h2: ({ ...props }) => <Heading margin="small" {...props} level={3} />,
-          h3: ({ ...props }) => <Heading margin="small" {...props} level={4} />,
+          h2: ({ ...props }) => <Heading margin={{top: '1.5rem', bottom: '0'}} {...props} level={4} />,
+          h3: ({ ...props }) => <Heading margin={{top: '0.5rem', bottom: '0.4rem'}} {...props} level={5} />,
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           li: ({ ...props }) => <StyledLi {...props} />,
