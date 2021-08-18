@@ -29,10 +29,6 @@ export default class ProductionFrontendStack extends cdk.Stack {
       websiteErrorDocument: "index.html",
     });
 
-    new s3Deploy.BucketDeployment(this, "ProductionFrontendStackDeployment", {
-      sources: [s3Deploy.Source.asset("./build")],
-      destinationBucket: bucket,
-    });
 
     const zone = route53.HostedZone.fromLookup(
       this,
@@ -84,6 +80,12 @@ export default class ProductionFrontendStack extends cdk.Stack {
         ),
       }
     );
+
+    new s3Deploy.BucketDeployment(this, "ProductionFrontendStackDeployment", {
+      sources: [s3Deploy.Source.asset("./build")],
+      destinationBucket: bucket,
+      distribution
+    });
 
     new cdk.CfnOutput(this, "CloudFrontDistributionId", {
       value: distribution.distributionId,
