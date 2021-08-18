@@ -1,7 +1,5 @@
 import { Heading, Paragraph } from "grommet";
 import React from "react";
-// eslint-disable-next-line import/no-unresolved
-import notes from "../../CHANGELOG.md";
 import ReactMarkdown from "react-markdown";
 import styled from "styled-components";
 
@@ -42,15 +40,19 @@ const transformNotes = (inputNotes: string): string => {
 };
 
 const Home: React.FC = () => {
-  const [theNotes, setTheNotes] = React.useState<string>(notes);
+  const [theNotes, setTheNotes] = React.useState<string>("");
 
   React.useEffect(() => {
     (async () => {
-      const ticketLoader = await replaceNumberWithTrelloUrl();
-      const newNotes = theNotes.replace(/TRELLO-\d+/gu, ticketLoader);
-      setTheNotes(newNotes);
+      const changeLogPromise = fetch(`${process.env.PUBLIC_URL}/CHANGELOG.md`)
+      const ticketLoaderPromise = replaceNumberWithTrelloUrl();
+      const [log, ticketLoader] = await Promise.all([changeLogPromise, ticketLoaderPromise])
+      const body = await log.text()
+      const hydratedNotes = body.replace(/TRELLO-\d+/gu, ticketLoader);
+      setTheNotes(hydratedNotes);
     })();
-  }, [theNotes]);
+  });
+
   return (
     <React.Fragment>
       <Heading level={2}>Releases</Heading>

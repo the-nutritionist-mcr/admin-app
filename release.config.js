@@ -55,14 +55,14 @@ module.exports = {
     [
       "@semantic-release/changelog",
       {
-        "changelogFile": "src/CHANGELOG.md"
+        "changelogFile": "CHANGELOG.md"
       }
     ],
     "@semantic-release/npm",
     [
       "@semantic-release/git",
       {
-        "assets": ["src/CHANGELOG.md", "package.json"],
+        "assets": ["CHANGELOG.md", "package.json"],
       }
     ],
   ]

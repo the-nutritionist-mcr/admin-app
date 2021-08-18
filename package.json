@@ -38,7 +38,7 @@
   "scripts": {
     "start": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) node scripts/start.js",
     "build:backend": "node src/scripts/build-backend.js",
-    "build:frontend": "cp CHANGELOG.md src/CHANGELOG.md && REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) node scripts/build.js",
+    "build:frontend": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) node scripts/build.js",
     "clear-tables": "ts-node src/scripts/do-clear-database.ts",
     "clone-prod-tables-to-dev": "ts-node src/scripts/clone-prod-db.ts",
     "deploy:frontend": "cdk deploy --require-approval never --all --outputs-file src/frontend-outputs.json",
