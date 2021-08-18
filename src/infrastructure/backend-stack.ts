@@ -104,8 +104,6 @@ export default class BackendStack extends cdk.Stack {
       value: api.graphqlUrl,
     });
 
-    const root = path.resolve(__dirname, "..", "..");
-
     const resolverLambda = new lambda.Function(this, "AppResolverLambda", {
       functionName: `${name}-resolver-lambda`,
       runtime: lambda.Runtime.NODEJS_14_X,
