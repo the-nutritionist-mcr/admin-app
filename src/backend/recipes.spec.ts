@@ -267,7 +267,7 @@ describe("Createrecipe", () => {
     ]);
 
     expect(returnedRecipe).toBeTruthy();
-    expect(returnedRecipe.id).toEqual("called-4");
+    expect(returnedRecipe.id).toEqual("called-1");
     expect(returnedRecipe.name).toEqual("sausage");
     expect(returnedRecipe.potentialExclusions).toBeTruthy();
     expect(returnedRecipe.potentialExclusions[0].name).toEqual("baz");

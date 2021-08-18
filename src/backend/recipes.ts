@@ -125,7 +125,7 @@ export const createRecipe = async (
 
   const returnVal = {
     ...returnedRecipe,
-    id: uuid.v4(),
+    id: recipeId,
     potentialExclusions: exclusions,
   };
 

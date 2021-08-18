@@ -129,7 +129,7 @@ export const createCustomer = async (
 
   return {
     ...returnedCustomer,
-    id: uuid.v4(),
+    id: customerId,
     exclusions,
   };
 };

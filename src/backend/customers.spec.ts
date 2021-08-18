@@ -361,7 +361,7 @@ describe("Createcustomer", () => {
     ]);
 
     expect(returnedCustomer).toBeTruthy();
-    expect(returnedCustomer.id).toEqual("called-4");
+    expect(returnedCustomer.id).toEqual("called-1");
     expect(returnedCustomer.surname).toEqual("Davis");
     expect(returnedCustomer.exclusions).toBeTruthy();
     expect(returnedCustomer.exclusions[0].name).toEqual("baz");
