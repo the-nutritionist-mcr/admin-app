@@ -12,7 +12,7 @@ import {
   Button,
 } from "grommet";
 import React, { FC } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { Prompt, RouteComponentProps } from "react-router-dom";
 import {
   daysPerWeekOptions,
   plans,
@@ -131,6 +131,10 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
           onChange={onChange}
           onSubmit={onSubmit}
         >
+          <Prompt
+            when={dirty}
+            message="You have unsaved changes. Are you sure you want to leave?"
+          />
           <Header justify="start" gap="small">
             <Heading level={2}>
               {isEdit ? "Update Customer" : "New Customer"}
