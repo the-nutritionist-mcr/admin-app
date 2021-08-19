@@ -73,7 +73,7 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
       setCustomer(foundCustomer)
       setCustomerWasFound(true)
     }
-  }, [customers])
+  }, [customers, props.match.params.id])
 
   const propsCustomer = {
     ...defaultCustomer,

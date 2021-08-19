@@ -17,8 +17,8 @@ describe("The plan panel", () => {
         exclusions={[]}
         plannerConfig={{
           defaultDeliveryDays: ["Monday", "Thursday"],
-          extrasLabels: ["One", "Two"],
-          planLabels: ["Another", "Meal", "Type"],
+          extrasLabels: ["Breakfast", "Large Snack"],
+          planLabels: ["EQ", "Mass", "Micro"],
         }}
       />
     );
@@ -131,7 +131,7 @@ describe("The plan panel", () => {
           exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
-            extrasLabels: ["One", "Two"],
+            extrasLabels: ["Breakfast", "Large Snack"],
             planLabels: ["EQ", "Mass", "Micro"],
           }}
         />
@@ -151,7 +151,7 @@ describe("The plan panel", () => {
           exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
-            extrasLabels: ["One", "Two"],
+            extrasLabels: ["Breakfast", "Large Snack"],
             planLabels: ["EQ", "Mass", "Micro"],
           }}
         />
@@ -174,7 +174,7 @@ describe("The plan panel", () => {
           exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
-            extrasLabels: ["Smoothie", "Breakfast", "Snack", "Large Snack"],
+            extrasLabels: ["Breakfast", "Snack", "Large Snack"],
             planLabels: ["EQ", "Mass", "Micro"],
           }}
         />
@@ -193,10 +193,10 @@ describe("The plan panel", () => {
       expect(getByRole(largeSnack[0], "textbox")).toHaveDisplayValue("3");
       expect(getByRole(largeSnack[1], "textbox")).toHaveDisplayValue("2");
 
-      const smoothie = getRowCells("Smoothie");
+      const snack = getRowCells("Snack");
       changeSelectBox("daysPerWeek", "5");
-      expect(getByRole(smoothie[0], "textbox")).toHaveDisplayValue("0");
-      expect(getByRole(smoothie[1], "textbox")).toHaveDisplayValue("0");
+      expect(getByRole(snack[0], "textbox")).toHaveDisplayValue("0");
+      expect(getByRole(snack[1], "textbox")).toHaveDisplayValue("0");
     });
 
     it.each`
@@ -225,7 +225,7 @@ describe("The plan panel", () => {
             exclusions={[]}
             plannerConfig={{
               defaultDeliveryDays: ["Monday", "Thursday"],
-              extrasLabels: ["One", "Two"],
+              extrasLabels: ["Breakfast", "Large Snack"],
               planLabels: ["EQ", "Mass"],
             }}
           />
@@ -252,7 +252,7 @@ describe("The plan panel", () => {
           exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
-            extrasLabels: ["Smoothie", "Breakfast", "Snack", "Large Snack"],
+            extrasLabels: ["Breakfast", "Snack", "Large Snack"],
             planLabels: ["EQ", "Mass", "Micro"],
           }}
         />
@@ -275,7 +275,7 @@ describe("The plan panel", () => {
           exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
-            extrasLabels: ["One", "Two"],
+            extrasLabels: ["Breakfast", "Large Snack"],
             planLabels: ["EQ", "Mass"],
           }}
         />
@@ -299,7 +299,7 @@ describe("The plan panel", () => {
           exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
-            extrasLabels: ["One", "Two"],
+            extrasLabels: ["Breakfast", "Large Snack"],
             planLabels: ["EQ", "Mass", "Micro"],
           }}
         />
@@ -317,7 +317,7 @@ describe("The plan panel", () => {
           exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
-            extrasLabels: ["One", "Two"],
+            extrasLabels: ["Breakfast", "Large Snack"],
             planLabels: ["EQ", "Mass", "Micro"],
           }}
         />
@@ -338,7 +338,7 @@ describe("The plan panel", () => {
           exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
-            extrasLabels: ["One", "Two"],
+            extrasLabels: ["Breakfast", "Large Snack"],
             planLabels: ["EQ", "Mass", "Micro"],
           }}
         />
@@ -367,7 +367,7 @@ describe("The plan panel", () => {
           exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
-            extrasLabels: ["One", "Two"],
+            extrasLabels: ["Breakfast", "Large Snack"],
             planLabels: ["EQ", "Mass", "Micro"],
           }}
         />
@@ -388,7 +388,7 @@ describe("The plan panel", () => {
           exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
-            extrasLabels: ["One", "Two"],
+            extrasLabels: ["Breakfast", "Large Snack"],
             planLabels: ["EQ", "Mass", "Micro"],
           }}
         />
@@ -417,7 +417,7 @@ describe("The plan panel", () => {
           exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
-            extrasLabels: ["One", "Two"],
+            extrasLabels: ["Breakfast", "Large Snack"],
             planLabels: ["EQ", "Mass", "Micro"],
           }}
         />
@@ -455,7 +455,7 @@ describe("The plan panel", () => {
           exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
-            extrasLabels: ["One", "Two"],
+            extrasLabels: ["Breakfast", "Large Snack"],
             planLabels: ["EQ", "Mass", "Micro"],
           }}
         />
@@ -486,10 +486,10 @@ describe("The plan panel", () => {
       const variant = screen.getByTestId("planVariant").closest("button");
       expect(variant).not.toHaveAttribute("disabled");
 
-      const oneExtra = screen.getByLabelText("One").closest("input");
+      const oneExtra = screen.getByLabelText("Breakfast").closest("input");
       expect(oneExtra).not.toHaveAttribute("disabled");
 
-      const twoExtra = screen.getByLabelText("Two").closest("input");
+      const twoExtra = screen.getByLabelText("Large Snack").closest("input");
       expect(twoExtra).not.toHaveAttribute("disabled");
     });
   });
@@ -501,7 +501,7 @@ describe("The plan panel", () => {
           exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
-            extrasLabels: ["One", "Two"],
+            extrasLabels: ["Breakfast", "Large Snack"],
             planLabels: ["EQ", "Mass", "Micro"],
           }}
         />
@@ -530,10 +530,10 @@ describe("The plan panel", () => {
       const variant = screen.getByTestId("planVariant").closest("button");
       expect(variant).toHaveAttribute("disabled");
 
-      const oneExtra = screen.getByLabelText("One").closest("input");
+      const oneExtra = screen.getByLabelText("Breakfast").closest("input");
       expect(oneExtra).toHaveAttribute("disabled");
 
-      const twoExtra = screen.getByLabelText("Two").closest("input");
+      const twoExtra = screen.getByLabelText("Large Snack").closest("input");
       expect(twoExtra).toHaveAttribute("disabled");
     });
 
@@ -543,7 +543,7 @@ describe("The plan panel", () => {
           exclusions={[]}
           plannerConfig={{
             defaultDeliveryDays: ["Monday", "Thursday"],
-            extrasLabels: ["One", "Two"],
+            extrasLabels: ["Breakfast", "Large Snack"],
             planLabels: ["EQ", "Mass", "Micro"],
           }}
         />

@@ -6,7 +6,7 @@ interface AuthenticatedrouteProps<T> {
   path: string;
   groups: string[];
   exact?: boolean;
-  component: React.ComponentType<RouteComponentProps<T>>
+  component?: React.ComponentType<RouteComponentProps<T>>
 }
 
 function assertFC<P>(
