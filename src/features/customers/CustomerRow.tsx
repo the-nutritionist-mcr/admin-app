@@ -31,7 +31,7 @@ const getPlanString = (plan: CustomerPlan | undefined, config: PlannerConfig) =>
     return "Custom"
   }
 
-  return `${plan.configuration.mealsPerDay}/${plan.configuration.daysPerWeek}/${plan.configuration.totalPlans}`
+  return `${plan.configuration.planType} ${plan.configuration.mealsPerDay} (${plan.configuration.daysPerWeek} days) x ${plan.configuration.totalPlans}`
 }
 
 const CustomerRow: React.FC<CustomerRowProps> = (props) => {
