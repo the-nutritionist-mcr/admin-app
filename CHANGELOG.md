@@ -1,3 +1,11 @@
+## [1.2.0](https://github.com/benwainwright/tnm/compare/v1.1.2...v1.2.0) (2021-08-19)
+
+
+### Features
+
+* added first iteration of new customer entry UX TRELLO-79 ([1ed1a7a](https://github.com/benwainwright/tnm/commit/1ed1a7a82e7a326074b0e233466bd17909b647b2))
+* customers page new link to the new customer entry page TRELLO-79 ([31a7497](https://github.com/benwainwright/tnm/commit/31a7497fad30dda000a647850694fd29c5b720b0))
+
 ### [1.1.2](https://github.com/benwainwright/tnm/compare/v1.1.1...v1.1.2) (2021-08-18)
 
 
