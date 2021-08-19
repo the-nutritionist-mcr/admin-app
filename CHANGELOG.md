@@ -1,3 +1,10 @@
+### [1.1.2](https://github.com/benwainwright/tnm/compare/v1.1.1...v1.1.2) (2021-08-18)
+
+
+### Bug Fixes
+
+* made changelog more readable ([6395752](https://github.com/benwainwright/tnm/commit/6395752e5445b31cbf1f35fc92f75b522a7d095c))
+
 ### [1.1.1](https://github.com/benwainwright/tnm/compare/v1.1.0...v1.1.1) (2021-08-18)
 
 
