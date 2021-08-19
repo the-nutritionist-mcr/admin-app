@@ -10,6 +10,9 @@ import getExtrasString from "../../lib/getExtrasString";
 import getStatusString from "../../lib/getStatusString";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
+import { CustomerPlan, PlannerConfig } from "./types";
+import { isCustomDeliveryPlan } from "./distribution-generator";
+import { defaultDeliveryDays, planLabels, extrasLabels } from "../../lib/config";
 
 interface CustomerRowProps {
   customer: Customer;
@@ -18,6 +21,18 @@ interface CustomerRowProps {
 const SlimButton = styled(Button)`
   padding: 0 5px 0 5px;
 `;
+
+const getPlanString = (plan: CustomerPlan | undefined, config: PlannerConfig) => {
+  if(!plan) {
+    return "Legacy"
+  }
+
+  if(isCustomDeliveryPlan(plan, config)) {
+    return "Custom"
+  }
+
+  return `${plan.configuration.mealsPerDay}/${plan.configuration.daysPerWeek}/${plan.configuration.totalPlans}`
+}
 
 const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
@@ -34,8 +49,11 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
       </TableCell>
       <TableCell>{getStatusString(props.customer)}</TableCell>
       <TableCell>
-        {props.customer.plan.category} {props.customer.plan.mealsPerDay} (
-        {props.customer.daysPerWeek} days)
+      {getPlanString(props.customer.newPlan, {
+        planLabels: [...planLabels],
+        extrasLabels: [...extrasLabels],
+        defaultDeliveryDays: [...defaultDeliveryDays]
+      })}
       </TableCell>
       <TableCell>{getExtrasString(props.customer)}</TableCell>
 

@@ -230,7 +230,7 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
               </StyledFormField>
             </ThemeContext.Extend>
           </Box>
-          {isEdit && (
+          {isEdit && !customer.newPlan && (
             <>
               <Heading level={3}>Legacy Plan</Heading>
               <Paragraph fill>
