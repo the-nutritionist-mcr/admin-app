@@ -70,14 +70,14 @@ const Home: React.FC = () => {
       <ReactMarkdown
         components={{
           h2: ({ ...props }) => (
-            <Heading
+            <Heading style={{ marginBottom: "0.25rem", paddingTop: "0.5rem", paddingBottom: "0.5rem", borderTop: "1px solid black", borderBottom: "1px solid black", maxWidth: "100%"}}
               margin={{ top: "1.5rem", bottom: "0" }}
               {...props}
               level={4}
             />
           ),
           h3: ({ ...props }) => (
-            <Heading
+            <Heading 
               margin={{ top: "0.5rem", bottom: "0.4rem" }}
               {...props}
               level={5}
