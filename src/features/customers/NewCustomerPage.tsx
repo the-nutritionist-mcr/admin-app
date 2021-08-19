@@ -252,9 +252,7 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
             exclusions={exclusions}
           />
         </Form>
-      ) : (
-        "Loading..."
-      )}
+      ) : null}
     </>
   );
 };
