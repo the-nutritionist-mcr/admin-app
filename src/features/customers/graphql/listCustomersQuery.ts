@@ -17,6 +17,26 @@ query ListCustomersQuery {
     pauseEnd
     pauseStart
     paymentDayOfMonth
+    newPlan {
+      deliveries {
+        items {
+          name
+          quantity
+        }
+        extras {
+          name
+          quantity
+        }
+      }
+      configuration {
+        planType
+        daysPerWeek
+        mealsPerDay
+        totalPlans
+        deliveryDays
+        extrasChosen
+      }
+    }
     plan {
       costPerMeal
       category

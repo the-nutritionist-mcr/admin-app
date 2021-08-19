@@ -1,3 +1,51 @@
+type DeliveryItem {
+  name: String!
+  quantity: Int!
+}
+
+input DeliveryItemInput {
+  name: String!
+  quantity: Int!
+}
+
+type Delivery {
+  items: [DeliveryItem!]!
+  extras: [DeliveryItem!]!
+}
+
+input DeliveryInput {
+  items: [DeliveryItemInput!]!
+  extras: [DeliveryItemInput!]!
+}
+
+type PlanConfiguration {
+  planType: String!
+  daysPerWeek: Int!
+  mealsPerDay: Int!
+  totalPlans: Int!
+  deliveryDays: [String!]!
+  extrasChosen: [String!]!
+}
+
+input PlanConfigurationInput {
+  planType: String!
+  daysPerWeek: Int!
+  mealsPerDay: Int!
+  totalPlans: Int!
+  deliveryDays: [String!]!
+  extrasChosen: [String!]!
+}
+
+type CustomerPlan {
+  deliveries: [Delivery!]!
+  configuration: PlanConfiguration
+}
+
+input CustomerPlanInput {
+  deliveries: [DeliveryInput!]!
+  configuration: PlanConfigurationInput
+}
+
 type Exclusion {
   id: ID!
   name: String!
@@ -62,6 +110,7 @@ type Customer {
   paymentDayOfMonth: Int
   notes: String
   email: String!
+  newPlan: CustomerPlan
   pauseStart: AWSDateTime
   pauseEnd: AWSDateTime
   daysPerWeek: Int!
@@ -81,6 +130,7 @@ input CustomerInput {
   startDate: AWSDateTime
   paymentDayOfMonth: Int
   notes: String
+  newPlan: CustomerPlanInput
   email: String!
   pauseStart: AWSDateTime
   pauseEnd: AWSDateTime
@@ -104,6 +154,7 @@ input UpdateCustomerInput {
   notes: String
   email: String!
   pauseStart: AWSDateTime
+  newPlan: CustomerPlanInput
   pauseEnd: AWSDateTime
   daysPerWeek: Int!
   plan: PlanInput!

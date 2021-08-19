@@ -12,6 +12,7 @@ import {
   Button,
 } from "grommet";
 import React, { FC } from "react";
+import { RouteComponentProps } from "react-router-dom"
 import {
   daysPerWeekOptions,
   plans,
@@ -22,13 +23,15 @@ import {
 import Customer, { Snack } from "../../domain/Customer";
 // import { createCustomer } from "./customersSlice";
 import { debounce } from "lodash";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { allExclusionsSelector } from "../../features/exclusions/exclusionsSlice";
 import { loadingSelector } from "../../lib/rootReducer";
 import LoadingState from "../../types/LoadingState";
 import PlanPanel from "./PlanPanel";
 import useExclusions from "../../features/exclusions/useExclusions";
 import { makeNewPlan } from "./distribution-generator";
+import useCustomers from "./useCustomers";
+import { updateCustomer, createCustomer } from "./customersSlice";
 
 const SUBMIT_DEBOUNCE = 500;
 
@@ -44,8 +47,8 @@ const defaultCustomer = {
   daysPerWeek: daysPerWeekOptions[0],
   plan: plans[0],
   newPlan: makeNewPlan({
-    planLabels,
-    extrasLabels,
+    planLabels: [...planLabels],
+    extrasLabels: [...extrasLabels],
     defaultDeliveryDays,
   }),
   snack: Snack.None,
@@ -53,21 +56,37 @@ const defaultCustomer = {
   exclusions: [],
 };
 
-const NewCustomerPage: FC = () => {
+interface PathParams { 
+  id?: string
+}
+
+const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
+  const { customers } = useCustomers();
+
   const [customer, setCustomer] = React.useState<Customer>(defaultCustomer);
+
+  const [customerWasFound, setCustomerWasFound] = React.useState(false);
+
+  React.useEffect(() => {
+    const foundCustomer = customers.find(thisCustomer => thisCustomer.id === props.match.params.id)
+    if (foundCustomer) {
+      setCustomer(foundCustomer)
+      setCustomerWasFound(true)
+    }
+  }, [customers])
 
   const propsCustomer = {
     ...defaultCustomer,
     breakfast: false,
   };
 
-  // const dispatch = useDispatch();
-
   const { exclusions } = useExclusions();
+
+  const dispatch = useDispatch();
 
   const isLoading = useSelector(loadingSelector) === LoadingState.Loading;
 
-  const onSubmit = debounce(() => {
+  const onSubmit = debounce(async () => {
     const submittingCustomer = {
       ...customer,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -76,10 +95,11 @@ const NewCustomerPage: FC = () => {
 
     // eslint-disable-next-line no-console
     console.log(submittingCustomer);
-    //await dispatch(createCustomer(submittingCustomer));
+    const thunk = props.match.params.id ? updateCustomer : createCustomer
+    await dispatch(thunk(submittingCustomer));
   }, SUBMIT_DEBOUNCE);
   return (
-    <>
+    <> {(props.match.params.id && customerWasFound) || !props.match.params.id ? 
       <Form
         value={customer}
         onReset={(): void => {
@@ -194,8 +214,8 @@ const NewCustomerPage: FC = () => {
         <PlanPanel
           plan={customer.newPlan}
           plannerConfig={{
-            planLabels,
-            extrasLabels,
+            planLabels: [...planLabels],
+            extrasLabels: [...extrasLabels],
             defaultDeliveryDays,
           }}
           onChange={(plan) => {
@@ -205,7 +225,9 @@ const NewCustomerPage: FC = () => {
           }}
           exclusions={exclusions}
         />
-      </Form>
+      </Form> : "Loading..."
+
+}
     </>
   );
 };

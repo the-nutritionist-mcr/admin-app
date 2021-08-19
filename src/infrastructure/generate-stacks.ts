@@ -13,10 +13,12 @@ const generateStacks = (): void => {
 
   const app = new cdk.App();
 
+  const account = process.env.IS_LOCALSTACK ? "000000000000" : "661272765443"
+
   const defaults = {
     env: {
       region: "us-east-1",
-      account: "661272765443",
+      account
     },
     appName: "tnm-admin",
     domainName: "tnm-admin.com",

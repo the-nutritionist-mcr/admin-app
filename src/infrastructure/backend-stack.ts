@@ -1,5 +1,6 @@
 import * as apiGateway from "@aws-cdk/aws-apigateway";
 import * as appsync from "@aws-cdk/aws-appsync";
+import * as s3 from "@aws-cdk/aws-s3";
 import * as cdk from "@aws-cdk/core";
 import * as cognito from "@aws-cdk/aws-cognito";
 import * as ddb from "@aws-cdk/aws-dynamodb";
@@ -104,13 +105,15 @@ export default class BackendStack extends cdk.Stack {
       value: api.graphqlUrl,
     });
 
+    const bundlePath = process.env.IS_LOCALSTACK 
+      ? path.resolve(__dirname, "..", "..", "dist", "bundles", "backend")
+      : path.resolve(__dirname, "..", "..", "backend")
+
     const resolverLambda = new lambda.Function(this, "AppResolverLambda", {
       functionName: `${name}-resolver-lambda`,
       runtime: lambda.Runtime.NODEJS_14_X,
       handler: "index.handler",
-      code: lambda.Code.fromAsset(
-        path.resolve(__dirname, "..", "..", "backend")
-      ),
+      code: lambda.Code.fromAsset(bundlePath),
       memorySize: 1024,
     });
 

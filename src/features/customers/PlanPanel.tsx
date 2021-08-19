@@ -174,13 +174,13 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
         <CheckBoxGroup
           pad="medium"
           disabled={customDeliveryPlan}
-          options={props.plannerConfig.extrasLabels}
-          value={customerPlan.configuration.extrasChosen}
+          options={[...props.plannerConfig.extrasLabels]}
+          value={[...customerPlan.configuration.extrasChosen]}
           // eslint-disable-next-line no-console
           onChange={(event) =>
             updatePlan(
               props.plannerConfig,
-              { extrasChosen: (event?.value ?? []) as string[] },
+              { extrasChosen: (event?.value ?? []) as typeof props.plannerConfig.extrasLabels[number][] },
               customerPlan
             )
           }

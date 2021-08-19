@@ -1,5 +1,11 @@
+import { extrasLabels, planLabels } from "../../lib/config";
+
+const labels = [...extrasLabels, ...planLabels];
+
+type ItemNameType = typeof labels[number]
+
 export interface Item {
-  name: string;
+  name: ItemNameType;
   quantity: number;
 }
 
@@ -9,12 +15,12 @@ export interface Delivery {
 }
 
 export interface PlanConfiguration {
-  planType: string;
+  planType: typeof planLabels[number];
   daysPerWeek: DaysPerWeek;
   mealsPerDay: number;
   totalPlans: number;
   deliveryDays: string[];
-  extrasChosen: string[];
+  extrasChosen: typeof extrasLabels[number][];
 }
 
 export interface CustomerPlan {
@@ -23,8 +29,8 @@ export interface CustomerPlan {
 }
 
 export interface PlannerConfig {
-  planLabels: string[];
-  extrasLabels: string[];
+  planLabels: typeof planLabels[number][],
+  extrasLabels: typeof extrasLabels[number][],
   defaultDeliveryDays: string[];
 }
 

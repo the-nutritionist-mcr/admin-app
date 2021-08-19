@@ -6,17 +6,17 @@ export type PlanCategory = "Mass" | "EQ" | "Micro" | "Ultra-Micro";
 // eslint-disable-next-line @typescript-eslint/no-magic-numbers
 export const daysPerWeekOptions = [7, 6, 5];
 
-export const planLabels: string[] = [
+export const planLabels = [
   "EQ",
   "Mass",
   "Micro",
   "Ultra-Micro",
   "Carb Free",
-];
+] as const;
 
 export const defaultDeliveryDays = ["Monday", "Thursday"];
 
-export const extrasLabels: string[] = ["Breakfast", "Snack", "Large Snack"];
+export const extrasLabels = ["Breakfast", "Snack", "Large Snack"] as const;
 
 export const plans: Plan[] = [
   {
