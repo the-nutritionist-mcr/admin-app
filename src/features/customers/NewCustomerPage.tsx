@@ -33,8 +33,7 @@ import styled from "styled-components";
 
 const StyledFormField = styled(FormField)`
   width: 300px;
-`
-
+`;
 
 const SUBMIT_DEBOUNCE = 500;
 
@@ -69,7 +68,7 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
   const [customer, setCustomer] = React.useState<Customer>(defaultCustomer);
   const [dirty, setDirty] = React.useState(false);
 
-  const isEdit = props.match.params.id
+  const isEdit = props.match.params.id;
 
   const [customerWasFound, setCustomerWasFound] = React.useState(false);
 
@@ -123,7 +122,7 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
   return (
     <>
       {" "}
-      {(isEdit && customerWasFound) || !isEdit? (
+      {(isEdit && customerWasFound) || !isEdit ? (
         <Form
           value={customer}
           onReset={(): void => {
@@ -133,7 +132,9 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
           onSubmit={onSubmit}
         >
           <Header justify="start" gap="small">
-            <Heading level={2}>{isEdit ? "Update Customer" : "New Customer"}</Heading>
+            <Heading level={2}>
+              {isEdit ? "Update Customer" : "New Customer"}
+            </Heading>
 
             <Button
               primary
