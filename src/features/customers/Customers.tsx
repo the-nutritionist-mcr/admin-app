@@ -54,7 +54,7 @@ const Customers: React.FC = () => {
         <Button
           primary
           size="small"
-          label="download"
+          label="Download CSV"
           onClick={(): void => {
             const string = generateCsvStringFromObjectArray(
               customers.map(convertCustomerToSimpleObject)
