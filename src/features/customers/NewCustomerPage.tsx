@@ -12,7 +12,7 @@ import {
   Button,
 } from "grommet";
 import React, { FC } from "react";
-import { RouteComponentProps } from "react-router-dom"
+import { RouteComponentProps } from "react-router-dom";
 import {
   daysPerWeekOptions,
   plans,
@@ -28,6 +28,13 @@ import useExclusions from "../../features/exclusions/useExclusions";
 import { makeNewPlan } from "./distribution-generator";
 import useCustomers from "./useCustomers";
 import { updateCustomer, createCustomer } from "./customersSlice";
+
+import styled from "styled-components";
+
+const StyledFormField = styled(FormField)`
+  width: 300px;
+`
+
 
 const SUBMIT_DEBOUNCE = 500;
 
@@ -52,8 +59,8 @@ const defaultCustomer = {
   exclusions: [],
 };
 
-interface PathParams { 
-  id?: string
+interface PathParams {
+  id?: string;
 }
 
 const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
@@ -62,15 +69,19 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
   const [customer, setCustomer] = React.useState<Customer>(defaultCustomer);
   const [dirty, setDirty] = React.useState(false);
 
+  const isEdit = props.match.params.id
+
   const [customerWasFound, setCustomerWasFound] = React.useState(false);
 
   React.useEffect(() => {
-    const foundCustomer = customers.find(thisCustomer => thisCustomer.id === props.match.params.id)
+    const foundCustomer = customers.find(
+      (thisCustomer) => thisCustomer.id === props.match.params.id
+    );
     if (foundCustomer) {
-      setCustomer(foundCustomer)
-      setCustomerWasFound(true)
+      setCustomer(foundCustomer);
+      setCustomerWasFound(true);
     }
-  }, [customers, props.match.params.id])
+  }, [customers, props.match.params.id]);
 
   const propsCustomer = {
     ...defaultCustomer,
@@ -88,141 +99,147 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
       breakfast: (customer.breakfast as any) === "Yes",
     };
 
-    // eslint-disable-next-line no-console
-    console.log(submittingCustomer);
-    const thunk = props.match.params.id ? updateCustomer : createCustomer
+    const thunk = isEdit ? updateCustomer : createCustomer;
     await dispatch(thunk(submittingCustomer));
-    setDirty(false)
+    setDirty(false);
   }, SUBMIT_DEBOUNCE);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const onChange = (nextCustomerData: any): void => {
-          setDirty(true);
-          const nextCustomer = {
-            ...nextCustomerData,
-            startDate:
-              nextCustomerData.startDate === "string" && nextCustomerData.startDate ?
-              new Date(nextCustomerData.startDate) : nextCustomerData.startDate,
-              paymentDayOfMonth:
-                nextCustomerData.paymentDayOfMonth === ""
-                  ? undefined
-                  : nextCustomerData.paymentDayOfMonth,
-          };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onChange = (nextCustomerData: any): void => {
+    setDirty(true);
+    const nextCustomer = {
+      ...nextCustomerData,
+      startDate:
+        nextCustomerData.startDate === "string" && nextCustomerData.startDate
+          ? new Date(nextCustomerData.startDate)
+          : nextCustomerData.startDate,
+      paymentDayOfMonth:
+        nextCustomerData.paymentDayOfMonth === ""
+          ? undefined
+          : nextCustomerData.paymentDayOfMonth,
+    };
 
-          setCustomer(nextCustomer);
-        }
+    setCustomer(nextCustomer);
+  };
   return (
-    <> {(props.match.params.id && customerWasFound) || !props.match.params.id ? 
-      <Form
-        value={customer}
-        onReset={(): void => {
-          setCustomer(propsCustomer);
-        }}
-        onChange={onChange}
-        onSubmit={onSubmit}
-      >
-        <Header justify="start" gap="small">
-          <Heading level={2}>New Customer</Heading>
+    <>
+      {" "}
+      {(isEdit && customerWasFound) || !isEdit? (
+        <Form
+          value={customer}
+          onReset={(): void => {
+            setCustomer(propsCustomer);
+          }}
+          onChange={onChange}
+          onSubmit={onSubmit}
+        >
+          <Header justify="start" gap="small">
+            <Heading level={2}>{isEdit ? "Update Customer" : "New Customer"}</Heading>
 
-          <Button
-            primary
-            disabled={!dirty}
-            label="Save"
-            type="submit"
-            name="submit"
-          />
-        </Header>
-
-        <Heading level={3}>Personal Details</Heading>
-        <Box direction="row" wrap={true} gap="3rem">
-          <FormField name="salutation" label="Salutation" required>
-            <Select
-              options={[
-                "Mr",
-                "Mrs",
-                "Miss",
-                "Ms",
-                "Mx",
-                "Master",
-                "Dr",
-                "Prof",
-                "Other",
-              ]}
-              name="salutation"
+            <Button
+              primary
+              disabled={!dirty}
+              label="Save"
+              type="submit"
+              name="submit"
             />
-          </FormField>
-          <FormField name="firstName" label="First Name" required>
-            <TextInput name="firstName" />
-          </FormField>
+          </Header>
 
-          <FormField name="surname" label="Surname" required>
-            <TextInput name="surname" />
-          </FormField>
+          <Heading level={3}>Personal Details</Heading>
+          <Box direction="row" wrap={true} gap="3rem">
+            <StyledFormField name="salutation" label="Salutation" required>
+              <Select
+                options={[
+                  "Mr",
+                  "Mrs",
+                  "Miss",
+                  "Ms",
+                  "Mx",
+                  "Master",
+                  "Dr",
+                  "Prof",
+                  "Other",
+                ]}
+                name="salutation"
+              />
+            </StyledFormField>
+            <StyledFormField name="firstName" label="First Name" required>
+              <TextInput name="firstName" />
+            </StyledFormField>
 
-          <FormField name="paymentDayOfMonth" label="Payment Day ">
-            <TextInput name="paymentDayOfMonth" type="number" />
-          </FormField>
-          <FormField name="startDate" label="Start Date">
-            <DateInput name="startDate" format="dd/mm/yyyy" />
-          </FormField>
-          <FormField name="telephone" label="Telephone">
-            <TextInput name="telephone" type="tel" />
-          </FormField>
-          <FormField name="email" label="Email" required>
-            <TextInput name="email" type="email" />
-          </FormField>
-        </Box>
+            <StyledFormField name="surname" label="Surname" required>
+              <TextInput name="surname" />
+            </StyledFormField>
 
-        <Box direction="row" fill="horizontal" justify="stretch">
-          <ThemeContext.Extend
-            value={{
-              formField: {
-                extend: `
+            <StyledFormField name="paymentDayOfMonth" label="Payment Day ">
+              <TextInput name="paymentDayOfMonth" type="number" />
+            </StyledFormField>
+            <StyledFormField name="startDate" label="Start Date">
+              <DateInput name="startDate" format="dd/mm/yyyy" />
+            </StyledFormField>
+            <StyledFormField name="telephone" label="Telephone">
+              <TextInput name="telephone" type="tel" />
+            </StyledFormField>
+            <StyledFormField name="email" label="Email" required>
+              <TextInput name="email" type="email" />
+            </StyledFormField>
+          </Box>
+
+          <Box direction="row" fill="horizontal" justify="stretch">
+            <ThemeContext.Extend
+              value={{
+                formField: {
+                  extend: `
                     flex-grow: 2
                     `,
-              },
-            }}
-          >
-            <FormField
-              name="address"
-              label="Address"
-              contentProps={{ fill: true }}
-              required
+                },
+              }}
             >
-              <TextArea fill={true} name="address" />
-            </FormField>
-          </ThemeContext.Extend>
-        </Box>
+              <StyledFormField
+                name="address"
+                label="Address"
+                contentProps={{ fill: true }}
+                required
+              >
+                <TextArea fill={true} name="address" />
+              </StyledFormField>
+            </ThemeContext.Extend>
+          </Box>
 
-        <Box direction="row" fill="horizontal" justify="stretch">
-          <ThemeContext.Extend
-            value={{
-              formField: {
-                extend: `
+          <Box direction="row" fill="horizontal" justify="stretch">
+            <ThemeContext.Extend
+              value={{
+                formField: {
+                  extend: `
                     flex-grow: 2
                     `,
-              },
+                },
+              }}
+            >
+              <StyledFormField
+                name="notes"
+                label="Notes"
+                contentProps={{ fill: true }}
+              >
+                <TextArea fill={true} name="notes" />
+              </StyledFormField>
+            </ThemeContext.Extend>
+          </Box>
+          <PlanPanel
+            plan={customer.newPlan}
+            plannerConfig={{
+              planLabels: [...planLabels],
+              extrasLabels: [...extrasLabels],
+              defaultDeliveryDays,
             }}
-          >
-            <FormField name="notes" label="Notes" contentProps={{ fill: true }}>
-              <TextArea fill={true} name="notes" />
-            </FormField>
-          </ThemeContext.Extend>
-        </Box>
-        <PlanPanel
-          plan={customer.newPlan}
-          plannerConfig={{
-            planLabels: [...planLabels],
-            extrasLabels: [...extrasLabels],
-            defaultDeliveryDays,
-          }}
-          onChange={(plan) => {
-            onChange({...customer, newPlan: plan})
-          }}
-          exclusions={exclusions}
-        />
-      </Form> : "Loading..."
-
-}
+            onChange={(plan) => {
+              onChange({ ...customer, newPlan: plan });
+            }}
+            exclusions={exclusions}
+          />
+        </Form>
+      ) : (
+        "Loading..."
+      )}
     </>
   );
 };
