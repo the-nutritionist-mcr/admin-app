@@ -29,7 +29,9 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
 
   return (
     <TableRow>
-      <TableCell scope="row"><Link to={`/edit-customer/${props.customer.id}`}>{nameString}</Link></TableCell>
+      <TableCell scope="row">
+        <Link to={`/edit-customer/${props.customer.id}`}>{nameString}</Link>
+      </TableCell>
       <TableCell>{getStatusString(props.customer)}</TableCell>
       <TableCell>
         {props.customer.plan.category} {props.customer.plan.mealsPerDay} (

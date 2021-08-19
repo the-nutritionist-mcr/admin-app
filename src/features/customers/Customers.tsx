@@ -42,7 +42,6 @@ const Customers: React.FC = () => {
   const loading = useSelector(loadingSelector);
   const history = useHistory();
 
-
   return (
     <React.Fragment>
       <Header align="center" justify="start" gap="small">
@@ -50,7 +49,7 @@ const Customers: React.FC = () => {
         <Button
           primary
           size="small"
-          onClick={() => history.push('/new-customer')}
+          onClick={() => history.push("/new-customer")}
           label="New"
           a11yTitle="New Customer"
         />
