@@ -56,7 +56,8 @@ const Planner: React.FC = () => {
       <Heading level={2}>Planner</Heading>
       {disabled ? (
         <Paragraph fill>
-          The planner is currently undergoing development. Please try again later...
+          The planner is currently undergoing development. Please try again
+          later...
         </Paragraph>
       ) : (
         <Tabs
