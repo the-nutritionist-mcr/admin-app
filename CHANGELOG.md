@@ -1,3 +1,24 @@
+## [1.3.0](https://github.com/benwainwright/tnm/compare/v1.2.0...v1.3.0) (2021-08-19)
+
+
+### Features
+
+* add an alert when someone tries to leave for a different page ([cdee293](https://github.com/benwainwright/tnm/commit/cdee293413686d9ea1cc3d30b9e4fdc72a11c5a9))
+* change new customer button to go the updated new customer page ([b3e1a15](https://github.com/benwainwright/tnm/commit/b3e1a15d81c781d0e3d458d9b7dd486745fd7e17))
+* change title of new customer page when editing TRELLO-79 ([41cfad9](https://github.com/benwainwright/tnm/commit/41cfad92dab50db11afdbd77b597ad8284ee080f))
+* disabled planner in order to implement the new customer input UX ([7688eb7](https://github.com/benwainwright/tnm/commit/7688eb73ce053776a31875bc03c64d328eda1a0a))
+* display legacy plan on new customer page ([3e74fd2](https://github.com/benwainwright/tnm/commit/3e74fd270e1d49466017abc4b6d22c58f3360105))
+* make it very clear when a customer is on a legacy plan ([9f349f4](https://github.com/benwainwright/tnm/commit/9f349f448b2334d5b73f4ed9e23bd527eea19547))
+* new customer page enables/disables save button based on clean or dirty ([6a67427](https://github.com/benwainwright/tnm/commit/6a674274d3e982bb1992e8d835fc6b966d25d109))
+* remove old ux ([22bb410](https://github.com/benwainwright/tnm/commit/22bb4106309a87a45b7439d5e28058a5627df6ad))
+
+
+### Bug Fixes
+
+* change the label of the download button to something more descriptive ([7355e2c](https://github.com/benwainwright/tnm/commit/7355e2cd2cd21a2f36b41d518030f4cab8b77497))
+* formatted changelog ([9435860](https://github.com/benwainwright/tnm/commit/943586048686795610bc837db1fbafd41a6d19f4))
+* remove unnecessary loading message ([b5f8d14](https://github.com/benwainwright/tnm/commit/b5f8d145dabf0286abc72470a75a9bbde39aa347))
+
 ## [1.2.0](https://github.com/benwainwright/tnm/compare/v1.1.2...v1.2.0) (2021-08-19)
 
 
