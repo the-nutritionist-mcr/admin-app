@@ -104,9 +104,9 @@ export default class BackendStack extends cdk.Stack {
       value: api.graphqlUrl,
     });
 
-    const bundlePath = process.env.IS_LOCALSTACK 
+    const bundlePath = process.env.IS_LOCALSTACK
       ? path.resolve(__dirname, "..", "..", "dist", "bundles", "backend")
-      : path.resolve(__dirname, "..", "..", "backend")
+      : path.resolve(__dirname, "..", "..", "backend");
 
     const resolverLambda = new lambda.Function(this, "AppResolverLambda", {
       functionName: `${name}-resolver-lambda`,

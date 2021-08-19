@@ -180,7 +180,10 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
           onChange={(event) =>
             updatePlan(
               props.plannerConfig,
-              { extrasChosen: (event?.value ?? []) as typeof props.plannerConfig.extrasLabels[number][] },
+              {
+                extrasChosen: (event?.value ??
+                  []) as typeof props.plannerConfig.extrasLabels[number][],
+              },
               customerPlan
             )
           }

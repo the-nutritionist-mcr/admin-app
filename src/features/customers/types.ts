@@ -2,7 +2,7 @@ import { extrasLabels, planLabels } from "../../lib/config";
 
 const labels = [...extrasLabels, ...planLabels];
 
-type ItemNameType = typeof labels[number]
+type ItemNameType = typeof labels[number];
 
 export interface Item {
   name: ItemNameType;
@@ -29,8 +29,8 @@ export interface CustomerPlan {
 }
 
 export interface PlannerConfig {
-  planLabels: typeof planLabels[number][],
-  extrasLabels: typeof extrasLabels[number][],
+  planLabels: typeof planLabels[number][];
+  extrasLabels: typeof extrasLabels[number][];
   defaultDeliveryDays: string[];
 }
 

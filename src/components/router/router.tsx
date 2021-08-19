@@ -40,12 +40,36 @@ const Router: React.FC = () => (
         groups={["anonymous", "user", "admin"]}
         component={LazyHome}
       />
-      <AuthenticatedRoute path="/customers" groups={["user", "admin"]} component={LazyCustomers} />
-      <AuthenticatedRoute path="/recipes" groups={["user", "admin"]} component={LazyRecipes} />
-      <AuthenticatedRoute path="/planner" groups={["user", "admin"]} component={LazyPlanner} />
-      <AuthenticatedRoute path="/customisations" groups={["user", "admin"]} component={LazyExclusions} />
-      <AuthenticatedRoute path="/edit-customer/:id" groups={["user", "admin"]} component={LazyNewCustomer} />
-      <AuthenticatedRoute path="/new-customer" groups={["user", "admin"]} component={LazyNewCustomer} />
+      <AuthenticatedRoute
+        path="/customers"
+        groups={["user", "admin"]}
+        component={LazyCustomers}
+      />
+      <AuthenticatedRoute
+        path="/recipes"
+        groups={["user", "admin"]}
+        component={LazyRecipes}
+      />
+      <AuthenticatedRoute
+        path="/planner"
+        groups={["user", "admin"]}
+        component={LazyPlanner}
+      />
+      <AuthenticatedRoute
+        path="/customisations"
+        groups={["user", "admin"]}
+        component={LazyExclusions}
+      />
+      <AuthenticatedRoute
+        path="/edit-customer/:id"
+        groups={["user", "admin"]}
+        component={LazyNewCustomer}
+      />
+      <AuthenticatedRoute
+        path="/new-customer"
+        groups={["user", "admin"]}
+        component={LazyNewCustomer}
+      />
     </Switch>
   </React.Suspense>
 );

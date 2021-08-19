@@ -25,16 +25,18 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showEdit, setShowEdit] = React.useState(false);
   const dispatch = useDispatch();
 
-  const isNewUx = document.location.search === "?newUx"
+  const isNewUx = document.location.search === "?newUx";
 
-  const nameString = `${props.customer.surname} ${props.customer.firstName} (${props.customer.salutation})`
+  const nameString = `${props.customer.surname} ${props.customer.firstName} (${props.customer.salutation})`;
 
-  const nameComponent = !isNewUx ? nameString : <Link to={`/edit-customer/${props.customer.id}`}>{nameString}</Link>
+  const nameComponent = !isNewUx ? (
+    nameString
+  ) : (
+    <Link to={`/edit-customer/${props.customer.id}`}>{nameString}</Link>
+  );
   return (
     <TableRow>
-      <TableCell scope="row">
-      {nameComponent}
-      </TableCell>
+      <TableCell scope="row">{nameComponent}</TableCell>
       <TableCell>{getStatusString(props.customer)}</TableCell>
       <TableCell>
         {props.customer.plan.category} {props.customer.plan.mealsPerDay} (
@@ -110,13 +112,14 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
               setShowEdit(false);
             }}
           />
-          {!isNewUx ? 
-          <SlimButton
-            secondary
-            icon={<Edit color="light-6" />}
-            a11yTitle="Edit"
-            onClick={(): void => setShowEdit(true)}
-          />: null }
+          {!isNewUx ? (
+            <SlimButton
+              secondary
+              icon={<Edit color="light-6" />}
+              a11yTitle="Edit"
+              onClick={(): void => setShowEdit(true)}
+            />
+          ) : null}
         </Box>
       </TableCell>
     </TableRow>

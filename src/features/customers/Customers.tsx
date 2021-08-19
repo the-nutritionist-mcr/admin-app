@@ -37,7 +37,6 @@ const convertCustomerToSimpleObject = (
 const Customers: React.FC = () => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
 
-
   const { customers } = useCustomers();
   const loading = useSelector(loadingSelector);
 
