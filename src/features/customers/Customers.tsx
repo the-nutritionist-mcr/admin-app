@@ -24,6 +24,7 @@ import generateCsvStringFromObjectArray from "../../lib/generateCsvStringFromObj
 import { loadingSelector } from "../../lib/rootReducer";
 import useCustomers from "./useCustomers";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const convertCustomerToSimpleObject = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -39,6 +40,8 @@ const Customers: React.FC = () => {
 
   const { customers } = useCustomers();
   const loading = useSelector(loadingSelector);
+  const history = useHistory();
+
 
   return (
     <React.Fragment>
@@ -47,7 +50,7 @@ const Customers: React.FC = () => {
         <Button
           primary
           size="small"
-          onClick={(): void => setShowCreateCustomer(true)}
+          onClick={() => history.push('/new-customer')}
           label="New"
           a11yTitle="New Customer"
         />
