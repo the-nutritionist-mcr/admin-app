@@ -21,12 +21,8 @@ import {
   defaultDeliveryDays,
 } from "../../lib/config";
 import Customer, { Snack } from "../../domain/Customer";
-// import { createCustomer } from "./customersSlice";
 import { debounce } from "lodash";
-import { useDispatch, useSelector } from "react-redux";
-// import { allExclusionsSelector } from "../../features/exclusions/exclusionsSlice";
-import { loadingSelector } from "../../lib/rootReducer";
-import LoadingState from "../../types/LoadingState";
+import { useDispatch } from "react-redux";
 import PlanPanel from "./PlanPanel";
 import useExclusions from "../../features/exclusions/useExclusions";
 import { makeNewPlan } from "./distribution-generator";
@@ -64,6 +60,7 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
   const { customers } = useCustomers();
 
   const [customer, setCustomer] = React.useState<Customer>(defaultCustomer);
+  const [dirty, setDirty] = React.useState(false);
 
   const [customerWasFound, setCustomerWasFound] = React.useState(false);
 
@@ -84,8 +81,6 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
 
   const dispatch = useDispatch();
 
-  const isLoading = useSelector(loadingSelector) === LoadingState.Loading;
-
   const onSubmit = debounce(async () => {
     const submittingCustomer = {
       ...customer,
@@ -97,7 +92,24 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
     console.log(submittingCustomer);
     const thunk = props.match.params.id ? updateCustomer : createCustomer
     await dispatch(thunk(submittingCustomer));
+    setDirty(false)
   }, SUBMIT_DEBOUNCE);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+const onChange = (nextCustomerData: any): void => {
+          setDirty(true);
+          const nextCustomer = {
+            ...nextCustomerData,
+            startDate:
+              nextCustomerData.startDate === "string" && nextCustomerData.startDate ?
+              new Date(nextCustomerData.startDate) : nextCustomerData.startDate,
+              paymentDayOfMonth:
+                nextCustomerData.paymentDayOfMonth === ""
+                  ? undefined
+                  : nextCustomerData.paymentDayOfMonth,
+          };
+
+          setCustomer(nextCustomer);
+        }
   return (
     <> {(props.match.params.id && customerWasFound) || !props.match.params.id ? 
       <Form
@@ -105,21 +117,7 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
         onReset={(): void => {
           setCustomer(propsCustomer);
         }}
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onChange={(nextCustomerData: any): void => {
-          const nextCustomer = {
-            ...nextCustomerData,
-            startDate:
-              nextCustomerData.startDate &&
-              new Date(nextCustomerData.startDate),
-            paymentDayOfMonth:
-              nextCustomerData.paymentDayOfMonth === ""
-                ? undefined
-                : nextCustomerData.paymentDayOfMonth,
-          };
-
-          setCustomer(nextCustomer);
-        }}
+        onChange={onChange}
         onSubmit={onSubmit}
       >
         <Header justify="start" gap="small">
@@ -127,12 +125,11 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
 
           <Button
             primary
-            disabled={isLoading}
+            disabled={!dirty}
             label="Save"
             type="submit"
             name="submit"
           />
-          <Button primary label="Cancel" />
         </Header>
 
         <Heading level={3}>Personal Details</Heading>
@@ -219,9 +216,7 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
             defaultDeliveryDays,
           }}
           onChange={(plan) => {
-            // eslint-disable-next-line no-console
-            console.log(plan);
-            setCustomer({ ...customer, newPlan: plan });
+            onChange({...customer, newPlan: plan})
           }}
           exclusions={exclusions}
         />
