@@ -1070,16 +1070,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-cdk/cloud-assembly-schema@npm:1.119.0":
-  version: 1.119.0
-  resolution: "@aws-cdk/cloud-assembly-schema@npm:1.119.0"
-  dependencies:
-    jsonschema: ^1.4.0
-    semver: ^7.3.5
-  checksum: 1223f0f4b48698a788212f0daee35df752c3f714635f3979f1213c952e7b5afbbfce68706e4fbae36e635b07f421ffaf482488d16a871f5bee668e8f21e17c46
-  languageName: node
-  linkType: hard
-
 "@aws-cdk/cloudformation-diff@npm:1.118.0":
   version: 1.118.0
   resolution: "@aws-cdk/cloudformation-diff@npm:1.118.0"
@@ -1150,18 +1140,6 @@ __metadata:
   peerDependencies:
     "@aws-cdk/cloud-assembly-schema": 1.118.0
   checksum: edca33a63e46b4b926e52929c3f0fac539b63627e62d436c99f33a8da0dedaf462fa0f8d4bcbeeeb1f59602d2af3d012ee1bcdd7519753f9957882ed4181f154
-  languageName: node
-  linkType: hard
-
-"@aws-cdk/cx-api@npm:1.119.0":
-  version: 1.119.0
-  resolution: "@aws-cdk/cx-api@npm:1.119.0"
-  dependencies:
-    "@aws-cdk/cloud-assembly-schema": 1.119.0
-    semver: ^7.3.5
-  peerDependencies:
-    "@aws-cdk/cloud-assembly-schema": 1.119.0
-  checksum: a61ad3b827e5a2eac3984e4d525f5c21ee193d332508d76fcd53426ae722eebfb0f21ffe5180e5d7e7e96b56494a3a70d3983faaf2775f78cf3455c1830f4ed1
   languageName: node
   linkType: hard
 
@@ -4060,7 +4038,7 @@ __metadata:
     EventEmitter: ^1.0.0
     aws-appsync: ^4.0.1
     aws-cdk: ^1.97.0
-    aws-cdk-local: ^1.65.8
+    aws-cdk-local: ^1.65.1
     aws-lambda: ^1.0.6
     aws-sdk: ^2.807.0
     aws-sdk-mock: ^5.1.0
@@ -4072,7 +4050,6 @@ __metadata:
     bfj: ^7.0.2
     camelcase: ^6.1.0
     case-sensitive-paths-webpack-plugin: 2.3.0
-    cdk-assets: ^1.119.0
     changelog-parser: ^2.8.0
     conventional-changelog: ^3.1.24
     conventional-changelog-conventionalcommits: ^4.6.0
@@ -9172,7 +9149,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-cdk-local@npm:^1.65.8":
+"aws-cdk-local@npm:^1.65.1":
   version: 1.65.8
   resolution: "aws-cdk-local@npm:1.65.8"
   dependencies:
@@ -10827,24 +10804,6 @@ __metadata:
     cdk-assets: bin/cdk-assets
     docker-credential-cdk-assets: bin/docker-credential-cdk-assets
   checksum: 9944206f72b2bfe6a1fe823b3bf021948b1dc3190dab365e8463c5a496711db72c55658de9ec0c32ebcbec3b081700f4d275a94f91bc32419ff0bb61c943ea86
-  languageName: node
-  linkType: hard
-
-"cdk-assets@npm:^1.119.0":
-  version: 1.119.0
-  resolution: "cdk-assets@npm:1.119.0"
-  dependencies:
-    "@aws-cdk/cloud-assembly-schema": 1.119.0
-    "@aws-cdk/cx-api": 1.119.0
-    archiver: ^5.3.0
-    aws-sdk: ^2.848.0
-    glob: ^7.1.7
-    mime: ^2.5.2
-    yargs: ^16.2.0
-  bin:
-    cdk-assets: bin/cdk-assets
-    docker-credential-cdk-assets: bin/docker-credential-cdk-assets
-  checksum: 010826d96622052ed216846f979460c6ce1fc5ee26e7c4879da965102ef169273c835cad7a670ff591de89cb3211e55cd557af8d8d15de7e51ebe137baa3fe19
   languageName: node
   linkType: hard
 

@@ -128,7 +128,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bfj", "npm:7.0.2"],
             ["camelcase", "npm:6.2.0"],
             ["case-sensitive-paths-webpack-plugin", "npm:2.3.0"],
-            ["cdk-assets", "npm:1.119.0"],
             ["changelog-parser", "npm:2.8.0"],
             ["conventional-changelog", "npm:3.1.24"],
             ["conventional-changelog-conventionalcommits", "npm:4.6.0"],
@@ -3969,15 +3968,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["semver", "npm:7.3.5"]
           ],
           "linkType": "HARD",
-        }],
-        ["npm:1.119.0", {
-          "packageLocation": "./.yarn/cache/@aws-cdk-cloud-assembly-schema-npm-1.119.0-250e5bf976-1223f0f4b4.zip/node_modules/@aws-cdk/cloud-assembly-schema/",
-          "packageDependencies": [
-            ["@aws-cdk/cloud-assembly-schema", "npm:1.119.0"],
-            ["jsonschema", "npm:1.4.0"],
-            ["semver", "npm:7.3.5"]
-          ],
-          "linkType": "HARD",
         }]
       ]],
       ["@aws-cdk/cloudformation-diff", [
@@ -4196,32 +4186,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["npm:1.119.0", {
-          "packageLocation": "./.yarn/cache/@aws-cdk-cx-api-npm-1.119.0-744c8f7e82-a61ad3b827.zip/node_modules/@aws-cdk/cx-api/",
-          "packageDependencies": [
-            ["@aws-cdk/cx-api", "npm:1.119.0"]
-          ],
-          "linkType": "SOFT",
-        }],
         ["virtual:4669389ae60dde9d5eace715c1519b54658afbcc58807a06dde60ccb386f5a512c50d662c10a1591ed363cb4c0016038a7a514ba4ea0da741cf500bd47e9cb61#npm:1.118.0", {
           "packageLocation": "./.yarn/__virtual__/@aws-cdk-cx-api-virtual-78ae6e8fcc/0/cache/@aws-cdk-cx-api-npm-1.118.0-373416fffe-edca33a63e.zip/node_modules/@aws-cdk/cx-api/",
           "packageDependencies": [
             ["@aws-cdk/cx-api", "virtual:4669389ae60dde9d5eace715c1519b54658afbcc58807a06dde60ccb386f5a512c50d662c10a1591ed363cb4c0016038a7a514ba4ea0da741cf500bd47e9cb61#npm:1.118.0"],
             ["@aws-cdk/cloud-assembly-schema", "npm:1.118.0"],
-            ["@types/aws-cdk__cloud-assembly-schema", null],
-            ["semver", "npm:7.3.5"]
-          ],
-          "packagePeers": [
-            "@aws-cdk/cloud-assembly-schema",
-            "@types/aws-cdk__cloud-assembly-schema"
-          ],
-          "linkType": "HARD",
-        }],
-        ["virtual:e72a9e5f3fa17ff783b777616e271c87fe3190d28d294b94e8ebd0d8c9a8fc92eda982befb4691e93be40509ff74565ac6361428fc4c1a366e8a537c6de3530d#npm:1.119.0", {
-          "packageLocation": "./.yarn/__virtual__/@aws-cdk-cx-api-virtual-720b08c85b/0/cache/@aws-cdk-cx-api-npm-1.119.0-744c8f7e82-a61ad3b827.zip/node_modules/@aws-cdk/cx-api/",
-          "packageDependencies": [
-            ["@aws-cdk/cx-api", "virtual:e72a9e5f3fa17ff783b777616e271c87fe3190d28d294b94e8ebd0d8c9a8fc92eda982befb4691e93be40509ff74565ac6361428fc4c1a366e8a537c6de3530d#npm:1.119.0"],
-            ["@aws-cdk/cloud-assembly-schema", "npm:1.119.0"],
             ["@types/aws-cdk__cloud-assembly-schema", null],
             ["semver", "npm:7.3.5"]
           ],
@@ -9579,7 +9548,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bfj", "npm:7.0.2"],
             ["camelcase", "npm:6.2.0"],
             ["case-sensitive-paths-webpack-plugin", "npm:2.3.0"],
-            ["cdk-assets", "npm:1.119.0"],
             ["changelog-parser", "npm:2.8.0"],
             ["conventional-changelog", "npm:3.1.24"],
             ["conventional-changelog-conventionalcommits", "npm:4.6.0"],
@@ -18108,20 +18076,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["cdk-assets", "npm:1.118.0"],
             ["@aws-cdk/cloud-assembly-schema", "npm:1.118.0"],
             ["@aws-cdk/cx-api", "virtual:4669389ae60dde9d5eace715c1519b54658afbcc58807a06dde60ccb386f5a512c50d662c10a1591ed363cb4c0016038a7a514ba4ea0da741cf500bd47e9cb61#npm:1.118.0"],
-            ["archiver", "npm:5.3.0"],
-            ["aws-sdk", "npm:2.968.0"],
-            ["glob", "npm:7.1.7"],
-            ["mime", "npm:2.5.2"],
-            ["yargs", "npm:16.2.0"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:1.119.0", {
-          "packageLocation": "./.yarn/cache/cdk-assets-npm-1.119.0-e72a9e5f3f-010826d966.zip/node_modules/cdk-assets/",
-          "packageDependencies": [
-            ["cdk-assets", "npm:1.119.0"],
-            ["@aws-cdk/cloud-assembly-schema", "npm:1.119.0"],
-            ["@aws-cdk/cx-api", "virtual:e72a9e5f3fa17ff783b777616e271c87fe3190d28d294b94e8ebd0d8c9a8fc92eda982befb4691e93be40509ff74565ac6361428fc4c1a366e8a537c6de3530d#npm:1.119.0"],
             ["archiver", "npm:5.3.0"],
             ["aws-sdk", "npm:2.968.0"],
             ["glob", "npm:7.1.7"],
