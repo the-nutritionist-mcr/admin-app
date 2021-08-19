@@ -1,4 +1,4 @@
-import { Heading, Tab, Tabs, ThemeContext, base } from "grommet";
+import { Heading, Tab, Tabs, ThemeContext, base, Paragraph } from "grommet";
 import { useDispatch, useSelector } from "react-redux";
 
 import ChooseMeals from "./ChooseMeals";
@@ -11,6 +11,8 @@ import { fetchRecipes } from "../../features/recipes/recipesSlice";
 
 const Planner: React.FC = () => {
   const dispatch = useDispatch();
+
+  const disabled = true;
 
   const [tab, setTab] = React.useState(0);
 
@@ -52,28 +54,34 @@ const Planner: React.FC = () => {
   return (
     <ThemeContext.Extend value={clearEdgeSize}>
       <Heading level={2}>Planner</Heading>
-      <Tabs
-        alignControls="start"
-        margin="none"
-        activeIndex={tab}
-        onActive={(index) => setTab(index)}
-      >
-        <Tab title="Choose">
-          <ThemeContext.Extend value={resetEdgeSize}>
-            <ChooseMeals onNext={nextTab} />
-          </ThemeContext.Extend>
-        </Tab>
-        <Tab title="Finalize">
-          <ThemeContext.Extend value={resetEdgeSize}>
-            <ToPackTable onNext={nextTab} onClear={onClear} />
-          </ThemeContext.Extend>
-        </Tab>
-        <Tab title="Download">
-          <ThemeContext.Extend value={resetEdgeSize}>
-            <SavePlan onClear={onClear} />
-          </ThemeContext.Extend>
-        </Tab>
-      </Tabs>
+      {disabled ? (
+        <Paragraph fill>
+          The planner is currently undergoing development. Please try again later...
+        </Paragraph>
+      ) : (
+        <Tabs
+          alignControls="start"
+          margin="none"
+          activeIndex={tab}
+          onActive={(index) => setTab(index)}
+        >
+          <Tab title="Choose">
+            <ThemeContext.Extend value={resetEdgeSize}>
+              <ChooseMeals onNext={nextTab} />
+            </ThemeContext.Extend>
+          </Tab>
+          <Tab title="Finalize">
+            <ThemeContext.Extend value={resetEdgeSize}>
+              <ToPackTable onNext={nextTab} onClear={onClear} />
+            </ThemeContext.Extend>
+          </Tab>
+          <Tab title="Download">
+            <ThemeContext.Extend value={resetEdgeSize}>
+              <SavePlan onClear={onClear} />
+            </ThemeContext.Extend>
+          </Tab>
+        </Tabs>
+      )}
     </ThemeContext.Extend>
   );
 };
