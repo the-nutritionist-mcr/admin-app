@@ -10,6 +10,7 @@ import {
   ThemeContext,
   TextArea,
   Button,
+  Paragraph,
 } from "grommet";
 import React, { FC } from "react";
 import { Prompt, RouteComponentProps } from "react-router-dom";
@@ -229,6 +230,15 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
               </StyledFormField>
             </ThemeContext.Extend>
           </Box>
+          {isEdit && (
+            <>
+              <Heading level={3}>Legacy Plan</Heading>
+              <Paragraph fill>
+                {customer.plan.category} {customer.plan.mealsPerDay} (
+                {customer.daysPerWeek} days)
+              </Paragraph>
+            </>
+          )}
           <PlanPanel
             plan={customer.newPlan}
             plannerConfig={{
