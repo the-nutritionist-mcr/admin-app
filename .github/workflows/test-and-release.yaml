@@ -25,6 +25,9 @@ jobs:
       - name: Move build output
         run: mv dist/bundles/backend backend
 
+      - name: Generate empty build folder
+        run: mkdir build && touch build/file
+
       - uses: actions/upload-artifact@v2
         with:
           name: backend
