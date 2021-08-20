@@ -13,7 +13,7 @@ import {
   Paragraph,
 } from "grommet";
 import React, { FC } from "react";
-import { Prompt, RouteComponentProps } from "react-router-dom";
+import { Prompt, RouteComponentProps, useHistory } from "react-router-dom";
 import {
   daysPerWeekOptions,
   plans,
@@ -29,7 +29,6 @@ import useExclusions from "../../features/exclusions/useExclusions";
 import { makeNewPlan } from "./distribution-generator";
 import useCustomers from "./useCustomers";
 import { updateCustomer, createCustomer } from "./customersSlice";
-import { useHistory } from "react-router-dom";
 
 import styled from "styled-components";
 
