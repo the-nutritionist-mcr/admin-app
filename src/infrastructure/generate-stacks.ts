@@ -48,6 +48,12 @@ const generateStacks = (): void => {
     new BackendStack(app, `DevBackendStack${key}`, config);
     new ProductionFrontendStack(app, config.stackLabel, config);
   });
+
+  new BackendStack(app, `tnm-ci-backend-stack`, {
+    envName: 'ci',
+    ...defaults,
+    url: "https://ci.tnm-admin.com",
+  });
 };
 
 export default generateStacks;

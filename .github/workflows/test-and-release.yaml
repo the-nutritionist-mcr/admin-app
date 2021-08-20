@@ -7,9 +7,10 @@ on:
       - "**.md"
 
 jobs:
-  build-backend:
-    name: Build Backend
+  build-and-deploy-backend:
+    name: Build and Deploy Backend
     runs-on: ubuntu-latest
+    concurrency: ci-deploy
     steps:
       - uses: actions/checkout@v2
       - name: Configure node 14
@@ -21,10 +22,33 @@ jobs:
       - name: Build
         run: yarn build:backend
 
+      - name: Move build output
+        run: mv dist/bundles/backend backend
+
       - uses: actions/upload-artifact@v2
         with:
           name: backend
-          path: dist/bundles/backend
+          path: backend
+
+      - name: Deploy CI Backend
+        run: yarn deploy:backend:ci
+
+  cleanup-ci-backend-stack:
+    name: Cleanup CI Backend Stack
+    needs: build-and-deploy-backend
+    runs-on: ubuntu-latest
+    concurrency: ci-deploy
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+      - name: Yarn install
+        run: yarn install
+
+      - name: Destroy CI Backend stack
+        run: yarn deploy:backend:ci
 
   build-frontend:
     name: Build frontend
@@ -140,6 +164,7 @@ jobs:
     - lint
     - unit-test
     - types
+    - build-and-deploy-backend
     - build-backend
     - build-frontend
     - cdk-synth
