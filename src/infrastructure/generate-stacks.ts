@@ -27,6 +27,7 @@ const generateStacks = (): void => {
       envName: "prod",
       subdomain: "www",
       url: "https://www.tnm-admin.com",
+      transient: false
     },
     test: {
       ...defaults,
@@ -34,6 +35,7 @@ const generateStacks = (): void => {
       envName: "test",
       subdomain: "test",
       url: "https://test.tnm-admin.com",
+      transient: false
     },
     dev: {
       stackLabel: "ProductionFrontendStackDev",
@@ -41,6 +43,7 @@ const generateStacks = (): void => {
       envName: "dev",
       subdomain: "dev",
       url: "https://dev.tnm-admin.com",
+      transient: false
     },
   };
 
@@ -53,6 +56,7 @@ const generateStacks = (): void => {
     envName: 'ci',
     ...defaults,
     url: "https://ci.tnm-admin.com",
+    transient: true
   });
 };
 

@@ -7,12 +7,14 @@ import * as iam from "@aws-cdk/aws-iam";
 import * as lambda from "@aws-cdk/aws-lambda";
 import addProjectTags from "./addProjectTags";
 import path from "path";
+import { RemovalPolicy } from "@aws-cdk/core";
 
 interface BackendStackProps {
   envName: string;
   appName: string;
   friendlyName: string;
   url: string;
+  transient: boolean;
 }
 
 export default class BackendStack extends cdk.Stack {
@@ -27,7 +29,9 @@ export default class BackendStack extends cdk.Stack {
 
     const verificationString = `Hey {username}! Thanks for signing up to ${props.friendlyName}. Your verification code is {####}`;
     const invitationString = `Hey {username}! you have been invited to join ${props.friendlyName}. Your temporary password is {####}`;
+    const removalPolicy = props.transient ? RemovalPolicy.DESTROY : RemovalPolicy.RETAIN
     const pool = new cognito.UserPool(this, "Users", {
+      removalPolicy,
       userPoolName: `${name}-users`,
       selfSignUpEnabled: true,
 
@@ -50,7 +54,6 @@ export default class BackendStack extends cdk.Stack {
         phone: true,
       },
     });
-
     new cdk.CfnOutput(this, "UserPoolId", {
       value: pool.userPoolId,
     });
@@ -197,6 +200,7 @@ export default class BackendStack extends cdk.Stack {
     });
 
     const customersTable = new ddb.Table(this, "CustomersTable", {
+      removalPolicy,
       tableName: `${name}-customers-table`,
       billingMode: ddb.BillingMode.PAY_PER_REQUEST,
       partitionKey: {
@@ -301,6 +305,7 @@ export default class BackendStack extends cdk.Stack {
     });
 
     const exclusionsTable = new ddb.Table(this, "ExclusionsTable", {
+      removalPolicy,
       tableName: `${name}-exclusions-table`,
       billingMode: ddb.BillingMode.PAY_PER_REQUEST,
       partitionKey: {
@@ -319,6 +324,7 @@ export default class BackendStack extends cdk.Stack {
     });
 
     const recipesTable = new ddb.Table(this, "RecipesTable", {
+      removalPolicy,
       tableName: `${name}-recipes-table`,
       billingMode: ddb.BillingMode.PAY_PER_REQUEST,
       partitionKey: {
@@ -337,6 +343,7 @@ export default class BackendStack extends cdk.Stack {
       this,
       "CustomerExclusionsTable",
       {
+        removalPolicy,
         tableName: `${name}-customer-exclusions-table`,
         billingMode: ddb.BillingMode.PAY_PER_REQUEST,
         partitionKey: {
@@ -367,6 +374,7 @@ export default class BackendStack extends cdk.Stack {
     });
 
     const recipeExclusionsTable = new ddb.Table(this, "RecipeExclusionsTable", {
+      removalPolicy,
       tableName: `${name}-recipe-exclusions-table`,
       billingMode: ddb.BillingMode.PAY_PER_REQUEST,
       partitionKey: {
