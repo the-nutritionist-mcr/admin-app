@@ -56,6 +56,9 @@ jobs:
       - name: Yarn install
         run: yarn install
 
+      - name: Generate empty build folder
+        run: mkdir build && touch build/file && mkdir backend && touch backend/file
+
       - name: Destroy CI Backend stack
         run: yarn deploy:backend:ci
 
