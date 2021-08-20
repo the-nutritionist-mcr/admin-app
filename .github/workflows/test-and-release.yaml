@@ -60,7 +60,7 @@ jobs:
         run: mkdir build && touch build/file && mkdir backend && touch backend/file
 
       - name: Destroy CI Backend stack
-        run: yarn deploy:backend:ci
+        run: yarn destroy:backend:ci
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_BACKEND }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_BACKEND }}
