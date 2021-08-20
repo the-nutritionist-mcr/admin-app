@@ -47,7 +47,7 @@
     "deploy:backend:test": "cdk deploy DevBackendStacktest --require-approval never --outputs-file backend-outputs.json",
     "deploy:backend:prod": "cdk deploy DevBackendStackprod --require-approval never --outputs-file backend-outputs.json",
     "deploy:backend:ci": "cdk deploy tnm-ci-backend-stack --require-approval never --outputs-file backend-outputs.json",
-    "destroy:backend:ci": "cdk destroy tnm-ci-backend-stack",
+    "destroy:backend:ci": "cdk destroy --force tnm-ci-backend-stack",
     "deploy:frontend:prod": "cdk deploy ProductionFrontendStackProd --require-approval never --outputs-file backend-outputs.json",
     "deploy:all": "yarn deploy:backend && yarn deploy:frontend",
     "lint": "eslint .",
