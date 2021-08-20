@@ -133,7 +133,7 @@ jobs:
         run: yarn install
 
       - name: Make empty build folder
-        run: mkdir build && touch build/file
+        run: mkdir build && touch build/file && mkdir backend && touch backend/file
 
       - name: Synth
         run: yarn cdk synth *
