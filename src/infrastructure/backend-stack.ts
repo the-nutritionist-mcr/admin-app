@@ -104,7 +104,7 @@ export default class BackendStack extends cdk.Stack {
       value: api.graphqlUrl,
     });
 
-    const bundlePath = process.env.IS_LOCALSTACK
+    const bundlePath = process.env.IS_LOCAL_DEPLOY
       ? path.resolve(__dirname, "..", "..", "dist", "bundles", "backend")
       : path.resolve(__dirname, "..", "..", "backend");
 

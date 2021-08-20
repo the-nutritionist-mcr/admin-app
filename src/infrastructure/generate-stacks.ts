@@ -6,11 +6,6 @@ import BackendStack from "./backend-stack";
 import ProductionFrontendStack from "./production-frontend-stack";
 
 const generateStacks = (): void => {
-  const environment = process.env.DEPLOYMENT_ENVIRONMENT;
-  if (!environment) {
-    throw new Error("You must specify the deployment environment");
-  }
-
   const app = new cdk.App();
 
   const account = process.env.IS_LOCALSTACK ? "000000000000" : "661272765443";
@@ -25,8 +20,7 @@ const generateStacks = (): void => {
     friendlyName: "The TNM Admin app",
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const details: any = {
+  const details = {
     prod: {
       ...defaults,
       stackLabel: "ProductionFrontendStackProd",
@@ -50,19 +44,10 @@ const generateStacks = (): void => {
     },
   };
 
-  if (process.env.DO_BACKEND) {
-    new BackendStack(
-      app,
-      `DevBackendStack${details[environment].envName}`,
-      details[environment]
-    );
-  } else {
-    new ProductionFrontendStack(
-      app,
-      details[environment].stackLabel,
-      details[environment]
-    );
-  }
+  Object.entries(details).forEach(([key, config]) => {
+    new BackendStack(app, `DevBackendStack${key}`, config);
+    new ProductionFrontendStack(app, config.stackLabel, config);
+  });
 };
 
 export default generateStacks;
