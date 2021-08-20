@@ -1,3 +1,10 @@
+## [1.5.0](https://github.com/benwainwright/tnm/compare/v1.4.0...v1.5.0) (2021-08-20)
+
+
+### Features
+
+* go back to customers page when you click save ([4c5f438](https://github.com/benwainwright/tnm/commit/4c5f438253716fd44c8a9bc98ff0b5fbff759890))
+
 ## [1.4.0](https://github.com/benwainwright/tnm/compare/v1.3.0...v1.4.0) (2021-08-19)
 
 
