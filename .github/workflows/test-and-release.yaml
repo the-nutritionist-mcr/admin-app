@@ -165,7 +165,6 @@ jobs:
     - unit-test
     - types
     - build-and-deploy-backend
-    - build-backend
     - build-frontend
     - cdk-synth
     - codeql
