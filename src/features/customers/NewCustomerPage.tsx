@@ -29,6 +29,7 @@ import useExclusions from "../../features/exclusions/useExclusions";
 import { makeNewPlan } from "./distribution-generator";
 import useCustomers from "./useCustomers";
 import { updateCustomer, createCustomer } from "./customersSlice";
+import { useHistory } from "react-router-dom";
 
 import styled from "styled-components";
 
@@ -91,6 +92,7 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
   const { exclusions } = useExclusions();
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const onSubmit = debounce(async () => {
     const submittingCustomer = {
@@ -102,6 +104,7 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
     const thunk = isEdit ? updateCustomer : createCustomer;
     await dispatch(thunk(submittingCustomer));
     setDirty(false);
+    history.push("/customers")
   }, SUBMIT_DEBOUNCE);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onChange = (nextCustomerData: any): void => {
