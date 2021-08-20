@@ -79,6 +79,10 @@ jobs:
         run: yarn install
       - name: Build
         run: yarn build:frontend
+        env:
+          DISABLE_ESLINT_PLUGIN: 'true'
+          DISABLE_TYPE_CHECKS: 'true'
+
 
       - uses: actions/upload-artifact@v2
         with:
