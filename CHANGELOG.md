@@ -1,3 +1,10 @@
+## [1.4.0](https://github.com/benwainwright/tnm/compare/v1.3.0...v1.4.0) (2021-08-19)
+
+
+### Features
+
+* changed the wording of the plan on the table ([ea3ebd8](https://github.com/benwainwright/tnm/commit/ea3ebd88d3c062553b38f9d0dc901843e8b619ac))
+
 ## [1.3.0](https://github.com/benwainwright/tnm/compare/v1.2.0...v1.3.0) (2021-08-19)
 
 
