@@ -29,7 +29,9 @@ export default class BackendStack extends cdk.Stack {
 
     const verificationString = `Hey {username}! Thanks for signing up to ${props.friendlyName}. Your verification code is {####}`;
     const invitationString = `Hey {username}! you have been invited to join ${props.friendlyName}. Your temporary password is {####}`;
-    const removalPolicy = props.transient ? RemovalPolicy.DESTROY : RemovalPolicy.RETAIN
+    const removalPolicy = props.transient
+      ? RemovalPolicy.DESTROY
+      : RemovalPolicy.RETAIN;
     const pool = new cognito.UserPool(this, "Users", {
       removalPolicy,
       userPoolName: `${name}-users`,

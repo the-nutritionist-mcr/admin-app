@@ -114,6 +114,38 @@ jobs:
       - name: Run E2E Tests
         run: yarn cypress:run
 
+  integration-tests:
+    name: Run Integration Tests
+    needs: [build-and-deploy-int-backend]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v1
+      - name: Configure node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+
+      - name: Download Backend Config
+        uses: actions/download-artifact@v2
+        with:
+          name: outputs
+
+      - name: Run Integration Tests
+        run: yarn jest --config jest.config.integration
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_BACKEND }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_BACKEND }}
+          AWS_REGION: us-east-1
+
+
   cleanup-ci-backend-stack:
     name: Cleanup CI Backend Stack
     needs: [e2e-tests]
@@ -139,7 +171,7 @@ jobs:
 
   cleanup-int-backend-stack:
     name: Cleanup CI Backend Stack
-    needs: [build-and-deploy-int-backend]
+    needs: [integration-tests]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -275,7 +307,7 @@ jobs:
     name: Release Package
     needs: 
     - lint
-    - build-and-deploy-int-backend
+    - integration-tests
     - unit-test
     - types
     - e2e-tests
