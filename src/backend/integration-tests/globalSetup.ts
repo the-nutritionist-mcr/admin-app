@@ -50,7 +50,7 @@ const globalSetup = async (): Promise<void> => {
         Username: COGNITO_USER
       })
       .promise()
-  } catch(error) {
+  } catch {
     // Noop
   }
 
