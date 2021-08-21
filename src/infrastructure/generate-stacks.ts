@@ -27,7 +27,7 @@ const generateStacks = (): void => {
       envName: "prod",
       subdomain: "www",
       url: "https://www.tnm-admin.com",
-      transient: false
+      transient: false,
     },
     test: {
       ...defaults,
@@ -35,7 +35,7 @@ const generateStacks = (): void => {
       envName: "test",
       subdomain: "test",
       url: "https://test.tnm-admin.com",
-      transient: false
+      transient: false,
     },
     dev: {
       stackLabel: "ProductionFrontendStackDev",
@@ -43,7 +43,7 @@ const generateStacks = (): void => {
       envName: "dev",
       subdomain: "dev",
       url: "https://dev.tnm-admin.com",
-      transient: false
+      transient: false,
     },
   };
 
@@ -53,10 +53,17 @@ const generateStacks = (): void => {
   });
 
   new BackendStack(app, `tnm-ci-backend-stack`, {
-    envName: 'ci',
+    envName: "ci",
     ...defaults,
     url: "https://ci.tnm-admin.com",
-    transient: true
+    transient: true,
+  });
+
+  new BackendStack(app, `tnm-int-backend-stack`, {
+    envName: "int",
+    ...defaults,
+    url: "https://int.tnm-admin.com",
+    transient: true,
   });
 };
 

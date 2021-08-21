@@ -11,8 +11,8 @@ on:
       - "**.md"
 
 jobs:
-  build-and-deploy-backend:
-    name: Build and Deploy Backend
+  build-and-deploy-e2e-backend:
+    name: Build and Deploy E2E Backend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -38,6 +38,35 @@ jobs:
 
       - name: Deploy CI Backend
         run: yarn deploy:backend:ci
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_BACKEND }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_BACKEND }}
+          AWS_REGION: us-east-1
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: outputs
+          path: backend-outputs.json
+
+  build-and-deploy-int-backend:
+    name: Build and Deploy Int Backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+      - name: Yarn install
+        run: yarn install
+      - name: Build
+        run: yarn build:backend
+
+      - name: Generate empty build folder
+        run: mkdir build && touch build/file
+
+      - name: Deploy CI Backend
+        run: yarn deploy:backend:int
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_BACKEND }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_BACKEND }}
@@ -103,6 +132,29 @@ jobs:
 
       - name: Destroy CI Backend stack
         run: yarn destroy:backend:ci
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_BACKEND }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_BACKEND }}
+          AWS_REGION: us-east-1
+
+  cleanup-int-backend-stack:
+    name: Cleanup CI Backend Stack
+    needs: [build-and-deploy-int-backend]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+      - name: Yarn install
+        run: yarn install
+
+      - name: Generate empty build folder
+        run: mkdir build && touch build/file && mkdir backend && touch backend/file
+
+      - name: Destroy CI Backend stack
+        run: yarn destroy:backend:int
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_BACKEND }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_BACKEND }}
@@ -223,6 +275,7 @@ jobs:
     name: Release Package
     needs: 
     - lint
+    - build-and-deploy-int-backend
     - unit-test
     - types
     - e2e-tests
