@@ -43,6 +43,17 @@ const globalSetup = async (): Promise<void> => {
     ],
   };
 
+  try {
+    await cognito
+      .adminDeleteUser({
+        UserPoolId: config.UserPoolId,
+        Username: COGNITO_USER
+      })
+      .promise()
+  } catch(error) {
+    // Noop
+  }
+
   await cognito.adminCreateUser(createUserParams).promise();
 
   const setPasswordParams = {
