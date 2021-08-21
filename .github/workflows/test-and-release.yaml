@@ -49,7 +49,7 @@ jobs:
           path: backend-outputs.json
 
   build-and-deploy-int-backend:
-    name: Build and Deploy Int Backend
+    name: Build and Deploy Integration Test Backend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -63,7 +63,7 @@ jobs:
         run: yarn build:backend
 
       - name: Generate empty build folder
-        run: mkdir build && touch build/file
+        run: mkdir build && touch build/file && mkdir backend && touch backend/file
 
       - name: Deploy CI Backend
         run: yarn deploy:backend:int
