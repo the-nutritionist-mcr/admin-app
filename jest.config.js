@@ -14,8 +14,10 @@ module.exports = {
   ],
   "testMatch": [
     "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-    "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}",
-    "!<rootDir>/src/backend/integration-tests/**/*",
+    "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+  ],
+  "testPathIgnorePatterns": [
+    "integration-tests",
   ],
   "testEnvironment": "jsdom",
   "testRunner": "jest-circus/runner",
