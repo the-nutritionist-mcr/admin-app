@@ -79,7 +79,7 @@ jobs:
 
   e2e-tests:
     name: Run E2E Tests
-    needs: [build-and-deploy-ci-backend, build-frontend]
+    needs: [build-and-deploy-e2e-backend, build-frontend]
     runs-on: ubuntu-latest
     container:
       image: cypress/base
