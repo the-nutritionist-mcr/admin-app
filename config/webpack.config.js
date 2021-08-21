@@ -45,6 +45,7 @@ const reactRefreshOverlayEntry = require.resolve(
 // makes for a smoother build process.
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== "false";
 
+const disableTypeChecks = process.env.DISABLE_TYPE_CHECKS === "true"
 const emitErrorsAsWarnings = process.env.ESLINT_NO_DEV_ERRORS === "true";
 const disableESLintPlugin = process.env.DISABLE_ESLINT_PLUGIN === "true";
 
@@ -653,7 +654,7 @@ module.exports = function (webpackEnv) {
           maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         }),
       // TypeScript type checking
-      useTypeScript &&
+      useTypeScript && !disableTypeChecks &&
         new ForkTsCheckerWebpackPlugin({
           typescript: resolve.sync("typescript", {
             basedir: paths.appNodeModules,
