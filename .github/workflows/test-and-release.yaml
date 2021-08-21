@@ -150,7 +150,7 @@ jobs:
 
 
   cleanup-ci-backend-stack:
-    name: Cleanup CI Backend Stack
+    name: Cleanup E2E Test Backend Stack
     needs: [e2e-tests]
     runs-on: ubuntu-latest
     steps:
@@ -173,7 +173,7 @@ jobs:
           AWS_REGION: us-east-1
 
   cleanup-int-backend-stack:
-    name: Cleanup CI Backend Stack
+    name: Cleanup Backend Int Test Stack
     needs: [integration-tests]
     runs-on: ubuntu-latest
     steps:
