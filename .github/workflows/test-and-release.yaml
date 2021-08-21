@@ -63,7 +63,7 @@ jobs:
         run: yarn build:backend
 
       - name: Generate empty build folder
-        run: mkdir build && touch build/file && mkdir backend && touch backend/file
+        run: mkdir build && touch build/file
 
       - name: Deploy CI Backend
         run: yarn deploy:backend:int
@@ -74,7 +74,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: outputs
+          name: int-outputs
           path: backend-outputs.json
 
   e2e-tests:
