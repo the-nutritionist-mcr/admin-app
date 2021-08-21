@@ -50,7 +50,7 @@ jobs:
 
   e2e-tests:
     name: Run E2E Tests
-    needs: [build-and-deploy-backend]
+    needs: [build-and-deploy-backend, build-frontend]
     runs-on: ubuntu-latest
     container:
       image: cypress/base
@@ -83,10 +83,12 @@ jobs:
           name: backend-outputs.json
           path: build/backend-outputs.json
 
+      - name: Run E2E Tests
+        run: yarn cypress:run
 
   cleanup-ci-backend-stack:
     name: Cleanup CI Backend Stack
-    needs: build-and-deploy-backend
+    needs: [e2e-tests]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -224,8 +226,7 @@ jobs:
     - lint
     - unit-test
     - types
-    - build-and-deploy-backend
-    - build-frontend
+    - e2e-tests
     - cdk-synth
     - codeql
 
