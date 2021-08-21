@@ -80,10 +80,10 @@ jobs:
       - name: Download Backend Config
         uses: actions/download-artifact@v2
         with:
-          name: backend-outputs.json
+          name: outputs
 
       - name: Move Outputs to Build Folder
-        run: mv backend-outputs.json build
+        run: mv outputs/backend-outputs.json build
 
       - name: Run E2E Tests
         run: yarn cypress:run
