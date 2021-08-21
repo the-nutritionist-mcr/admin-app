@@ -83,7 +83,7 @@ jobs:
           name: outputs
 
       - name: Move Outputs to Build Folder
-        run: mv outputs/backend-outputs.json build
+        run: mv backend-outputs.json build
 
       - name: Run E2E Tests
         run: yarn cypress:run
