@@ -63,8 +63,11 @@ jobs:
         run: yarn build:backend
 
       - name: Generate empty build folder
-        run: mkdir build && touch build/file
+        run: mkdir build && touch build/     
 
+      - name: Move build output
+        run: mv dist/bundles/backend backend
+      
       - name: Deploy CI Backend
         run: yarn deploy:backend:int
         env:
