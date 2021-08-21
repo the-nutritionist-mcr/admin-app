@@ -255,7 +255,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["use-debounce", "virtual:b939c03314397eeca7e4b949c2dcceea8cca50bbe318556df05debd593c45e790f2e14230e8026ba6e2bdc042c13d6e15bedf0566bf0c7e3fef93d5e39568672#npm:5.2.1"],
             ["use-deep-compare-effect", "virtual:b939c03314397eeca7e4b949c2dcceea8cca50bbe318556df05debd593c45e790f2e14230e8026ba6e2bdc042c13d6e15bedf0566bf0c7e3fef93d5e39568672#npm:1.6.1"],
             ["uuid", "npm:8.3.2"],
-            ["wait-on", "npm:6.0.0"],
+            ["wait-on", "npm:5.3.0"],
             ["web-vitals", "npm:0.2.4"],
             ["webpack", "virtual:b939c03314397eeca7e4b949c2dcceea8cca50bbe318556df05debd593c45e790f2e14230e8026ba6e2bdc042c13d6e15bedf0566bf0c7e3fef93d5e39568672#npm:4.44.2"],
             ["webpack-dev-server", "virtual:b939c03314397eeca7e4b949c2dcceea8cca50bbe318556df05debd593c45e790f2e14230e8026ba6e2bdc042c13d6e15bedf0566bf0c7e3fef93d5e39568672#npm:3.11.1"],
@@ -9675,7 +9675,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["use-debounce", "virtual:b939c03314397eeca7e4b949c2dcceea8cca50bbe318556df05debd593c45e790f2e14230e8026ba6e2bdc042c13d6e15bedf0566bf0c7e3fef93d5e39568672#npm:5.2.1"],
             ["use-deep-compare-effect", "virtual:b939c03314397eeca7e4b949c2dcceea8cca50bbe318556df05debd593c45e790f2e14230e8026ba6e2bdc042c13d6e15bedf0566bf0c7e3fef93d5e39568672#npm:1.6.1"],
             ["uuid", "npm:8.3.2"],
-            ["wait-on", "npm:6.0.0"],
+            ["wait-on", "npm:5.3.0"],
             ["web-vitals", "npm:0.2.4"],
             ["webpack", "virtual:b939c03314397eeca7e4b949c2dcceea8cca50bbe318556df05debd593c45e790f2e14230e8026ba6e2bdc042c13d6e15bedf0566bf0c7e3fef93d5e39568672#npm:4.44.2"],
             ["webpack-dev-server", "virtual:b939c03314397eeca7e4b949c2dcceea8cca50bbe318556df05debd593c45e790f2e14230e8026ba6e2bdc042c13d6e15bedf0566bf0c7e3fef93d5e39568672#npm:3.11.1"],
@@ -43562,6 +43562,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["wait-on", [
+        ["npm:5.3.0", {
+          "packageLocation": "./.yarn/cache/wait-on-npm-5.3.0-06bdbea452-b7099104b7.zip/node_modules/wait-on/",
+          "packageDependencies": [
+            ["wait-on", "npm:5.3.0"],
+            ["axios", "npm:0.21.1"],
+            ["joi", "npm:17.4.2"],
+            ["lodash", "npm:4.17.21"],
+            ["minimist", "npm:1.2.5"],
+            ["rxjs", "npm:6.6.7"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:6.0.0", {
           "packageLocation": "./.yarn/cache/wait-on-npm-6.0.0-12ce512f53-6ae7bd2a93.zip/node_modules/wait-on/",
           "packageDependencies": [
