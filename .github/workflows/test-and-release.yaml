@@ -110,7 +110,7 @@ jobs:
           AWS_REGION: us-east-1
 
   build-frontend:
-    name: Build frontend
+    name: Build Frontend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
