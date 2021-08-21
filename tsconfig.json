@@ -24,7 +24,6 @@
     "moduleResolution": "node",
     "noErrorTruncation": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
     "outDir": "dist",
     "jsx": "react",
     "noEmit": true
@@ -36,6 +35,7 @@
   ],
   "exclude": [
     "**/node_modules/**",
-    "**/.*/"
+    "**/.*/",
+    "cypress"
   ]
 }
