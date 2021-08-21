@@ -9,7 +9,8 @@ export const configAmplify = async (): Promise<void> => {
 
   const stackConfigKey =
     Object.keys(backendConfig).find((key) => key.includes("BackendStack")) ??
-    "";
+    Object.keys(backendConfig).find((key) => key.includes("backend-stack")) ??
+    ""
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const configObject = (backendConfig as any)[stackConfigKey];

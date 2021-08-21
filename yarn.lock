@@ -4055,7 +4055,7 @@ __metadata:
     conventional-changelog-conventionalcommits: ^4.6.0
     copy-dynamodb-table: ^2.0.20
     css-loader: 4.3.0
-    cypress: latest
+    cypress: ^8.3.0
     deep-equal: ^2.0.5
     dotenv: 8.2.0
     dotenv-expand: 5.1.0
@@ -4177,7 +4177,7 @@ __metadata:
     use-debounce: ^5.1.0
     use-deep-compare-effect: ^1.4.0
     uuid: ^8.3.2
-    wait-on: ^5.2.0
+    wait-on: ^6.0.0
     web-vitals: ^0.2.2
     webpack: 4.44.2
     webpack-dev-server: 3.11.1
@@ -12871,9 +12871,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:latest":
-  version: 8.2.0
-  resolution: "cypress@npm:8.2.0"
+"cypress@npm:^8.3.0":
+  version: 8.3.0
+  resolution: "cypress@npm:8.3.0"
   dependencies:
     "@cypress/request": ^2.88.5
     "@cypress/xvfb": ^1.2.4
@@ -12918,7 +12918,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: 571341e255ca2322b9fa196660099fcf7f7e2674ab47d98fcc6b72302fd24e1dc9c51e3588716ee5c2332a50db23efa180ec6ddf88af09197bb6b13e3bed7719
+  checksum: acffc5ee3a347c3dc0989b43509f1d56ef2089aab6d8a2a8087f91dd93fd81d86939fa71a6df4a6690014385650e24599777bc5513c66ef7acfe34e6733dc4d6
   languageName: node
   linkType: hard
 
@@ -20674,7 +20674,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"joi@npm:^17.3.0, joi@npm:^17.4.0":
+"joi@npm:^17.4.0":
   version: 17.4.2
   resolution: "joi@npm:17.4.2"
   dependencies:
@@ -29202,7 +29202,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^6.3.3, rxjs@npm:^6.6.0, rxjs@npm:^6.6.3, rxjs@npm:^6.6.7":
+"rxjs@npm:^6.3.3, rxjs@npm:^6.6.0, rxjs@npm:^6.6.7":
   version: 6.6.7
   resolution: "rxjs@npm:6.6.7"
   dependencies:
@@ -33095,7 +33095,7 @@ typescript@^4.3.5:
   languageName: node
   linkType: hard
 
-"wait-on@npm:6.0.0":
+"wait-on@npm:6.0.0, wait-on@npm:^6.0.0":
   version: 6.0.0
   resolution: "wait-on@npm:6.0.0"
   dependencies:
@@ -33107,21 +33107,6 @@ typescript@^4.3.5:
   bin:
     wait-on: bin/wait-on
   checksum: 6ae7bd2a933715c3b2f1c49f033d97c576b2c6a0257420d4c83964d2846c3967bfce33bc9af9a1a631ef38dfa6185be03cef57d2867c8c30c523278f964ac9e3
-  languageName: node
-  linkType: hard
-
-"wait-on@npm:^5.2.0":
-  version: 5.3.0
-  resolution: "wait-on@npm:5.3.0"
-  dependencies:
-    axios: ^0.21.1
-    joi: ^17.3.0
-    lodash: ^4.17.21
-    minimist: ^1.2.5
-    rxjs: ^6.6.3
-  bin:
-    wait-on: bin/wait-on
-  checksum: b7099104b7900ff6349f1196edff759076ab557a2053c017a587819f7a59f146ec9e35c99579acd31dcda371bfa72241ef28b8ccda902f0bf3fbf2d780a00ebf
   languageName: node
   linkType: hard
 
