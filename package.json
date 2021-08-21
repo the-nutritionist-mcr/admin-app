@@ -97,6 +97,7 @@
     "ignorePatterns": [
       ".pnp.js",
       "*.config.js",
+      "*.config.*.js",
       "*.d.ts",
       "dist",
       "amplify/**",
