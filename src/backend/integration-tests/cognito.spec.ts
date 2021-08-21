@@ -1,5 +1,4 @@
-import path from "path";
-import { loginToCognito } from "./loginToCognito";
+import { loginToCognito } from "./login-to-cognito";
 
 describe("backend stack userpool", () => {
   it("accepts a login and returns a token", async () => {

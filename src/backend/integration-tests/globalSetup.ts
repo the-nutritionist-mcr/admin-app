@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { CognitoIdentityServiceProvider } from "aws-sdk";
 import { COGNITO_PASSWORD, COGNITO_USER } from "./constants";
 
-const globalSetup = async () => {
+const globalSetup = async (): Promise<void> => {
   const rawConfig = (await import(`${process.cwd()}/backend-outputs.json`))
     .default;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const config: any = Object.entries(rawConfig).find(([key]) =>
     key.includes("backend-stack")
   )?.[1];
