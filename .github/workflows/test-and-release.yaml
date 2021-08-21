@@ -45,7 +45,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: backend-outputs.json
+          name: outputs
           path: backend-outputs.json
 
   e2e-tests:
@@ -81,7 +81,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: backend-outputs.json
-          path: backend-outputs.json
 
       - name: Move Outputs to Build Folder
         run: mv backend-outputs.json build
