@@ -114,12 +114,10 @@ jobs:
         with:
           name: outputs
 
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
-        with:
-          start: yarn start:prod
-          install: false
-          wait-on: http://localhost:5000
+      - name: Run E2E Tests
+        run: yarn start:prod & yarn wait-on http://localhost:5000 && yarn cypress run
+
+
 
   integration-tests:
     name: Run Integration Tests
