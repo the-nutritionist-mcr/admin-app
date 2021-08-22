@@ -37,7 +37,7 @@
   ],
   "scripts": {
     "start": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) node scripts/start.js",
-    "cypress:run": "yarn start:prod & wait-on http://localhost:5000 && cypress run && kill $!",
+    "cypress:run": "yarn start:prod & wait-on http://localhost:5000 && cypress run && kill $(jobs -p)",
     "start:prod": "cp backend-outputs.json build && yarn dlx serve -s build",
     "build:backend": "node src/scripts/build-backend.js",
     "build:frontend": "REACT_APP_VERSION_NUMBER=$(git rev-parse --short HEAD) node scripts/build.js",
