@@ -115,12 +115,7 @@ jobs:
           name: outputs
 
       - name: Run E2E Tests
-        run: yarn cypress:run
-
-      - name: Kill Background Jobs
-        run: kill $(jobs -p)
-
-
+        run: yarn cypress:run && kill $(jobs -p)
 
   integration-tests:
     name: Run Integration Tests
