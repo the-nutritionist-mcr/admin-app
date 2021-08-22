@@ -114,8 +114,12 @@ jobs:
         with:
           name: outputs
 
-      - name: Run E2E Tests
-        run: yarn cypress:run && kill $(jobs -p)
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          start: yarn start:prod
+          install: false
+          wait-on: http://localhost:5000
 
   integration-tests:
     name: Run Integration Tests
