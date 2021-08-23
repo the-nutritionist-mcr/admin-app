@@ -75,6 +75,17 @@ const seedCognito = async (): Promise<void> => {
     // Noop
   }
 
+  try {
+    await cognito
+      .createGroup({
+        GroupName: "admin",
+        UserPoolId: config.UserPoolId,
+      })
+      .promise();
+  } catch {
+    // Noop
+  }
+
   await cognito.adminCreateUser(createUserParams).promise();
 
   const setPasswordParams = {
