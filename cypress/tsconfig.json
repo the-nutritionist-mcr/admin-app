@@ -3,12 +3,12 @@
     "target": "es5",
     "strictNullChecks": true,
     "esModuleInterop": true,
+    "types": [
+      "cypress"
+    ],
     "lib": [
       "es5",
       "dom"
-    ],
-    "types": [
-      "cypress"
     ]
   },
   "include": [

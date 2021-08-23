@@ -6,9 +6,6 @@
   },
   "compilerOptions": {
     "target": "es2017",
-    "types": [
-      "cypress"
-    ],
     "lib": [
       "dom",
       "dom.iterable",
