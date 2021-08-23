@@ -145,7 +145,7 @@ jobs:
       - name: Download Backend Config
         uses: actions/download-artifact@v2
         with:
-          name: outputs
+          name: int-outputs
 
       - name: Run Integration Tests
         run: yarn jest --config jest.config.integration.js
