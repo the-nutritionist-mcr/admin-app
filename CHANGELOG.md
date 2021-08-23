@@ -1,3 +1,10 @@
+### [1.5.1](https://github.com/benwainwright/tnm/compare/v1.5.0...v1.5.1) (2021-08-23)
+
+
+### Bug Fixes
+
+* fixed "delivery one" being displayed twice on the plan panel ([93fc544](https://github.com/benwainwright/tnm/commit/93fc544984d0cb708c7c6adc169e1b958588c315))
+
 ## [1.5.0](https://github.com/benwainwright/tnm/compare/v1.4.0...v1.5.0) (2021-08-20)
 
 
