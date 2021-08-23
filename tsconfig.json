@@ -15,6 +15,9 @@
     "baseUrl": "src",
     "allowJs": true,
     "skipLibCheck": true,
+    "typeRoots": [
+      "src/typings"
+    ],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
