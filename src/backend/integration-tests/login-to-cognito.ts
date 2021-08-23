@@ -7,7 +7,7 @@ import {
 } from "../../../cypress/support/constants";
 
 export const loginToCognito = async (): Promise<string> => {
-  const configResponse = await fetch(`/backend-outputs.json`);
+  const configResponse = await fetch(`${process.env.SITE_URL}/backend-outputs.json`);
   const rawConfig = await configResponse.json();
 
   assertIsBackendOutputs(rawConfig);

@@ -152,6 +152,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_BACKEND }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_BACKEND }}
+          SITE_URL: http://localhost:5000
           AWS_REGION: us-east-1
 
 
