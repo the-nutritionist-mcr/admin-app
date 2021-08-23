@@ -310,7 +310,7 @@
     "optimize-css-assets-webpack-plugin": "5.0.4",
     "path-parse": "1.0.7",
     "pdfmake": "^0.1.68",
-    "pnp-webpack-plugin": "1.6.4",
+    "pnp-webpack-plugin": "1.7.0",
     "polished": "^4.0.3",
     "postcss-flexbugs-fixes": "4.2.1",
     "postcss-loader": "3.0.0",

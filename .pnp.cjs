@@ -210,7 +210,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["optimize-css-assets-webpack-plugin", "virtual:b939c03314397eeca7e4b949c2dcceea8cca50bbe318556df05debd593c45e790f2e14230e8026ba6e2bdc042c13d6e15bedf0566bf0c7e3fef93d5e39568672#npm:5.0.4"],
             ["path-parse", "npm:1.0.7"],
             ["pdfmake", "npm:0.1.72"],
-            ["pnp-webpack-plugin", "npm:1.6.4"],
+            ["pnp-webpack-plugin", "npm:1.7.0"],
             ["polished", "npm:4.1.3"],
             ["postcss-flexbugs-fixes", "npm:4.2.1"],
             ["postcss-loader", "npm:3.0.0"],
@@ -9630,7 +9630,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["optimize-css-assets-webpack-plugin", "virtual:b939c03314397eeca7e4b949c2dcceea8cca50bbe318556df05debd593c45e790f2e14230e8026ba6e2bdc042c13d6e15bedf0566bf0c7e3fef93d5e39568672#npm:5.0.4"],
             ["path-parse", "npm:1.0.7"],
             ["pdfmake", "npm:0.1.72"],
-            ["pnp-webpack-plugin", "npm:1.6.4"],
+            ["pnp-webpack-plugin", "npm:1.7.0"],
             ["polished", "npm:4.1.3"],
             ["postcss-flexbugs-fixes", "npm:4.2.1"],
             ["postcss-loader", "npm:3.0.0"],
@@ -35476,11 +35476,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["pnp-webpack-plugin", [
-        ["npm:1.6.4", {
-          "packageLocation": "./.yarn/cache/pnp-webpack-plugin-npm-1.6.4-c497046afc-0606a63db9.zip/node_modules/pnp-webpack-plugin/",
+        ["npm:1.7.0", {
+          "packageLocation": "./.yarn/cache/pnp-webpack-plugin-npm-1.7.0-f6c94efb72-a41716d136.zip/node_modules/pnp-webpack-plugin/",
           "packageDependencies": [
-            ["pnp-webpack-plugin", "npm:1.6.4"],
-            ["ts-pnp", "virtual:c497046afcbefb679e3fe12575088ec12205b913a36c3d158b27e7cd646d448426540ab27ba98e54ddb75b1ed97de7e3ce5dc0158c9ba4e76ce942c87e5d02d8#npm:1.2.0"]
+            ["pnp-webpack-plugin", "npm:1.7.0"],
+            ["ts-pnp", "virtual:f6c94efb72da698edc23c95ed60dce17fd5eefc9b285f3b3aee8db345bcd495351cf161d6ba8d0f66984085c26681fa41ddd68a1b7d366f81606ea5d8745bd42#npm:1.2.0"]
           ],
           "linkType": "HARD",
         }]
@@ -42112,10 +42112,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:c497046afcbefb679e3fe12575088ec12205b913a36c3d158b27e7cd646d448426540ab27ba98e54ddb75b1ed97de7e3ce5dc0158c9ba4e76ce942c87e5d02d8#npm:1.2.0", {
-          "packageLocation": "./.yarn/__virtual__/ts-pnp-virtual-abd2827f29/0/cache/ts-pnp-npm-1.2.0-43620de7df-c2a698b85d.zip/node_modules/ts-pnp/",
+        ["virtual:f6c94efb72da698edc23c95ed60dce17fd5eefc9b285f3b3aee8db345bcd495351cf161d6ba8d0f66984085c26681fa41ddd68a1b7d366f81606ea5d8745bd42#npm:1.2.0", {
+          "packageLocation": "./.yarn/__virtual__/ts-pnp-virtual-04186d9d5c/0/cache/ts-pnp-npm-1.2.0-43620de7df-c2a698b85d.zip/node_modules/ts-pnp/",
           "packageDependencies": [
-            ["ts-pnp", "virtual:c497046afcbefb679e3fe12575088ec12205b913a36c3d158b27e7cd646d448426540ab27ba98e54ddb75b1ed97de7e3ce5dc0158c9ba4e76ce942c87e5d02d8#npm:1.2.0"],
+            ["ts-pnp", "virtual:f6c94efb72da698edc23c95ed60dce17fd5eefc9b285f3b3aee8db345bcd495351cf161d6ba8d0f66984085c26681fa41ddd68a1b7d366f81606ea5d8745bd42#npm:1.2.0"],
             ["typescript", null]
           ],
           "packagePeers": [
