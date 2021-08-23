@@ -122,6 +122,15 @@
     "overrides": [
       {
         "files": [
+          "cypress/**/*"
+        ],
+        "rules": {
+          "promise/catch-or-return": "off",
+          "promise/always-return": "off"
+        }
+      },
+      {
+        "files": [
           "src/infrastructure/**/*"
         ],
         "rules": {

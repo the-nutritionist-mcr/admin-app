@@ -1,6 +1,6 @@
 import Amplify from "@aws-amplify/core";
 import { Auth } from "@aws-amplify/auth";
-import { assertIsBackendOutputs } from "../types/BackendOutputs";
+import { assertIsBackendOutputs } from "../types/backend-outputs";
 
 export const configAmplify = async (): Promise<void> => {
   const configResponse = await fetch(

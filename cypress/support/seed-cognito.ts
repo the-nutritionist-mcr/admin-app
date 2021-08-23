@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { CognitoIdentityServiceProvider } from "aws-sdk";
-import { BackendOutputs } from "../../src/types/BackendOutputs";
+import { BackendOutputs } from "../../src/types/backend-outputs";
 import { COGNITO_PASSWORD, COGNITO_USER } from "./constants";
 
 const assertIsBackendOutputs: (

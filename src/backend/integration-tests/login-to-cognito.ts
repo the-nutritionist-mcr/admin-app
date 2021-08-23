@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Auth } from "@aws-amplify/auth";
-import { assertIsBackendOutputs } from "types/BackendOutputs";
+import { assertIsBackendOutputs } from "../../types/backend-outputs";
 import {
   COGNITO_PASSWORD,
   COGNITO_USER,

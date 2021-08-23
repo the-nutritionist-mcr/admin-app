@@ -1,5 +1,5 @@
 import { Auth } from "@aws-amplify/auth";
-import { assertIsBackendOutputs } from "../../src/types/BackendOutputs";
+import { assertIsBackendOutputs } from "../../src/types/backend-outputs";
 
 const seed = () => {
   cy.task("seedCognito");
@@ -59,7 +59,6 @@ const loginByCognitoApi = (username, password) => {
   const log = Cypress.log({
     displayName: "COGNITO LOGIN",
     message: [`🔐 Authenticating | ${username}`],
-    // @ts-ignore
     autoEnd: false,
   });
 
@@ -67,8 +66,9 @@ const loginByCognitoApi = (username, password) => {
 
   log.snapshot("before");
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cy.wrap(signIn, { log: false }).then((cognitoResponse: any) => {
-    const log = Cypress.log({
+    const cyLog = Cypress.log({
       displayName: "Here",
       message: [
         `🔐 Authenticated, saving tokens: `,
@@ -104,8 +104,8 @@ const loginByCognitoApi = (username, password) => {
     );
 
     window.localStorage.setItem("amplify-authenticator-authState", "signedIn");
-    log.snapshot("after");
-    log.end();
+    cyLog.snapshot("after");
+    cyLog.end();
   });
 };
 
@@ -142,13 +142,14 @@ const createRecipe = (
 };
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
-      loginByCognitoApi(
+      loginByCognitoApi: (
         ...args: Parameters<typeof loginByCognitoApi>
-      ): Chainable;
+      ) => Chainable;
 
-      seed(): void;
+      seed: () => void;
 
       createCustomisation: (
         ...args: Parameters<typeof createCustomisation>

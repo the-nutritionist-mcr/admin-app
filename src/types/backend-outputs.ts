@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 export interface BackendOutputs {
   [stackName: string]: {
     GraphQlQpiUrl: string;
