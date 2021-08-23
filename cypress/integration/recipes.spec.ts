@@ -1,6 +1,6 @@
 import { COGNITO_PASSWORD, COGNITO_USER } from "../support/constants";
 
-describe("The account page", () => {
+describe("The recipes page", () => {
   before(() => {
     cy.seed();
   });
