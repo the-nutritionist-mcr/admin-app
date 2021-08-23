@@ -9,7 +9,8 @@ const configureCognitoAndSignIn = async (
   username: string,
   password: string
 ) => {
-  const configResponse = await fetch(`/backend-outputs.json`);
+  const cypressConfig = Cypress.config()
+  const configResponse = await fetch(`${cypressConfig.baseUrl}/backend-outputs.json`);
   const rawConfig = await configResponse.json();
   assertIsBackendOutputs(rawConfig);
 
