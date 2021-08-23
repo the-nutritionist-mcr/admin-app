@@ -15,8 +15,10 @@
     "baseUrl": "src",
     "allowJs": true,
     "skipLibCheck": true,
-    "typeRoots": [
-      "src/typings"
+    "types": [
+      "jest",
+      "cypress",
+      "node"
     ],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
