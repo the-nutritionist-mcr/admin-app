@@ -49,6 +49,7 @@
     "deploy:backend:test": "cdk deploy DevBackendStacktest --require-approval never --outputs-file backend-outputs.json",
     "deploy:backend:prod": "cdk deploy DevBackendStackprod --require-approval never --outputs-file backend-outputs.json",
     "deploy:backend:ci": "cdk deploy tnm-ci-backend-stack --require-approval never --outputs-file backend-outputs.json",
+    "deploy:backend:local": "cdk deploy tnm-ci-backend-local --require-approval never --outputs-file backend-outputs.json",
     "deploy:backend:int": "cdk deploy tnm-int-backend-stack --require-approval never --outputs-file backend-outputs.json",
     "destroy:backend:int": "cdk destroy --force tnm-int-backend-stack",
     "destroy:backend:ci": "cdk destroy --force tnm-ci-backend-stack",
