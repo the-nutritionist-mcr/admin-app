@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Auth } from "@aws-amplify/auth";
 import { assertIsBackendOutputs } from "types/BackendOutputs";
-import { COGNITO_PASSWORD, COGNITO_USER } from "./constants";
+import {
+  COGNITO_PASSWORD,
+  COGNITO_USER,
+} from "../../../cypress/support/constants";
 
 export const loginToCognito = async (): Promise<string> => {
   const configResponse = await fetch(`/backend-outputs.json`);

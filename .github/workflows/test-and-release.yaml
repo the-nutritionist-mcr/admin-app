@@ -116,6 +116,10 @@ jobs:
 
       - name: Run E2E Tests
         run: yarn start:prod & yarn wait-on http://localhost:5000 && yarn cypress run
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_BACKEND }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_BACKEND }}
+          AWS_REGION: us-east-1
 
 
 
@@ -268,7 +272,7 @@ jobs:
       - name: Lint
         run: yarn lint
         env:
-          NODE_OPTIONS: --max_old_space_size=4096
+          NODE_OPTIONS: --max_old_space_size=8192
 
   cdk-synth:
     name: Generate Cloudformation
