@@ -65,6 +65,13 @@ const generateStacks = (): void => {
     url: "https://int.tnm-admin.com",
     transient: true,
   });
+
+  new BackendStack(app, `tnm-local-backend-stack`, {
+    envName: "local",
+    ...defaults,
+    url: "https://local.tnm-admin.com",
+    transient: true,
+  });
 };
 
 export default generateStacks;
