@@ -7,6 +7,7 @@ import React from "react";
 import { Spinning } from "grommet-controls";
 import { loadingSelector } from "../../lib/rootReducer";
 import styled from "styled-components";
+
 import { useSelector } from "react-redux";
 
 const NonPrintableHeader = styled(Header)`
@@ -14,6 +15,10 @@ const NonPrintableHeader = styled(Header)`
     display: none;
   }
 `;
+
+const BoxWithGap = styled(Box)`
+  gap: 40px;
+`
 
 const NavBar: React.FC = () => {
   const loading = useSelector(loadingSelector);
@@ -71,6 +76,9 @@ const NavBar: React.FC = () => {
       Logout
     </MenuButton>,
   ].filter(Boolean);
+
+  // eslint-disable-next-line no-console
+  buttons.forEach(button => console.log(button.type))
   return (
     <NonPrintableHeader
       align="center"
@@ -81,15 +89,14 @@ const NavBar: React.FC = () => {
       <Heading level={1} size="small">
         TNM Admin
       </Heading>
-      <Box
+      <BoxWithGap
         flex="grow"
-        gap="large"
         justify="stretch"
         direction="row"
         alignContent="stretch"
       >
         {buttons}
-      </Box>
+      </BoxWithGap>
       <Box direction="row" gap="medium" alignContent="start">
         {loading === LoadingState.Loading ? <Spinning size="medium" /> : null}
         <Text size="small" alignSelf="center">
