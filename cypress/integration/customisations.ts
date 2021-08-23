@@ -23,23 +23,23 @@ describe("The customisations page", () => {
     cy.contains("You've not added any customisations yet...");
   });
 
-  it("should allow you to add and edit a couple of customisations which persist after page reload", () => {
-    cy.createCustomisation("Chillis", false);
-    cy.createCustomisation("Nuts", true);
-    cy.createCustomisation("Fish", false);
+  // it("should allow you to add and edit a couple of customisations which persist after page reload", () => {
+  //   cy.createCustomisation("Chillis", false);
+  //   cy.createCustomisation("Nuts", true);
+  //   cy.createCustomisation("Fish", false);
 
-    cy.get("tbody").find("tr").first().as("firstRow");
-    cy.get("@firstRow").contains("Chillis");
-    cy.get("@firstRow").contains("No");
+  //   cy.get("tbody").find("tr").first().as("firstRow");
+  //   cy.get("@firstRow").contains("Chillis");
+  //   cy.get("@firstRow").contains("No");
 
-    cy.get("tbody").find("tr").first().next().as("secondRow");
-    cy.get("@secondRow").contains("Fish");
-    cy.get("@secondRow").contains("No");
+  //   cy.get("tbody").find("tr").first().next().as("secondRow");
+  //   cy.get("@secondRow").contains("Fish");
+  //   cy.get("@secondRow").contains("No");
 
-    cy.get("tbody").find("tr").last().as("lastRow");
-    cy.get("@lastRow").contains("Nuts");
-    cy.get("@lastRow").contains("Yes");
-  });
+  //   cy.get("tbody").find("tr").last().as("lastRow");
+  //   cy.get("@lastRow").contains("Nuts");
+  //   cy.get("@lastRow").contains("Yes");
+  // });
 
   it("should allow you to create customisations that can be added to recipes", () => {
     cy.createRecipe("Special Salad", "A lovely salad", ["Chillis"], "salad");
