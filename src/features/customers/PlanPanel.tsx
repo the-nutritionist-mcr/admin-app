@@ -138,7 +138,7 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
         {props.plannerConfig.defaultDeliveryDays.map((defaultDay, index) => (
           <FormField
             key={`delivery-${defaultDay}-${index}`}
-            label="Delivery One"
+            label={`Delivery ${index + 1}`}
           >
             <Select
               data-testid={`delivery-${index}-select`}
