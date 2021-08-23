@@ -12,7 +12,11 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { CustomerPlan, PlannerConfig } from "./types";
 import { isCustomDeliveryPlan } from "./distribution-generator";
-import { defaultDeliveryDays, planLabels, extrasLabels } from "../../lib/config";
+import {
+  defaultDeliveryDays,
+  planLabels,
+  extrasLabels,
+} from "../../lib/config";
 
 interface CustomerRowProps {
   customer: Customer;
@@ -22,17 +26,20 @@ const SlimButton = styled(Button)`
   padding: 0 5px 0 5px;
 `;
 
-const getPlanString = (plan: CustomerPlan | undefined, config: PlannerConfig) => {
-  if(!plan) {
-    return "Legacy"
+const getPlanString = (
+  plan: CustomerPlan | undefined,
+  config: PlannerConfig
+) => {
+  if (!plan) {
+    return "Legacy";
   }
 
-  if(isCustomDeliveryPlan(plan, config)) {
-    return "Custom"
+  if (isCustomDeliveryPlan(plan, config)) {
+    return "Custom";
   }
 
-  return `${plan.configuration.planType} ${plan.configuration.mealsPerDay} (${plan.configuration.daysPerWeek} days) x ${plan.configuration.totalPlans}`
-}
+  return `${plan.configuration.planType} ${plan.configuration.mealsPerDay} (${plan.configuration.daysPerWeek} days) x ${plan.configuration.totalPlans}`;
+};
 
 const CustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
@@ -49,11 +56,11 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
       </TableCell>
       <TableCell>{getStatusString(props.customer)}</TableCell>
       <TableCell>
-      {getPlanString(props.customer.newPlan, {
-        planLabels: [...planLabels],
-        extrasLabels: [...extrasLabels],
-        defaultDeliveryDays: [...defaultDeliveryDays]
-      })}
+        {getPlanString(props.customer.newPlan, {
+          planLabels: [...planLabels],
+          extrasLabels: [...extrasLabels],
+          defaultDeliveryDays: [...defaultDeliveryDays],
+        })}
       </TableCell>
       <TableCell>{getExtrasString(props.customer)}</TableCell>
 

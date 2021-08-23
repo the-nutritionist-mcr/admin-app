@@ -103,7 +103,7 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
     const thunk = isEdit ? updateCustomer : createCustomer;
     await dispatch(thunk(submittingCustomer));
     setDirty(false);
-    history.push("/customers")
+    history.push("/customers");
   }, SUBMIT_DEBOUNCE);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onChange = (nextCustomerData: any): void => {
