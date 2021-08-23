@@ -1,159 +1,165 @@
-//// ***********************************************
-//// This example commands.js shows you how to
-//// create various custom commands and overwrite
-//// existing commands.
-////
-//// For more comprehensive examples of custom
-//// commands please read more here:
-//// https://on.cypress.io/custom-commands
-//// ***********************************************
-////
-////
-//// -- This is a parent command --
-//// Cypress.Commands.add("login", (email, password) => { ... })
-////
-////
-//// -- This is a child command --
-//// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-////
-////
-//// -- This is a dual command --
-//// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-////
-////
-//// -- This will overwrite an existing command --
-//// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... }
+import { Auth } from "@aws-amplify/auth";
+import { assertIsBackendOutputs } from "../../src/types/BackendOutputs";
 
-///// <reference types="cypress" />
-///* eslint-disable @typescript-eslint/no-namespace */
-///* eslint-enable @typescript-eslint/no-namespace */
+const seed = () => {
+  cy.task("seedCognito");
+};
 
-//Cypress.Commands.add("clearDb", () => {
-//  // eslint-disable-next-line promise/catch-or-return
-//  cy.exec("yarn clear-tables")
-//    // eslint-disable-next-line no-console
-//    .then((result) => console.log(result));
-//});
+const configureCognitoAndSignIn = async (
+  username: string,
+  password: string
+) => {
+  const configResponse = await fetch(`/backend-outputs.json`);
+  const rawConfig = await configResponse.json();
+  assertIsBackendOutputs(rawConfig);
 
-//Cypress.Commands.add("login", () => {
-//  cy.visit("/");
-//  cy.get("#username").type(Cypress.env("USER"), { force: true });
-//  cy.get("#password").type(Cypress.env("PASSWORD"), { force: true });
-//  cy.get("button[type='submit']").click({ multiple: true, force: true });
-//});
+  const config = Object.entries(rawConfig).find(([key]) =>
+    key.includes("backend-stack")
+  )?.[1];
 
-//Cypress.Commands.add("createCustomisation", (name, allergen) => {
-//  cy.get("header").contains("Customisations").click();
-//  cy.contains("New").click();
+  if (!config) {
+    throw new Error(`Whoops, couldn't load beckend config`);
+  }
 
-//  cy.get("input[name='name']").type(name);
+  Auth.configure({
+    Auth: {
+      region: "us-east-1",
+      userPoolId: config.UserPoolId,
+      userPoolWebClientId: config.ClientId,
+    },
+  });
+  return Auth.signIn({ username, password });
+};
 
-//  if (allergen) {
-//    cy.get("input[name='allergen']").click({ force: true });
-//  }
+const createCustomisation = (name, allergen) => {
+  cy.get("header").contains("Customisations").click();
+  cy.contains("New").click();
 
-//  cy.intercept({
-//    method: "POST",
-//    url: "/graphql",
-//  }).as("graphql");
+  cy.get("input[name='name']").type(name);
 
-//  cy.contains("Ok").click();
+  if (allergen) {
+    cy.get("input[name='allergen']").click({ force: true });
+  }
 
-//  cy.wait("@graphql");
-//});
+  cy.intercept({
+    method: "POST",
+    url: "/graphql",
+  }).as("graphql");
 
-//Cypress.Commands.add("createRecipe", (name, description, exclusions) => {
-//  cy.get("header").contains("Recipes").click();
-//  cy.contains("New").click();
+  cy.contains("Ok").click();
 
-//  cy.get("input[name='name']").type(name);
-//  cy.get("input[name='description']").type(description);
-//  cy.get("input[name='potentialExclusions']").click();
-//  exclusions.forEach((exclusion) => {
-//    cy.get("[data-g-portal-id='1']")
-//      .find("div[role='menubar']")
-//      .contains(exclusion)
-//      .click({ force: true });
-//  });
+  cy.wait("@graphql");
+};
 
-//  cy.contains("TNM Admin").click({ force: true });
+/*
+ * Taken from https://docs.cypress.io/guides/testing-strategies/amazon-cognito-authentication#Custom-Command-for-Amazon-Cognito-Authentication
+ * Amazon Cognito
+ */
+const loginByCognitoApi = (username, password) => {
+  const log = Cypress.log({
+    displayName: "COGNITO LOGIN",
+    message: [`🔐 Authenticating | ${username}`],
+    // @ts-ignore
+    autoEnd: false,
+  });
 
-//  cy.intercept({
-//    method: "POST",
-//    url: "/graphql",
-//  }).as("graphql");
+  const signIn = configureCognitoAndSignIn(username, password);
 
-//  cy.contains("Ok").click();
+  log.snapshot("before");
 
-//  cy.wait("@graphql");
-//});
+  cy.wrap(signIn, { log: false }).then((cognitoResponse: any) => {
+    const log = Cypress.log({
+      displayName: "Here",
+      message: [
+        `🔐 Authenticated, saving tokens: `,
+        JSON.stringify(cognitoResponse, null, 2),
+      ],
+    });
 
-//Cypress.Commands.add(
-//  "createCustomer",
-//  (
-//    salutation,
-//    firstName,
-//    surname,
-//    startDate,
-//    email,
-//    plan,
-//    daysPerWeek,
-//    snack,
-//    breakfast,
-//    address,
-//    exclusions,
-//    notes,
-//    paymentDay,
-//    telephone
-//  ) => {
-//    cy.get("header").contains("Customers").click();
-//    cy.contains("New").click();
+    const keyPrefixWithUsername = `${cognitoResponse.keyPrefix}.${cognitoResponse.username}`;
 
-//    cy.get("input[name='salutation']").click();
-//    cy.get("div[data-g-portal-id='1']").contains(salutation).click();
-//    cy.get("input[name='firstName']").type(firstName);
-//    cy.get("input[name='surname']").type(surname);
-//    cy.get("input[name='startDate']").click();
-//    cy.get("div[data-g-portal-id='1']").contains(String(startDate)).click();
-//    cy.get("input[name='email']").type(email);
-//    cy.get("input[name='daysPerWeek']").click();
-//    cy.get("div[data-g-portal-id='1']").contains(String(daysPerWeek)).click();
-//    cy.get("input[name='snack']").click();
-//    cy.get("div[data-g-portal-id='1']").contains(snack).click();
-//    cy.get("input[name='breakfast']").click();
-//    cy.get("div[data-g-portal-id='1']")
-//      .contains(breakfast ? "Yes" : "No")
-//      .click();
-//    cy.get("textarea[name='address']").type(address);
-//    cy.get("input[name='plan']").click();
-//    cy.get("div[data-g-portal-id='1']").contains(plan).click();
+    window.localStorage.setItem(
+      `${keyPrefixWithUsername}.idToken`,
+      cognitoResponse.signInUserSession.idToken.jwtToken
+    );
 
-//    cy.get("input[name='exclusions']").click();
-//    exclusions.forEach((exclusion) => {
-//      cy.get("div[data-g-portal-id='1']")
-//        .contains(exclusion)
-//        .click({ force: true });
-//    });
+    window.localStorage.setItem(
+      `${keyPrefixWithUsername}.accessToken`,
+      cognitoResponse.signInUserSession.accessToken.jwtToken
+    );
 
-//    if (notes) {
-//      cy.get("textarea[name='notes']").type(notes);
-//    }
+    window.localStorage.setItem(
+      `${keyPrefixWithUsername}.refreshToken`,
+      cognitoResponse.signInUserSession.refreshToken.token
+    );
 
-//    if (paymentDay) {
-//      cy.get("input[name='paymentDayOfMonth']").type(String(paymentDay));
-//    }
+    window.localStorage.setItem(
+      `${keyPrefixWithUsername}.clockDrift`,
+      cognitoResponse.signInUserSession.clockDrift
+    );
 
-//    if (telephone) {
-//      cy.get("input[name='telephone']").type(telephone);
-//    }
+    window.localStorage.setItem(
+      `${cognitoResponse.keyPrefix}.LastAuthUser`,
+      cognitoResponse.username
+    );
 
-//    cy.intercept({
-//      method: "POST",
-//      url: "/graphql",
-//    }).as("graphql");
+    window.localStorage.setItem("amplify-authenticator-authState", "signedIn");
+    log.snapshot("after");
+    log.end();
+  });
+};
 
-//    cy.contains("Ok").click();
+const createRecipe = (
+  name: string,
+  description: string,
+  exclusions: string[],
+  shortName: string
+) => {
+  cy.get("header").contains("Recipes").click();
+  cy.contains("New").click();
 
-//    cy.wait("@graphql");
-//  }
-//);
+  cy.get("input[name='name']").type(name);
+  cy.get("input[name='shortName']").type(shortName);
+  cy.get("input[name='description']").type(description);
+  cy.get("input[name='potentialExclusions']").click();
+  exclusions.forEach((exclusion) => {
+    cy.get("[data-g-portal-id='1']")
+      .find("div[role='menubar']")
+      .contains(exclusion)
+      .click({ force: true });
+  });
+
+  cy.contains("TNM Admin").click({ force: true });
+
+  cy.intercept({
+    method: "POST",
+    url: "/graphql",
+  }).as("graphql");
+
+  cy.contains("Ok").click();
+
+  cy.wait("@graphql");
+};
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      loginByCognitoApi(
+        ...args: Parameters<typeof loginByCognitoApi>
+      ): Chainable;
+
+      seed(): void;
+
+      createCustomisation: (
+        ...args: Parameters<typeof createCustomisation>
+      ) => Chainable;
+
+      createRecipe: (...args: Parameters<typeof createRecipe>) => Chainable;
+    }
+  }
+}
+
+Cypress.Commands.add("seed", seed);
+Cypress.Commands.add("loginByCognitoApi", loginByCognitoApi);
+Cypress.Commands.add("createCustomisation", createCustomisation);
+Cypress.Commands.add("createRecipe", createRecipe);

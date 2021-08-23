@@ -1,15 +1,21 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Auth } from "@aws-amplify/auth";
+import { assertIsBackendOutputs } from "types/BackendOutputs";
 import { COGNITO_PASSWORD, COGNITO_USER } from "./constants";
 
 export const loginToCognito = async (): Promise<string> => {
-  const rawConfig = (await import(`${process.cwd()}/backend-outputs.json`))
-    .default;
+  const configResponse = await fetch(`/backend-outputs.json`);
+  const rawConfig = await configResponse.json();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const config: any = Object.entries(rawConfig).find(([key]) =>
+  assertIsBackendOutputs(rawConfig);
+
+  const config = Object.entries(rawConfig).find(([key]) =>
     key.includes("backend-stack")
   )?.[1];
+
+  if (!config) {
+    throw new Error("Could not load backend config :-(");
+  }
 
   Auth.configure({
     Auth: {
@@ -19,7 +25,10 @@ export const loginToCognito = async (): Promise<string> => {
     },
   });
 
-  const signIn = await Auth.signIn({ username: COGNITO_USER, password: COGNITO_PASSWORD })
-  
-  return signIn.signInUserSession.accessToken.jwtToken
-}
+  const signIn = await Auth.signIn({
+    username: COGNITO_USER,
+    password: COGNITO_PASSWORD,
+  });
+
+  return signIn.signInUserSession.accessToken.jwtToken;
+};

@@ -2,8 +2,17 @@
   "compilerOptions": {
     "target": "es5",
     "strictNullChecks": true,
-    "lib": ["es5", "dom"],
-    "types": ["cypress"]
+    "esModuleInterop": true,
+    "lib": [
+      "es5",
+      "dom"
+    ],
+    "types": [
+      "cypress"
+    ]
   },
-  "include": ["**/*.ts", "../src/**/*.ts"]
+  "include": [
+    "**/*.ts",
+    "../src/**/*.ts"
+  ]
 }
