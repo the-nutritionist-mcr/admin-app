@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Header,
   Heading,
@@ -17,22 +18,34 @@ import {
 } from "../recipes/recipesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import EditRecipesDialog from "./EditRecipesDialog";
-import { HotOrCold } from "../../domain/Recipe";
+import Recipe, { HotOrCold } from "../../domain/Recipe";
 import React from "react";
 import RecipesRow from "../recipes/RecipesRow";
 import useRecipes from "./useRecipes";
+import { defaultDeliveryDays } from "../../lib/config";
+import useCustomers from "../customers/useCustomers";
+import PlanningModeSummary from "./PlanningModeSummary";
 
 const Recipes: React.FC = () => {
   const dispatch = useDispatch();
   const { recipes } = useRecipes();
+  useCustomers();
   const error = useSelector(errorSelector);
+  const [planningMode, setPlanningMode] = React.useState(false);
   const [showCreate, setShowCreate] = React.useState(false);
+  const [selectedDelivery, setSelectedDelivery] = React.useState(-1);
+  const [plannerSelection, setPlannerSelection] = React.useState<Recipe[][]>(
+    defaultDeliveryDays.map(() => [])
+  );
+
+  const showCheckBoxes = selectedDelivery !== -1 && planningMode;
+
+  useRecipes();
 
   return (
     <React.Fragment>
       <Header align="center" justify="start" gap="small">
         <Heading level={2}>Recipes</Heading>
-
         <Button
           primary
           size="small"
@@ -42,6 +55,16 @@ const Recipes: React.FC = () => {
             setShowCreate(true);
           }}
         />
+        {!planningMode && (
+          <Button
+            primary
+            size="small"
+            label="Planning Mode"
+            a11yTitle="Planning Mode"
+            onClick={() => setPlanningMode(true)}
+          />
+        )}
+
         {showCreate && (
           <EditRecipesDialog
             recipe={{
@@ -65,44 +88,72 @@ const Recipes: React.FC = () => {
       </Header>
       {error && <Text color="status-error">{error}</Text>}
       {recipes.length > 0 ? (
-        <Table alignSelf="start">
-          <TableHeader>
-            <TableRow>
-              <TableCell>
-                <strong>Short Name</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Name</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Description</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Customisations</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Actions</strong>
-              </TableCell>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {recipes
-
-              .slice()
-              // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-              .sort((a, b) => (a.name < b.name ? 1 : -1))
-              .reverse()
-              .map((recipe) => (
-                <RecipesRow
-                  key={recipe.id}
-                  recipe={recipe}
-                  onChange={(newRecipe): void => {
-                    dispatch(updateRecipe(newRecipe));
-                  }}
-                />
-              ))}
-          </TableBody>
-        </Table>
+        <Box direction="row" gap="large">
+          <Table alignSelf="start">
+            <TableHeader>
+              <TableRow>
+                {showCheckBoxes && (
+                  <TableCell>
+                    <strong>Selected</strong>
+                  </TableCell>
+                )}
+                {!planningMode && (
+                  <TableCell>
+                    <strong>Short Name</strong>
+                  </TableCell>
+                )}
+                <TableCell>
+                  <strong>Name</strong>
+                </TableCell>
+                <TableCell>
+                  <strong>Description</strong>
+                </TableCell>
+                {!planningMode && (
+                  <TableCell>
+                    <strong>Customisations</strong>
+                  </TableCell>
+                )}
+                {!planningMode && (
+                  <TableCell>
+                    <strong>Actions</strong>
+                  </TableCell>
+                )}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {recipes
+                .slice()
+                // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+                .sort((a, b) => (a.name < b.name ? 1 : -1))
+                .reverse()
+                .map((recipe) => (
+                  <RecipesRow
+                    plannerSelection={plannerSelection}
+                    selectedDeliveryDay={selectedDelivery}
+                    onSelect={(newPlannerSelection) =>
+                      setPlannerSelection(newPlannerSelection)
+                    }
+                    showCheckBoxes={showCheckBoxes}
+                    plannerMode={planningMode}
+                    key={recipe.id}
+                    recipe={recipe}
+                    onChange={(newRecipe): void => {
+                      dispatch(updateRecipe(newRecipe));
+                    }}
+                  />
+                ))}
+            </TableBody>
+          </Table>
+          {planningMode && (
+            <PlanningModeSummary
+              selectedDelivery={selectedDelivery}
+              setPlanningMode={setPlanningMode}
+              setPlannerSelection={setPlannerSelection}
+              setSelectedDelivery={setSelectedDelivery}
+              plannerSelection={plannerSelection}
+            />
+          )}
+        </Box>
       ) : (
         <Text>
           You&apos;ve not added any recipes yet... Click the &apos;new&apos;

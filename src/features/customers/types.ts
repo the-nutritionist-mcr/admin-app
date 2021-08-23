@@ -1,17 +1,15 @@
 import { extrasLabels, planLabels } from "../../lib/config";
 
-const labels = [...extrasLabels, ...planLabels];
-
-type ItemNameType = typeof labels[number];
-
-export interface Item {
-  name: ItemNameType;
+export interface Item<
+  T extends typeof extrasLabels[number] | typeof planLabels[number]
+> {
+  name: T;
   quantity: number;
 }
 
 export interface Delivery {
-  items: Item[];
-  extras: Item[];
+  items: Item<typeof planLabels[number]>[];
+  extras: Item<typeof extrasLabels[number]>[];
 }
 
 export interface PlanConfiguration {

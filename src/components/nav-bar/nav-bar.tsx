@@ -18,7 +18,7 @@ const NonPrintableHeader = styled(Header)`
 
 const BoxWithGap = styled(Box)`
   gap: 40px;
-`
+`;
 
 const NavBar: React.FC = () => {
   const loading = useSelector(loadingSelector);
@@ -77,8 +77,6 @@ const NavBar: React.FC = () => {
     </MenuButton>,
   ].filter(Boolean);
 
-  // eslint-disable-next-line no-console
-  buttons.forEach(button => console.log(button.type))
   return (
     <NonPrintableHeader
       align="center"

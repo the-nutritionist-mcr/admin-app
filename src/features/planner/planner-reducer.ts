@@ -1,40 +1,42 @@
 import { AnyAction, createAction } from "@reduxjs/toolkit";
 import AppState from "../../types/AppState";
 import Customer from "../../domain/Customer";
-import CustomerMealsSelection from "../../types/CustomerMealsSelection";
-import DeliveryDay from "../../types/DeliveryDay";
 import DeliveryMealsSelection from "../../types/DeliveryMealsSelection";
 import Recipe from "../../domain/Recipe";
-import { chooseMeals } from "../../lib/plan-meals";
+import { defaultDeliveryDays } from "../../lib/config";
+import {
+  chooseMeals,
+  CustomerMealsSelection,
+  SelectedMeal,
+} from "../../lib/plan-meals";
 
 export interface PlannerState {
-  selectedMeals: DeliveryMealsSelection;
-  deliveryDay: DeliveryDay;
+  selectedMeals: DeliveryMealsSelection[];
   customerSelections?: CustomerMealsSelection;
 }
 
 const initialState: PlannerState = {
-  deliveryDay: "",
-  selectedMeals: [
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-  ],
+  selectedMeals: defaultDeliveryDays.map(() => []),
 };
 
-interface RecipeSelectPayload {
-  index: number;
-  recipe: Recipe | undefined;
+interface GenerateSelectionPayload {
+  deliveries: Recipe[][];
+}
+
+interface RecipeRemovePayload {
+  deliveryIndex: number;
+  id: string;
 }
 
 interface CustomerSelectionAdjustPayload {
   index: number;
+  deliveryIndex: number;
   customer: Customer;
   recipe: Recipe | undefined;
+  variant: string;
 }
+
+const cloneDelivery = (delivery: Recipe[]) => [...delivery]
 
 const executeAction = <T>(
   state: AppState,
@@ -57,12 +59,18 @@ const executeAction = <T>(
 };
 
 export const clearPlanner = createAction("clearPlanner");
-export const adjustCustomerSelection =
-  createAction<CustomerSelectionAdjustPayload>("adjustCustomerSelection");
-export const selectMeal = createAction<RecipeSelectPayload>("selectMeal");
-export const selectDay = createAction<DeliveryDay>("selectDay");
-export const generateCustomerMeals = createAction("generateCustomerMeals");
+export const adjustCustomerSelection = createAction<
+  CustomerSelectionAdjustPayload,
+  "adjustCustomerSelection"
+>("adjustCustomerSelection");
+export const removeMeal = createAction<RecipeRemovePayload, "removeMeal">(
+  "removeMeal"
+);
+export const generateCustomerMeals = createAction<GenerateSelectionPayload>(
+  "generateCustomerMeals"
+);
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const plannerReducer = (state: AppState, action?: AnyAction): AppState => {
   const planner = state.planner;
 
@@ -74,14 +82,22 @@ const plannerReducer = (state: AppState, action?: AnyAction): AppState => {
     };
   }
 
-  const stateAfterRecipeChange = executeAction<RecipeSelectPayload>(
+
+  const stateAfterRecipeRemove = executeAction<RecipeRemovePayload>(
     state,
     action,
-    selectMeal.type,
+    removeMeal.type,
     (newState, executingAction) => {
-      const newSelections = [...newState.planner.selectedMeals];
-      newSelections[executingAction.payload.index] =
-        executingAction.payload.recipe;
+      const newSelections = newState.planner.selectedMeals.map(cloneDelivery);
+      const found = newSelections[
+        executingAction.payload.deliveryIndex
+      ].findIndex((recipe) => {
+        return recipe.id === executingAction.payload.id;
+      });
+      if (found > -1) {
+        newSelections[executingAction.payload.deliveryIndex].splice(found, 1);
+      }
+
       return {
         ...newState,
         planner: {
@@ -92,38 +108,26 @@ const plannerReducer = (state: AppState, action?: AnyAction): AppState => {
     }
   );
 
-  const stateAfterMealGenerate = executeAction(
-    stateAfterRecipeChange,
+
+  const stateAfterMealGenerate = executeAction<GenerateSelectionPayload>(
+    stateAfterRecipeRemove,
     action,
     generateCustomerMeals.type,
-    (newState) => ({
+    (newState, executingAction) => ({
       ...newState,
       planner: {
         ...newState.planner,
+        selectedMeals: executingAction.payload.deliveries.map(cloneDelivery),
         customerSelections: chooseMeals(
-          newState.planner.deliveryDay,
-          newState.planner.selectedMeals,
+          executingAction.payload.deliveries,
           newState.customers.items
         ),
       },
     })
   );
 
-  const stateAfterDayChange = executeAction<DeliveryDay>(
-    stateAfterMealGenerate,
-    action,
-    selectDay.type,
-    (newState, executingAction) => ({
-      ...newState,
-      planner: {
-        ...newState.planner,
-        deliveryDay: executingAction.payload,
-      },
-    })
-  );
-
   const stateAfterClearAll = executeAction(
-    stateAfterDayChange,
+    stateAfterMealGenerate,
     action,
     clearPlanner.type,
     (newState) => ({
@@ -143,56 +147,57 @@ const plannerReducer = (state: AppState, action?: AnyAction): AppState => {
         return { ...newState };
       }
 
-      const newSelections = newState.planner.customerSelections.map((item) => ({
-        extras: { ...item.extras },
-        customer: {
-          ...item.customer,
-          plan: { ...item.customer.plan },
-          exclusions: item.customer.exclusions.map((exclusion) => ({
-            ...exclusion,
-          })),
-        },
-        meals: item.meals.map((meal) => ({
-          ...meal,
-          potentialExclusions: meal.potentialExclusions.map((exclusion) => ({
-            ...exclusion,
-          })),
-        })),
-      }));
-
-      const customerIndex = newSelections.findIndex(
-        (selection) =>
-          selection.customer.id === executingAction.payload.customer.id
-      );
-
-      const newSelection = { ...newSelections[customerIndex] };
-      const recipe = executingAction.payload.recipe;
-      if (recipe) {
-        newSelection.meals[executingAction.payload.index] = {
-          ...recipe,
-        };
-      }
-      newSelections[customerIndex] = newSelection;
-
       return {
         ...newState,
         planner: {
           ...newState.planner,
-          customerSelections: newSelections,
+          customerSelections: newState.planner.customerSelections.map(
+            ({ customer, deliveries }) => ({
+              customer: {
+                ...customer,
+                plan: { ...customer.plan },
+                exclusions: customer.exclusions.map((exclusion) => ({
+                  ...exclusion,
+                })),
+              },
+              deliveries: deliveries.map((delivery, index) => [
+                ...(index === executingAction.payload.deliveryIndex
+                  ? delivery.map((item, itemIndex) => ({
+                      recipe:
+                        itemIndex === executingAction.payload.index &&
+                        customer.id === executingAction.payload.customer.id
+                          ? executingAction.payload.recipe
+                          : (item as SelectedMeal).recipe,
+
+                      chosenVariant:
+                        itemIndex === executingAction.payload.index &&
+                        customer.id === executingAction.payload.customer.id
+                          ? executingAction.payload.variant
+                          : item.chosenVariant,
+                    }))
+                  : delivery),
+              ]),
+            })
+          ),
         },
       };
     }
   );
 };
 
-export const plannedMealsSelector = (state: AppState): DeliveryMealsSelection =>
-  state.planner.selectedMeals;
-
-export const deliveryDaySelector = (state: AppState): DeliveryDay =>
-  state.planner.deliveryDay;
+export const plannedMealsSelector = (
+  state: AppState
+): DeliveryMealsSelection[] => state.planner.selectedMeals;
 
 export const customerSelectionsSelector = (
   state: AppState
 ): CustomerMealsSelection | undefined => state.planner.customerSelections;
+
+export const customerSelectionSelector =
+  (customer: Customer, deliveryIndex: number, index: number) =>
+  (state: AppState) =>
+    state.planner.customerSelections?.find(
+      (selection) => selection.customer.id === customer.id
+    )?.deliveries[deliveryIndex][index];
 
 export default plannerReducer;

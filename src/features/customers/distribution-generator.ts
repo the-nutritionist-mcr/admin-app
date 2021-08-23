@@ -10,6 +10,7 @@ import {
 } from "./types";
 import deepEqual from "deep-equal";
 import { curry, pipe } from "ramda";
+import { extrasLabels, planLabels } from "../../lib/config";
 
 /*
  * Distribute a target item across an arbitrary number of deliveries
@@ -85,7 +86,11 @@ const distributeAndMultiply = curry(
  * based on a supplied multiple
  */
 const multiplyItem = curry(
-  (items: Item[], multiple: number, targetItem: string): Item[] =>
+  <T extends typeof extrasLabels[number] | typeof planLabels[number]>(
+    items: Item<T>[],
+    multiple: number,
+    targetItem: string
+  ): Item<T>[] =>
     items.map((item) =>
       item.name === targetItem
         ? { ...item, quantity: item.quantity * multiple }

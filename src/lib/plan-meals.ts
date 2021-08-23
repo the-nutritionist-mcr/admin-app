@@ -1,116 +1,25 @@
-import Customer, { Snack } from "../domain/Customer";
-import CustomerMealsSelection, {
-  Extras,
-} from "../types/CustomerMealsSelection";
-import CookPlan from "../types/CookPlan";
-import DeliveryDay from "../types/DeliveryDay";
 import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
+import Customer from "../domain/Customer";
 import Recipe from "../domain/Recipe";
+import { extrasLabels, planLabels } from "./config";
+import { CustomerPlan, Item } from "../features/customers/types";
 import isActive from "./isActive";
 
-/* eslint-disable @typescript-eslint/no-magic-numbers */
-const calculateMealsPerDeliveryFromMealsPerWeek = (
-  mealsPerWeek: number,
-  delivery: DeliveryDay
-): number => {
-  switch (mealsPerWeek) {
-    case 5:
-      return delivery === "Monday" ? 3 : 2;
-    case 6:
-      return 3;
-    case 7:
-      return delivery === "Monday" ? 3 : 4;
-    case 10:
-      return delivery === "Monday" ? 6 : 4;
-    case 12:
-      return 6;
-    case 14:
-      return delivery === "Monday" ? 6 : 8;
-    case 15:
-      return delivery === "Monday" ? 9 : 6;
-    case 18:
-      return 9;
-    case 21:
-      return delivery === "Monday" ? 9 : 12;
-  }
-  throw new Error(`${mealsPerWeek} meals per week is not currently supported`);
-};
-/* eslint-enable @typescript-eslint/no-magic-numbers */
+export interface SelectedMeal {
+  recipe: Recipe;
+  chosenVariant: string;
+}
 
-const createNSizedUndefinedArray = (n: number): undefined[] => [
-  ...new Array(n),
-];
+interface SelectedExtra {
+  chosenVariant: string;
+}
 
-const getTotalMealCount = (customers: Customer[], delivery: DeliveryDay) =>
-  customers.reduce<number>(
-    (totalMeals, customer) =>
-      totalMeals +
-      calculateMealsPerDeliveryFromMealsPerWeek(
-        customer.daysPerWeek * customer.plan.mealsPerDay,
-        delivery
-      ),
-    0
-  );
+export type SelectedItem = SelectedMeal | SelectedExtra;
 
-const generateMealSelection = (
-  count: number,
-  chosenPlans: Recipe[]
-): Recipe[] =>
-  createNSizedUndefinedArray(count).map(
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    (_value, index) => chosenPlans[index % chosenPlans.length]
-  );
-
-const generateExtras = (customer: Customer, meals: Recipe[]): Extras => {
-  const extrasCount = meals.length / customer.plan.mealsPerDay;
-  return {
-    breakfast: customer.breakfast ? extrasCount : 0,
-    largeSnack: customer.snack === Snack.Large ? extrasCount : 0,
-    snack: customer.snack === Snack.Standard ? extrasCount : 0,
-  };
-};
-
-export const chooseMeals = (
-  delivery: DeliveryDay,
-  plans: DeliveryMealsSelection,
-  customers: Customer[]
-): CustomerMealsSelection => {
-  type ExcludesUndefined = <T>(x: T | undefined) => x is T;
-
-  const chosenPlans = plans.filter(Boolean) as Recipe[];
-  const mealCount = getTotalMealCount(customers, delivery);
-  const selection = generateMealSelection(mealCount, chosenPlans);
-  const sortedCustomers = customers.slice().sort((a, b) =>
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-    a.surname.toLowerCase() > b.surname.toLowerCase() ? 1 : -1
-  );
-
-  return sortedCustomers.filter(isActive).map((customer) => {
-    const mealsPerWeek = customer.daysPerWeek * customer.plan.mealsPerDay;
-
-    const mealsPerDelivery = calculateMealsPerDeliveryFromMealsPerWeek(
-      mealsPerWeek,
-      delivery
-    );
-
-    const meals = createNSizedUndefinedArray(mealsPerDelivery)
-      .map(() => selection.shift())
-      .filter(Boolean as unknown as ExcludesUndefined);
-
-    return {
-      customer,
-      meals,
-      extras: generateExtras(customer, meals),
-    };
-  });
-};
-
-export const createMealWithVariantString = (
-  customer: Customer,
-  meal: Recipe,
-  allMeals: Recipe[]
-): string =>
-  `${meal.shortName}/${createVariantString(customer, meal, allMeals)}`;
+export type CustomerMealsSelection = {
+  customer: Customer;
+  deliveries: SelectedItem[][];
+}[];
 
 export const createVariant = (
   customer: Customer,
@@ -168,51 +77,97 @@ export const createVariantString = (
     : `${customer.plan.category}`;
 };
 
-export const makePlan = (
-  chosenMeals: CustomerMealsSelection,
+export const createMealWithVariantString = (
+  customer: Customer,
+  meal: Recipe,
   allMeals: Recipe[]
-): { extras: Extras; plan: CookPlan } => {
-  const plan: CookPlan = [];
-  const extras = {
-    breakfast: 0,
-    snack: 0,
-    largeSnack: 0,
-  };
+): string =>
+  `${meal.shortName}/${createVariantString(customer, meal, allMeals)}`;
 
-  chosenMeals.forEach((customerMealSelection) => {
-    extras.breakfast += customerMealSelection.extras.breakfast;
-    extras.largeSnack += customerMealSelection.extras.largeSnack;
-    extras.snack += customerMealSelection.extras.snack;
-  });
+const generateDeliveryListFromItem = <
+  T extends typeof extrasLabels[number] | typeof planLabels[number]
+>(
+  item: Item<T>
+) =>
+  [...new Array(item.quantity)].map(() => ({
+    chosenVariant: item.name,
+  }));
 
-  chosenMeals.forEach((customerMealSelection) =>
-    customerMealSelection.meals.forEach((meal) => {
-      const existingRecipe = plan.find(
-        (planItem) => planItem.recipe.id === meal.id
-      );
-
-      const mealVariant = createVariant(
-        customerMealSelection.customer,
-        meal,
-        allMeals
-      );
-
-      if (!existingRecipe) {
-        plan.push({
-          recipe: meal,
-          plan: { [mealVariant.string]: { ...mealVariant, count: 1 } },
-        });
-      } else if (
-        Object.prototype.hasOwnProperty.call(
-          existingRecipe.plan,
-          mealVariant.string
-        )
-      ) {
-        existingRecipe.plan[mealVariant.string].count++;
-      } else {
-        existingRecipe.plan[mealVariant.string] = { ...mealVariant, count: 1 };
-      }
-    })
-  );
-  return { plan, extras };
+const getRecipeFromSelection = (
+  index: number,
+  deliverySelection: DeliveryMealsSelection
+) => {
+  return deliverySelection[index % deliverySelection.length];
 };
+
+const generateDeliveries = (
+  plan: CustomerPlan,
+  deliverySelections: DeliveryMealsSelection[],
+  startPositions: number[]
+) => {
+  const newStartPositions = [...startPositions];
+  return {
+    startPositions: newStartPositions,
+    deliveries: plan.deliveries.map(
+      (delivery, deliveryIndex): SelectedItem[] => {
+        const itemList = [
+          ...delivery.items
+            .flatMap((item) => generateDeliveryListFromItem(item))
+            .map((item, index) => ({
+              ...item,
+              recipe: getRecipeFromSelection(
+                index + startPositions[deliveryIndex],
+                deliverySelections[deliveryIndex]
+              ),
+            })),
+          ...delivery.extras.flatMap((item) =>
+            generateDeliveryListFromItem(item)
+          ),
+        ];
+        newStartPositions[deliveryIndex] += itemList.length;
+        return itemList;
+      }
+    ),
+  };
+};
+
+const hasPlan = (
+  customer: Customer
+): customer is Omit<Customer, "newPlan"> &
+  Required<Pick<Customer, "newPlan">> => Boolean(customer.newPlan);
+
+export const chooseMeals = (
+  deliverySelection: DeliveryMealsSelection[],
+  customers: Customer[]
+): CustomerMealsSelection =>
+  customers
+    .filter(isActive)
+    .filter(hasPlan)
+    .map((customer) => ({
+      customer,
+      startPositions: deliverySelection.map(() => 0),
+    }))
+    .reduce<
+      {
+        customer: Customer;
+        deliveries: SelectedItem[][];
+        startPositions?: number[];
+      }[]
+    >((accum, customer, index) => {
+      const deliveries = generateDeliveries(
+        customer.customer.newPlan,
+        deliverySelection,
+        accum[index - 1]?.startPositions ?? customer.startPositions
+      );
+      return [
+        ...accum,
+        {
+          ...customer,
+          ...deliveries,
+        },
+      ];
+    }, [])
+    .map(({ customer, deliveries }) => ({
+      customer,
+      deliveries,
+    }));

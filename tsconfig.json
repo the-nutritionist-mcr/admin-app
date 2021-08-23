@@ -12,7 +12,6 @@
       "esnext",
       "es2019"
     ],
-    "baseUrl": "src",
     "allowJs": true,
     "skipLibCheck": true,
     "types": [

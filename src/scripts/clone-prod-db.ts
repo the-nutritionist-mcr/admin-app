@@ -24,7 +24,7 @@ const doCopy = async () =>
                 tableName: `prod-tnm-admin-${table}`,
               },
               destination: {
-                tableName: `dev-tnm-admin-${table}`,
+                tableName: `local-tnm-admin-${table}`,
               },
               log: true,
               create: false,

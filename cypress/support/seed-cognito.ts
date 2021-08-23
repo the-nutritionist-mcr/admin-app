@@ -5,14 +5,13 @@ import { COGNITO_PASSWORD, COGNITO_USER } from "./constants";
 
 const deleteAllFromTable = async (tableName: string): Promise<void> => {
   const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
-  const scanParams = { TableName: tableName }
+  const scanParams = { TableName: tableName };
   const allItems = await dynamoDb.scan(scanParams).promise();
   await Promise.all(
     allItems.Items?.map((item) => {
       const params = { TableName: tableName, Key: { id: item.id } };
-      return dynamoDb.delete(params).promise()
-    }
-    ) ?? []
+      return dynamoDb.delete(params).promise();
+    }) ?? []
   );
 };
 
