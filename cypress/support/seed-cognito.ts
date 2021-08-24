@@ -9,8 +9,12 @@ const deleteAllFromTable = async (tableName: string): Promise<void> => {
   const allItems = await dynamoDb.scan(scanParams).promise();
 
   await Promise.all(
-    allItems.Items?.map((item) =>
-      dynamoDb.delete({ TableName: tableName, Key: { id: item.id } }).promise()
+    allItems.Items?.map((item) => {
+      const params = { TableName: tableName, Key: { id: item.Id } };
+      // eslint-disable-next-line no-console
+      console.log(JSON.stringify(params, null, 2))
+      return dynamoDb.delete(params).promise()
+    }
     ) ?? []
   );
 };
