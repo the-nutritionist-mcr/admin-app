@@ -1,3 +1,10 @@
+### [1.5.2](https://github.com/benwainwright/tnm/compare/v1.5.1...v1.5.2) (2021-08-24)
+
+
+### Bug Fixes
+
+* fixed weird problem with navbar gaps (at least in modern browsers) ([7e3c59e](https://github.com/benwainwright/tnm/commit/7e3c59e5f7682e356db3848923e55af972962edc))
+
 ### [1.5.1](https://github.com/benwainwright/tnm/compare/v1.5.0...v1.5.1) (2021-08-23)
 
 
