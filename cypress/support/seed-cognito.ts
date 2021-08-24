@@ -1,7 +1,18 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { CognitoIdentityServiceProvider } from "aws-sdk";
+import AWS, { CognitoIdentityServiceProvider } from "aws-sdk";
 import { BackendOutputs } from "../../src/types/backend-outputs";
 import { COGNITO_PASSWORD, COGNITO_USER } from "./constants";
+
+const deleteAllFromTable = async (tableName: string): Promise<void> => {
+  const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
+  const allItems = await dynamoDb.scan({ TableName: tableName }).promise();
+
+  await Promise.all(
+    allItems.Items?.map((item) =>
+      dynamoDb.delete({ TableName: tableName, Key: item.id })
+    ) ?? []
+  );
+};
 
 const assertIsBackendOutputs: (
   thing: unknown
@@ -10,7 +21,7 @@ const assertIsBackendOutputs: (
     !(
       (typeof thing === "object" &&
         Object.entries(thing as BackendOutputs).length === 0) ||
-      Object.values(thing as BackendOutputs).every((config) =>
+        Object.values(thing as BackendOutputs).every((config) =>
         Object.hasOwnProperty.call(config, "UserPoolId")
       )
     )
@@ -37,6 +48,11 @@ const seedCognito = async (): Promise<void> => {
   }
 
   const cognito = new CognitoIdentityServiceProvider({ region: "us-east-1" });
+
+  deleteAllFromTable(config.CustomerExclusionsTableName);
+  deleteAllFromTable(config.CustomersTableName);
+  deleteAllFromTable(config.ExclusionsTableName);
+  deleteAllFromTable(config.RecipesTableName);
 
   const createUserParams = {
     UserPoolId: config.UserPoolId,
