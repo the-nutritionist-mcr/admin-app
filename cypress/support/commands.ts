@@ -49,7 +49,7 @@ const createCustomisation = (name, allergen) => {
 
   cy.contains("Ok").click();
 
-  cy.wait("@graphql");
+  cy.get("body").should("not.contain", "Create Customisation");
 };
 
 /*
@@ -139,7 +139,7 @@ const createRecipe = (
 
   cy.contains("Ok").click();
 
-  cy.wait("@graphql");
+  cy.get("body").should("not.contain", "Create Recipe");
 };
 
 declare global {
