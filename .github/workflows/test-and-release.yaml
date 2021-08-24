@@ -121,6 +121,12 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_BACKEND }}
           AWS_REGION: us-east-1
 
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: videos
+          path: cypress/videos
+
 
 
   integration-tests:
