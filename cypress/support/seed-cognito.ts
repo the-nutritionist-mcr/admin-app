@@ -21,7 +21,7 @@ const assertIsBackendOutputs: (
     !(
       (typeof thing === "object" &&
         Object.entries(thing as BackendOutputs).length === 0) ||
-        Object.values(thing as BackendOutputs).every((config) =>
+      Object.values(thing as BackendOutputs).every((config) =>
         Object.hasOwnProperty.call(config, "UserPoolId")
       )
     )
@@ -47,18 +47,22 @@ const seedCognito = async (): Promise<void> => {
     throw new Error("No backend config was found...");
   }
 
-  const stackName = Object.keys(loadedConfig)[0]
+  const stackName = Object.keys(loadedConfig)[0];
 
-  if(stackName.includes('prod')) {
-    throw new Error('You cannot run the seed script on prod. That would not be clever!')
+  if (stackName.includes("prod")) {
+    throw new Error(
+      "You cannot run the seed script on prod. That would not be clever!"
+    );
   }
 
   const cognito = new CognitoIdentityServiceProvider({ region: "us-east-1" });
 
-  deleteAllFromTable(config.CustomerExclusionsTableName);
-  deleteAllFromTable(config.CustomersTableName);
-  deleteAllFromTable(config.ExclusionsTableName);
-  deleteAllFromTable(config.RecipesTableName);
+  await Promise.all([
+    deleteAllFromTable(config.CustomerExclusionsTableName),
+    deleteAllFromTable(config.CustomersTableName),
+    deleteAllFromTable(config.ExclusionsTableName),
+    deleteAllFromTable(config.RecipesTableName),
+  ]);
 
   const createUserParams = {
     UserPoolId: config.UserPoolId,
