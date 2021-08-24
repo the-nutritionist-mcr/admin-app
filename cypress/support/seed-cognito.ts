@@ -4,9 +4,14 @@ import { BackendOutputs } from "../../src/types/backend-outputs";
 import { COGNITO_PASSWORD, COGNITO_USER } from "./constants";
 
 const deleteAllFromTable = async (tableName: string): Promise<void> => {
+  console.log(`Calling with ${tableName}}`)
   const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
+
   const scanParams = { TableName: tableName }
+  console.log(`Sending scan with: ${JSON.stringify(scanParams, null, 2)}`)
+
   const allItems = await dynamoDb.scan(scanParams).promise();
+  console.log(`Returned ${JSON.stringify(allItems.Items, null, 2)}`)
 
   await Promise.all(
     allItems.Items?.map((item) => {
