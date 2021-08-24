@@ -10,7 +10,7 @@ const deleteAllFromTable = async (tableName: string): Promise<void> => {
 
   await Promise.all(
     allItems.Items?.map((item) => {
-      const params = { TableName: tableName, Key: { id: item.Id } };
+      const params = { TableName: tableName, Key: { id: item.id } };
       // eslint-disable-next-line no-console
       console.log(JSON.stringify(params, null, 2))
       return dynamoDb.delete(params).promise()
