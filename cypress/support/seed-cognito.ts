@@ -47,6 +47,12 @@ const seedCognito = async (): Promise<void> => {
     throw new Error("No backend config was found...");
   }
 
+  const stackName = Object.keys(loadedConfig)[0]
+
+  if(stackName.includes('prod')) {
+    throw new Error('You cannot run the seed script on prod. That would not be clever!')
+  }
+
   const cognito = new CognitoIdentityServiceProvider({ region: "us-east-1" });
 
   deleteAllFromTable(config.CustomerExclusionsTableName);
