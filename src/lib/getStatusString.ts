@@ -4,7 +4,9 @@ import calendarFormat from "../lib/calendarFormat";
 import isActive from "./isActive";
 import moment from "moment";
 
-const getStatusString = (customer: Customer): string => {
+type CustomerSubset = Pick<Customer, "pauseStart" | "pauseEnd">
+
+const getStatusString = (customer: CustomerSubset): string => {
   const now = new Date(Date.now());
 
   const activeString =

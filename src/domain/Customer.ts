@@ -21,8 +21,8 @@ export default interface Customer {
   paymentDayOfMonth?: number;
   notes?: string;
   email: string;
-  pauseStart?: string;
-  pauseEnd?: string;
+  pauseStart?: string | null;
+  pauseEnd?: string | null;
   daysPerWeek: number;
   plan: Plan;
   newPlan?: CustomerPlan;

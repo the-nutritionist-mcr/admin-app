@@ -106,13 +106,13 @@ type Customer {
   salutation: String!
   address: String!
   telephone: String!
-  startDate: AWSDateTime
+  startDate: String
   paymentDayOfMonth: Int
   notes: String
   email: String!
   newPlan: CustomerPlan
-  pauseStart: AWSDateTime
-  pauseEnd: AWSDateTime
+  pauseStart: String
+  pauseEnd: String
   daysPerWeek: Int!
   plan: Plan!
   legacyPrice: Int
@@ -127,13 +127,13 @@ input CustomerInput {
   salutation: String!
   address: String!
   telephone: String!
-  startDate: AWSDateTime
+  startDate: String
   paymentDayOfMonth: Int
   notes: String
   newPlan: CustomerPlanInput
   email: String!
-  pauseStart: AWSDateTime
-  pauseEnd: AWSDateTime
+  pauseStart: String
+  pauseEnd: String
   daysPerWeek: Int!
   plan: PlanInput!
   legacyPrice: Int
@@ -149,13 +149,13 @@ input UpdateCustomerInput {
   salutation: String!
   address: String!
   telephone: String!
-  startDate: AWSDateTime
+  startDate: String
   paymentDayOfMonth: Int
   notes: String
   email: String!
-  pauseStart: AWSDateTime
+  pauseStart: String
   newPlan: CustomerPlanInput
-  pauseEnd: AWSDateTime
+  pauseEnd: String
   daysPerWeek: Int!
   plan: PlanInput!
   legacyPrice: Int
@@ -166,6 +166,10 @@ input UpdateCustomerInput {
 
 input DeleteCustomerInput {
   id: ID!
+}
+
+type TnmApp {
+  customers: [Customer] @aws_auth(cognito_groups: ["user", "admin"])
 }
 
 type Query {

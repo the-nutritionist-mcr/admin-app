@@ -25,6 +25,7 @@ import { loadingSelector } from "../../lib/rootReducer";
 import useCustomers from "./useCustomers";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import type { PreloadedQuery } from "react-relay"
 
 const convertCustomerToSimpleObject = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -34,6 +35,8 @@ const convertCustomerToSimpleObject = (
   plan: customer.plan.name,
   exclusions: customer.exclusions.map((exclusion) => exclusion.name).join(","),
 });
+
+
 
 const Customers: React.FC = () => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);

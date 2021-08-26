@@ -12,15 +12,17 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { CustomerPlan, PlannerConfig } from "./types";
 import { isCustomDeliveryPlan } from "./distribution-generator";
+import { CustomerRowComponent_customer$key } from "./__generated__/CustomerRowComponent_customer.graphql";
 import {
   defaultDeliveryDays,
   planLabels,
   extrasLabels,
 } from "../../lib/config";
 import deepMemo from "../../lib/deepMemo";
+import { graphql, useFragment } from "react-relay";
 
 interface CustomerRowProps {
-  customer: Customer;
+  customer: CustomerRowComponent_customer$key
 }
 
 const SlimButton = styled(Button)`
@@ -48,26 +50,66 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showEdit, setShowEdit] = React.useState(false);
   const dispatch = useDispatch();
 
-  const nameString = `${props.customer.surname} ${props.customer.firstName} (${props.customer.salutation})`;
+  const data = useFragment(
+    graphql`
+      fragment CustomerRowComponent_customer on Customer {
+        id
+        newPlan {
+          deliveries {
+            items {
+              name
+              quantity
+            }
+            extras {
+              name
+              quantity
+            }
+          }
+          configuration {
+            planType
+            daysPerWeek
+            mealsPerDay
+            totalPlans
+            deliveryDays
+            extrasChosen
+          }
+        }
+        snack
+        breakfast
+        pauseStart
+        pauseEnd
+        exclusions {
+          name
+        }
+        surname
+        firstName
+        salutation
+      }
+    `,
+    props.customer
+  )
+
+  const nameString = `${data.surname} ${data.firstName} (${data.salutation})`;
+
 
   return (
     <TableRow>
       <TableCell scope="row">
-        <Link to={`/edit-customer/${props.customer.id}`}>{nameString}</Link>
+        <Link to={`/edit-customer/${data.id}`}>{nameString}</Link>
       </TableCell>
-      <TableCell>{getStatusString(props.customer)}</TableCell>
+      <TableCell>{getStatusString(data)}</TableCell>
       <TableCell>
-        {getPlanString(props.customer.newPlan, {
+        {getPlanString(data.newPlan, {
           planLabels: [...planLabels],
           extrasLabels: [...extrasLabels],
           defaultDeliveryDays: [...defaultDeliveryDays],
         })}
       </TableCell>
-      <TableCell>{getExtrasString(props.customer)}</TableCell>
+      <TableCell>{getExtrasString(data)}</TableCell>
 
       <TableCell>
-        {props.customer.exclusions.length > 0
-          ? props.customer.exclusions
+        {data.exclusions.length > 0
+          ? data.exclusions
               .map((exclusion) => exclusion.name)
               .join(", ")
           : "None"}
@@ -83,7 +125,7 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
           <OkCancelDialog
             show={showDoDelete}
             header="Are you sure?"
-            thing={props.customer}
+            thing={data}
             thunk={removeCustomer}
             onOk={(): void => {
               setShowDoDelete(false);
@@ -99,7 +141,7 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
             onClick={(): void => setShowPause(true)}
           />
           <PauseDialog
-            customer={props.customer}
+            customer={data}
             show={showPause}
             onCancel={(): void => {
               setShowPause(false);
@@ -114,7 +156,7 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
             a11yTitle="Remove pause"
             onClick={() => {
               const customer = {
-                ...props.customer,
+                ...data,
                 pauseStart: undefined,
                 pauseEnd: undefined,
               };
@@ -123,7 +165,7 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
           />
           <EditCustomerDialog
             title="Edit Customer"
-            customer={props.customer}
+            customer={data}
             show={showEdit}
             thunk={updateCustomer}
             onOk={(): void => {
