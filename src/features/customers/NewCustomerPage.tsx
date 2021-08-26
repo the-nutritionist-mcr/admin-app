@@ -40,6 +40,8 @@ const SUBMIT_DEBOUNCE = 500;
 
 const defaultCustomer = {
   id: "0",
+  pauseStart: null,
+  pauseEnd: null,
   firstName: "",
   surname: "",
   salutation: "",

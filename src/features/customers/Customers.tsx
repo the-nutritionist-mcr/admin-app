@@ -10,39 +10,49 @@ import {
   TableRow,
   Text,
 } from "grommet";
-import Customer, { Snack } from "../../domain/Customer";
+import { Snack } from "../../domain/Customer";
 
 import { daysPerWeekOptions, plans } from "../../lib/config";
 import CustomerRow from "./CustomerRow";
 import EditCustomerDialog from "./EditCustomerDialog";
-import LoadingState from "../../types/LoadingState";
 import React from "react";
-import { Spinning } from "grommet-controls";
 import { createCustomer } from "./customersSlice";
-import fileDownload from "js-file-download";
-import generateCsvStringFromObjectArray from "../../lib/generateCsvStringFromObjectArray";
-import { loadingSelector } from "../../lib/rootReducer";
-import useCustomers from "./useCustomers";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import type { PreloadedQuery } from "react-relay"
+import { graphql, PreloadedQuery, usePreloadedQuery } from "react-relay"
+import type { CustomersQuery as CustomersQueryType } from "../../__generated__/CustomersQuery.graphql"
 
-const convertCustomerToSimpleObject = (
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  { newPlan, ...customer }: Customer
-): { [key: string]: string | number | boolean | undefined } => ({
-  ...customer,
-  plan: customer.plan.name,
-  exclusions: customer.exclusions.map((exclusion) => exclusion.name).join(","),
-});
+// const convertCustomerToSimpleObject = (
+//   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+//   { newPlan, ...customer }: Customer
+// ): { [key: string]: string | number | boolean | null } => ({
+//   ...customer,
+//   plan: customer.plan.name,
+//   exclusions: customer.exclusions.map((exclusion) => exclusion.name).join(","),
+// });
 
 
+interface CustomersProps {
+  queryRef: PreloadedQuery<CustomersQueryType>
+}
 
-const Customers: React.FC = () => {
+
+export const CustomersQuery = graphql`
+  query CustomersQuery {
+    customers {
+      surname
+      ...CustomerRowComponent_customer
+    }
+  }
+`
+
+const Customers: React.FC<CustomersProps> = (props) => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
 
-  const { customers } = useCustomers();
-  const loading = useSelector(loadingSelector);
+
+  const data = usePreloadedQuery<CustomersQueryType>(CustomersQuery, props.queryRef)
+
+  const customers = data.customers
+  // const loading = useSelector(loadingSelector);
   const history = useHistory();
 
   return (
@@ -56,6 +66,7 @@ const Customers: React.FC = () => {
           label="New"
           a11yTitle="New Customer"
         />
+        {/*
         <Button
           primary
           size="small"
@@ -67,11 +78,14 @@ const Customers: React.FC = () => {
             fileDownload(string, "customers.csv");
           }}
         />
+        */}
         {showCreateCustomer && (
           <EditCustomerDialog
             title="Create New Customer"
             thunk={createCustomer}
             customer={{
+              pauseStart: null,
+              pauseEnd: null,
               id: "0",
               firstName: "",
               surname: "",
@@ -96,7 +110,6 @@ const Customers: React.FC = () => {
           />
         )}
       </Header>
-      {customers.length > 0 ? (
         <Table alignSelf="start">
           <TableHeader>
             <TableRow>
@@ -124,27 +137,15 @@ const Customers: React.FC = () => {
             {customers
               .slice()
               .reverse()
-              .sort((a: Customer, b: Customer) =>
+              .sort((a, b) =>
                 // eslint-disable-next-line @typescript-eslint/no-magic-numbers
                 a.surname > b.surname ? 1 : -1
               )
               .map((customer) => (
-                <CustomerRow key={customer.id} customer={customer} />
+                <CustomerRow customer={customer} />
               ))}
           </TableBody>
         </Table>
-      ) : (
-        <Text>
-          {loading === LoadingState.Loading ? (
-            <Box pad="small">
-              <Spinning size="large" />
-            </Box>
-          ) : (
-            `you've not added any customers yet... Click the 'new'
-          button above to get started!`
-          )}
-        </Text>
-      )}
     </React.Fragment>
   );
 };

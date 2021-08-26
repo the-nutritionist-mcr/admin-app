@@ -4,7 +4,6 @@ import {
   Item,
   PlannerConfig,
   Delivery,
-  DaysPerWeek,
   CustomerPlan,
   PlanConfiguration,
 } from "./types";
@@ -23,7 +22,7 @@ import { extrasLabels, planLabels } from "../../lib/config";
  */
 const distributeItems = curry(
   (
-    daysPerWeek: DaysPerWeek,
+    daysPerWeek: number,
     targetItem: string,
     section: Exclude<keyof Delivery, "deliveryDay">,
     inputPlan: Delivery[]
@@ -69,7 +68,7 @@ const incrementTarget = (
 
 const distributeAndMultiply = curry(
   (
-    daysPerWeek: DaysPerWeek,
+    daysPerWeek: number,
     target: string,
     section: Exclude<keyof Delivery, "deliveryDay">,
     multiple: number,
@@ -86,11 +85,7 @@ const distributeAndMultiply = curry(
  * based on a supplied multiple
  */
 const multiplyItem = curry(
-  <T extends typeof extrasLabels[number] | typeof planLabels[number]>(
-    items: Item<T>[],
-    multiple: number,
-    targetItem: string
-  ): Item<T>[] =>
+  (items: ReadonlyArray<Item>, multiple: number, targetItem: string): ReadonlyArray<Item> =>
     items.map((item) =>
       item.name === targetItem
         ? { ...item, quantity: item.quantity * multiple }
@@ -116,7 +111,7 @@ const multiplyItems = curry(
  * before any quantities are added
  */
 const makeDefaultDeliveryPlan = curry(
-  (plannerConfig: PlannerConfig, plan: PlanConfiguration): Delivery[] =>
+  (plannerConfig: PlannerConfig, plan: PlanConfiguration): ReadonlyArray<Delivery> =>
     plan.deliveryDays.map(() => ({
       items: plannerConfig.planLabels.map((label) => ({
         name: label,

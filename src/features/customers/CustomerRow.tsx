@@ -1,18 +1,13 @@
 import { Box, Button, TableCell, TableRow } from "grommet";
-import { Pause, Play, Trash } from "grommet-icons";
-import { OkCancelDialog, PauseDialog } from "../../components";
-import { removeCustomer, updateCustomer } from "./customersSlice";
 import { Link } from "react-router-dom";
-import Customer from "../../domain/Customer";
-import EditCustomerDialog from "./EditCustomerDialog";
 import React from "react";
 import getExtrasString from "../../lib/getExtrasString";
 import getStatusString from "../../lib/getStatusString";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { CustomerPlan, PlannerConfig } from "./types";
+import {PlannerConfig } from "./types";
 import { isCustomDeliveryPlan } from "./distribution-generator";
-import { CustomerRowComponent_customer$key } from "./__generated__/CustomerRowComponent_customer.graphql";
+import { CustomerRowComponent_customer$key, CustomerRowComponent_customer} from "./../../__generated__/CustomerRowComponent_customer.graphql";
+
 import {
   defaultDeliveryDays,
   planLabels,
@@ -25,12 +20,8 @@ interface CustomerRowProps {
   customer: CustomerRowComponent_customer$key
 }
 
-const SlimButton = styled(Button)`
-  padding: 0 5px 0 5px;
-`;
-
 const getPlanString = (
-  plan: CustomerPlan | undefined,
+  plan: CustomerRowComponent_customer['newPlan'],
   config: PlannerConfig
 ) => {
   if (!plan) {
@@ -49,7 +40,6 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showPause, setShowPause] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
   const dispatch = useDispatch();
-
   const data = useFragment(
     graphql`
       fragment CustomerRowComponent_customer on Customer {
@@ -116,6 +106,7 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
       </TableCell>
       <TableCell>
         <Box direction="row">
+        {/*
           <SlimButton
             secondary
             onClick={(): void => setShowDoDelete(true)}
@@ -140,6 +131,8 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
             a11yTitle="Pause"
             onClick={(): void => setShowPause(true)}
           />
+          */}
+          {/*
           <PauseDialog
             customer={data}
             show={showPause}
@@ -155,12 +148,12 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
             icon={<Play color="light-6" />}
             a11yTitle="Remove pause"
             onClick={() => {
-              const customer = {
-                ...data,
-                pauseStart: undefined,
-                pauseEnd: undefined,
-              };
-              dispatch(updateCustomer(customer));
+              // const customer = {
+              //   ...data,
+              //   pauseStart: undefined,
+              //   pauseEnd: undefined,
+              // };
+              // dispatch(updateCustomer(customer));
             }}
           />
           <EditCustomerDialog
@@ -174,7 +167,7 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
             onCancel={(): void => {
               setShowEdit(false);
             }}
-          />
+          />*/}
         </Box>
       </TableCell>
     </TableRow>

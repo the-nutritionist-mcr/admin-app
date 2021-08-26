@@ -23,10 +23,10 @@ interface PauseDialogProps {
 const HUNDRED_YEARS_IN_FUTURE = 100;
 
 const PauseDialog: React.FC<PauseDialogProps> = (props) => {
-  const [pauseStart, setPauseStart] = React.useState<string | undefined>(
+  const [pauseStart, setPauseStart] = React.useState<string | null>(
     props.customer.pauseStart
   );
-  const [pauseEnd, setPauseEnd] = React.useState<string | undefined>(
+  const [pauseEnd, setPauseEnd] = React.useState<string | null>(
     props.customer.pauseEnd
   );
 
@@ -63,8 +63,8 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
         setPauseEnd(data.pauseEnd);
       }}
       onOk={(): void => {
-        setPauseStart(undefined);
-        setPauseEnd(undefined);
+        setPauseStart(null);
+        setPauseEnd(null);
         props.onOk();
       }}
       onCancel={props.onCancel}

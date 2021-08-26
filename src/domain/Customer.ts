@@ -21,13 +21,13 @@ export default interface Customer {
   paymentDayOfMonth?: number;
   notes?: string;
   email: string;
-  pauseStart?: string | null;
-  pauseEnd?: string | null;
+  pauseStart: string | null;
+  pauseEnd: string | null;
   daysPerWeek: number;
   plan: Plan;
   newPlan?: CustomerPlan;
   legacyPrice?: number;
-  snack: Snack;
+  snack: string;
   breakfast: boolean;
   exclusions: Exclusion[];
 }

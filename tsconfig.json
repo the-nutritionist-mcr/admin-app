@@ -5,6 +5,9 @@
     }
   },
   "compilerOptions": {
+    "paths": {
+      "@relay-generated/*": ["./src/__generated__/*"]
+    },
     "target": "es2017",
     "lib": [
       "dom",

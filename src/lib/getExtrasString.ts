@@ -1,6 +1,8 @@
 import Customer, { Snack } from "../domain/Customer";
 
-const getExtrasString = (customer: Customer): string => {
+type CustomerSubset = Pick<Customer, "breakfast" | "snack">
+
+const getExtrasString = (customer: CustomerSubset): string => {
   const returnVal = [];
 
   if (customer.breakfast) {

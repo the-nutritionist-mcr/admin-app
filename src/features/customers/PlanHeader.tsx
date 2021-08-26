@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { TableRow, TableCell, TableHeader } from "grommet";
 
 interface PlanHeaderProps {
-  deliveryDays: string[];
+  deliveryDays: ReadonlyArray<string>;
 }
 
 const PlanHeader: FC<PlanHeaderProps> = (props) => (

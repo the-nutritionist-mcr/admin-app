@@ -7,6 +7,8 @@ import React from "react";
 import UserContext from "../../lib/UserContext";
 import log from "loglevel";
 import { useApp } from "./hooks";
+import { RelayEnvironmentProvider } from "react-relay";
+import environment from "../../relay/environment";
 
 const theme = {
   global: {
@@ -26,6 +28,7 @@ const App: React.FC = () => {
   const state = useApp();
 
   return (
+  <RelayEnvironmentProvider environment={environment}>
     <UserContext.Provider value={state.user}>
       <Grommet theme={theme}>
         <NavBar />
@@ -50,6 +53,7 @@ const App: React.FC = () => {
         </ErrorBoundary>
       </Grommet>
     </UserContext.Provider>
+    </RelayEnvironmentProvider>
   );
 };
 

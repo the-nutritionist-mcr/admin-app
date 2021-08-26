@@ -3,27 +3,28 @@ import { Box } from "grommet";
 import React from "react";
 import { Spinning } from "grommet-controls";
 import { Switch } from "react-router-dom";
+import { CustomersQuery } from "../../features/customers/Customers"
 
-const LazyHome = React.lazy(async () => import("../home/home"));
-const LazyCustomers = React.lazy(
-  async () => import("../../features/customers/Customers")
-);
+// const LazyHome = React.lazy(async () => import("../home/home"));
+// const LazyCustomers = React.lazy(
+//   async () => import("../../features/customers/Customers")
+// );
 
-const LazyRecipes = React.lazy(
-  async () => import("../../features/recipes/Recipes")
-);
+// const LazyRecipes = React.lazy(
+//   async () => import("../../features/recipes/Recipes")
+// );
 
-const LazyPlanner = React.lazy(
-  async () => import("../../features/planner/Planner")
-);
+// const LazyPlanner = React.lazy(
+//   async () => import("../../features/planner/Planner")
+// );
 
-const LazyExclusions = React.lazy(
-  async () => import("../../features/exclusions/Exclusions")
-);
+// const LazyExclusions = React.lazy(
+//   async () => import("../../features/exclusions/Exclusions")
+// );
 
-const LazyNewCustomer = React.lazy(
-  async () => import("../../features/customers/NewCustomerPage")
-);
+// const LazyNewCustomer = React.lazy(
+//   async () => import("../../features/customers/NewCustomerPage")
+// );
 
 const Router: React.FC = () => (
   <React.Suspense
@@ -34,17 +35,21 @@ const Router: React.FC = () => (
     }
   >
     <Switch>
+    {/*
       <AuthenticatedRoute
         exact
         path="/"
         groups={["anonymous", "user", "admin"]}
         component={LazyHome}
       />
+      */}
       <AuthenticatedRoute
         path="/customers"
         groups={["user", "admin"]}
-        component={LazyCustomers}
+        lazyImport={() => import("../../features/customers/Customers")}
+        dataQuery={CustomersQuery}
       />
+      {/*
       <AuthenticatedRoute
         path="/recipes"
         groups={["user", "admin"]}
@@ -70,6 +75,7 @@ const Router: React.FC = () => (
         groups={["user", "admin"]}
         component={LazyNewCustomer}
       />
+      */}
     </Switch>
   </React.Suspense>
 );

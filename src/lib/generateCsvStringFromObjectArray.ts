@@ -3,7 +3,7 @@ import { curry, pipe } from "ramda";
  * Implementation is based on https://tools.ietf.org/html/rfc4180#section-2
  */
 
-type ValueType = string | number | boolean | undefined;
+type ValueType = string | number | boolean | null;
 
 const containsStringOf = (field: string, chars: string[]) =>
   chars.some((char) => field.includes(char));

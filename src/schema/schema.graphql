@@ -38,12 +38,12 @@ input PlanConfigurationInput {
 
 type CustomerPlan {
   deliveries: [Delivery!]!
-  configuration: PlanConfiguration
+  configuration: PlanConfiguration!
 }
 
 input CustomerPlanInput {
   deliveries: [DeliveryInput!]!
-  configuration: PlanConfigurationInput
+  configuration: PlanConfigurationInput!
 }
 
 type Exclusion {
@@ -168,11 +168,9 @@ input DeleteCustomerInput {
   id: ID!
 }
 
-type TnmApp {
-  customers: [Customer] @aws_auth(cognito_groups: ["user", "admin"])
-}
-
 type Query {
+  customers: [Customer!]! @aws_auth(cognito_groups: ["user", "admin"])
+
   getExclusionById(exclusionId: String!): Exclusion
     @aws_auth(cognito_groups: ["user", "admin"])
 

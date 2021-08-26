@@ -5,16 +5,16 @@ import PlanHeader from "./PlanHeader";
 import { PlannerConfig, Delivery } from "./types";
 
 interface PlanTableProps {
-  onChange: (deliveries: Delivery[]) => void;
-  deliveries: Delivery[];
+  onChange: (deliveries: ReadonlyArray<Delivery>) => void;
+  deliveries: ReadonlyArray<Delivery>;
   plannerConfig: PlannerConfig;
-  deliveryDays: string[];
+  deliveryDays: ReadonlyArray<string>;
 }
 
 const MealDeliveriesTable: FC<PlanTableProps> = (props) => {
   const changeItemsQuantities = (
     planString: string,
-    newQuantities: number[]
+    newQuantities: ReadonlyArray<number>
   ) => {
     const newDeliveries = props.deliveries.map((delivery, index) => ({
       ...delivery,
@@ -30,7 +30,7 @@ const MealDeliveriesTable: FC<PlanTableProps> = (props) => {
 
   const changeExtrasQuantities = (
     planString: string,
-    newQuantities: number[]
+    newQuantities: ReadonlyArray<number>
   ) => {
     const newDeliveries = props.deliveries.map((delivery, index) => ({
       ...delivery,

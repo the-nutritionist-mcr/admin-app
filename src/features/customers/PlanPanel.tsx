@@ -11,7 +11,7 @@ import {
 } from "grommet";
 import MealDeliveriesTable from "./MealDeliveriesTable";
 import { makeNewPlan, isCustomDeliveryPlan } from "./distribution-generator";
-import { PlannerConfig, DaysPerWeek, CustomerPlan } from "./types";
+import { PlannerConfig, CustomerPlan } from "./types";
 import Exclusion from "../../domain/Exclusion";
 import { daysOfWeek } from "../../lib/config";
 
@@ -22,13 +22,15 @@ interface PlanPanelProps {
   onChange?: (newCustomerPlan: CustomerPlan) => void;
 }
 
-const assertDaysPerWeek: (num: number) => asserts num is DaysPerWeek = (
-  num
-) => {
-  if (num <= 0 || num > 7) {
-    throw new Error(`${num} is not a valid DaysPerWeek value`);
-  }
-};
+const daysOfWeek = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 
 const PlanPanel: FC<PlanPanelProps> = (props) => {
   const [customerPlan, setCustomerPlan] = React.useState<CustomerPlan>(
@@ -68,7 +70,6 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
             disabled={customDeliveryPlan}
             onChange={(event) => {
               const value: number = Number.parseInt(event.value, 10);
-              assertDaysPerWeek(value);
               updatePlan(
                 props.plannerConfig,
                 { daysPerWeek: value },
@@ -111,7 +112,7 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
         <FormField label="Plan Variant">
           <Select
             data-testid="planVariant"
-            options={props.plannerConfig.planLabels}
+            options={[...props.plannerConfig.planLabels]}
             value={String(customerPlan.configuration.planType)}
             disabled={customDeliveryPlan}
             onChange={(event) =>

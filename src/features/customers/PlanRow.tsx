@@ -6,9 +6,9 @@ const SELECT_RANGE = 50;
 
 interface PlanRowProps {
   plan: string;
-  defaultDeliveryDays: string[];
-  quantities: number[];
-  onChange: (plan: string, quantities: number[]) => void;
+  defaultDeliveryDays: ReadonlyArray<string>;
+  quantities: ReadonlyArray<number>;
+  onChange: (plan: string, quantities: ReadonlyArray<number>) => void;
 }
 
 const selectRange = [...new Array(SELECT_RANGE)].map((_, index) => index);

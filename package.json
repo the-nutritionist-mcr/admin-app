@@ -75,7 +75,7 @@
     "amplify:CustomGraphqlResolver": "tsc && mv ./dist/amplify/backend/function/CustomGraphqlResolver/ts ./amplify/backend/function/CustomGraphqlResolver/src",
     "build:models": "graphql-codegen --config codegen.yml",
     "prepare": "husky install",
-    "relay": "relay-compiler --src ./src --schema src/schema/schema.graphql --language typescript"
+    "relay": "relay-compiler --src ./src --schema src/schema/schema.graphql --language typescript --artifactDirectory ./src/__generated__"
   },
   "husky": {
     "hooks": {
