@@ -1,3 +1,10 @@
+## [1.6.0](https://github.com/benwainwright/tnm/compare/v1.5.2...v1.6.0) (2021-08-30)
+
+
+### Features
+
+* add new planning UX to work with the new planning data model ([aaebae7](https://github.com/benwainwright/tnm/commit/aaebae78560229b648cf1cbe5da011ae0c01527b))
+
 ### [1.5.2](https://github.com/benwainwright/tnm/compare/v1.5.1...v1.5.2) (2021-08-24)
 
 
