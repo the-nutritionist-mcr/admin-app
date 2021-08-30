@@ -33,6 +33,8 @@ const AlternatingTableRow = styled(TableRow)`
 const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
   const name = `${props.customerSelection.customer.firstName} ${props.customerSelection.customer.surname}`;
 
+  const deliveries = props.customerSelection.deliveries ?? []
+
   return (
     <Table alignSelf="start" style={{ marginTop: "1rem" }}>
       <TableHeader>
@@ -45,7 +47,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {props.customerSelection.deliveries.flatMap((delivery, deliveryIndex) =>
+        {deliveries.flatMap((delivery, deliveryIndex) =>
           batchArray(delivery, props.columns).map((row, batchIndex) => (
             <AlternatingTableRow
               style={{ width: "100%" }}
