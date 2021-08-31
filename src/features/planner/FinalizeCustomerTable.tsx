@@ -43,7 +43,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
           <TableCell colSpan={7}>
             <Text>
               <strong>
-                <Link style={{ textDecoration: 'none'}} to={`/edit-customer/${props.customerSelection.customer.id}`}>{name}</Link>
+                <Link style={{ color: 'black', textDecoration: 'none'}} to={`/edit-customer/${props.customerSelection.customer.id}`}>{name}</Link>
               </strong>
             </Text>
           </TableCell>
