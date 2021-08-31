@@ -1,3 +1,10 @@
+### [1.6.1](https://github.com/benwainwright/tnm/compare/v1.6.0...v1.6.1) (2021-08-30)
+
+
+### Bug Fixes
+
+* fixed type error that was causing the app to crash with legacy customers ([4f64496](https://github.com/benwainwright/tnm/commit/4f64496fc54bc6d707956876804b0f521e801b2a))
+
 ## [1.6.0](https://github.com/benwainwright/tnm/compare/v1.5.2...v1.6.0) (2021-08-30)
 
 
