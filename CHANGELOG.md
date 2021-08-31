@@ -1,3 +1,10 @@
+## [1.7.0](https://github.com/benwainwright/tnm/compare/v1.6.1...v1.7.0) (2021-08-31)
+
+
+### Features
+
+* enabled the delivery plan download button ([b70a223](https://github.com/benwainwright/tnm/commit/b70a223f7bdf5ad8b9676daeba5bd555e02090c3))
+
 ### [1.6.1](https://github.com/benwainwright/tnm/compare/v1.6.0...v1.6.1) (2021-08-30)
 
 
