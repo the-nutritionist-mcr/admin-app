@@ -36,7 +36,7 @@ interface CustomerSelectionAdjustPayload {
   variant: string;
 }
 
-const cloneDelivery = (delivery: Recipe[]) => [...delivery]
+const cloneDelivery = (delivery: Recipe[]) => [...delivery];
 
 const executeAction = <T>(
   state: AppState,
@@ -82,7 +82,6 @@ const plannerReducer = (state: AppState, action?: AnyAction): AppState => {
     };
   }
 
-
   const stateAfterRecipeRemove = executeAction<RecipeRemovePayload>(
     state,
     action,
@@ -107,7 +106,6 @@ const plannerReducer = (state: AppState, action?: AnyAction): AppState => {
       };
     }
   );
-
 
   const stateAfterMealGenerate = executeAction<GenerateSelectionPayload>(
     stateAfterRecipeRemove,

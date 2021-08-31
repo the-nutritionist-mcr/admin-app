@@ -13,6 +13,7 @@ import MealDeliveriesTable from "./MealDeliveriesTable";
 import { makeNewPlan, isCustomDeliveryPlan } from "./distribution-generator";
 import { PlannerConfig, DaysPerWeek, CustomerPlan } from "./types";
 import Exclusion from "../../domain/Exclusion";
+import { daysOfWeek } from "../../lib/config";
 
 interface PlanPanelProps {
   plannerConfig: PlannerConfig;
@@ -28,16 +29,6 @@ const assertDaysPerWeek: (num: number) => asserts num is DaysPerWeek = (
     throw new Error(`${num} is not a valid DaysPerWeek value`);
   }
 };
-
-const daysOfWeek = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
 
 const PlanPanel: FC<PlanPanelProps> = (props) => {
   const [customerPlan, setCustomerPlan] = React.useState<CustomerPlan>(

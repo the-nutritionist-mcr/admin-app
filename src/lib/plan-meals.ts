@@ -4,6 +4,9 @@ import Recipe from "../domain/Recipe";
 import { extrasLabels, planLabels } from "./config";
 import { CustomerPlan, Item } from "../features/customers/types";
 import isActive from "./isActive";
+import Exclusion from "../domain/Exclusion";
+
+const hasExclusions = (exclusion: Exclusion, meal: Recipe | undefined) => meal?.potentialExclusions.some((value) => value.id === exclusion.id)
 
 export interface SelectedMeal {
   recipe: Recipe;
@@ -23,7 +26,7 @@ export type CustomerMealsSelection = {
 
 export const createVariant = (
   customer: Customer,
-  meal: Recipe,
+  meal: SelectedItem,
   allMeals: Recipe[]
 ): {
   customisation: boolean;
@@ -31,19 +34,24 @@ export const createVariant = (
   string: string;
   mealWithVariantString: string;
 } => {
-  const realMeal = allMeals.find((theMeal) => theMeal.id === meal.id);
-  const matchingExclusions = customer.exclusions.filter((allergen) => {
-    return realMeal?.potentialExclusions.some(
-      (value) => value.id === allergen.id
-    );
-  });
+  if (!isSelectedMeal(meal)) {
+    return {
+      customisation: false,
+      allergen: false,
+      string: meal.chosenVariant,
+      mealWithVariantString: meal.chosenVariant,
+    };
+  }
+
+  const realMeal = allMeals.find((theMeal) => theMeal.id === meal.recipe.id);
+  const matchingExclusions = customer.exclusions.filter(exclusion => hasExclusions(exclusion, realMeal));
 
   const string =
     matchingExclusions.length > 0
-      ? `${customer.plan.category} (${matchingExclusions
+      ? `${meal.chosenVariant} (${matchingExclusions
           .map((exclusion) => exclusion.name)
           .join(", ")})`
-      : `${customer.plan.category}`;
+      : `${meal.chosenVariant}`;
 
   return {
     customisation: matchingExclusions.length > 0,
@@ -57,13 +65,42 @@ export const createVariant = (
   };
 };
 
-export const createVariantString = (
+const isSelectedMeal = (
+  selectedItem: SelectedItem
+): selectedItem is SelectedMeal =>
+  Boolean((selectedItem as SelectedMeal).recipe);
+
+export const createSelectedItemVariantString = (
+  item: SelectedItem,
   customer: Customer,
-  meal: Recipe,
   allMeals: Recipe[]
 ): string => {
-  const realMeal = allMeals.find((theMeal) => theMeal.id === meal.id);
-  // eslint-disable-next-line sonarjs/no-identical-functions
+  if (!isSelectedMeal(item)) {
+    return item.chosenVariant;
+  }
+
+  const realMeal = allMeals.find((theMeal) => theMeal.id === item.recipe.id);
+
+  const matchingExclusions = customer.exclusions.filter(exclusion => hasExclusions(exclusion, realMeal));
+
+  return matchingExclusions.length > 0
+    ? `${item.chosenVariant} (${matchingExclusions
+        .map((exclusion) => exclusion.name)
+        .join(", ")})`
+    : `${item.chosenVariant}`;
+};
+
+export const createVariantString = (
+  customer: Customer,
+  item: SelectedItem,
+  allMeals: Recipe[]
+): string => {
+  if (!isSelectedMeal(item)) {
+    return item.chosenVariant;
+  }
+
+  const realMeal = allMeals.find((theMeal) => theMeal.id === item.recipe.id);
+
   const matchingExclusions = customer.exclusions.filter((allergen) => {
     return realMeal?.potentialExclusions.some(
       (value) => value.id === allergen.id
@@ -71,18 +108,18 @@ export const createVariantString = (
   });
 
   return matchingExclusions.length > 0
-    ? `${customer.plan.category} (${matchingExclusions
+    ? `${item.chosenVariant} (${matchingExclusions
         .map((exclusion) => exclusion.name)
         .join(", ")})`
-    : `${customer.plan.category}`;
+    : `${item.chosenVariant}`;
 };
 
 export const createMealWithVariantString = (
   customer: Customer,
-  meal: Recipe,
+  meal: SelectedMeal,
   allMeals: Recipe[]
 ): string =>
-  `${meal.shortName}/${createVariantString(customer, meal, allMeals)}`;
+  `${meal.recipe.shortName}/${createVariantString(customer, meal, allMeals)}`;
 
 const generateDeliveryListFromItem = <
   T extends typeof extrasLabels[number] | typeof planLabels[number]

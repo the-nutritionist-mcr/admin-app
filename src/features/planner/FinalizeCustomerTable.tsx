@@ -33,7 +33,7 @@ const AlternatingTableRow = styled(TableRow)`
 const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
   const name = `${props.customerSelection.customer.firstName} ${props.customerSelection.customer.surname}`;
 
-  const deliveries = props.customerSelection.deliveries ?? []
+  const deliveries = props.customerSelection.deliveries ?? [];
 
   return (
     <Table alignSelf="start" style={{ marginTop: "1rem" }}>

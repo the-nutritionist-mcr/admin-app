@@ -16,6 +16,16 @@ export const planLabels = [
 
 export const defaultDeliveryDays = ["Monday", "Thursday"];
 
+export const daysOfWeek = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
 export const extrasLabels = ["Breakfast", "Snack", "Large Snack"] as const;
 
 export const plans: Plan[] = [

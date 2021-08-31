@@ -18,9 +18,9 @@ const Finalize = () => {
   if (!customerMeals) {
     return (
       <Paragraph fill>
-        You&apos;ve not yet selected any meals to be included in the plan yet. You
-        can do this by going to the recipes page and clicking the &apos;Planning
-        Mode&apos; button.
+        You&apos;ve not yet selected any meals to be included in the plan yet.
+        You can do this by going to the recipes page and clicking the
+        &apos;Planning Mode&apos; button.
       </Paragraph>
     );
   }

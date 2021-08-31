@@ -11,7 +11,7 @@ import Recipe from "../../domain/Recipe";
 jest.mock("../planner/planner-reducer");
 jest.mock("react-redux");
 jest.mock("./useRecipes");
-jest.mock("../customers/useCustomers")
+jest.mock("../customers/useCustomers");
 
 test("The planning mode button displays the planning mode box when clicked", () => {
   const r = mock<Recipe>();

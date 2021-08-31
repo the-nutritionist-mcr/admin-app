@@ -1,115 +1,106 @@
-import CustomerMealsSelection, {
-  Extras,
-} from "../types/CustomerMealsSelection";
 import Customer from "../domain/Customer";
-import type { DocumentDefinition } from "./downloadPdf";
+import { DocumentDefinition } from "./downloadPdf";
 import Recipe from "../domain/Recipe";
-import { createVariant } from "../lib/plan-meals";
+import {
+  createVariant,
+  CustomerMealsSelection,
+  SelectedItem,
+} from "../lib/plan-meals";
+import { daysOfWeek, defaultDeliveryDays } from "./config";
 import formatPlanItem from "./formatPlanItem";
+import { PdfBuilder } from "./pdf-builder";
+
+const COLUMNS = 6;
+
+interface CustomerMealDaySelection {
+  customer: Customer;
+  delivery: SelectedItem[];
+}
+
+interface CookSelections {
+  [day: string]: CustomerMealDaySelection[];
+}
+
+const makeRowsFromSelections = (customerSelections: CustomerMealDaySelection[], allMeals: Recipe[]) =>
+  customerSelections.map((customerSelection) => [
+    [
+      {
+        fontSize: 13,
+        text: generateNameString(customerSelection.customer),
+        bold: true,
+      },
+      `\n${customerSelection.customer.address}`,
+    ],
+    ...customerSelection.delivery
+      .map((item) =>
+        createVariant(customerSelection.customer, item, allMeals)
+      )
+      .map((item) => formatPlanItem(item.mealWithVariantString, item)),
+  ]);
+
+const daySelections = (
+  cookIndex: number,
+  day: string,
+  selections: CustomerMealsSelection
+) =>
+  selections
+    .filter(
+      (selection) =>
+        selection.customer.newPlan?.configuration.deliveryDays[cookIndex] ===
+        day
+    )
+    .map(({ deliveries, ...selection }) => ({
+      ...selection,
+      delivery: deliveries[cookIndex],
+    }));
 
 const generateNameString = (customer: Customer) =>
   `${customer.surname}, ${customer.firstName}`;
 
-const generateExtrasCell = (extras: Extras) => {
-  const extrasList = [];
-
-  if (extras.breakfast) {
-    extrasList.push(`Breakfast x ${extras.breakfast}`);
-  }
-
-  if (extras.snack) {
-    extrasList.push(`Standard snack x ${extras.snack}`);
-  }
-
-  if (extras.largeSnack) {
-    extrasList.push(`Large snack x ${extras.largeSnack}`);
-  }
-
-  if (extrasList.length === 0) {
-    return "No extras";
-  }
-
-  return { ul: extrasList };
+const options = {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
 };
 
 const generateDeliveryPlanDocumentDefinition = (
   selections: CustomerMealsSelection,
   allMeals: Recipe[]
 ): DocumentDefinition => {
-  const columns = selections.reduce<number>(
-    (numColumns, customer) =>
-      customer.meals.length > numColumns ? customer.meals.length : numColumns,
-    0
+
+  const customerGroups = defaultDeliveryDays.map((day, cookIndex) =>
+    daysOfWeek.reduce<CookSelections>(
+      (current, dayOfWeek) =>
+        daySelections(cookIndex, dayOfWeek, selections).length === 0
+          ? current
+          : { ...current, [dayOfWeek]: daySelections(cookIndex, dayOfWeek, selections) },
+      {}
+    )
   );
 
-  const body = selections
-    .slice()
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-    .sort((a, b) => (a.customer.surname > b.customer.surname ? 1 : -1))
-    .map((selection) => [
-      [
-        {
-          fontSize: 13,
-          text: generateNameString(selection.customer),
-          bold: true,
-        },
-        ...selection.customer.address.split(","),
-      ],
-      generateExtrasCell(selection.extras),
-      ...new Array(columns)
-        .fill("")
-        .map((item, index) =>
-          index < selection.meals.length
-            ? createVariant(
-                selection.customer,
-                selection.meals[index],
-                allMeals
-              )
-            : null
-        )
-        .map((item) =>
-          item ? formatPlanItem(item.mealWithVariantString, item) : ""
-        ),
-    ]);
-
-  const options = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
   const date = new Date(Date.now());
 
-  return {
-    content: [
-      {
-        text: `TNM Delivery Plan (printed ${date.toLocaleDateString(
-          undefined,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          options as any
-        )})`,
-        style: "header",
-      },
-      {
-        table: {
-          headerRows: 0,
-          dontBreakRows: true,
-          body,
-        },
-      },
-    ],
-    pageOrientation: "landscape",
-    defaultStyle: {
-      fontSize: 10,
-    },
-    styles: {
-      header: {
-        fontSize: 22,
-        bold: true,
-        lineHeight: 1.5,
-      },
-    },
-  };
+  const title = `TNM Delivery Plan (printed ${date.toLocaleDateString(
+    undefined,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    options as any
+  )})`;
+
+  const builder = customerGroups.reduce<PdfBuilder>(
+    (topBuilder, current, cookIndex) =>
+      Object.entries(current).reduce<PdfBuilder>(
+        (midBuilder, [day, currentSelections]) =>
+        midBuilder
+          .header(`Cook ${cookIndex + 1}: ${day}`)
+          .table(makeRowsFromSelections(currentSelections, allMeals), COLUMNS)
+          .pageBreak(),
+        topBuilder
+      ),
+      new PdfBuilder(title).coverPage(title)
+  );
+
+  return builder.toDocumentDefinition();
 };
 
 export default generateDeliveryPlanDocumentDefinition;

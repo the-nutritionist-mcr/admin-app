@@ -21,17 +21,17 @@ interface FinalizeCellProps {
   selectedItem: SelectedItem;
 }
 
-  const isSelectedMeal = (
-    selectedItem: SelectedItem
-  ): selectedItem is SelectedMeal =>
-    Boolean((selectedItem as SelectedMeal).recipe);
+const isSelectedMeal = (
+  selectedItem: SelectedItem
+): selectedItem is SelectedMeal =>
+  Boolean((selectedItem as SelectedMeal).recipe);
 
-  const getSelectedItemString = (selectedItem: SelectedItem) => {
-    if (isSelectedMeal(selectedItem)) {
-      return `${selectedItem.recipe.shortName} (${selectedItem.chosenVariant})`;
-    }
-    return selectedItem.chosenVariant;
-  };
+const getSelectedItemString = (selectedItem: SelectedItem) => {
+  if (isSelectedMeal(selectedItem)) {
+    return `${selectedItem.recipe.shortName} (${selectedItem.chosenVariant})`;
+  }
+  return selectedItem.chosenVariant;
+};
 
 const UnMemoizedFinalizeCell: React.FC<FinalizeCellProps> = (props) => {
   const dispatch = useDispatch();
@@ -51,7 +51,12 @@ const UnMemoizedFinalizeCell: React.FC<FinalizeCellProps> = (props) => {
         })
       );
     },
-    [dispatch, props.customerSelection.customer, props.index, props.deliveryIndex]
+    [
+      dispatch,
+      props.customerSelection.customer,
+      props.index,
+      props.deliveryIndex,
+    ]
   );
 
   const options = (delivery: number) => [
@@ -60,7 +65,6 @@ const UnMemoizedFinalizeCell: React.FC<FinalizeCellProps> = (props) => {
     ),
     ...extrasLabels.map((label) => ({ chosenVariant: label })),
   ];
-
 
   return (
     <TableCell key={props.index}>

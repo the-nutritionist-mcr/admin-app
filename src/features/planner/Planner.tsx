@@ -1,14 +1,19 @@
 import { Heading, Header, Button } from "grommet";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import React from "react";
 import { fetchCustomers } from "../customers/customersSlice";
 import { fetchRecipes } from "../../features/recipes/recipesSlice";
 import Finalize from "./Finalize";
-import { clearPlanner } from "./planner-reducer";
+import { clearPlanner, customerSelectionsSelector } from "./planner-reducer";
+import generateDeliveryPlanDocumentDefinition from "../../lib/generateDeliveryPlanDocumentDefinition";
+import useRecipes from "../recipes/useRecipes";
+import downloadPdf from "../../lib/downloadPdf";
 
 const Planner: React.FC = () => {
   const dispatch = useDispatch();
+  const customerMeals = useSelector(customerSelectionsSelector);
+  const { recipes } = useRecipes();
 
   React.useEffect(() => {
     (async () => {
@@ -25,14 +30,16 @@ const Planner: React.FC = () => {
           primary
           size="small"
           label="Delivery Plan"
-          disabled={true}
+          disabled={Boolean(!customerMeals)}
+          onClick={() => {
+            const plan = generateDeliveryPlanDocumentDefinition(
+              customerMeals ?? [],
+              recipes
+            );
+            downloadPdf(plan, "delivery-plan.pdf");
+          }}
         />
-        <Button
-          primary
-          size="small"
-          label="Cook Plan"
-          disabled={true}
-        />
+        <Button primary size="small" label="Cook Plan" disabled={true} />
         <Button
           primary
           size="small"
