@@ -7,8 +7,10 @@ import { fetchRecipes } from "../../features/recipes/recipesSlice";
 import Finalize from "./Finalize";
 import { clearPlanner, customerSelectionsSelector } from "./planner-reducer";
 import generateDeliveryPlanDocumentDefinition from "../../lib/generateDeliveryPlanDocumentDefinition";
+import generateCookPlanDocumentDefinition from "../../lib/generateCookPlanDocumentDefinition";
 import useRecipes from "../recipes/useRecipes";
 import downloadPdf from "../../lib/downloadPdf";
+import { makeCookPlan } from "../../lib/plan-meals";
 
 const Planner: React.FC = () => {
   const dispatch = useDispatch();
@@ -39,7 +41,15 @@ const Planner: React.FC = () => {
             downloadPdf(plan, "delivery-plan.pdf");
           }}
         />
-        <Button primary size="small" label="Cook Plan" disabled={true} />
+        <Button
+          primary
+          size="small"
+          label="Cook Plan"
+          onClick={() => {
+            const plan = makeCookPlan(customerMeals ?? [], recipes);
+            downloadPdf(generateCookPlanDocumentDefinition(plan), "cook-plan.pdf");
+          }}
+        />
         <Button
           primary
           size="small"

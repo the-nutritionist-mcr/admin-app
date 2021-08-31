@@ -34,6 +34,11 @@ export const makePdf = (
     footer: {
       alignment: "center",
     },
+    rowHeader: {
+      fontSize: 15,
+      alignment: "center",
+      bold: true,
+    },
     coverPage: {
       fontSize: 35,
       bold: true,
@@ -47,7 +52,5 @@ export const makePdf = (
     },
   },
 });
-
-
 
 export default downloadPdf;

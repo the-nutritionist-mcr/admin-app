@@ -1,12 +1,14 @@
 import DeliveryMealsSelection from "../types/DeliveryMealsSelection";
 import Customer from "../domain/Customer";
 import Recipe from "../domain/Recipe";
-import { extrasLabels, planLabels } from "./config";
+import { extrasLabels, planLabels, defaultDeliveryDays } from "./config";
 import { CustomerPlan, Item } from "../features/customers/types";
 import isActive from "./isActive";
 import Exclusion from "../domain/Exclusion";
+import { RecipeVariantMap } from "../types/CookPlan";
 
-const hasExclusions = (exclusion: Exclusion, meal: Recipe | undefined) => meal?.potentialExclusions.some((value) => value.id === exclusion.id)
+const hasExclusions = (exclusion: Exclusion, meal: Recipe | undefined) =>
+  meal?.potentialExclusions.some((value) => value.id === exclusion.id);
 
 export interface SelectedMeal {
   recipe: Recipe;
@@ -44,7 +46,9 @@ export const createVariant = (
   }
 
   const realMeal = allMeals.find((theMeal) => theMeal.id === meal.recipe.id);
-  const matchingExclusions = customer.exclusions.filter(exclusion => hasExclusions(exclusion, realMeal));
+  const matchingExclusions = customer.exclusions.filter((exclusion) =>
+    hasExclusions(exclusion, realMeal)
+  );
 
   const string =
     matchingExclusions.length > 0
@@ -81,7 +85,9 @@ export const createSelectedItemVariantString = (
 
   const realMeal = allMeals.find((theMeal) => theMeal.id === item.recipe.id);
 
-  const matchingExclusions = customer.exclusions.filter(exclusion => hasExclusions(exclusion, realMeal));
+  const matchingExclusions = customer.exclusions.filter((exclusion) =>
+    hasExclusions(exclusion, realMeal)
+  );
 
   return matchingExclusions.length > 0
     ? `${item.chosenVariant} (${matchingExclusions
@@ -208,3 +214,40 @@ export const chooseMeals = (
       customer,
       deliveries,
     }));
+
+export const makeCookPlan = (
+  selections: CustomerMealsSelection,
+  allMeals: Recipe[]
+): Map<string, RecipeVariantMap>[] => {
+  return defaultDeliveryDays.map((day, deliveryIndex) =>
+    selections.reduce<Map<string, RecipeVariantMap>>(
+      (startMap, customerSelections) => {
+        return customerSelections.deliveries[deliveryIndex].reduce(
+          (map, item) => {
+            const variant = createVariant(
+              customerSelections.customer,
+              item,
+              allMeals
+            );
+            const key = isSelectedMeal(item)
+              ? item.recipe.name
+              : item.chosenVariant;
+            const previousMap = map.get(key);
+            const previousVariant = previousMap?.[variant.string];
+            map.set(key, {
+              ...previousMap,
+              [variant.string]: {
+                ...variant,
+                ...previousVariant,
+                count: (previousVariant?.count ?? 0) + 1,
+              },
+            });
+            return map;
+          },
+          startMap
+        );
+      },
+      new Map()
+    )
+  );
+};

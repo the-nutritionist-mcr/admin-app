@@ -1,12 +1,16 @@
 // eslint-disable-next-line import/no-unresolved
-import { Content } from "pdfmake/interfaces";
+import { Content, Size } from "pdfmake/interfaces";
 import { DocumentDefinition, makePdf } from "./downloadPdf";
 import { PdfTable } from "./pdf-table";
 
 export class PdfBuilder {
   private content: Content[] = [];
 
-  public constructor(private title?: string) {}
+  public constructor(private title?: string, coverPage?: boolean) {
+    if (coverPage && title) {
+      this.coverPage(title);
+    }
+  }
 
   public text(text: string): this {
     this.content.push({ text });
@@ -18,14 +22,13 @@ export class PdfBuilder {
     return this;
   }
 
-  public coverPage(text: string): this {
+  private coverPage(text: string) {
     this.content.push({
       text,
       style: "coverPage",
       pageBreak: "after",
       alignment: "center",
     });
-    return this;
   }
 
   public pageBreak(): this {
@@ -48,12 +51,12 @@ export class PdfBuilder {
     }
   }
 
-  public table(rows: Content[][], columns: number) {
-    const initialTable = new PdfTable(columns);
+  public table(rows: Content[][], columns: number, widths?: Size[]) {
+    const initialTable = new PdfTable(columns, widths);
 
     const table = rows
       .reduce<PdfTable>(
-        (currentTable, [customer, ...row]) => currentTable.row(customer, row),
+        (currentTable, [header, ...row]) => currentTable.row(header, row),
         initialTable
       )
       .get();

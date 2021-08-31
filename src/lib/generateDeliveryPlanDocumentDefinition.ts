@@ -21,7 +21,10 @@ interface CookSelections {
   [day: string]: CustomerMealDaySelection[];
 }
 
-const makeRowsFromSelections = (customerSelections: CustomerMealDaySelection[], allMeals: Recipe[]) =>
+const makeRowsFromSelections = (
+  customerSelections: CustomerMealDaySelection[],
+  allMeals: Recipe[]
+) =>
   customerSelections.map((customerSelection) => [
     [
       {
@@ -32,9 +35,7 @@ const makeRowsFromSelections = (customerSelections: CustomerMealDaySelection[], 
       `\n${customerSelection.customer.address}`,
     ],
     ...customerSelection.delivery
-      .map((item) =>
-        createVariant(customerSelection.customer, item, allMeals)
-      )
+      .map((item) => createVariant(customerSelection.customer, item, allMeals))
       .map((item) => formatPlanItem(item.mealWithVariantString, item)),
   ]);
 
@@ -68,13 +69,15 @@ const generateDeliveryPlanDocumentDefinition = (
   selections: CustomerMealsSelection,
   allMeals: Recipe[]
 ): DocumentDefinition => {
-
   const customerGroups = defaultDeliveryDays.map((day, cookIndex) =>
     daysOfWeek.reduce<CookSelections>(
       (current, dayOfWeek) =>
         daySelections(cookIndex, dayOfWeek, selections).length === 0
           ? current
-          : { ...current, [dayOfWeek]: daySelections(cookIndex, dayOfWeek, selections) },
+          : {
+              ...current,
+              [dayOfWeek]: daySelections(cookIndex, dayOfWeek, selections),
+            },
       {}
     )
   );
@@ -91,13 +94,13 @@ const generateDeliveryPlanDocumentDefinition = (
     (topBuilder, current, cookIndex) =>
       Object.entries(current).reduce<PdfBuilder>(
         (midBuilder, [day, currentSelections]) =>
-        midBuilder
-          .header(`Cook ${cookIndex + 1}: ${day}`)
-          .table(makeRowsFromSelections(currentSelections, allMeals), COLUMNS)
-          .pageBreak(),
+          midBuilder
+            .header(`Cook ${cookIndex + 1}: ${day}`)
+            .table(makeRowsFromSelections(currentSelections, allMeals), COLUMNS)
+            .pageBreak(),
         topBuilder
       ),
-      new PdfBuilder(title).coverPage(title)
+    new PdfBuilder(title, true)
   );
 
   return builder.toDocumentDefinition();
