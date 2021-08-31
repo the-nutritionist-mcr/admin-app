@@ -1,3 +1,10 @@
+### [1.8.1](https://github.com/benwainwright/tnm/compare/v1.8.0...v1.8.1) (2021-08-31)
+
+
+### Bug Fixes
+
+* set some sensible disable criteria for the download buttons ([ff5484a](https://github.com/benwainwright/tnm/commit/ff5484aa4d32941940af6d4449d9323d72b8140c))
+
 ## [1.8.0](https://github.com/benwainwright/tnm/compare/v1.7.0...v1.8.0) (2021-08-31)
 
 
