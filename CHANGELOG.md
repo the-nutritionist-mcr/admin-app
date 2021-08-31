@@ -1,3 +1,15 @@
+## [1.8.0](https://github.com/benwainwright/tnm/compare/v1.7.0...v1.8.0) (2021-08-31)
+
+
+### Features
+
+* enabled the cook plan download button ([998a139](https://github.com/benwainwright/tnm/commit/998a139800902e6945c748bffb50682bc47fbde0))
+
+
+### Bug Fixes
+
+* remove the letter 'C' to make the finalize table less intimidating ([101f2d0](https://github.com/benwainwright/tnm/commit/101f2d004be9953189b65121d2bea1f9723f7a4a))
+
 ## [1.7.0](https://github.com/benwainwright/tnm/compare/v1.6.1...v1.7.0) (2021-08-31)
 
 
