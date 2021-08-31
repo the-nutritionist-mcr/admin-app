@@ -1,3 +1,15 @@
+## [1.9.0](https://github.com/benwainwright/tnm/compare/v1.8.1...v1.9.0) (2021-08-31)
+
+
+### Features
+
+* names in planner finalize table are now linked to the edit customer page ([7cfc5e9](https://github.com/benwainwright/tnm/commit/7cfc5e92a478f007173484918d6fee571f865cb4))
+
+
+### Bug Fixes
+
+* corrected colors for links ([306bba3](https://github.com/benwainwright/tnm/commit/306bba3c6f7b69d67d15a6c47df04efa2c3c28b0))
+
 ### [1.8.1](https://github.com/benwainwright/tnm/compare/v1.8.0...v1.8.1) (2021-08-31)
 
 
