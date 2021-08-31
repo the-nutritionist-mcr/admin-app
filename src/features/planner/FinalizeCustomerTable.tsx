@@ -55,7 +55,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
             >
               <TableCell scope="row">
                 <Text>
-                  <strong>C{deliveryIndex + 1}</strong>
+                  <strong>{deliveryIndex + 1}</strong>
                 </Text>
               </TableCell>
               {row.map((item, itemIndex) => (
