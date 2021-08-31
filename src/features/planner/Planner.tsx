@@ -32,7 +32,7 @@ const Planner: React.FC = () => {
           primary
           size="small"
           label="Delivery Plan"
-          disabled={Boolean(!customerMeals)}
+          disabled={Boolean(!customerMeals || !recipes)}
           onClick={() => {
             const plan = generateDeliveryPlanDocumentDefinition(
               customerMeals ?? [],
@@ -45,6 +45,7 @@ const Planner: React.FC = () => {
           primary
           size="small"
           label="Cook Plan"
+          disabled={Boolean(!customerMeals || !recipes)}
           onClick={() => {
             const plan = makeCookPlan(customerMeals ?? [], recipes);
             downloadPdf(generateCookPlanDocumentDefinition(plan), "cook-plan.pdf");
