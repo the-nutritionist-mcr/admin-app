@@ -15,6 +15,7 @@ import styled from "styled-components";
 import { batchArray } from "../../lib/batch-array";
 import FinalizeCell from "./FinalizeCell";
 import DeliveryMealsSelection from "../../types/DeliveryMealsSelection";
+import { Link } from "react-router-dom";
 
 interface FinalizeRowProps {
   customerSelection: CustomerMealsSelection[number];
@@ -41,7 +42,9 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
         <TableRow>
           <TableCell colSpan={7}>
             <Text>
-              <strong>{name}</strong>
+              <strong>
+                <Link style={{ textDecoration: 'none'}} to={`/edit-customer/${props.customerSelection.customer.id}`}>{name}</Link>
+              </strong>
             </Text>
           </TableCell>
         </TableRow>
