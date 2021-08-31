@@ -249,8 +249,8 @@ test("the finalize component displays at least one labelled row for each deliver
   const customerTables = screen.getAllByRole("table");
   const tableRows = within(customerTables[0]).getAllByRole("rowheader");
   expect(tableRows).toHaveLength(2);
-  expect(within(tableRows[0]).queryByText("C1")).toBeInTheDocument();
-  expect(within(tableRows[1]).queryByText("C2")).toBeInTheDocument();
+  expect(within(tableRows[0]).queryByText("1")).toBeInTheDocument();
+  expect(within(tableRows[1]).queryByText("2")).toBeInTheDocument();
 });
 
 test("The finalize component breaks rows that are longer than six items into multiple rows", () => {
