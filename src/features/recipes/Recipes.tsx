@@ -20,9 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import EditRecipesDialog from "./EditRecipesDialog";
 import React from "react";
 import RecipesRow from "../recipes/RecipesRow";
-import useRecipes from "./useRecipes";
 import { defaultDeliveryDays } from "../../lib/config";
-import useCustomers from "../customers/useCustomers";
 import PlanningModeSummary from "./PlanningModeSummary";
 import { graphql } from "relay-runtime";
 import type { RecipesQuery as RecipesQueryType, RecipesQueryResponse } from "../../__generated__/RecipesQuery.graphql"
@@ -52,7 +50,6 @@ interface RecipesProps {
 const Recipes: React.FC<RecipesProps> = (props) => {
   const { recipes } = usePreloadedQuery<RecipesQueryType>(RecipesQuery, props.queryRef)
   const dispatch = useDispatch();
-  useCustomers();
   const error = useSelector(errorSelector);
   const [planningMode, setPlanningMode] = React.useState(false);
   const [showCreate, setShowCreate] = React.useState(false);
@@ -62,8 +59,6 @@ const Recipes: React.FC<RecipesProps> = (props) => {
   );
 
   const showCheckBoxes = selectedDelivery !== -1 && planningMode;
-
-  useRecipes();
 
   return (
     <React.Fragment>
