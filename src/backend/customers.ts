@@ -17,7 +17,10 @@ import Exclusion from "../domain/Exclusion";
 export const isListCustomersQuery = (
   event: AppSyncResolverEvent<AllQueryVariables>
 ): event is AppSyncResolverEvent<ListCustomersQueryVariables> => {
-  return event.info.fieldName === "listCustomers" || event.info.fieldName === "customers";
+  return (
+    event.info.fieldName === "listCustomers" ||
+    event.info.fieldName === "customers"
+  );
 };
 
 const getRequiredEnvVar = (name: string): string => {

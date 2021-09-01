@@ -3,8 +3,8 @@ import { Box } from "grommet";
 import React from "react";
 import { Spinning } from "grommet-controls";
 import { Switch } from "react-router-dom";
-import { CustomersQuery } from "../../features/customers/Customers"
-import { RecipesQuery } from "../../features/recipes/Recipes"
+import { CustomersQuery } from "../../features/customers/Customers";
+import { RecipesQuery } from "../../features/recipes/Recipes";
 
 // const LazyPlanner = React.lazy(
 //   async () => import("../../features/planner/Planner")
@@ -17,9 +17,6 @@ import { RecipesQuery } from "../../features/recipes/Recipes"
 // const LazyNewCustomer = React.lazy(
 //   async () => import("../../features/customers/NewCustomerPage")
 // );
-const lazyHome = () => import("../home/home")
-const lazyCustomer = () => import("../../features/customers/Customers")
-const lazyRecipes = () => import("../../features/recipes/Recipes")
 
 const Router: React.FC = () => (
   <React.Suspense
@@ -34,18 +31,18 @@ const Router: React.FC = () => (
         exact
         path="/"
         groups={["anonymous", "user", "admin"]}
-        lazyImport={lazyHome}
+        lazyImport={() => import("../home/home")}
       />
       <AuthenticatedRoute
         path="/customers"
         groups={["user", "admin"]}
-        lazyImport={lazyCustomer}
+        lazyImport={() => import("../../features/customers/Customers")}
         dataQuery={CustomersQuery}
       />
       <AuthenticatedRoute
         path="/recipes"
         groups={["user", "admin"]}
-        lazyImport={lazyRecipes}
+        lazyImport={() => import("../../features/recipes/Recipes")}
         dataQuery={RecipesQuery}
       />
       {/*

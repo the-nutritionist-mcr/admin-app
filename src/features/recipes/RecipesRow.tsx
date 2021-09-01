@@ -6,7 +6,7 @@ import { OkCancelDialog } from "../../components";
 import React from "react";
 import Recipe from "../../domain/Recipe";
 import styled from "styled-components";
-import type { RecipesQueryResponse } from "../../__generated__/RecipesQuery.graphql"
+import type { RecipesQueryResponse } from "../../__generated__/RecipesQuery.graphql";
 import EditRecipesDialog from "./EditRecipesDialog";
 
 const SlimButton = styled(Button)`
@@ -24,7 +24,6 @@ interface RecipesRowProps {
 }
 
 const RecipesRow: React.FC<RecipesRowProps> = (props) => {
-
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
 

@@ -1,9 +1,9 @@
 import Customer from "../domain/Customer";
 
-const isActive = (customer: CustomerSubset, date?: Date): boolean => {
+type CustomerSubset = Pick<Customer, "pauseStart" | "pauseEnd">;
 
+const isActive = (customer: CustomerSubset, date?: Date): boolean => {
   const now = date ?? new Date(Date.now());
-  type CustomerSubset = Pick<Customer, "pauseStart" | "pauseEnd">
 
   if (customer.pauseEnd && now > new Date(customer.pauseEnd)) {
     return true;

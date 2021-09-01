@@ -4,7 +4,7 @@ import calendarFormat from "../lib/calendarFormat";
 import isActive from "./isActive";
 import moment from "moment";
 
-type CustomerSubset = Pick<Customer, "pauseStart" | "pauseEnd">
+type CustomerSubset = Pick<Customer, "pauseStart" | "pauseEnd">;
 
 const getStatusString = (customer: CustomerSubset): string => {
   const now = new Date(Date.now());

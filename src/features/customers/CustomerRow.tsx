@@ -3,9 +3,12 @@ import { Link } from "react-router-dom";
 import React from "react";
 import getExtrasString from "../../lib/getExtrasString";
 import getStatusString from "../../lib/getStatusString";
-import {PlannerConfig } from "./types";
+import { PlannerConfig } from "./types";
 import { isCustomDeliveryPlan } from "./distribution-generator";
-import { CustomerRowComponent_customer$key, CustomerRowComponent_customer} from "./../../__generated__/CustomerRowComponent_customer.graphql";
+import {
+  CustomerRowComponent_customer$key,
+  CustomerRowComponent_customer,
+} from "./../../__generated__/CustomerRowComponent_customer.graphql";
 
 import {
   defaultDeliveryDays,
@@ -16,11 +19,11 @@ import deepMemo from "../../lib/deepMemo";
 import { graphql, useFragment } from "react-relay";
 
 interface CustomerRowProps {
-  customer: CustomerRowComponent_customer$key
+  customer: CustomerRowComponent_customer$key;
 }
 
 const getPlanString = (
-  plan: CustomerRowComponent_customer['newPlan'],
+  plan: CustomerRowComponent_customer["newPlan"],
   config: PlannerConfig
 ) => {
   if (!plan) {
@@ -76,10 +79,9 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
       }
     `,
     props.customer
-  )
+  );
 
   const nameString = `${data.surname} ${data.firstName} (${data.salutation})`;
-
 
   return (
     <TableRow>
@@ -98,14 +100,12 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
 
       <TableCell>
         {data.exclusions.length > 0
-          ? data.exclusions
-              .map((exclusion) => exclusion.name)
-              .join(", ")
+          ? data.exclusions.map((exclusion) => exclusion.name).join(", ")
           : "None"}
       </TableCell>
       <TableCell>
         <Box direction="row">
-        {/*
+          {/*
           <SlimButton
             secondary
             onClick={(): void => setShowDoDelete(true)}

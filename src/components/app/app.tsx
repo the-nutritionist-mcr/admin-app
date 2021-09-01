@@ -28,31 +28,31 @@ const App: React.FC = () => {
   const state = useApp();
 
   return (
-  <RelayEnvironmentProvider environment={environment}>
-    <UserContext.Provider value={state.user}>
-      <Grommet theme={theme}>
-        <NavBar />
+    <RelayEnvironmentProvider environment={environment}>
+      <UserContext.Provider value={state.user}>
+        <Grommet theme={theme}>
+          <NavBar />
 
-        <ErrorBoundary
-          FallbackComponent={ErrorComponent}
-          onError={(error) => {
-            log.error(error);
-          }}
-        >
-          {state.error && (
-            <Notification
-              status="error"
-              message="Error"
-              state={state.error}
-              onClose={state.closeError}
-            />
-          )}
-          <Main pad={{ horizontal: "large", vertical: "medium" }}>
-            <Router />
-          </Main>
-        </ErrorBoundary>
-      </Grommet>
-    </UserContext.Provider>
+          <ErrorBoundary
+            FallbackComponent={ErrorComponent}
+            onError={(error) => {
+              log.error(error);
+            }}
+          >
+            {state.error && (
+              <Notification
+                status="error"
+                message="Error"
+                state={state.error}
+                onClose={state.closeError}
+              />
+            )}
+            <Main pad={{ horizontal: "large", vertical: "medium" }}>
+              <Router />
+            </Main>
+          </ErrorBoundary>
+        </Grommet>
+      </UserContext.Provider>
     </RelayEnvironmentProvider>
   );
 };

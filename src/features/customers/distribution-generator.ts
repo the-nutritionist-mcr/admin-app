@@ -111,7 +111,10 @@ const multiplyItems = curry(
  * before any quantities are added
  */
 const makeDefaultDeliveryPlan = curry(
-  (plannerConfig: PlannerConfig, plan: PlanConfiguration): ReadonlyArray<Delivery> =>
+  (
+    plannerConfig: PlannerConfig,
+    plan: PlanConfiguration
+  ): ReadonlyArray<Delivery> =>
     plan.deliveryDays.map(() => ({
       items: plannerConfig.planLabels.map((label) => ({
         name: label,

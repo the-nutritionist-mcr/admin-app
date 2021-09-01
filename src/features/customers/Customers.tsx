@@ -16,8 +16,8 @@ import EditCustomerDialog from "./EditCustomerDialog";
 import React from "react";
 import { createCustomer } from "./customersSlice";
 import { useHistory } from "react-router-dom";
-import { graphql, PreloadedQuery, usePreloadedQuery } from "react-relay"
-import type { CustomersQuery as CustomersQueryType } from "../../__generated__/CustomersQuery.graphql"
+import { graphql, PreloadedQuery, usePreloadedQuery } from "react-relay";
+import type { CustomersQuery as CustomersQueryType } from "../../__generated__/CustomersQuery.graphql";
 
 // const convertCustomerToSimpleObject = (
 //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -28,9 +28,8 @@ import type { CustomersQuery as CustomersQueryType } from "../../__generated__/C
 //   exclusions: customer.exclusions.map((exclusion) => exclusion.name).join(","),
 // });
 
-
 interface CustomersProps {
-  queryRef: PreloadedQuery<CustomersQueryType>
+  queryRef: PreloadedQuery<CustomersQueryType>;
 }
 
 export const CustomersQuery = graphql`
@@ -40,14 +39,17 @@ export const CustomersQuery = graphql`
       ...CustomerRowComponent_customer
     }
   }
-`
+`;
 
 const Customers: React.FC<CustomersProps> = (props) => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
 
-  const data = usePreloadedQuery<CustomersQueryType>(CustomersQuery, props.queryRef)
+  const data = usePreloadedQuery<CustomersQueryType>(
+    CustomersQuery,
+    props.queryRef
+  );
 
-  const customers = data.customers
+  const customers = data.customers;
   // const loading = useSelector(loadingSelector);
   const history = useHistory();
 
@@ -106,42 +108,42 @@ const Customers: React.FC<CustomersProps> = (props) => {
           />
         )}
       </Header>
-        <Table alignSelf="start">
-          <TableHeader>
-            <TableRow>
-              <TableCell scope="col">
-                <strong>Name</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Status</strong>
-              </TableCell>
-              <TableCell scope="col">
-                <strong>Plan</strong>
-              </TableCell>
-              <TableCell scope="col">
-                <strong>Extras</strong>
-              </TableCell>
-              <TableCell scope="col">
-                <strong>Customisations</strong>
-              </TableCell>
-              <TableCell scope="col">
-                <strong>Actions</strong>
-              </TableCell>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {customers
-              .slice()
-              .reverse()
-              .sort((a, b) =>
-                // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-                a.surname > b.surname ? 1 : -1
-              )
-              .map((customer) => (
-                <CustomerRow customer={customer} />
-              ))}
-          </TableBody>
-        </Table>
+      <Table alignSelf="start">
+        <TableHeader>
+          <TableRow>
+            <TableCell scope="col">
+              <strong>Name</strong>
+            </TableCell>
+            <TableCell>
+              <strong>Status</strong>
+            </TableCell>
+            <TableCell scope="col">
+              <strong>Plan</strong>
+            </TableCell>
+            <TableCell scope="col">
+              <strong>Extras</strong>
+            </TableCell>
+            <TableCell scope="col">
+              <strong>Customisations</strong>
+            </TableCell>
+            <TableCell scope="col">
+              <strong>Actions</strong>
+            </TableCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {customers
+            .slice()
+            .reverse()
+            .sort((a, b) =>
+              // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+              a.surname > b.surname ? 1 : -1
+            )
+            .map((customer) => (
+              <CustomerRow customer={customer} />
+            ))}
+        </TableBody>
+      </Table>
     </React.Fragment>
   );
 };

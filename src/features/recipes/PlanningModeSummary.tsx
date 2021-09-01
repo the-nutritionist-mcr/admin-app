@@ -15,13 +15,15 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { defaultDeliveryDays } from "../../lib/config";
 import { generateCustomerMeals } from "../planner/planner-reducer";
-import type { RecipesQueryResponse } from "../../__generated__/RecipesQuery.graphql"
+import type { RecipesQueryResponse } from "../../__generated__/RecipesQuery.graphql";
 
 interface PlanningModeSummaryProps {
   selectedDelivery: number;
   setSelectedDelivery: React.Dispatch<React.SetStateAction<number>>;
   setPlanningMode: React.Dispatch<React.SetStateAction<boolean>>;
-  setPlannerSelection: React.Dispatch<React.SetStateAction<RecipesQueryResponse["recipes"][]>>;
+  setPlannerSelection: React.Dispatch<
+    React.SetStateAction<RecipesQueryResponse["recipes"][]>
+  >;
   plannerSelection: RecipesQueryResponse["recipes"][];
 }
 

@@ -129,9 +129,7 @@ export const createMealWithVariantString = (
 ): string =>
   `${meal.recipe.shortName}/${createVariantString(customer, meal, allMeals)}`;
 
-const generateDeliveryListFromItem = (
-  item: Item
-) =>
+const generateDeliveryListFromItem = (item: Item) =>
   [...new Array(item.quantity)].map(() => ({
     chosenVariant: item.name,
   }));

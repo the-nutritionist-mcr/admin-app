@@ -71,10 +71,7 @@ const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
               <TextInput name="description" />
             </FormField>
             <FormField name="hotOrCold" label="Served" required>
-              <Select
-                options={["Hot", "Cold", "Both"]}
-                name="hotOrCold"
-              />
+              <Select options={["Hot", "Cold", "Both"]} name="hotOrCold" />
             </FormField>
             <FormField name="potentialExclusions" label="Customisations">
               <Select

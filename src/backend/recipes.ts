@@ -17,7 +17,9 @@ import Recipe from "../domain/Recipe";
 export const isListRecipesQuery = (
   event: AppSyncResolverEvent<AllQueryVariables>
 ): event is AppSyncResolverEvent<ListRecipesQueryVariables> => {
-  return event.info.fieldName === "listRecipes" || event.info.fieldName === "recipes";
+  return (
+    event.info.fieldName === "listRecipes" || event.info.fieldName === "recipes"
+  );
 };
 
 const getRequiredEnvVar = (name: string): string => {
