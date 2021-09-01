@@ -26,6 +26,7 @@ import { RecipesQuery } from "../../features/recipes/Recipes"
 // const LazyNewCustomer = React.lazy(
 //   async () => import("../../features/customers/NewCustomerPage")
 // );
+const lazyHome = () => import("../home/home")
 const lazyCustomer = () => import("../../features/customers/Customers")
 const lazyRecipes = () => import("../../features/recipes/Recipes")
 
@@ -38,14 +39,12 @@ const Router: React.FC = () => (
     }
   >
     <Switch>
-    {/*
       <AuthenticatedRoute
         exact
         path="/"
         groups={["anonymous", "user", "admin"]}
-        component={LazyHome}
+        lazyImport={lazyHome}
       />
-      */}
       <AuthenticatedRoute
         path="/customers"
         groups={["user", "admin"]}

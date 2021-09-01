@@ -8,13 +8,18 @@ interface LoadableRouteProps<DT extends OperationType> {
   queryRef: PreloadedQuery<DT>,
 }
 
-export type LazyImportType<DT extends OperationType> = () => Promise<{ default: FC<LoadableRouteProps<DT>>}>
+
+export type LazyImportType<DT extends OperationType> = () => Promise<{ default: FC<LoadableRouteProps<DT>>}> | Promise<{ default: FC<any> }>
 
 interface AuthenticatedrouteProps<OT extends OperationType> {
   path: string;
   groups: string[];
   lazyImport: LazyImportType<OT>;
   exact?: boolean;
+  dataQuery?: Parameters<typeof useQueryLoader>[0]
+}
+
+interface LoaderProps {
   dataQuery: Parameters<typeof useQueryLoader>[0]
 }
 
@@ -28,9 +33,10 @@ function AuthenticatedRoute<DT extends OperationType>(
 ): React.ReactElement | null {
   const user = React.useContext(UserContext);
 
+  const LazyComponent = React.lazy(props.lazyImport)
+
   const LazyLoaderFunction = React.useCallback(() => {
-    const LazyComponent = React.lazy(props.lazyImport)
-    const LoaderComponent: React.FC = () => {
+    const LoaderComponent: React.FC<LoaderProps> = (props) => {
       const [queryReference, loadQuery] = useQueryLoader<DT>(props.dataQuery)
       React.useEffect(() => {
         !queryReference && loadQuery({})
@@ -46,7 +52,7 @@ function AuthenticatedRoute<DT extends OperationType>(
 
   return props.groups.some((group) => user?.groups?.includes(group)) ? (
     <Route exact={props.exact} path={props.path}>
-      <LazyLoader />
+      {props.dataQuery ? <LazyLoader dataQuery={props.dataQuery}/> : <LazyComponent />}
     </Route>
   ) : null;
 }
