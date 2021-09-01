@@ -6,15 +6,6 @@ import { Switch } from "react-router-dom";
 import { CustomersQuery } from "../../features/customers/Customers"
 import { RecipesQuery } from "../../features/recipes/Recipes"
 
-// const LazyHome = React.lazy(async () => import("../home/home"));
-// const LazyCustomers = React.lazy(
-//   async () => import("../../features/customers/Customers")
-// );
-
-// const LazyRecipes = React.lazy(
-//   async () => import("../../features/recipes/Recipes")
-// );
-
 // const LazyPlanner = React.lazy(
 //   async () => import("../../features/planner/Planner")
 // );
@@ -58,11 +49,6 @@ const Router: React.FC = () => (
         dataQuery={RecipesQuery}
       />
       {/*
-      <AuthenticatedRoute
-        path="/recipes"
-        groups={["user", "admin"]}
-        component={LazyRecipes}
-      />
       <AuthenticatedRoute
         path="/planner"
         groups={["user", "admin"]}
