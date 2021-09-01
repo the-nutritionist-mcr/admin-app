@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Header,
   Heading,
@@ -8,7 +7,6 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-  Text,
 } from "grommet";
 import { Snack } from "../../domain/Customer";
 
@@ -35,7 +33,6 @@ interface CustomersProps {
   queryRef: PreloadedQuery<CustomersQueryType>
 }
 
-
 export const CustomersQuery = graphql`
   query CustomersQuery {
     customers {
@@ -44,10 +41,8 @@ export const CustomersQuery = graphql`
     }
   }
 `
-
 const Customers: React.FC<CustomersProps> = (props) => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
-
 
   const data = usePreloadedQuery<CustomersQueryType>(CustomersQuery, props.queryRef)
 

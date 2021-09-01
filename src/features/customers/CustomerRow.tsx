@@ -1,9 +1,8 @@
-import { Box, Button, TableCell, TableRow } from "grommet";
+import { Box, TableCell, TableRow } from "grommet";
 import { Link } from "react-router-dom";
 import React from "react";
 import getExtrasString from "../../lib/getExtrasString";
 import getStatusString from "../../lib/getStatusString";
-import styled from "styled-components";
 import {PlannerConfig } from "./types";
 import { isCustomDeliveryPlan } from "./distribution-generator";
 import { CustomerRowComponent_customer$key, CustomerRowComponent_customer} from "./../../__generated__/CustomerRowComponent_customer.graphql";

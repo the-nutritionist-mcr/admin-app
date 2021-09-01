@@ -129,10 +129,8 @@ export const createMealWithVariantString = (
 ): string =>
   `${meal.recipe.shortName}/${createVariantString(customer, meal, allMeals)}`;
 
-const generateDeliveryListFromItem = <
-  T extends typeof extrasLabels[number] | typeof planLabels[number]
->(
-  item: Item<T>
+const generateDeliveryListFromItem = (
+  item: Item
 ) =>
   [...new Array(item.quantity)].map(() => ({
     chosenVariant: item.name,

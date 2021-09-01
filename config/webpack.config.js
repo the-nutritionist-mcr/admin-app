@@ -409,9 +409,8 @@ module.exports = function (webpackEnv) {
                      },
                    ],
                  ],
-
                  plugins: [
-                   ["relay", { "artifactDirectory": "./src/__generated__" }],
+                   ["relay", { "artifactDirectory": "./src/__generated__", "eagerESModules": true }],
                    [
                      require.resolve("babel-plugin-named-asset-import"),
                      {
