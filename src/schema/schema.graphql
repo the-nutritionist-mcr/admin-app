@@ -171,6 +171,8 @@ input DeleteCustomerInput {
 type Query {
   customers: [Customer!]! @aws_auth(cognito_groups: ["user", "admin"])
 
+  recipes: [Recipe!]! @aws_auth(cognito_groups: ["user", "admin"])
+
   getExclusionById(exclusionId: String!): Exclusion
     @aws_auth(cognito_groups: ["user", "admin"])
 

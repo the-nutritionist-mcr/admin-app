@@ -1,18 +1,12 @@
 import Exclusion from "./Exclusion";
 
-export enum HotOrCold {
-  Hot = "Hot",
-  Cold = "Cold",
-  Both = "Both",
-}
-
 export default interface Recipe {
   id: string;
   name: string;
   shortName: string;
-  hotOrCold: HotOrCold;
-  description?: string;
-  potentialExclusions: Exclusion[];
+  hotOrCold: string;
+  description?: string | null;
+  potentialExclusions: ReadonlyArray<Exclusion>;
   createdAt?: string;
   updatedAt?: string;
 }

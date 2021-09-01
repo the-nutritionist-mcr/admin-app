@@ -12,7 +12,7 @@ import {
   TextInput,
 } from "grommet";
 import { Checkmark, Close } from "grommet-icons";
-import Recipe, { HotOrCold } from "../../domain/Recipe";
+import Recipe from "../../domain/Recipe";
 import { useDispatch, useSelector } from "react-redux";
 import { ApiRequestFunction } from "../../lib/apiRequestCreator";
 import React from "react";
@@ -49,7 +49,7 @@ const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
           onReset={(): void => {
             setRecipe(props.recipe);
           }}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          // esliecipes.tse-next-line @typescript-eslint/no-explicit-any
           onChange={(nextRecipeData: any): void => {
             setRecipe(nextRecipeData);
           }}
@@ -72,7 +72,7 @@ const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
             </FormField>
             <FormField name="hotOrCold" label="Served" required>
               <Select
-                options={[HotOrCold.Hot, HotOrCold.Cold, HotOrCold.Both]}
+                options={["Hot", "Cold", "Both"]}
                 name="hotOrCold"
               />
             </FormField>

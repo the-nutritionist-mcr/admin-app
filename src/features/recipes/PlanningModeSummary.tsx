@@ -13,16 +13,16 @@ import {
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import Recipe from "../../domain/Recipe";
 import { defaultDeliveryDays } from "../../lib/config";
 import { generateCustomerMeals } from "../planner/planner-reducer";
+import type { RecipesQueryResponse } from "../../__generated__/RecipesQuery.graphql"
 
 interface PlanningModeSummaryProps {
   selectedDelivery: number;
   setSelectedDelivery: React.Dispatch<React.SetStateAction<number>>;
   setPlanningMode: React.Dispatch<React.SetStateAction<boolean>>;
-  setPlannerSelection: React.Dispatch<React.SetStateAction<Recipe[][]>>;
-  plannerSelection: Recipe[][];
+  setPlannerSelection: React.Dispatch<React.SetStateAction<RecipesQueryResponse["recipes"][]>>;
+  plannerSelection: RecipesQueryResponse["recipes"][];
 }
 
 const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = (props) => {
@@ -114,7 +114,7 @@ const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = (props) => {
           onClick={() => {
             dispatch(
               generateCustomerMeals({
-                deliveries: props.plannerSelection,
+                deliveries: [...props.plannerSelection.map(selection => [...selection])],  
                 deliveryDates: cookDates.map((cook) => new Date(cook ?? "")),
               })
             );

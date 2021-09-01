@@ -134,6 +134,11 @@ export default class BackendStack extends cdk.Stack {
 
     lambdaDataSource.createResolver({
       typeName: "Query",
+      fieldName: "recipes",
+    });
+
+    lambdaDataSource.createResolver({
+      typeName: "Query",
       fieldName: "getExclusionById",
     });
 

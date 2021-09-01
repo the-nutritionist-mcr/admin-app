@@ -5,7 +5,7 @@ import { PreloadedQuery, useQueryLoader } from "react-relay"
 import { OperationType } from "relay-runtime";
 
 interface LoadableRouteProps<DT extends OperationType> {
-  queryRef: PreloadedQuery<DT>
+  queryRef: PreloadedQuery<DT>,
 }
 
 export type LazyImportType<DT extends OperationType> = () => Promise<{ default: FC<LoadableRouteProps<DT>>}>
@@ -27,17 +27,26 @@ function AuthenticatedRoute<DT extends OperationType>(
   props: AuthenticatedrouteProps<DT>
 ): React.ReactElement | null {
   const user = React.useContext(UserContext);
-  const [queryReference, loadQuery] = useQueryLoader<DT>(props.dataQuery)
 
-  const LazyComponent = React.lazy(props.lazyImport)
+  const LazyLoaderFunction = React.useCallback(() => {
+    const LazyComponent = React.lazy(props.lazyImport)
+    const LoaderComponent: React.FC = () => {
+      const [queryReference, loadQuery] = useQueryLoader<DT>(props.dataQuery)
+      React.useEffect(() => {
+        !queryReference && loadQuery({})
+      }, [loadQuery, queryReference])
+      return (queryReference && <LazyComponent queryRef={queryReference} />) ?? null
+    }
+    return Promise.resolve({
+      default: LoaderComponent
+    })
+  }, [props.lazyImport, props.dataQuery])
 
-  React.useEffect(() => {
-    loadQuery({});
-  }, [])
+  const LazyLoader = React.lazy(LazyLoaderFunction)
 
-  return queryReference && props.groups.some((group) => user?.groups?.includes(group)) ? (
+  return props.groups.some((group) => user?.groups?.includes(group)) ? (
     <Route exact={props.exact} path={props.path}>
-      <LazyComponent queryRef={queryReference} />
+      <LazyLoader />
     </Route>
   ) : null;
 }

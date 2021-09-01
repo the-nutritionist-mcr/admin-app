@@ -18,23 +18,46 @@ import {
 } from "../recipes/recipesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import EditRecipesDialog from "./EditRecipesDialog";
-import Recipe, { HotOrCold } from "../../domain/Recipe";
 import React from "react";
 import RecipesRow from "../recipes/RecipesRow";
 import useRecipes from "./useRecipes";
 import { defaultDeliveryDays } from "../../lib/config";
 import useCustomers from "../customers/useCustomers";
 import PlanningModeSummary from "./PlanningModeSummary";
+import { graphql } from "relay-runtime";
+import type { RecipesQuery as RecipesQueryType, RecipesQueryResponse } from "../../__generated__/RecipesQuery.graphql"
+import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 
-const Recipes: React.FC = () => {
+export const RecipesQuery = graphql`
+  query RecipesQuery {
+    recipes {
+      id,
+      name,
+      hotOrCold,
+      shortName,
+      description,
+      potentialExclusions {
+        name
+        id
+        allergen
+      }
+    }
+  }
+`
+
+interface RecipesProps {
+  queryRef: PreloadedQuery<RecipesQueryType>
+}
+
+const Recipes: React.FC<RecipesProps> = (props) => {
+  const { recipes } = usePreloadedQuery<RecipesQueryType>(RecipesQuery, props.queryRef)
   const dispatch = useDispatch();
-  const { recipes } = useRecipes();
   useCustomers();
   const error = useSelector(errorSelector);
   const [planningMode, setPlanningMode] = React.useState(false);
   const [showCreate, setShowCreate] = React.useState(false);
   const [selectedDelivery, setSelectedDelivery] = React.useState(-1);
-  const [plannerSelection, setPlannerSelection] = React.useState<Recipe[][]>(
+  const [plannerSelection, setPlannerSelection] = React.useState<RecipesQueryResponse["recipes"][]>(
     defaultDeliveryDays.map(() => [])
   );
 
@@ -70,7 +93,7 @@ const Recipes: React.FC = () => {
             recipe={{
               id: "0",
               shortName: "",
-              hotOrCold: HotOrCold.Hot,
+              hotOrCold: "Hot",
               name: "",
               description: "",
               potentialExclusions: [],

@@ -2,27 +2,29 @@ import { Button, CheckBox, TableCell, TableRow } from "grommet";
 import { Edit, Trash } from "grommet-icons";
 import { removeRecipe, updateRecipe } from "../recipes/recipesSlice";
 
-import EditRecipesDialog from "./EditRecipesDialog";
 import { OkCancelDialog } from "../../components";
 import React from "react";
 import Recipe from "../../domain/Recipe";
 import styled from "styled-components";
+import type { RecipesQueryResponse } from "../../__generated__/RecipesQuery.graphql"
+import EditRecipesDialog from "./EditRecipesDialog";
 
 const SlimButton = styled(Button)`
   padding: 0 5px 0 5px;
 `;
 
 interface RecipesRowProps {
-  recipe: Recipe;
+  recipe: RecipesQueryResponse["recipes"][number];
   onChange: (newRecipe: Recipe) => void;
   showCheckBoxes: boolean;
   plannerMode: boolean;
   selectedDeliveryDay: number;
-  plannerSelection: Recipe[][];
-  onSelect: (plannerSelection: Recipe[][]) => void;
+  plannerSelection: RecipesQueryResponse["recipes"][];
+  onSelect: (plannerSelection: RecipesQueryResponse["recipes"][]) => void;
 }
 
 const RecipesRow: React.FC<RecipesRowProps> = (props) => {
+
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
 
@@ -92,7 +94,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
             }}
             onCancel={(): void => setShowDoDelete(false)}
           >
-            Are you sure you want to delete this recipe?
+            Are you sure you want to delete this props.recipe?
           </OkCancelDialog>
 
           <SlimButton
@@ -104,7 +106,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
           {showEdit && (
             <EditRecipesDialog
               recipe={props.recipe}
-              title="Edit Recipe"
+              title="Edit props.recipe"
               thunk={updateRecipe}
               onOk={(): void => {
                 setShowEdit(false);

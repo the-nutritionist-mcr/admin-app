@@ -41,6 +41,7 @@ export const CustomersQuery = graphql`
     }
   }
 `
+
 const Customers: React.FC<CustomersProps> = (props) => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
 

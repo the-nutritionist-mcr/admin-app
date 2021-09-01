@@ -4,6 +4,7 @@ import React from "react";
 import { Spinning } from "grommet-controls";
 import { Switch } from "react-router-dom";
 import { CustomersQuery } from "../../features/customers/Customers"
+import { RecipesQuery } from "../../features/recipes/Recipes"
 
 // const LazyHome = React.lazy(async () => import("../home/home"));
 // const LazyCustomers = React.lazy(
@@ -25,6 +26,8 @@ import { CustomersQuery } from "../../features/customers/Customers"
 // const LazyNewCustomer = React.lazy(
 //   async () => import("../../features/customers/NewCustomerPage")
 // );
+const lazyCustomer = () => import("../../features/customers/Customers")
+const lazyRecipes = () => import("../../features/recipes/Recipes")
 
 const Router: React.FC = () => (
   <React.Suspense
@@ -46,8 +49,14 @@ const Router: React.FC = () => (
       <AuthenticatedRoute
         path="/customers"
         groups={["user", "admin"]}
-        lazyImport={() => import("../../features/customers/Customers")}
+        lazyImport={lazyCustomer}
         dataQuery={CustomersQuery}
+      />
+      <AuthenticatedRoute
+        path="/recipes"
+        groups={["user", "admin"]}
+        lazyImport={lazyRecipes}
+        dataQuery={RecipesQuery}
       />
       {/*
       <AuthenticatedRoute
