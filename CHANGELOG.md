@@ -1,3 +1,12 @@
+## [1.10.0](https://github.com/benwainwright/tnm/compare/v1.9.0...v1.10.0) (2021-09-02)
+
+
+### Features
+
+* change 'delivery plan' name to 'pack plan' ([8a4ab77](https://github.com/benwainwright/tnm/commit/8a4ab77d16d87341cd5dda31c10cc8f183006361))
+* don't break pack plan up by delivery days ([905ce20](https://github.com/benwainwright/tnm/commit/905ce209ab35cc06d13c44a6239499e6ee21aeb2))
+* remove address from pack plan ([a76832a](https://github.com/benwainwright/tnm/commit/a76832a844a16a2aab92f94283a5871a30a793a2))
+
 ## [1.9.0](https://github.com/benwainwright/tnm/compare/v1.8.1...v1.9.0) (2021-08-31)
 
 
