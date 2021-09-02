@@ -31,14 +31,14 @@ const Planner: React.FC = () => {
         <Button
           primary
           size="small"
-          label="Delivery Plan"
+          label="Pack Plan"
           disabled={Boolean(!customerMeals || !recipes)}
           onClick={() => {
             const plan = generateDeliveryPlanDocumentDefinition(
               customerMeals ?? [],
               recipes
             );
-            downloadPdf(plan, "delivery-plan.pdf");
+            downloadPdf(plan, "pack-plan.pdf");
           }}
         />
         <Button

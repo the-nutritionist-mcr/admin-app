@@ -84,7 +84,7 @@ const generateDeliveryPlanDocumentDefinition = (
 
   const date = new Date(Date.now());
 
-  const title = `TNM Delivery Plan (printed ${date.toLocaleDateString(
+  const title = `TNM Pack Plan (printed ${date.toLocaleDateString(
     undefined,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     options as any
