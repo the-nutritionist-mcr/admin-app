@@ -32,7 +32,6 @@ const makeRowsFromSelections = (
         text: generateNameString(customerSelection.customer),
         bold: true,
       },
-      `\n${customerSelection.customer.address}`,
     ],
     ...customerSelection.delivery
       .map((item) => createVariant(customerSelection.customer, item, allMeals))
