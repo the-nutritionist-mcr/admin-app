@@ -1,3 +1,7 @@
+interface Node {
+  id: ID!
+}
+
 type DeliveryItem {
   name: String!
   quantity: Int!
@@ -99,7 +103,7 @@ input RecipeInput {
   exclusionIds: [ID!]!
 }
 
-type Customer {
+type Customer implements Node {
   id: ID!
   firstName: String!
   surname: String!
@@ -169,6 +173,10 @@ input DeleteCustomerInput {
 }
 
 type Query {
+
+  node(id: ID!): Node!
+  @aws_auth(cognito_groups: ["user", "admin"])
+
   customers: [Customer!]! @aws_auth(cognito_groups: ["user", "admin"])
 
   recipes: [Recipe!]! @aws_auth(cognito_groups: ["user", "admin"])

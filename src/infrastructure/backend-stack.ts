@@ -17,6 +17,31 @@ interface BackendStackProps {
   transient: boolean;
 }
 
+const addResolver = (context: cdk.Construct, api: appsync.IGraphqlApi, appName: string, resolverProps: appsync.BaseResolverProps) => {
+    const bundlePath = process.env.IS_LOCAL_DEPLOY
+      ? path.resolve(__dirname, "..", "..", "dist", "bundles", "backend")
+      : path.resolve(__dirname, "..", "..", "backend");
+
+    const lambdaName = `${appName}-${resolverProps.fieldName}-resolver-lambda`
+
+    const resolverLambda = new lambda.Function(context, lambdaName, {
+      functionName: lambdaName,
+      runtime: lambda.Runtime.NODEJS_14_X,
+      handler: `${resolverProps.fieldName}.handler`,
+      code: lambda.Code.fromAsset(bundlePath),
+      memorySize: 1024,
+    });
+
+    const dataSource = api.addLambdaDataSource(
+      `${resolverProps.fieldName}DataSource`,
+      resolverLambda
+    )
+
+    dataSource.createResolver(resolverProps);
+
+    return resolverLambda
+}
+
 export default class BackendStack extends cdk.Stack {
   public constructor(
     scope: cdk.Construct,
@@ -121,20 +146,14 @@ export default class BackendStack extends cdk.Stack {
       memorySize: 1024,
     });
 
+
     const lambdaDataSource = api.addLambdaDataSource(
       "lambdaDataSource",
       resolverLambda
     );
 
-    lambdaDataSource.createResolver({
-      typeName: "Query",
-      fieldName: "customers",
-    });
-
-    lambdaDataSource.createResolver({
-      typeName: "Query",
-      fieldName: "recipes",
-    });
+    addResolver(this, api, name, { typeName: "Query", fieldName: "customers"})
+    addResolver(this, api, name, { typeName: "Query", fieldName: "recipes"})
 
     lambdaDataSource.createResolver({
       typeName: "Query",

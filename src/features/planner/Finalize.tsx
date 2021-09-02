@@ -7,11 +7,16 @@ import {
   customerSelectionsSelector,
   plannedMealsSelector,
 } from "./planner-reducer";
+import { graphql } from "relay-runtime";
+import { useFragment } from "react-relay";
+import { FinalizeComponent_recipe$key } from "../../__generated__/FinalizeComponent_recipe.graphql"
 
-const Finalize = () => {
-  // const dispatch = useDispatch();
+interface FinalizeProps {
+  recipes: FinalizeComponent_recipe$key
+}
 
-  const { recipes } = useRecipes();
+const Finalize: React.FC<FinalizeProps> = (props) => {
+
   const customerMeals = useSelector(customerSelectionsSelector);
   const planned = useSelector(plannedMealsSelector);
 
@@ -48,7 +53,7 @@ const Finalize = () => {
             key={`${customerPlan.customer.id}-finalize-table`}
             customerSelection={customerPlan}
             deliveryMeals={planned}
-            allRecipes={recipes}
+            allRecipes={data}
             columns={6}
           />
         ))}
