@@ -2,13 +2,14 @@
 import { Content, Size, Table } from "pdfmake/interfaces";
 import { batchArray } from "./batch-array";
 
-const defaultWidths = (columns: number) => [...new Array(columns + 1)].map(() => "*")
+const defaultWidths = (columns: number) =>
+  [...new Array(columns + 1)].map(() => "*");
 
 export class PdfTable {
   public constructor(
     private columns: number,
     private widths: Size[] = defaultWidths(columns),
-    private headerRows = 0,
+    private headerRows = 0
   ) {}
 
   private content: Content[][] = [];

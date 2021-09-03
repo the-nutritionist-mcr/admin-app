@@ -28,10 +28,12 @@ const generateCookPlanDocumentDefinition = (
       .map((key) => formatPlanItem(`${key} x ${map[key].count}`, map[key])),
   });
 
-  const convertPlanToRows = (individualCookPlan: Map<string, RecipeVariantMap>) => {
+  const convertPlanToRows = (
+    individualCookPlan: Map<string, RecipeVariantMap>
+  ) => {
     const all = Array.from(individualCookPlan.entries());
     return all.map(([recipeName, value]) => [
-      { text: recipeName, style: 'rowHeader' },
+      { text: recipeName, style: "rowHeader" },
       formatRecipeVariantMap(value),
     ]);
   };
@@ -47,4 +49,4 @@ const generateCookPlanDocumentDefinition = (
   return returnVal.toDocumentDefinition();
 };
 
-export default generateCookPlanDocumentDefinition
+export default generateCookPlanDocumentDefinition;

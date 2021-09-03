@@ -1,7 +1,7 @@
 import Customer from "../domain/Customer";
 
-const isActive = (customer: Customer): boolean => {
-  const now = new Date(Date.now());
+const isActive = (customer: Customer, date?: Date): boolean => {
+  const now = date ?? new Date(Date.now());
 
   if (customer.pauseEnd && now > new Date(customer.pauseEnd)) {
     return true;

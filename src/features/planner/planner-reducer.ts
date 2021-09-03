@@ -21,6 +21,7 @@ const initialState: PlannerState = {
 
 interface GenerateSelectionPayload {
   deliveries: Recipe[][];
+  deliveryDates: Date[];
 }
 
 interface RecipeRemovePayload {
@@ -118,6 +119,7 @@ const plannerReducer = (state: AppState, action?: AnyAction): AppState => {
         selectedMeals: executingAction.payload.deliveries.map(cloneDelivery),
         customerSelections: chooseMeals(
           executingAction.payload.deliveries,
+          executingAction.payload.deliveryDates,
           newState.customers.items
         ),
       },
@@ -158,23 +160,29 @@ const plannerReducer = (state: AppState, action?: AnyAction): AppState => {
                   ...exclusion,
                 })),
               },
-              deliveries: deliveries.map((delivery, index) => [
-                ...(index === executingAction.payload.deliveryIndex
-                  ? delivery.map((item, itemIndex) => ({
-                      recipe:
-                        itemIndex === executingAction.payload.index &&
-                        customer.id === executingAction.payload.customer.id
-                          ? executingAction.payload.recipe
-                          : (item as SelectedMeal).recipe,
+              deliveries: deliveries.map((delivery, index) =>
+                delivery
+                  ? [
+                      ...(index === executingAction.payload.deliveryIndex
+                        ? delivery.map((item, itemIndex) => ({
+                            recipe:
+                              itemIndex === executingAction.payload.index &&
+                              customer.id ===
+                                executingAction.payload.customer.id
+                                ? executingAction.payload.recipe
+                                : (item as SelectedMeal).recipe,
 
-                      chosenVariant:
-                        itemIndex === executingAction.payload.index &&
-                        customer.id === executingAction.payload.customer.id
-                          ? executingAction.payload.variant
-                          : item.chosenVariant,
-                    }))
-                  : delivery),
-              ]),
+                            chosenVariant:
+                              itemIndex === executingAction.payload.index &&
+                              customer.id ===
+                                executingAction.payload.customer.id
+                                ? executingAction.payload.variant
+                                : item.chosenVariant,
+                          }))
+                        : delivery),
+                    ]
+                  : delivery
+              ),
             })
           ),
         },
@@ -190,12 +198,5 @@ export const plannedMealsSelector = (
 export const customerSelectionsSelector = (
   state: AppState
 ): CustomerMealsSelection | undefined => state.planner.customerSelections;
-
-export const customerSelectionSelector =
-  (customer: Customer, deliveryIndex: number, index: number) =>
-  (state: AppState) =>
-    state.planner.customerSelections?.find(
-      (selection) => selection.customer.id === customer.id
-    )?.deliveries[deliveryIndex][index];
 
 export default plannerReducer;

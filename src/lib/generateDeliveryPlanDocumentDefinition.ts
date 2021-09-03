@@ -4,7 +4,7 @@ import Recipe from "../domain/Recipe";
 import {
   createVariant,
   CustomerMealsSelection,
-  SelectedItem,
+  Delivery,
 } from "../lib/plan-meals";
 import { defaultDeliveryDays } from "./config";
 import formatPlanItem from "./formatPlanItem";
@@ -14,7 +14,7 @@ const COLUMNS = 6;
 
 interface CustomerMealDaySelection {
   customer: Customer;
-  delivery: SelectedItem[];
+  delivery: Delivery;
 }
 
 const makeRowsFromSelections = (
@@ -29,9 +29,13 @@ const makeRowsFromSelections = (
         bold: true,
       },
     ],
-    ...customerSelection.delivery
-      .map((item) => createVariant(customerSelection.customer, item, allMeals))
-      .map((item) => formatPlanItem(item.mealWithVariantString, item)),
+    ...(!customerSelection.delivery
+      ? ["Paused"]
+      : customerSelection.delivery
+          .map((item) =>
+            createVariant(customerSelection.customer, item, allMeals)
+          )
+          .map((item) => formatPlanItem(item.mealWithVariantString, item))),
   ]);
 
 const generateNameString = (customer: Customer) =>
@@ -48,7 +52,6 @@ const generateDeliveryPlanDocumentDefinition = (
   selections: CustomerMealsSelection,
   allMeals: Recipe[]
 ): DocumentDefinition => {
-
   const date = new Date(Date.now());
 
   const title = `TNM Pack Plan (printed ${date.toLocaleDateString(
@@ -57,16 +60,19 @@ const generateDeliveryPlanDocumentDefinition = (
     options as any
   )})`;
 
-
   const builder = defaultDeliveryDays.reduce<PdfBuilder>(
     (topBuilder, current, cookIndex) => {
-      const daySelections = selections.map(({ customer, deliveries }) => ({ customer, delivery: deliveries[cookIndex]}));
+      const daySelections = selections.map(({ customer, deliveries }) => ({
+        customer,
+        delivery: deliveries[cookIndex],
+      }));
       return topBuilder
-            .header(`Cook ${cookIndex + 1}`)
-            .table(makeRowsFromSelections(daySelections, allMeals), COLUMNS)
-            .pageBreak();
+        .header(`Cook ${cookIndex + 1}`)
+        .table(makeRowsFromSelections(daySelections, allMeals), COLUMNS)
+        .pageBreak();
     },
-    new PdfBuilder(title, true))
+    new PdfBuilder(title, true)
+  );
 
   return builder.toDocumentDefinition();
 };

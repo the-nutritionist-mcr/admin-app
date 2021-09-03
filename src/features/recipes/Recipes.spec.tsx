@@ -30,7 +30,7 @@ test("The planning mode button displays the planning mode box when clicked", () 
   });
 
   defaultDeliveryDays.forEach((_, index) => {
-    expect(screen.queryByText(`Delivery ${index + 1}`)).toBeInTheDocument();
+    expect(screen.queryByText(`Cook ${index + 1}`)).toBeInTheDocument();
   });
 });
 
@@ -59,7 +59,7 @@ test("There is a 'cancel planning mode' button in planning mode that exits out o
   });
 
   defaultDeliveryDays.forEach((_, index) => {
-    expect(screen.queryByText(`Delivery ${index + 1}`)).not.toBeInTheDocument();
+    expect(screen.queryByText(`Cook ${index + 1}`)).not.toBeInTheDocument();
   });
 });
 
@@ -101,7 +101,7 @@ test("The planning mode button adds checkboxes for each recipe once a delivery d
     }
   });
 
-  const deliveryOne = screen.getByRole("button", { name: "Delivery 1" });
+  const deliveryOne = screen.getByRole("button", { name: "Cook 1" });
 
   act(() => {
     userEvent.click(deliveryOne);

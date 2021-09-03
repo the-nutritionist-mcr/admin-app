@@ -234,7 +234,8 @@ describe("Choose Meals", () => {
     ];
 
     const customers: Customer[] = [customerOne, customerTwo, customerThree];
-    const result = chooseMeals(selection, customers);
+    const dates = [new Date(1630702130000), new Date(1630702130000)]
+    const result = chooseMeals(selection, dates, customers);
 
     expect(result[0].customer).toBe(customerOne);
     expect(result[1].customer).toBe(customerTwo);
@@ -268,11 +269,15 @@ describe("Choose Meals", () => {
       inActiveCustomerTwo,
       customerThree,
     ];
-    const result = chooseMeals(selection, customers);
+    const dates = [new Date(1582922930000), new Date(1588103330000)]
+    const result = chooseMeals(selection, dates, customers);
 
-    expect(result).toHaveLength(2);
+    expect(result).toHaveLength(3);
     expect(result[0].customer).toBe(customerOne);
-    expect(result[1].customer).toBe(customerThree);
+    expect(result[1].customer).toBe(inActiveCustomerTwo);
+    expect(result[1].deliveries[0]).not.toBeFalsy()
+    expect(result[1].deliveries[1]).toBeFalsy()
+    expect(result[2].customer).toBe(customerThree);
   });
 
   it("generates a selection containing the correct number of each main meal in each delivery", () => {
@@ -289,10 +294,11 @@ describe("Choose Meals", () => {
     ];
 
     const customers: Customer[] = [customerOne, customerTwo, customerThree];
-    const result = chooseMeals(selection, customers);
+    const dates = [new Date(1630702130000), new Date(1630702130000)]
+    const result = chooseMeals(selection, dates, customers);
 
-    expect(result[0].deliveries[0]).toHaveLength(8);
-    expect(result[0].deliveries[1]).toHaveLength(8);
+    expect(Array.isArray(result[0].deliveries[0]) && result[0].deliveries[0]).toHaveLength(8);
+    expect(Array.isArray(result[0].deliveries[1]) && result[0].deliveries[1]).toHaveLength(8);
     expect(result[1].deliveries[1]).toHaveLength(15);
     expect(result[1].deliveries[1]).toHaveLength(15);
     expect(result[2].deliveries[0]).toHaveLength(15);
@@ -313,28 +319,30 @@ describe("Choose Meals", () => {
     ];
 
     const customers: Customer[] = [customerOne, customerTwo, customerThree];
-    const result = chooseMeals(selection, customers);
-    expect(result[0].deliveries[0][0]).toEqual({
+    const dates = [new Date(1630702130000), new Date(1630702130000)]
+    const result = chooseMeals(selection, dates, customers);
+
+    expect(Array.isArray(result[0].deliveries[0]) && result[0].deliveries[0][0]).toEqual({
       chosenVariant: expect.anything(),
       recipe: recipeOne,
     });
-    expect(result[0].deliveries[0][3]).toEqual({
+    expect(Array.isArray(result[0].deliveries[0]) && result[0].deliveries[0][3]).toEqual({
       chosenVariant: expect.anything(),
       recipe: recipeFour,
     });
-    expect(result[0].deliveries[0][7]).toEqual({
+    expect(Array.isArray(result[0].deliveries[0]) && result[0].deliveries[0][7]).toEqual({
       chosenVariant: expect.anything(),
       recipe: recipeTwo,
     });
-    expect(result[0].deliveries[1][0]).toEqual({
+    expect(Array.isArray(result[0].deliveries[1]) && result[0].deliveries[1][0]).toEqual({
       chosenVariant: expect.anything(),
       recipe: recipeSeven,
     });
-    expect(result[0].deliveries[1][2]).toEqual({
+    expect(Array.isArray(result[0].deliveries[1]) && result[0].deliveries[1][2]).toEqual({
       chosenVariant: expect.anything(),
       recipe: recipeNine,
     });
-    expect(result[0].deliveries[1][6]).toEqual({
+    expect(Array.isArray(result[0].deliveries[1]) && result[0].deliveries[1][6]).toEqual({
       chosenVariant: expect.anything(),
       recipe: recipeSeven,
     });
@@ -354,9 +362,10 @@ describe("Choose Meals", () => {
     ];
 
     const customers: Customer[] = [customerOne, customerTwo, customerThree];
-    const result = chooseMeals(selection, customers);
+    const dates = [new Date(1630702130000), new Date(1630702130000)]
+    const result = chooseMeals(selection, dates, customers);
 
-    const variants = result[0].deliveries[0].map((item) => item.chosenVariant);
+    const variants = Array.isArray(result[0].deliveries[0]) && result[0].deliveries[0].map((item) => item.chosenVariant);
     expect(variants).toEqual([
       "EQ",
       "EQ",
@@ -368,7 +377,7 @@ describe("Choose Meals", () => {
       "Mass",
     ]);
 
-    const variants2 = result[2].deliveries[1].map((item) => item.chosenVariant);
+    const variants2 = Array.isArray(result[2].deliveries[1]) && result[2].deliveries[1].map((item) => item.chosenVariant);
     expect(variants2).toEqual([
       "EQ",
       "EQ",
@@ -422,9 +431,10 @@ describe("Choose Meals", () => {
 
     const customers: Customer[] = [sparseCustomerOne, sparseCustomerTwo];
 
-    const result = chooseMeals(selection, customers);
+    const dates = [new Date(1630702130000), new Date(1630702130000)]
+    const result = chooseMeals(selection, dates, customers);
 
-    expect(result[1].deliveries[0][0]).toEqual({
+    expect(Array.isArray(result[1].deliveries[0]) && result[1].deliveries[0][0]).toEqual({
       chosenVariant: expect.anything(),
       recipe: recipeThree,
     });

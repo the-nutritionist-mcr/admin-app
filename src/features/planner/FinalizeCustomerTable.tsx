@@ -50,7 +50,15 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {deliveries.flatMap((delivery, deliveryIndex) =>
+        {deliveries.flatMap((delivery, deliveryIndex) => !delivery ? <AlternatingTableRow>
+
+        <TableCell scope="row">
+          <Text>
+            <strong>{deliveryIndex + 1}</strong>
+          </Text>
+        </TableCell>
+
+        <TableCell><em>Paused</em></TableCell></AlternatingTableRow> :
           batchArray(delivery, props.columns).map((row, batchIndex) => (
             <AlternatingTableRow
               style={{ width: "100%" }}

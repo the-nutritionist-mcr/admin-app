@@ -14,11 +14,11 @@ import {
 import Customer from "../domain/Customer";
 import { Grommet } from "grommet";
 
-const FakeLink: React.FC = (props) => <>{props.children}</>
+const FakeLink: React.FC = (props) => <>{props.children}</>;
 
 jest.mock("../features/recipes/useRecipes");
 jest.mock("react-redux");
-jest.mock('react-router-dom', () => ({ Link: FakeLink }))
+jest.mock("react-router-dom", () => ({ Link: FakeLink }));
 
 test("the finalize component displays the customer name at the top of each table", () => {
   const r = mock<Recipe>();

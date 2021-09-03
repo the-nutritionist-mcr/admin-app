@@ -21,9 +21,11 @@ interface SelectedExtra {
 
 export type SelectedItem = SelectedMeal | SelectedExtra;
 
+export type Delivery = SelectedItem[] | false;
+
 export type CustomerMealsSelection = {
   customer: Customer;
-  deliveries: SelectedItem[][];
+  deliveries: Delivery[];
 }[];
 
 export const createVariant = (
@@ -181,10 +183,10 @@ const hasPlan = (
 
 export const chooseMeals = (
   deliverySelection: DeliveryMealsSelection[],
+  cookDates: Date[],
   customers: Customer[]
 ): CustomerMealsSelection =>
   customers
-    .filter(isActive)
     .filter(hasPlan)
     .map((customer) => ({
       customer,
@@ -212,7 +214,9 @@ export const chooseMeals = (
     }, [])
     .map(({ customer, deliveries }) => ({
       customer,
-      deliveries,
+      deliveries: deliveries.map((delivery, index) =>
+        isActive(customer, cookDates[index]) ? delivery : false
+      ),
     }));
 
 export const makeCookPlan = (
@@ -222,30 +226,31 @@ export const makeCookPlan = (
   return defaultDeliveryDays.map((day, deliveryIndex) =>
     selections.reduce<Map<string, RecipeVariantMap>>(
       (startMap, customerSelections) => {
-        return customerSelections.deliveries[deliveryIndex].reduce(
-          (map, item) => {
-            const variant = createVariant(
-              customerSelections.customer,
-              item,
-              allMeals
-            );
-            const key = isSelectedMeal(item)
-              ? item.recipe.name
-              : item.chosenVariant;
-            const previousMap = map.get(key);
-            const previousVariant = previousMap?.[variant.string];
-            map.set(key, {
-              ...previousMap,
-              [variant.string]: {
-                ...variant,
-                ...previousVariant,
-                count: (previousVariant?.count ?? 0) + 1,
-              },
-            });
-            return map;
-          },
-          startMap
-        );
+        const cook = customerSelections.deliveries[deliveryIndex];
+        if (!cook) {
+          return startMap;
+        }
+        return cook.reduce((map, item) => {
+          const variant = createVariant(
+            customerSelections.customer,
+            item,
+            allMeals
+          );
+          const key = isSelectedMeal(item)
+            ? item.recipe.name
+            : item.chosenVariant;
+          const previousMap = map.get(key);
+          const previousVariant = previousMap?.[variant.string];
+          map.set(key, {
+            ...previousMap,
+            [variant.string]: {
+              ...variant,
+              ...previousVariant,
+              count: (previousVariant?.count ?? 0) + 1,
+            },
+          });
+          return map;
+        }, startMap);
       },
       new Map()
     )

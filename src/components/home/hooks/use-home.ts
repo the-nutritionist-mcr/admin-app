@@ -11,7 +11,7 @@ const useHome = (): {
 } => {
   const { customers } = useCustomers();
   const inActivePlans = customers.filter(isInactive).length;
-  const activePlans = customers.filter(isActive).length;
+  const activePlans = customers.filter((customer) => isActive(customer)).length;
   const totalPlans = customers.length;
   return { activePlans, inActivePlans, totalPlans };
 };

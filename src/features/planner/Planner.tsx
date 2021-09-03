@@ -48,7 +48,10 @@ const Planner: React.FC = () => {
           disabled={Boolean(!customerMeals || !recipes)}
           onClick={() => {
             const plan = makeCookPlan(customerMeals ?? [], recipes);
-            downloadPdf(generateCookPlanDocumentDefinition(plan), "cook-plan.pdf");
+            downloadPdf(
+              generateCookPlanDocumentDefinition(plan),
+              "cook-plan.pdf"
+            );
           }}
         />
         <Button
