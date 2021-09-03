@@ -1,3 +1,10 @@
+## [1.11.0](https://github.com/benwainwright/tnm/compare/v1.10.0...v1.11.0) (2021-09-03)
+
+
+### Features
+
+* update planning mode so that you need to supply cook dates before you can submit a plan ([a510912](https://github.com/benwainwright/tnm/commit/a5109124876ed8c5da12961bec17a5da03a032da))
+
 ## [1.10.0](https://github.com/benwainwright/tnm/compare/v1.9.0...v1.10.0) (2021-09-02)
 
 
