@@ -42,12 +42,12 @@ module.exports = {
             { "type": "docs", "hidden": true },
             { "type": "style", "hidden": true },
             { "type": "refactor", "hidden": true},
-            { "type": "perf", "hidden": true },
+            { "type": "perf", "section": "Performance Updates"},
             { "type": "test", "hidden": true },
             { "type": "build", "hidden": true },
             { "type": "ci", "hidden": true },
             { "type": "chore", "hidden": true },
-            { "type": "revert", "hidden": true},
+            { "type": "revert", "section": "Reverts"},
           ]
         }
       }
