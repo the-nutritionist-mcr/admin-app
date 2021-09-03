@@ -17,6 +17,7 @@ import {
   planLabels,
   extrasLabels,
 } from "../../lib/config";
+import deepMemo from "../../lib/deepMemo";
 
 interface CustomerRowProps {
   customer: Customer;
@@ -41,7 +42,7 @@ const getPlanString = (
   return `${plan.configuration.planType} ${plan.configuration.mealsPerDay} (${plan.configuration.daysPerWeek} days) x ${plan.configuration.totalPlans}`;
 };
 
-const CustomerRow: React.FC<CustomerRowProps> = (props) => {
+const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showPause, setShowPause] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
@@ -137,5 +138,7 @@ const CustomerRow: React.FC<CustomerRowProps> = (props) => {
     </TableRow>
   );
 };
+
+const CustomerRow = deepMemo(UnMemoizedCustomerRow);
 
 export default CustomerRow;
