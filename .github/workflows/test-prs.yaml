@@ -1,0 +1,316 @@
+name: Test and merge PRs
+concurrency:
+  group: PR
+  cancel-in-progress: true
+
+on:
+  pull_request_target:
+
+jobs:
+  build-and-deploy-e2e-backend:
+    name: Build and Deploy E2E Backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+      - name: Yarn install
+        run: yarn install
+      - name: Build
+        run: yarn build:backend
+
+      - name: Move build output
+        run: mv dist/bundles/backend backend
+
+      - name: Generate empty build folder
+        run: mkdir build && touch build/file
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: backend
+          path: backend
+
+      - name: Deploy CI Backend
+        run: yarn deploy:backend:ci
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_BACKEND }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_BACKEND }}
+          AWS_REGION: us-east-1
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: outputs
+          path: backend-outputs.json
+
+  build-and-deploy-int-backend:
+    name: Build and Deploy Integration Test Backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+      - name: Yarn install
+        run: yarn install
+      - name: Build
+        run: yarn build:backend
+
+      - name: Generate empty build folder
+        run: mkdir build && touch build/     
+
+      - name: Move build output
+        run: mv dist/bundles/backend backend
+      
+      - name: Deploy CI Backend
+        run: yarn deploy:backend:int
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_BACKEND }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_BACKEND }}
+          AWS_REGION: us-east-1
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: int-outputs
+          path: backend-outputs.json
+
+  e2e-tests:
+    name: Run E2E Tests
+    needs: [build-and-deploy-e2e-backend, build-frontend]
+    runs-on: ubuntu-latest
+    container:
+      image: cypress/base
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v1
+      - name: Install Cypress deps
+        run: apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+      - name: Configure node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+
+      - name: Download Frontend
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: build
+
+      - name: Download Backend Config
+        uses: actions/download-artifact@v2
+        with:
+          name: outputs
+
+      - name: Run E2E Tests
+        run: yarn start:prod & yarn wait-on http://localhost:5000 && yarn cypress run
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_BACKEND }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_BACKEND }}
+          AWS_REGION: us-east-1
+
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: videos
+          path: cypress/videos
+
+
+
+  integration-tests:
+    name: Run Integration Tests
+    needs: [build-and-deploy-int-backend]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v1
+      - name: Configure node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+
+      - name: Download Backend Config
+        uses: actions/download-artifact@v2
+        with:
+          name: int-outputs
+
+      - name: Run Integration Tests
+        run: yarn jest --config jest.config.integration.js
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_BACKEND }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_BACKEND }}
+          SITE_URL: http://localhost:5000
+          AWS_REGION: us-east-1
+
+
+  cleanup-ci-backend-stack:
+    name: Cleanup E2E Test Backend Stack
+    needs: [e2e-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+      - name: Yarn install
+        run: yarn install
+
+      - name: Generate empty build folder
+        run: mkdir build && touch build/file && mkdir backend && touch backend/file
+
+      - name: Destroy CI Backend stack
+        run: yarn destroy:backend:ci
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_BACKEND }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_BACKEND }}
+          AWS_REGION: us-east-1
+
+  cleanup-int-backend-stack:
+    name: Cleanup Backend Int Test Stack
+    needs: [integration-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+      - name: Yarn install
+        run: yarn install
+
+      - name: Generate empty build folder
+        run: mkdir build && touch build/file && mkdir backend && touch backend/file
+
+      - name: Destroy CI Backend stack
+        run: yarn destroy:backend:int
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_BACKEND }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_BACKEND }}
+          AWS_REGION: us-east-1
+
+  build-frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+      - name: Yarn install
+        run: yarn install
+      - name: Build
+        run: yarn build:frontend
+        env:
+          DISABLE_ESLINT_PLUGIN: 'true'
+          DISABLE_TYPE_CHECKS: 'true'
+
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: build
+
+  types:
+    name: Check types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+      - name: Yarn install
+        run: yarn install
+      - name: Types
+        run: yarn tsc
+
+  unit-test:
+    name: Unit test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+      - name: Yarn install
+        run: yarn install
+      - name: Test
+        run: yarn test:ci
+      - uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          directory: coverage
+          flags: unittests
+          verbose: true
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+      - name: Yarn install
+        run: yarn install
+      - name: Lint
+        run: yarn lint
+        env:
+          NODE_OPTIONS: --max_old_space_size=8192
+
+  cdk-synth:
+    name: Generate Cloudformation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: Make empty build folder
+        run: mkdir build && touch build/file && mkdir backend && touch backend/file
+
+      - name: Synth
+        run: yarn cdk synth *
+
+        env:
+          DEPLOYMENT_ENVIRONMENT: prod
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+
+  codeql:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        languages: ${{ matrix.language }}
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
