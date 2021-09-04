@@ -4,6 +4,7 @@ import React from "react";
 import getExtrasString from "../../lib/getExtrasString";
 import getStatusString from "../../lib/getStatusString";
 import { PlannerConfig } from "./types";
+import { useDispatch } from "react-redux"
 import { isCustomDeliveryPlan } from "./distribution-generator";
 import {
   CustomerRowComponent_customer$key,

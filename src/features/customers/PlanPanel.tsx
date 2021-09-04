@@ -22,16 +22,6 @@ interface PlanPanelProps {
   onChange?: (newCustomerPlan: CustomerPlan) => void;
 }
 
-const daysOfWeek = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
-
 const PlanPanel: FC<PlanPanelProps> = (props) => {
   const [customerPlan, setCustomerPlan] = React.useState<CustomerPlan>(
     props.plan ?? makeNewPlan(props.plannerConfig)
