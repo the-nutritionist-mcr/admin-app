@@ -102,10 +102,12 @@ describe("The planner slice", () => {
       );
       expect(
         (
-          (state.planner.customerSelections?.find(
-            (selection) => selection.customer.id === mockCustomer2.id
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          )?.deliveries[0] as any)[1] as SelectedMeal
+          (
+            state.planner.customerSelections?.find(
+              (selection) => selection.customer.id === mockCustomer2.id
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            )?.deliveries[0] as any
+          )[1] as SelectedMeal
         ).recipe.id
       ).toEqual(mockRecipe3.id);
     });
@@ -218,7 +220,7 @@ describe("The planner slice", () => {
         },
       ];
 
-      const dates = [new Date(Date.now()), new Date(Date.now())]
+      const dates = [new Date(Date.now()), new Date(Date.now())];
 
       when(mocked(chooseMeals, true))
         .calledWith(selectedMeals, dates, initialState.customers.items)
@@ -226,7 +228,10 @@ describe("The planner slice", () => {
 
       const state = plannerReducer(
         initialState,
-        generateCustomerMeals({ deliveries: selectedMeals, deliveryDates: dates})
+        generateCustomerMeals({
+          deliveries: selectedMeals,
+          deliveryDates: dates,
+        })
       );
 
       expect(state.planner.customerSelections).toEqual(mockOutcome);

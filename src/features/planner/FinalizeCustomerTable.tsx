@@ -43,45 +43,56 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
           <TableCell colSpan={7}>
             <Text>
               <strong>
-                <Link style={{ color: 'black', textDecoration: 'none'}} to={`/edit-customer/${props.customerSelection.customer.id}`}>{name}</Link>
+                <Link
+                  style={{ color: "black", textDecoration: "none" }}
+                  to={`/edit-customer/${props.customerSelection.customer.id}`}
+                >
+                  {name}
+                </Link>
               </strong>
             </Text>
           </TableCell>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {deliveries.flatMap((delivery, deliveryIndex) => !delivery ? <AlternatingTableRow>
-
-        <TableCell scope="row">
-          <Text>
-            <strong>{deliveryIndex + 1}</strong>
-          </Text>
-        </TableCell>
-
-        <TableCell><em>Paused</em></TableCell></AlternatingTableRow> :
-          batchArray(delivery, props.columns).map((row, batchIndex) => (
-            <AlternatingTableRow
-              style={{ width: "100%" }}
-              key={`${props.customerSelection.customer.id}-${deliveryIndex}-${batchIndex}}-row`}
-            >
+        {deliveries.flatMap((delivery, deliveryIndex) =>
+          !delivery ? (
+            <AlternatingTableRow>
               <TableCell scope="row">
                 <Text>
                   <strong>{deliveryIndex + 1}</strong>
                 </Text>
               </TableCell>
-              {row.map((item, itemIndex) => (
-                <FinalizeCell
-                  key={`${props.customerSelection.customer.id}-${deliveryIndex}-${batchIndex}-cell-${itemIndex}`}
-                  deliveryIndex={deliveryIndex}
-                  index={batchIndex * props.columns + itemIndex}
-                  deliveryMeals={props.deliveryMeals}
-                  allRecipes={props.allRecipes}
-                  selectedItem={item}
-                  customerSelection={props.customerSelection}
-                />
-              ))}
+
+              <TableCell>
+                <em>Paused</em>
+              </TableCell>
             </AlternatingTableRow>
-          ))
+          ) : (
+            batchArray(delivery, props.columns).map((row, batchIndex) => (
+              <AlternatingTableRow
+                style={{ width: "100%" }}
+                key={`${props.customerSelection.customer.id}-${deliveryIndex}-${batchIndex}}-row`}
+              >
+                <TableCell scope="row">
+                  <Text>
+                    <strong>{deliveryIndex + 1}</strong>
+                  </Text>
+                </TableCell>
+                {row.map((item, itemIndex) => (
+                  <FinalizeCell
+                    key={`${props.customerSelection.customer.id}-${deliveryIndex}-${batchIndex}-cell-${itemIndex}`}
+                    deliveryIndex={deliveryIndex}
+                    index={batchIndex * props.columns + itemIndex}
+                    deliveryMeals={props.deliveryMeals}
+                    allRecipes={props.allRecipes}
+                    selectedItem={item}
+                    customerSelection={props.customerSelection}
+                  />
+                ))}
+              </AlternatingTableRow>
+            ))
+          )
         )}
       </TableBody>
     </Table>
