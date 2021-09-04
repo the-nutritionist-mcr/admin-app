@@ -31,7 +31,7 @@ describe("The customisations page", () => {
       cy.selectFromDatePicker('startDate', new Date('2021-08-02'))
       cy.get("[name='telephone']").type('07772123123')
       cy.get("[name='email']").type('abc@foo.com')
-      cy.get("[name='address']").type("1 some street\nSome City\A1 BC23")
+      cy.get("[name='address']").type("1 some street\nSome City\nA1 BC23")
       cy.get("[name='notes']").type("Some notes!")
 
       cy.selectFromDrop('[data-testid="daysPerWeek"]', '5')
