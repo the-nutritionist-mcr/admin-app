@@ -110,6 +110,63 @@ const loginByCognitoApi = (username, password) => {
   });
 };
 
+const monthDiff = (dateFrom: Date, dateTo: Date) =>
+  dateTo.getMonth() - dateFrom.getMonth() + (12 * (dateTo.getFullYear() - dateFrom.getFullYear()))
+
+
+const months = {
+  January: 0,
+  February: 1,
+  March: 2,
+  April: 3,
+  May: 4,
+  June: 5,
+  July: 6,
+  August: 7,
+  September: 8,
+  November: 9,
+  December: 10,
+  October: 11
+}
+
+const selectFromDatePicker = (name: string, targetDate: Date) => {
+  cy.get(`input[name='${name}']`).click();
+  return cy.get("[data-g-portal-id]").within(() => {
+           cy.get('h3')
+           .then(header => {
+             const parts = header.text().split(" ");
+             const month = months[parts[0].trim()]
+             const year = Number.parseInt(parts[1].trim(), 10)
+
+             const currentDate = new Date();
+
+             currentDate.setMonth(month);
+             currentDate.setFullYear(year);
+             const difference = monthDiff(currentDate, targetDate);
+
+             const nextOrPrevious = difference > 0 ? 'Next' : 'Previous';
+
+             [...new Array(Math.abs(difference))].forEach(() => {
+               cy.get(`[aria-label='${nextOrPrevious}']`).click()
+             })
+
+             Cypress.log({
+              message: [targetDate.getDate()],
+             })
+
+             cy.get('button').contains(targetDate.getDate()).click()
+           })
+  })
+}
+
+const selectFromDrop = (elementSelector: string, selection: string) => {
+  cy.get(elementSelector).click();
+  return cy.get("[data-g-portal-id]")
+    .find("div[role='menubar']")
+    .contains(selection)
+    .click({ force: true });
+}
+
 const createRecipe = (
   name: string,
   description: string,
@@ -152,6 +209,10 @@ declare global {
 
       seed: () => void;
 
+      selectFromDrop: (...args: Parameters<typeof selectFromDrop>) => Chainable;
+
+      selectFromDatePicker: (...args: Parameters<typeof selectFromDatePicker>) => Chainable;
+
       createCustomisation: (
         ...args: Parameters<typeof createCustomisation>
       ) => Chainable;
@@ -162,6 +223,8 @@ declare global {
 }
 
 Cypress.Commands.add("seed", seed);
+Cypress.Commands.add("selectFromDrop", selectFromDrop);
+Cypress.Commands.add("selectFromDatePicker", selectFromDatePicker);
 Cypress.Commands.add("loginByCognitoApi", loginByCognitoApi);
 Cypress.Commands.add("createCustomisation", createCustomisation);
 Cypress.Commands.add("createRecipe", createRecipe);

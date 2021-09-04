@@ -1,6 +1,6 @@
 import { COGNITO_PASSWORD, COGNITO_USER } from "../support/constants";
 
-describe("The customisatins page", () => {
+describe("The customisations page", () => {
 
   before(() => {
     cy.seed();
