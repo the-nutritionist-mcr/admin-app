@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Auth } from "@aws-amplify/auth";
+import Amplify from "@aws-amplify/core";
 import { assertIsBackendOutputs } from "../../types/backend-outputs";
 import {
   COGNITO_PASSWORD,
@@ -20,13 +21,19 @@ export const loginToCognito = async (): Promise<string> => {
     throw new Error("Could not load backend config :-(");
   }
 
-  Auth.configure({
+   const amplifyConfig = {
     Auth: {
       region: "us-east-1",
       userPoolId: config.UserPoolId,
       userPoolWebClientId: config.ClientId,
     },
-  });
+    aws_appsync_graphqlEndpoint: config.GraphQlQpiUrl,
+    aws_appsync_authenticationType: "AMAZON_COGNITO_USER_POOLS",
+    graphql_endpoint_iam_region: "us-east-1",
+  };
+
+  Amplify.configure(amplifyConfig);
+  Auth.configure(amplifyConfig);
 
   const signIn = await Auth.signIn({
     username: COGNITO_USER,
