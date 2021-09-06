@@ -54,7 +54,7 @@ export const getAllByGsis = async <T>(
 };
 
 export const getAllByIds = async <T>(
-  table: string,
+  table: string | string[],
   ids: (string | { key: string; value: string })[]
 ): Promise<T[]> => {
   const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
@@ -63,13 +63,16 @@ export const getAllByIds = async <T>(
     return [];
   }
   const batchParams = {
-    RequestItems: {
-      [table]: {
-        Keys: Array.from(new Set(ids), (id) =>
-          typeof id === "string" ? { id } : { [id.key]: id.value }
-        ),
-      },
-    },
+    RequestItems: Object.fromEntries(
+      (typeof table === 'string' ? [table] : table).map((table) => [
+        table,
+        {
+          Keys: Array.from(new Set(ids), (id) =>
+            typeof id === "string" ? { id } : { [id.key]: id.value }
+          ),
+        },
+      ])
+    ),
   };
 
   log.trace(JSON.stringify(batchParams, null, NUM_TABS));
@@ -78,7 +81,7 @@ export const getAllByIds = async <T>(
   /* eslint-enable @typescript-eslint/naming-convention */
 
   return results.Responses
-    ? (excludeDeleted(results.Responses[table]) as T[])
+    ? (excludeDeleted(Object.values(results.Responses).flat()) as T[])
     : [];
 };
 
