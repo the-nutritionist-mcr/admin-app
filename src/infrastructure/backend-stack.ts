@@ -17,30 +17,37 @@ interface BackendStackProps {
   transient: boolean;
 }
 
-const addResolver = (context: cdk.Construct, api: appsync.IGraphqlApi, appName: string, resolverProps: appsync.BaseResolverProps) => {
-    const bundlePath = process.env.IS_LOCAL_DEPLOY
-      ? path.resolve(__dirname, "..", "..", "dist", "bundles", "backend")
-      : path.resolve(__dirname, "..", "..", "backend");
+const addResolver = (
+  context: cdk.Construct,
+  api: appsync.IGraphqlApi,
+  appName: string,
+  resolverProps: appsync.BaseResolverProps,
+  environment?: { [key: string]: string}
+) => {
+  const bundlePath = process.env.IS_LOCAL_DEPLOY
+    ? path.resolve(__dirname, "..", "..", "dist", "bundles", "backend")
+    : path.resolve(__dirname, "..", "..", "backend");
 
-    const lambdaName = `${appName}-${resolverProps.fieldName}-resolver-lambda`
+  const lambdaName = `${appName}-${resolverProps.fieldName}-resolver-lambda`;
 
-    const resolverLambda = new lambda.Function(context, lambdaName, {
-      functionName: lambdaName,
-      runtime: lambda.Runtime.NODEJS_14_X,
-      handler: `${resolverProps.fieldName}.handler`,
-      code: lambda.Code.fromAsset(bundlePath),
-      memorySize: 1024,
-    });
+  const resolverLambda = new lambda.Function(context, lambdaName, {
+    functionName: lambdaName,
+    runtime: lambda.Runtime.NODEJS_14_X,
+    handler: `${resolverProps.fieldName}.handler`,
+    code: lambda.Code.fromAsset(bundlePath),
+    memorySize: 1024,
+    environment
+  });
 
-    const dataSource = api.addLambdaDataSource(
-      `${resolverProps.fieldName}DataSource`,
-      resolverLambda
-    )
+  const dataSource = api.addLambdaDataSource(
+    `${resolverProps.fieldName}DataSource`,
+    resolverLambda
+  );
 
-    dataSource.createResolver(resolverProps);
+  dataSource.createResolver(resolverProps);
 
-    return resolverLambda
-}
+  return resolverLambda;
+};
 
 export default class BackendStack extends cdk.Stack {
   public constructor(
@@ -146,14 +153,11 @@ export default class BackendStack extends cdk.Stack {
       memorySize: 1024,
     });
 
-
     const lambdaDataSource = api.addLambdaDataSource(
       "lambdaDataSource",
       resolverLambda
     );
 
-    addResolver(this, api, name, { typeName: "Query", fieldName: "customers"})
-    addResolver(this, api, name, { typeName: "Query", fieldName: "recipes"})
 
     lambdaDataSource.createResolver({
       typeName: "Query",
@@ -370,6 +374,7 @@ export default class BackendStack extends cdk.Stack {
       value: recipesTable.tableName,
     });
 
+
     const customerExclusionsTable = new ddb.Table(
       this,
       "CustomerExclusionsTable",
@@ -383,6 +388,27 @@ export default class BackendStack extends cdk.Stack {
         },
       }
     );
+
+
+    const recipeExclusionsTable = new ddb.Table(this, "RecipeExclusionsTable", {
+      removalPolicy,
+      tableName: `${name}-recipe-exclusions-table`,
+      billingMode: ddb.BillingMode.PAY_PER_REQUEST,
+      partitionKey: {
+        name: "id",
+        type: ddb.AttributeType.STRING,
+      },
+    });
+
+    const environment = {
+      RECIPES_TABLE: recipesTable.tableName,
+      CUSTOMERS_TABLE: customersTable.tableName,
+      EXCLUSIONS_TABLE: exclusionsTable.tableName,
+      CUSTOMER_EXCLUSIONS_TABLE: customerExclusionsTable.tableName,
+      RECIPE_EXCLUSIONS_TABLE: recipeExclusionsTable.tableName
+    };
+
+    ["customers", "recipes", "node"].forEach(fieldName => addResolver(this, api, name, { typeName: "Query", fieldName }, environment))
 
     new cdk.CfnOutput(this, "CustomerExclusionsTableName", {
       value: customerExclusionsTable.tableName,
@@ -404,15 +430,6 @@ export default class BackendStack extends cdk.Stack {
       },
     });
 
-    const recipeExclusionsTable = new ddb.Table(this, "RecipeExclusionsTable", {
-      removalPolicy,
-      tableName: `${name}-recipe-exclusions-table`,
-      billingMode: ddb.BillingMode.PAY_PER_REQUEST,
-      partitionKey: {
-        name: "id",
-        type: ddb.AttributeType.STRING,
-      },
-    });
 
     new cdk.CfnOutput(this, "RecipeExclusionsTableName", {
       value: recipeExclusionsTable.tableName,

@@ -53,14 +53,16 @@ export const getAllByGsis = async <T>(
   return results.flatMap((item) => excludeDeleted(item.Items) ?? []) as T[];
 };
 
-export const getAllByIds = async <T>(
+export const getAllByIds = async <T>(table: string, id: (string | { key: string; value: string })[]): Promise<T[]> => (await getAllByIdsMultiTable<T>(table, id)).items
+
+export const getAllByIdsMultiTable = async <T>(
   table: string | string[],
   ids: (string | { key: string; value: string })[]
-): Promise<T[]> => {
+): Promise<{items: T[], sources: string[]}> => {
   const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
   /* eslint-disable @typescript-eslint/naming-convention */
   if (ids.length === 0) {
-    return [];
+    return {items: [], sources: []};
   }
   const batchParams = {
     RequestItems: Object.fromEntries(
@@ -81,8 +83,8 @@ export const getAllByIds = async <T>(
   /* eslint-enable @typescript-eslint/naming-convention */
 
   return results.Responses
-    ? (excludeDeleted(Object.values(results.Responses).flat()) as T[])
-    : [];
+    ? {items: (excludeDeleted(Object.values(results.Responses).flat()) as T[]), sources: Object.keys(results.Responses) }
+    : { items: [], sources: []};
 };
 
 export const putAll = async <T>(

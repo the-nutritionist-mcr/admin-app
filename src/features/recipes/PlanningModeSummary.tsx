@@ -116,7 +116,9 @@ const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = (props) => {
           onClick={() => {
             dispatch(
               generateCustomerMeals({
-                deliveries: [...props.plannerSelection.map(selection => [...selection])],  
+                deliveries: [
+                  ...props.plannerSelection.map((selection) => [...selection]),
+                ],
                 deliveryDates: cookDates.map((cook) => new Date(cook ?? "")),
               })
             );

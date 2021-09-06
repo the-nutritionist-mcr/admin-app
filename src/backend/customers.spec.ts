@@ -106,11 +106,11 @@ describe("listCustomers", () => {
       },
     ];
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByIdsMultiTable, true))
       .calledWith("customer-exclusions-table", expect.anything())
       .mockResolvedValue([]);
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByIdsMultiTable, true))
       .calledWith("exclusions-table", expect.anything())
       .mockResolvedValue([]);
 
@@ -244,7 +244,7 @@ describe("listCustomers", () => {
       .calledWith("customers-table")
       .mockResolvedValue(mockCustomers);
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByIdsMultiTable, true))
       .calledWith(
         "customer-exclusions-table",
         expect.arrayContaining(["8", "10", "15", "21"])
@@ -253,7 +253,7 @@ describe("listCustomers", () => {
         customerExclusions as unknown as Record<string, unknown>[]
       );
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByIdsMultiTable, true))
       .calledWith("exclusions-table", expect.arrayContaining(["1", "3", "4"]))
       .mockResolvedValue(
         mockExclusions as unknown as Record<string, unknown>[]
@@ -312,7 +312,7 @@ describe("Createcustomer", () => {
       exclusionIds: ["4", "3"],
     };
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByIdsMultiTable, true))
       .calledWith("exclusions-table", expect.arrayContaining(["4", "3"]))
       .mockResolvedValue(
         mockExclusions as unknown as Record<string, unknown>[]
@@ -390,7 +390,7 @@ describe("Createcustomer", () => {
       exclusionIds: [],
     };
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByIdsMultiTable, true))
       .calledWith("exclusions-table", expect.arrayContaining([]))
       .mockResolvedValue([]);
 
@@ -506,7 +506,7 @@ describe("Update customer", () => {
         customerExclusions as unknown as Record<string, unknown>[]
       );
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByIdsMultiTable, true))
       .calledWith("exclusions-table", expect.arrayContaining(["2", "3"]))
       .mockResolvedValue(
         mockExclusions as unknown as Record<string, unknown>[]
@@ -843,7 +843,7 @@ describe("Delete customer", () => {
       exclusionIds: ["8", "10"],
     };
 
-    when(mocked(database.getAllByIds))
+    when(mocked(database.getAllByIdsMultiTable))
       .calledWith("customers-table", ["0"])
       .mockResolvedValue([customer]);
 

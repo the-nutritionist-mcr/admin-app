@@ -21,7 +21,7 @@ export const loginToCognito = async (): Promise<string> => {
     throw new Error("Could not load backend config :-(");
   }
 
-   const amplifyConfig = {
+  const amplifyConfig = {
     Auth: {
       region: "us-east-1",
       userPoolId: config.UserPoolId,

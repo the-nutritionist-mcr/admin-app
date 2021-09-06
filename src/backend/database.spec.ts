@@ -2,11 +2,86 @@ import * as AWS from "aws-sdk";
 import * as AWSMock from "aws-sdk-mock";
 import * as database from "./database";
 
-describe("The deleteAll method", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+afterEach(() => {
+  jest.clearAllMocks();
+  AWSMock.restore("DynamoDB.DocumentClient")
+});
+
+describe("the getAllByIds method", () => {
+  it("calls multiple tables when supplied an array for the table argument", async () => {
+    AWSMock.setSDKInstance(AWS);
+    AWSMock.mock(
+      "DynamoDB.DocumentClient",
+      "batchGet",
+      (
+        params: AWS.DynamoDB.DocumentClient.BatchGetItemInput,
+        callback: (
+          error: Error | undefined,
+          data: AWS.DynamoDB.DocumentClient.BatchGetItemOutput
+        ) => void
+      ) => {
+        expect(params.RequestItems["foo"].Keys).toEqual([
+          { id: "1" },
+          { id: "2" },
+        ]);
+
+        expect(params.RequestItems["bar"].Keys).toEqual([
+          { id: "1" },
+          { id: "2" },
+        ]);
+
+        expect(params.RequestItems["baz"].Keys).toEqual([
+          { id: "1" },
+          { id: "2" },
+        ]);
+        callback(undefined, {
+          Responses: { foo: [], bar: [], baz: [{ foo: "baz" }] },
+        });
+      }
+    );
+
+    const response = await database.getAllByIdsMultiTable(
+      ["foo", "bar", "baz"],
+      ["1", "2"]
+    );
+
+    expect(response).toHaveLength(1);
+    expect(response[0]).toEqual({ foo: "baz" });
   });
 
+  it("still works propertly when there is a single table", async () => {
+    AWSMock.setSDKInstance(AWS);
+    AWSMock.mock(
+      "DynamoDB.DocumentClient",
+      "batchGet",
+      (
+        params: AWS.DynamoDB.DocumentClient.BatchGetItemInput,
+        callback: (
+          error: Error | undefined,
+          data: AWS.DynamoDB.DocumentClient.BatchGetItemOutput
+        ) => void
+      ) => {
+        expect(params.RequestItems["foo"].Keys).toEqual([
+          { id: "1" },
+          { id: "2" },
+        ]);
+        callback(undefined, {
+          Responses: { foo: [{ foo: "baz" }] },
+        });
+      }
+    );
+
+    const response = await database.getAllByIdsMultiTable(
+      "foo",
+      ["1", "2"]
+    );
+
+    expect(response).toHaveLength(1);
+    expect(response[0]).toEqual({ foo: "baz" });
+  });
+});
+
+describe("The deleteAll method", () => {
   it("batches items into groups of 25 when passing them through to transactWrite", async () => {
     AWSMock.setSDKInstance(AWS);
     const paramsReceived: AWS.DynamoDB.TransactWriteItemsInput[] = [];

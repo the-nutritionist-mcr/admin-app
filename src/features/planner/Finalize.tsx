@@ -9,14 +9,13 @@ import {
 } from "./planner-reducer";
 import { graphql } from "relay-runtime";
 import { useFragment } from "react-relay";
-import { FinalizeComponent_recipe$key } from "../../__generated__/FinalizeComponent_recipe.graphql"
+import { FinalizeComponent_recipe$key } from "../../__generated__/FinalizeComponent_recipe.graphql";
 
 interface FinalizeProps {
-  recipes: FinalizeComponent_recipe$key
+  recipes: FinalizeComponent_recipe$key;
 }
 
 const Finalize: React.FC<FinalizeProps> = (props) => {
-
   const customerMeals = useSelector(customerSelectionsSelector);
   const planned = useSelector(plannedMealsSelector);
 

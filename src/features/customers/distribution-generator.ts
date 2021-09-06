@@ -85,7 +85,11 @@ const distributeAndMultiply = curry(
  * based on a supplied multiple
  */
 const multiplyItem = curry(
-  (items: ReadonlyArray<Item>, multiple: number, targetItem: string): ReadonlyArray<Item> =>
+  (
+    items: ReadonlyArray<Item>,
+    multiple: number,
+    targetItem: string
+  ): ReadonlyArray<Item> =>
     items.map((item) =>
       item.name === targetItem
         ? { ...item, quantity: item.quantity * multiple }

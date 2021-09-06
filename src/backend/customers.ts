@@ -13,6 +13,8 @@ import {
 import { AppSyncResolverEvent } from "aws-lambda";
 import Customer from "../domain/Customer";
 import Exclusion from "../domain/Exclusion";
+import { getRequiredEnvVar } from "./getRequiredEnvVar";
+import { hydrateCustomerData } from "./hydrateCustomerData";
 
 export const isListCustomersQuery = (
   event: AppSyncResolverEvent<AllQueryVariables>
@@ -23,57 +25,15 @@ export const isListCustomersQuery = (
   );
 };
 
-const getRequiredEnvVar = (name: string): string => {
-  const value = process.env[name];
-  if (value) {
-    return value;
-  }
-  throw new Error(`process.env.${name} not set`);
-};
 
 export const listCustomers = async (): Promise<Customer[]> => {
   const customersTable = getRequiredEnvVar("CUSTOMERS_TABLE");
-  const exclusionsTable = getRequiredEnvVar("EXCLUSIONS_TABLE");
-  const customerExclusionsTable = getRequiredEnvVar(
-    "CUSTOMER_EXCLUSIONS_TABLE"
-  );
 
   const customerData = (await database.getAll(
     customersTable
   )) as UpdateCustomerMutationVariables["input"][];
 
-  const customerExclusionIds = new Set(
-    customerData.flatMap((customer) => customer.exclusionIds).filter(Boolean)
-  );
-
-  const customerExclusions = await database.getAllByIds<CustomerExclusion>(
-    customerExclusionsTable,
-    Array.from(customerExclusionIds)
-  );
-
-  const exclusions = await database.getAllByIds<Exclusion>(
-    exclusionsTable,
-    customerExclusions.map((customerExclusion) => customerExclusion.exclusionId)
-  );
-
-  const customers = customerData
-    .map((customer) => ({
-      ...customer,
-      exclusions: customer.exclusionIds
-        .map((id) =>
-          customerExclusions.find(
-            (customerExclusion) => customerExclusion.id === id
-          )
-        )
-        .map((customerExclusion) =>
-          exclusions.find(
-            (exclusion) => exclusion.id === customerExclusion?.exclusionId
-          )
-        )
-        .filter(Boolean),
-    }))
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    .map(({ exclusionIds, ...customer }) => customer);
+  const customers = await hydrateCustomerData(customerData)
 
   return customers as Customer[];
   /* eslint-enable @typescript-eslint/naming-convention */
@@ -94,7 +54,7 @@ export const createCustomer = async (
     "CUSTOMER_EXCLUSIONS_TABLE"
   );
 
-  const exclusions = await database.getAllByIds<
+  const exclusions = await database.getAllByIdsMultiTable<
     UpdateExclusionMutationVariables["input"]
   >(exclusionsTable, input.exclusionIds);
 
@@ -146,7 +106,7 @@ export const deleteCustomer = async (
   );
 
   const customer = (
-    await database.getAllByIds<UpdateCustomerMutationVariables["input"]>(
+    await database.getAllByIdsMultiTable<UpdateCustomerMutationVariables["input"]>(
       customersTable,
       [input.id]
     )
@@ -225,7 +185,7 @@ export const updateCustomer = async (
     exclusionIds: finalExclusions,
   });
 
-  const exclusions = await database.getAllByIds<Exclusion>(
+  const exclusions = await database.getAllByIdsMultiTable<Exclusion>(
     exclusionsTable,
     input.exclusionIds
   );

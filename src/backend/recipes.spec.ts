@@ -9,7 +9,6 @@ import {
   UpdateRecipeMutationVariables,
 } from "./query-variables-types";
 import { resetAllWhenMocks, when } from "jest-when";
-import { HotOrCold } from "../domain/Recipe";
 import { mocked } from "ts-jest/utils";
 
 jest.mock("./database");
@@ -49,7 +48,7 @@ describe("listRecipes", () => {
         id: "0",
         name: "foo",
         shortName: "f",
-        hotOrCold: HotOrCold.Hot,
+        hotOrCold: "Hot",
 
         description: "bar",
         exclusionIds: [],
@@ -60,7 +59,7 @@ describe("listRecipes", () => {
         name: "baz",
         exclusionIds: [],
         shortName: "b",
-        hotOrCold: HotOrCold.Hot,
+        hotOrCold: "Hot",
       },
 
       {
@@ -68,15 +67,15 @@ describe("listRecipes", () => {
         name: "bap",
         exclusionIds: [],
         shortName: "ba",
-        hotOrCold: HotOrCold.Hot,
+        hotOrCold: "Hot",
       },
     ];
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByIdsMultiTable, true))
       .calledWith("recipe-exclusions-table", expect.anything())
       .mockResolvedValue([]);
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByIdsMultiTable, true))
       .calledWith("exclusions-table", expect.anything())
       .mockResolvedValue([]);
 
@@ -151,7 +150,7 @@ describe("listRecipes", () => {
         description: "nice",
         exclusionIds: ["8", "10"],
         shortName: "l",
-        hotOrCold: HotOrCold.Hot,
+        hotOrCold: "Hot",
       },
 
       {
@@ -159,13 +158,13 @@ describe("listRecipes", () => {
         name: "james",
         exclusionIds: ["15", "21"],
         shortName: "j",
-        hotOrCold: HotOrCold.Hot,
+        hotOrCold: "Hot",
       },
 
       {
         id: "2",
         shortName: "f",
-        hotOrCold: HotOrCold.Hot,
+        hotOrCold: "Hot",
         name: "Alex",
         exclusionIds: [],
       },
@@ -175,7 +174,7 @@ describe("listRecipes", () => {
       .calledWith("recipes-table")
       .mockResolvedValue(mockRecipes);
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByIdsMultiTable, true))
       .calledWith(
         "recipe-exclusions-table",
         expect.arrayContaining(["8", "10", "15", "21"])
@@ -184,7 +183,7 @@ describe("listRecipes", () => {
         recipeExclusions as unknown as Record<string, unknown>[]
       );
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByIdsMultiTable, true))
       .calledWith("exclusions-table", expect.arrayContaining(["1", "3", "4"]))
       .mockResolvedValue(
         mockExclusions as unknown as Record<string, unknown>[]
@@ -225,12 +224,12 @@ describe("Createrecipe", () => {
     process.env.RECIPE_EXCLUSIONS_TABLE = "recipe-exclusions-table";
     const recipe: CreateRecipeMutationVariables["input"] = {
       name: "sausage",
-      hotOrCold: HotOrCold.Hot,
+      hotOrCold: "Hot",
       shortName: "fo",
       exclusionIds: ["4", "3"],
     };
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByIdsMultiTable, true))
       .calledWith("exclusions-table", expect.arrayContaining(["4", "3"]))
       .mockResolvedValue(
         mockExclusions as unknown as Record<string, unknown>[]
@@ -243,7 +242,7 @@ describe("Createrecipe", () => {
         record: {
           id: "called-1",
           name: "sausage",
-          hotOrCold: HotOrCold.Hot,
+          hotOrCold: "Hot",
           shortName: "fo",
           exclusionIds: ["called-2", "called-3"],
         },
@@ -279,13 +278,13 @@ describe("Createrecipe", () => {
     process.env.EXCLUSIONS_TABLE = "exclusions-table";
     process.env.RECIPE_EXCLUSIONS_TABLE = "recipe-exclusions-table";
     const recipe: CreateRecipeMutationVariables["input"] = {
-      hotOrCold: HotOrCold.Hot,
+      hotOrCold: "Hot",
       shortName: "f",
       name: "fish",
       exclusionIds: [],
     };
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByIdsMultiTable, true))
       .calledWith("exclusions-table", expect.arrayContaining([]))
       .mockResolvedValue([]);
 
@@ -295,7 +294,7 @@ describe("Createrecipe", () => {
       {
         table: "recipes-table",
         record: {
-          hotOrCold: HotOrCold.Hot,
+          hotOrCold: "Hot",
           shortName: "f",
           id: "the-id",
           name: "fish",
@@ -387,7 +386,7 @@ describe("Update recipe", () => {
         recipeExclusions as unknown as Record<string, unknown>[]
       );
 
-    when(mocked(database.getAllByIds, true))
+    when(mocked(database.getAllByIdsMultiTable, true))
       .calledWith("exclusions-table", expect.arrayContaining(["2", "3"]))
       .mockResolvedValue(
         mockExclusions as unknown as Record<string, unknown>[]
@@ -396,7 +395,7 @@ describe("Update recipe", () => {
     const input: UpdateRecipeMutationVariables["input"] = {
       id: "0",
       shortName: "foo",
-      hotOrCold: HotOrCold.Hot,
+      hotOrCold: "Hot",
       name: "foo-bar",
       exclusionIds: ["2", "3"],
     };
@@ -448,7 +447,7 @@ describe("Update recipe", () => {
       );
 
     const input: UpdateRecipeMutationVariables["input"] = {
-      hotOrCold: HotOrCold.Hot,
+      hotOrCold: "Hot",
       shortName: "foo",
       id: "0",
       name: "foobar",
@@ -512,7 +511,7 @@ describe("Update recipe", () => {
     const input: UpdateRecipeMutationVariables["input"] = {
       id: "0",
       name: "baz",
-      hotOrCold: HotOrCold.Hot,
+      hotOrCold: "Hot",
       shortName: "ba",
       description: "fat",
       exclusionIds: ["2"],
@@ -580,7 +579,7 @@ describe("Update recipe", () => {
     const input: UpdateRecipeMutationVariables["input"] = {
       id: "0",
       name: "a-recipe",
-      hotOrCold: HotOrCold.Hot,
+      hotOrCold: "Hot",
       shortName: "blah",
       exclusionIds: ["2", "3", "4"],
     };
@@ -588,7 +587,7 @@ describe("Update recipe", () => {
     const inDataBase: UpdateRecipeMutationVariables["input"] = {
       id: "0",
       name: "the-recipe",
-      hotOrCold: HotOrCold.Hot,
+      hotOrCold: "Hot",
       shortName: "the",
       exclusionIds: ["10", "15"],
     };
@@ -645,12 +644,12 @@ describe("Delete recipe", () => {
     const recipe: UpdateRecipeMutationVariables["input"] = {
       id: "0",
       name: "foo",
-      hotOrCold: HotOrCold.Hot,
+      hotOrCold: "Hot",
       shortName: "f",
       exclusionIds: ["8", "10"],
     };
 
-    when(mocked(database.getAllByIds))
+    when(mocked(database.getAllByIdsMultiTable))
       .calledWith("recipes-table", ["0"])
       .mockResolvedValue([recipe]);
 

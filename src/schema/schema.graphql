@@ -50,7 +50,7 @@ input CustomerPlanInput {
   configuration: PlanConfigurationInput!
 }
 
-type Exclusion {
+type Exclusion implements Node {
   id: ID!
   name: String!
   allergen: Boolean!
@@ -73,7 +73,7 @@ input DeleteExclusionInput {
   id: ID!
 }
 
-type Recipe {
+type Recipe implements Node {
   id: ID!
   name: String!
   hotOrCold: String!
@@ -173,13 +173,15 @@ input DeleteCustomerInput {
 }
 
 type Query {
-
-  node(id: ID!): Node!
-  @aws_auth(cognito_groups: ["user", "admin"])
+  node(id: ID!): Node! @aws_auth(cognito_groups: ["user", "admin"])
 
   customers: [Customer!]! @aws_auth(cognito_groups: ["user", "admin"])
 
+  customer(id: ID!): Customer! @aws_auth(cognito_groups: ["user", "admin"])
+
   recipes: [Recipe!]! @aws_auth(cognito_groups: ["user", "admin"])
+
+  customer(id: ID!): Customer! @aws_auth(cognito_groups: ["user", "admin"])
 
   getExclusionById(exclusionId: String!): Exclusion
     @aws_auth(cognito_groups: ["user", "admin"])

@@ -43,12 +43,12 @@ export const listRecipes = async (): Promise<Recipe[]> => {
     recipeData.flatMap((recipe) => recipe.exclusionIds).filter(Boolean)
   );
 
-  const recipeExclusions = await database.getAllByIds<RecipeExclusion>(
+  const recipeExclusions = await database.getAllByIdsMultiTable<RecipeExclusion>(
     recipeExclusionsTable,
     Array.from(recipeExclusionIds)
   );
 
-  const exclusions = await database.getAllByIds<Exclusion>(
+  const exclusions = await database.getAllByIdsMultiTable<Exclusion>(
     exclusionsTable,
     recipeExclusions.map((recipeExclusion) => recipeExclusion.exclusionId)
   );
@@ -89,7 +89,7 @@ export const createRecipe = async (
   const exclusionsTable = getRequiredEnvVar("EXCLUSIONS_TABLE");
   const recipeExclusionsTable = getRequiredEnvVar("RECIPE_EXCLUSIONS_TABLE");
 
-  const exclusions = await database.getAllByIds<
+  const exclusions = await database.getAllByIdsMultiTable<
     UpdateExclusionMutationVariables["input"]
   >(exclusionsTable, input.exclusionIds);
 
@@ -144,7 +144,7 @@ export const deleteRecipe = async (
   const recipeExclusionsTable = getRequiredEnvVar("RECIPE_EXCLUSIONS_TABLE");
 
   const recipe = (
-    await database.getAllByIds<UpdateRecipeMutationVariables["input"]>(
+    await database.getAllByIdsMultiTable<UpdateRecipeMutationVariables["input"]>(
       recipesTable,
       [input.id]
     )
@@ -221,7 +221,7 @@ export const updateRecipe = async (
     exclusionIds: finalExclusions,
   });
 
-  const exclusions = await database.getAllByIds<Exclusion>(
+  const exclusions = await database.getAllByIdsMultiTable<Exclusion>(
     exclusionsTable,
     input.exclusionIds
   );
