@@ -49,13 +49,20 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
   const dispatch = useDispatch();
 
   const nameString = `${props.customer.surname} ${props.customer.firstName} (${props.customer.salutation})`;
-  const statusString = React.useMemo(() => getStatusString(props.customer), [props.customer.pauseStart, props.customer.pauseEnd])
+  const statusString = React.useMemo(
+    () => getStatusString(props.customer),
+    [props.customer.pauseStart, props.customer.pauseEnd]
+  );
 
-  const planString = React.useMemo(() => getPlanString(props.customer.newPlan, {
-          planLabels: [...planLabels],
-          extrasLabels: [...extrasLabels],
-          defaultDeliveryDays: [...defaultDeliveryDays],
-        }), [props.customer])
+  const planString = React.useMemo(
+    () =>
+      getPlanString(props.customer.newPlan, {
+        planLabels: [...planLabels],
+        extrasLabels: [...extrasLabels],
+        defaultDeliveryDays: [...defaultDeliveryDays],
+      }),
+    [props.customer]
+  );
 
   return (
     <TableRow>
@@ -63,9 +70,7 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
         <Link to={`/edit-customer/${props.customer.id}`}>{nameString}</Link>
       </TableCell>
       <TableCell>{statusString}</TableCell>
-      <TableCell>
-        {planString}
-      </TableCell>
+      <TableCell>{planString}</TableCell>
       <TableCell>{getExtrasString(props.customer)}</TableCell>
       <TableCell>
         {props.customer.exclusions.length > 0
@@ -141,6 +146,6 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
   );
 };
 
- const CustomerRow = deepMemo(UnMemoizedCustomerRow);
+const CustomerRow = deepMemo(UnMemoizedCustomerRow);
 
 export default CustomerRow;

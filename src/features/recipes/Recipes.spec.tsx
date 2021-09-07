@@ -23,7 +23,7 @@ test("The planning mode button displays the planning mode box when clicked", () 
   when(mocked(useSelector))
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .calledWith(allRecipesSelector as any)
-  .mockReturnValue([r]);
+    .mockReturnValue([r]);
 
   render(<Recipes />);
 
@@ -48,7 +48,7 @@ test("There is a 'cancel planning mode' button in planning mode that exits out o
   when(mocked(useSelector))
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .calledWith(allRecipesSelector as any)
-  .mockReturnValue([r]);
+    .mockReturnValue([r]);
   render(<Recipes />);
 
   const planningMode = screen.getByRole("button", { name: "Planning Mode" });
@@ -89,11 +89,10 @@ test("The planning mode button adds checkboxes for each recipe once a delivery d
   rc.description = "baz";
   rc.shortName = "";
 
-
   when(mocked(useSelector))
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .calledWith(allRecipesSelector as any)
-  .mockReturnValue([ra, rb, rc]);
+    .mockReturnValue([ra, rb, rc]);
 
   render(<Recipes />);
 

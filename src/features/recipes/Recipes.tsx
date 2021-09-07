@@ -12,7 +12,7 @@ import {
 } from "grommet";
 
 import {
-    allRecipesSelector,
+  allRecipesSelector,
   createRecipe,
   errorSelector,
   updateRecipe,

@@ -161,46 +161,60 @@ export const makeNewPlan = (
   };
 };
 
-type AllItemTypes = typeof extrasLabels[number] | typeof planLabels[number]
+type AllItemTypes = typeof extrasLabels[number] | typeof planLabels[number];
 
-const itemsAreEqual = (first: Item<AllItemTypes>, second: Item<AllItemTypes>) => {
-  if(first.name !== second.name) {
-    return false
+const itemsAreEqual = (
+  first: Item<AllItemTypes>,
+  second: Item<AllItemTypes>
+) => {
+  if (first.name !== second.name) {
+    return false;
   }
 
-  if(first.quantity !== second.quantity) {
-    return false
+  if (first.quantity !== second.quantity) {
+    return false;
   }
 
   return true;
-}
-
+};
 
 const deliveriesAreEqual = (first: Delivery[], second: Delivery[]) => {
-  if(first.length !== second.length) {
-    return false
+  if (first.length !== second.length) {
+    return false;
   }
 
   const result = first.find((delivery, deliveryIndex) => {
-    if(first[deliveryIndex].items.length !== second[deliveryIndex].items.length) {
-      return true
+    if (
+      first[deliveryIndex].items.length !== second[deliveryIndex].items.length
+    ) {
+      return true;
     }
 
-    if(first[deliveryIndex].extras.length !== second[deliveryIndex].extras.length) {
-      return true
+    if (
+      first[deliveryIndex].extras.length !== second[deliveryIndex].extras.length
+    ) {
+      return true;
     }
 
-    const items = delivery.items.find((item, itemIndex) => !itemsAreEqual(second[deliveryIndex].items[itemIndex], item))
+    const items = delivery.items.find(
+      (item, itemIndex) =>
+        !itemsAreEqual(second[deliveryIndex].items[itemIndex], item)
+    );
 
-    if(items) {
-      return true
+    if (items) {
+      return true;
     }
 
-    return Boolean(delivery.extras.find((extra, extraIndex) => !itemsAreEqual(second[deliveryIndex].extras[extraIndex], extra)))
-  })
+    return Boolean(
+      delivery.extras.find(
+        (extra, extraIndex) =>
+          !itemsAreEqual(second[deliveryIndex].extras[extraIndex], extra)
+      )
+    );
+  });
 
-  return Boolean(!result)
-}
+  return Boolean(!result);
+};
 
 /**
  * Check a given customer plan to see whether they are on

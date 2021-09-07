@@ -26,7 +26,11 @@ import { debounce } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import PlanPanel from "./PlanPanel";
 import { makeNewPlan } from "./distribution-generator";
-import { updateCustomer, createCustomer, allCustomersSelector } from "./customersSlice";
+import {
+  updateCustomer,
+  createCustomer,
+  allCustomersSelector,
+} from "./customersSlice";
 
 import styled from "styled-components";
 import { allExclusionsSelector } from "../exclusions/exclusionsSlice";
@@ -87,7 +91,6 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
     ...defaultCustomer,
     breakfast: false,
   };
-
 
   const dispatch = useDispatch();
   const history = useHistory();
