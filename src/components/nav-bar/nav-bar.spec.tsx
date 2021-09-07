@@ -1,9 +1,7 @@
-import { Auth } from "@aws-amplify/auth";
 import { MenuButton } from "..";
 import { NavBar } from ".";
 import React from "react";
 import { Text } from "grommet";
-import { act } from "react-dom/test-utils";
 import { shallow } from "enzyme";
 
 jest.mock("react-redux");
