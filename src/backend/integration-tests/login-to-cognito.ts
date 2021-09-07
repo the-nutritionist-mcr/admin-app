@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Auth } from "@aws-amplify/auth";
 import Amplify from "@aws-amplify/core";
+import axios from "axios"
 import { assertIsBackendOutputs } from "../../types/backend-outputs";
 import {
   COGNITO_PASSWORD,
   COGNITO_USER,
 } from "../../../cypress/support/constants";
 
-export const loginToCognito = async (): Promise<string> => {
+const getConfig = async () => {
   const rawConfig = (await import(`${process.cwd()}/backend-outputs.json`))
     .default;
 
@@ -20,6 +21,12 @@ export const loginToCognito = async (): Promise<string> => {
   if (!config) {
     throw new Error("Could not load backend config :-(");
   }
+  return config;
+}
+
+export const loginToCognito = async (): Promise<string> => {
+  
+  const config = await getConfig()
 
    const amplifyConfig = {
     Auth: {
@@ -42,3 +49,12 @@ export const loginToCognito = async (): Promise<string> => {
 
   return signIn.signInUserSession.accessToken.jwtToken;
 };
+
+export const query = async (query: { query: any, variables: {}}, token: string) => {
+  const config = await getConfig()
+
+  const response = axios.post(config.GraphQlQpiUrl, query, { headers: {'Authorization': token }} )
+
+  return response
+}
+
