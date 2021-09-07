@@ -12,11 +12,11 @@ import {
 import EditExclusionDialog from "./EditExclusionDialog";
 import ExclusionRow from "./ExclusionRow";
 import React from "react";
-import { createExclusion } from "./exclusionsSlice";
-import useExclusions from "./useExclusions";
+import { allExclusionsSelector, createExclusion } from "./exclusionsSlice";
+import { useSelector } from "react-redux";
 
 const Exclusions: React.FC = () => {
-  const { exclusions } = useExclusions();
+  const exclusions = useSelector(allExclusionsSelector);
   const [showCreate, setShowCreate] = React.useState(false);
 
   return (

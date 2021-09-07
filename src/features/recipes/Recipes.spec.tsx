@@ -4,14 +4,14 @@ import { act, render, screen, within } from "@testing-library/react";
 import Recipes from "./Recipes";
 import userEvent from "@testing-library/user-event";
 import { defaultDeliveryDays } from "../../lib/config";
-import useRecipes from "./useRecipes";
 import { mock } from "jest-mock-extended";
 import Recipe from "../../domain/Recipe";
+import { allRecipesSelector } from "./recipesSlice";
+import { useSelector } from "react-redux";
+import { when } from "jest-when";
 
 jest.mock("../planner/planner-reducer");
 jest.mock("react-redux");
-jest.mock("./useRecipes");
-jest.mock("../customers/useCustomers");
 
 test("The planning mode button displays the planning mode box when clicked", () => {
   const r = mock<Recipe>();
@@ -20,7 +20,11 @@ test("The planning mode button displays the planning mode box when clicked", () 
   r.description = "baz";
   r.shortName = "";
 
-  mocked(useRecipes).mockReturnValue({ recipes: [r] });
+  when(mocked(useSelector))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .calledWith(allRecipesSelector as any)
+  .mockReturnValue([r]);
+
   render(<Recipes />);
 
   const planningMode = screen.getByRole("button", { name: "Planning Mode" });
@@ -41,7 +45,10 @@ test("There is a 'cancel planning mode' button in planning mode that exits out o
   r.description = "baz";
   r.shortName = "";
 
-  mocked(useRecipes).mockReturnValue({ recipes: [r] });
+  when(mocked(useSelector))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .calledWith(allRecipesSelector as any)
+  .mockReturnValue([r]);
   render(<Recipes />);
 
   const planningMode = screen.getByRole("button", { name: "Planning Mode" });
@@ -82,7 +89,11 @@ test("The planning mode button adds checkboxes for each recipe once a delivery d
   rc.description = "baz";
   rc.shortName = "";
 
-  mocked(useRecipes).mockReturnValue({ recipes: [ra, rb, rc] });
+
+  when(mocked(useSelector))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .calledWith(allRecipesSelector as any)
+  .mockReturnValue([ra, rb, rc]);
 
   render(<Recipes />);
 

@@ -12,6 +12,7 @@ import {
 } from "grommet";
 
 import {
+    allRecipesSelector,
   createRecipe,
   errorSelector,
   updateRecipe,
@@ -21,15 +22,12 @@ import EditRecipesDialog from "./EditRecipesDialog";
 import Recipe, { HotOrCold } from "../../domain/Recipe";
 import React from "react";
 import RecipesRow from "../recipes/RecipesRow";
-import useRecipes from "./useRecipes";
 import { defaultDeliveryDays } from "../../lib/config";
-import useCustomers from "../customers/useCustomers";
 import PlanningModeSummary from "./PlanningModeSummary";
 
 const Recipes: React.FC = () => {
   const dispatch = useDispatch();
-  const { recipes } = useRecipes();
-  useCustomers();
+  const recipes = useSelector(allRecipesSelector);
   const error = useSelector(errorSelector);
   const [planningMode, setPlanningMode] = React.useState(false);
   const [showCreate, setShowCreate] = React.useState(false);
@@ -39,8 +37,6 @@ const Recipes: React.FC = () => {
   );
 
   const showCheckBoxes = selectedDelivery !== -1 && planningMode;
-
-  useRecipes();
 
   return (
     <React.Fragment>

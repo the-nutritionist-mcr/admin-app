@@ -1,14 +1,9 @@
 import { Box, Header, Heading, Text } from "grommet";
 import { Cafeteria, Configure, Home, Logout, Plan, User } from "grommet-icons";
 import { Auth } from "@aws-amplify/auth";
-import LoadingState from "../../types/LoadingState";
 import { MenuButton } from "..";
 import React from "react";
-import { Spinning } from "grommet-controls";
-import { loadingSelector } from "../../lib/rootReducer";
 import styled from "styled-components";
-
-import { useSelector } from "react-redux";
 
 const NonPrintableHeader = styled(Header)`
   @media print {
@@ -21,7 +16,6 @@ const BoxWithGap = styled(Box)`
 `;
 
 const NavBar: React.FC = () => {
-  const loading = useSelector(loadingSelector);
   const env = process.env.REACT_APP_ENVIRONMENT;
   const buttons = [
     <MenuButton
@@ -96,7 +90,6 @@ const NavBar: React.FC = () => {
         {buttons}
       </BoxWithGap>
       <Box direction="row" gap="medium" alignContent="start">
-        {loading === LoadingState.Loading ? <Spinning size="medium" /> : null}
         <Text size="small" alignSelf="center">
           Version {process.env.REACT_APP_VERSION_NUMBER}
           {env ? ` (${env})` : null}

@@ -9,8 +9,10 @@ describe("<AuthenticatedRoute />", () => {
       groups: ["foo", "bar"],
     });
 
+    const dataReader = jest.fn();
+
     const wrapper = shallow(
-      <AuthenticatedRoute path="/foo" groups={["foo"]} />
+      <AuthenticatedRoute path="/foo" groups={["foo"]} dataReader={dataReader} />
     );
 
     expect(wrapper.find(Route).exists()).toEqual(true);
@@ -21,8 +23,10 @@ describe("<AuthenticatedRoute />", () => {
       groups: ["foo"],
     });
 
+    const dataReader = jest.fn();
+
     const wrapper = shallow(
-      <AuthenticatedRoute path="/foo" groups={["bar"]} />
+      <AuthenticatedRoute path="/foo" groups={["bar"]} dataReader={dataReader} />
     );
 
     expect(wrapper.find(Route).exists()).toEqual(false);
@@ -33,8 +37,10 @@ describe("<AuthenticatedRoute />", () => {
       groups: ["foo", "bar"],
     });
 
+    const dataReader = jest.fn();
+
     const wrapper = shallow(
-      <AuthenticatedRoute exact={true} path="/foo" groups={["foo"]} />
+      <AuthenticatedRoute exact={true} path="/foo" groups={["foo"]} dataReader={dataReader} />
     );
 
     expect(wrapper.find(Route).props()).toEqual(

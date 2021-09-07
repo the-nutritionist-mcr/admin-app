@@ -18,11 +18,10 @@ import EditCustomerDialog from "./EditCustomerDialog";
 import LoadingState from "../../types/LoadingState";
 import React from "react";
 import { Spinning } from "grommet-controls";
-import { createCustomer } from "./customersSlice";
+import { allCustomersSelector, createCustomer } from "./customersSlice";
 import fileDownload from "js-file-download";
 import generateCsvStringFromObjectArray from "../../lib/generateCsvStringFromObjectArray";
 import { loadingSelector } from "../../lib/rootReducer";
-import useCustomers from "./useCustomers";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -38,7 +37,8 @@ const convertCustomerToSimpleObject = (
 const Customers: React.FC = () => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
 
-  const { customers } = useCustomers();
+  const customers = useSelector(allCustomersSelector);
+
   const loading = useSelector(loadingSelector);
   const history = useHistory();
 

@@ -23,14 +23,13 @@ import {
 } from "../../lib/config";
 import Customer, { Snack } from "../../domain/Customer";
 import { debounce } from "lodash";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PlanPanel from "./PlanPanel";
-import useExclusions from "../../features/exclusions/useExclusions";
 import { makeNewPlan } from "./distribution-generator";
-import useCustomers from "./useCustomers";
-import { updateCustomer, createCustomer } from "./customersSlice";
+import { updateCustomer, createCustomer, allCustomersSelector } from "./customersSlice";
 
 import styled from "styled-components";
+import { allExclusionsSelector } from "../exclusions/exclusionsSlice";
 
 const StyledFormField = styled(FormField)`
   width: 300px;
@@ -64,7 +63,8 @@ interface PathParams {
 }
 
 const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
-  const { customers } = useCustomers();
+  const customers = useSelector(allCustomersSelector);
+  const exclusions = useSelector(allExclusionsSelector);
 
   const [customer, setCustomer] = React.useState<Customer>(defaultCustomer);
   const [dirty, setDirty] = React.useState(false);
@@ -88,7 +88,6 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
     breakfast: false,
   };
 
-  const { exclusions } = useExclusions();
 
   const dispatch = useDispatch();
   const history = useHistory();

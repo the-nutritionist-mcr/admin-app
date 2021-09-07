@@ -8,7 +8,6 @@ import {
   CustomerPlan,
   PlanConfiguration,
 } from "./types";
-import deepEqual from "deep-equal";
 import { curry, pipe } from "ramda";
 import { extrasLabels, planLabels } from "../../lib/config";
 
@@ -162,6 +161,47 @@ export const makeNewPlan = (
   };
 };
 
+type AllItemTypes = typeof extrasLabels[number] | typeof planLabels[number]
+
+const itemsAreEqual = (first: Item<AllItemTypes>, second: Item<AllItemTypes>) => {
+  if(first.name !== second.name) {
+    return false
+  }
+
+  if(first.quantity !== second.quantity) {
+    return false
+  }
+
+  return true;
+}
+
+
+const deliveriesAreEqual = (first: Delivery[], second: Delivery[]) => {
+  if(first.length !== second.length) {
+    return false
+  }
+
+  const result = first.find((delivery, deliveryIndex) => {
+    if(first[deliveryIndex].items.length !== second[deliveryIndex].items.length) {
+      return true
+    }
+
+    if(first[deliveryIndex].extras.length !== second[deliveryIndex].extras.length) {
+      return true
+    }
+
+    const items = delivery.items.find((item, itemIndex) => !itemsAreEqual(second[deliveryIndex].items[itemIndex], item))
+
+    if(items) {
+      return true
+    }
+
+    return Boolean(delivery.extras.find((extra, extraIndex) => !itemsAreEqual(second[deliveryIndex].extras[extraIndex], extra)))
+  })
+
+  return Boolean(!result)
+}
+
 /**
  * Check a given customer plan to see whether they are on
  * a custom delivery plan or not
@@ -170,7 +210,7 @@ export const isCustomDeliveryPlan = (
   plan: CustomerPlan,
   defaultSettings: PlannerConfig
 ): boolean =>
-  !deepEqual(
+  !deliveriesAreEqual(
     plan.deliveries,
     generateDistribution(plan.configuration, defaultSettings)
   );
@@ -179,6 +219,7 @@ export const isCustomDeliveryPlan = (
  * Generate the meal delivery distribution based on the plan
  * configuration
  */
+
 export const generateDistribution = (
   config: PlanConfiguration,
   defaultSettings: PlannerConfig
