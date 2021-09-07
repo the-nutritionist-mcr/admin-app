@@ -23,22 +23,6 @@ describe("The <NavBar>", () => {
     );
   });
 
-  it("Calls amplify signout then navigates to the root page when clicking on the signout button", () => {
-    const wrapper = shallow(<NavBar />);
-
-    const signOut = jest.spyOn(Auth, "signOut");
-
-    const logout = wrapper.findWhere((logoutWrapper) =>
-      logoutWrapper.props().children?.includes("Logout")
-    );
-
-    act(() => {
-      logout.simulate("click");
-    });
-
-    expect(signOut).toHaveBeenCalled();
-  });
-
   it("Contains a homepage button with anonymous access", () => {
     const wrapper = shallow(<NavBar />);
 
