@@ -154,7 +154,7 @@ jobs:
           name: int-outputs
 
       - name: Run Integration Tests
-        run: yarn jest --config jest.config.integration.js
+        run: yarn jest --config jest.config.integration.js --runInBand
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_BACKEND }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_BACKEND }}
