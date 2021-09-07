@@ -2,27 +2,18 @@ import { Heading, Header, Button } from "grommet";
 import { useDispatch, useSelector } from "react-redux";
 
 import React from "react";
-import { fetchCustomers } from "../customers/customersSlice";
-import { fetchRecipes } from "../../features/recipes/recipesSlice";
+import { allRecipesSelector } from "../../features/recipes/recipesSlice";
 import Finalize from "./Finalize";
 import { clearPlanner, customerSelectionsSelector } from "./planner-reducer";
 import generateDeliveryPlanDocumentDefinition from "../../lib/generateDeliveryPlanDocumentDefinition";
 import generateCookPlanDocumentDefinition from "../../lib/generateCookPlanDocumentDefinition";
-import useRecipes from "../recipes/useRecipes";
 import downloadPdf from "../../lib/downloadPdf";
 import { makeCookPlan } from "../../lib/plan-meals";
 
 const Planner: React.FC = () => {
   const dispatch = useDispatch();
   const customerMeals = useSelector(customerSelectionsSelector);
-  const { recipes } = useRecipes();
-
-  React.useEffect(() => {
-    (async () => {
-      await dispatch(fetchCustomers());
-      await dispatch(fetchRecipes());
-    })();
-  }, [dispatch]);
+  const recipes = useSelector(allRecipesSelector);
 
   return (
     <>

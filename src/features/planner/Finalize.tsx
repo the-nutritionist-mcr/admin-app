@@ -1,7 +1,7 @@
-import useRecipes from "../recipes/useRecipes";
 import { Paragraph } from "grommet";
 import React from "react";
 import { useSelector } from "react-redux";
+import { allRecipesSelector } from "../recipes/recipesSlice";
 import FinalizeCustomerTable from "./FinalizeCustomerTable";
 import {
   customerSelectionsSelector,
@@ -9,11 +9,9 @@ import {
 } from "./planner-reducer";
 
 const Finalize = () => {
-  // const dispatch = useDispatch();
-
-  const { recipes } = useRecipes();
   const customerMeals = useSelector(customerSelectionsSelector);
   const planned = useSelector(plannedMealsSelector);
+  const recipes = useSelector(allRecipesSelector);
 
   if (!customerMeals) {
     return (
