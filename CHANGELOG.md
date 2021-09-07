@@ -1,3 +1,10 @@
+### [1.11.1](https://github.com/benwainwright/tnm/compare/v1.11.0...v1.11.1) (2021-09-07)
+
+
+### Performance Updates
+
+* preload all data and other performance enhancements ([15601c1](https://github.com/benwainwright/tnm/commit/15601c190ccee6c746a5f4f206e42cc5a79592d8))
+
 ## [1.11.0](https://github.com/benwainwright/tnm/compare/v1.10.0...v1.11.0) (2021-09-03)
 
 
