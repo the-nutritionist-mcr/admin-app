@@ -1,10 +1,11 @@
-import ThunkResult, { ThunkAction } from "redux-thunk";
+import { ThunkAction } from "redux-thunk";
 import { AnyAction } from "redux";
+
 import AppState from "../types/AppState";
 import { createAction } from "@reduxjs/toolkit";
 import log from "loglevel";
 
-type ThunkResult<R, A> = ThunkAction<R, AppState, A, AnyAction>;
+type ThunkResult<R, A> = ThunkAction<Promise<R>, AppState, A, AnyAction>;
 
 export const loadingStart = createAction("loadingStart");
 export const loadingFailed = createAction<string>("loadingFailed");
@@ -23,17 +24,16 @@ export const apiRequestCreator = <R, A = void>(
 
   return Object.assign(
     (arg: A): ThunkResult<void, A> => {
-      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       return async (dispatch) => {
         dispatch(loadingStart());
         try {
           const apiReturnVal = await callback(arg);
           dispatch(loadingSucceeded());
-          return dispatch(finishAction(apiReturnVal));
+          dispatch(finishAction(apiReturnVal));
         } catch (error) {
           const dispatchError = error.errors ? error.errors[0] : error;
           log.error(dispatchError);
-          return dispatch(loadingFailed(dispatchError.message));
+          dispatch(loadingFailed(dispatchError.message));
         }
       };
     },
