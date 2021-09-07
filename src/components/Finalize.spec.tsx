@@ -4,7 +4,6 @@ import { render, screen, within } from "@testing-library/react";
 import Finalize from "../features/planner/Finalize";
 import Recipe from "../domain/Recipe";
 import { mock } from "jest-mock-extended";
-import useRecipes from "../features/recipes/useRecipes";
 import { when } from "jest-when";
 import { useSelector } from "react-redux";
 import {
@@ -16,7 +15,6 @@ import { Grommet } from "grommet";
 
 const FakeLink: React.FC = (props) => <>{props.children}</>;
 
-jest.mock("../features/recipes/useRecipes");
 jest.mock("react-redux");
 jest.mock("react-router-dom", () => ({ Link: FakeLink }));
 
@@ -55,7 +53,6 @@ test("the finalize component displays the customer name at the top of each table
   c1.id = "1";
   c1.surname = "Smith";
 
-  mocked(useRecipes).mockReturnValue({ recipes: [r, r1, r2] });
   when(mocked(useSelector))
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .calledWith(plannedMealsSelector as any)
@@ -173,7 +170,6 @@ test("the finalize component displays at least one labelled row for each deliver
   c1.firstName = "Joe";
   c1.surname = "Smith";
 
-  mocked(useRecipes).mockReturnValue({ recipes: [r, r1, r2] });
   when(mocked(useSelector))
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .calledWith(plannedMealsSelector as any)
@@ -291,7 +287,6 @@ test("The finalize component breaks rows that are longer than six items into mul
   c1.firstName = "Joe";
   c1.surname = "Smith";
 
-  mocked(useRecipes).mockReturnValue({ recipes: [r, r1, r2] });
   when(mocked(useSelector))
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .calledWith(plannedMealsSelector as any)
@@ -430,7 +425,6 @@ test("The finalize component does not display the string 'multiple' in any of th
   c1.firstName = "Joe";
   c1.surname = "Smith";
 
-  mocked(useRecipes).mockReturnValue({ recipes: [r, r1, r2] });
   when(mocked(useSelector))
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .calledWith(plannedMealsSelector as any)
@@ -541,7 +535,6 @@ test("The finalize component displays the selected meals for the customer is the
   c1.firstName = "Joe";
   c1.surname = "Smith";
 
-  mocked(useRecipes).mockReturnValue({ recipes: [r, r1, r2] });
   when(mocked(useSelector))
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .calledWith(plannedMealsSelector as any)
