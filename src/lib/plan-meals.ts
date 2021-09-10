@@ -6,6 +6,7 @@ import { CustomerPlan, Item } from "../features/customers/types";
 import isActive from "./isActive";
 import Exclusion from "../domain/Exclusion";
 import { RecipeVariantMap } from "../types/CookPlan";
+import getStatusString from "./getStatusString";
 
 const hasExclusions = (exclusion: Exclusion, meal: Recipe | undefined) =>
   meal?.potentialExclusions.some((value) => value.id === exclusion.id);
@@ -21,7 +22,7 @@ interface SelectedExtra {
 
 export type SelectedItem = SelectedMeal | SelectedExtra;
 
-export type Delivery = SelectedItem[] | false;
+export type Delivery = SelectedItem[] | string;
 
 export type CustomerMealsSelection = {
   customer: Customer;
@@ -215,7 +216,7 @@ export const chooseMeals = (
     .map(({ customer, deliveries }) => ({
       customer,
       deliveries: deliveries.map((delivery, index) =>
-        isActive(customer, cookDates[index]) ? delivery : false
+        isActive(customer, cookDates[index]) ? delivery : getStatusString(customer, cookDates[index])
       ),
     }));
 
@@ -227,7 +228,7 @@ export const makeCookPlan = (
     selections.reduce<Map<string, RecipeVariantMap>>(
       (startMap, customerSelections) => {
         const cook = customerSelections.deliveries[deliveryIndex];
-        if (!cook) {
+        if (typeof cook === 'string') {
           return startMap;
         }
         return cook.reduce((map, item) => {

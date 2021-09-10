@@ -65,7 +65,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
       </TableHeader>
       <TableBody>
         {deliveries.flatMap((delivery, deliveryIndex) =>
-          !delivery ? (
+          typeof delivery === "string" ? (
             <AlternatingTableRow>
               <TableCell scope="row">
                 <Text>
@@ -74,7 +74,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
               </TableCell>
 
               <TableCell>
-                <em>Paused</em>
+                <em>{delivery}</em>
               </TableCell>
             </AlternatingTableRow>
           ) : (

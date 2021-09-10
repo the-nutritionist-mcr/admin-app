@@ -4,8 +4,8 @@ import calendarFormat from "../lib/calendarFormat";
 import isActive from "./isActive";
 import moment from "moment";
 
-const getStatusString = (customer: Customer): string => {
-  const now = new Date(Date.now());
+const getStatusString = (customer: Customer, date?: Date): string => {
+  const now = date ?? new Date(Date.now());
 
   const activeString =
     customer.pauseStart && new Date(customer.pauseStart) > now

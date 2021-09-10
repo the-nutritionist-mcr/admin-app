@@ -29,8 +29,8 @@ const makeRowsFromSelections = (
         bold: true,
       },
     ],
-    ...(!customerSelection.delivery
-      ? ["Paused"]
+    ...(typeof customerSelection.delivery === 'string'
+      ? [customerSelection.delivery]
       : customerSelection.delivery
           .map((item) =>
             createVariant(customerSelection.customer, item, allMeals)

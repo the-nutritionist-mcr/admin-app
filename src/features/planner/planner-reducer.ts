@@ -168,7 +168,7 @@ const plannerReducer = (state: AppState, action?: AnyAction): AppState => {
                 })),
               },
               deliveries: deliveries.map((delivery, index) =>
-                delivery
+                typeof delivery !== "string"
                   ? [
                       ...(index === executingAction.payload.deliveryIndex &&
                       customer.id === executingAction.payload.customer.id
@@ -222,7 +222,7 @@ const plannerReducer = (state: AppState, action?: AnyAction): AppState => {
                 })),
               },
               deliveries: deliveries.map((delivery, index) =>
-                delivery
+                typeof delivery !== 'string'
                   ? [
                       ...(index === executingAction.payload.deliveryIndex
                         ? delivery.map((item, itemIndex) => ({

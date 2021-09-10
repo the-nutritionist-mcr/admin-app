@@ -276,7 +276,7 @@ describe("Choose Meals", () => {
     expect(result[0].customer).toBe(customerOne);
     expect(result[1].customer).toBe(inActiveCustomerTwo);
     expect(result[1].deliveries[0]).not.toBeFalsy();
-    expect(result[1].deliveries[1]).toBeFalsy();
+    expect(result[1].deliveries[1]).toEqual("Paused until Oct 5th");
     expect(result[2].customer).toBe(customerThree);
   });
 
