@@ -2,6 +2,7 @@ import plannerReducer, {
   generateCustomerMeals,
   adjustCustomerSelection,
   clearPlanner,
+  addAdHoc,
 } from "./planner-reducer";
 import { resetAllWhenMocks, when } from "jest-when";
 import AppState from "../../types/AppState";
@@ -173,6 +174,95 @@ describe("The planner slice", () => {
       expect(state.planner.selectedMeals[1]).toHaveLength(0);
     });
   });
+
+  describe("Add adHoc", () => {
+    it("Should add the next appropriate meal to the customer's selection", () => {
+
+      const mockRecipe = mock<Recipe>();
+
+      const mockRecipe1 = mock<Recipe>();
+      const mockRecipe2 = mock<Recipe>();
+      const mockRecipe3 = mock<Recipe>();
+      const mockRecipe4 = mock<Recipe>();
+      const mockRecipe5 = mock<Recipe>();
+
+      const mockCustomer1 = mock<Customer>();
+      mockCustomer1.id = '0'
+      mockCustomer1.exclusions = []
+      const mockCustomer2 = mock<Customer>();
+      mockCustomer2.id = '1'
+      mockCustomer2.exclusions = []
+
+      const originalOutcome: CustomerMealsSelection = [
+        {
+          customer: mockCustomer1,
+          deliveries: [
+            [
+              { recipe: mockRecipe, chosenVariant: "EQ" },
+              { recipe: mockRecipe1, chosenVariant: "EQ" },
+              { recipe: mockRecipe2, chosenVariant: "EQ" },
+            ],
+            [
+              { recipe: mockRecipe3, chosenVariant: "EQ" },
+              { recipe: mockRecipe4, chosenVariant: "EQ" },
+              { recipe: mockRecipe5, chosenVariant: "EQ" },
+            ],
+          ],
+        },
+
+        {
+          customer: mockCustomer2,
+          deliveries: [
+            [
+              { recipe: mockRecipe, chosenVariant: "EQ" },
+              { recipe: mockRecipe1, chosenVariant: "EQ" },
+              { recipe: mockRecipe2, chosenVariant: "EQ" },
+            ],
+            [
+              { recipe: mockRecipe3, chosenVariant: "EQ" },
+              { recipe: mockRecipe4, chosenVariant: "EQ" },
+              { recipe: mockRecipe5, chosenVariant: "Mass" },
+            ],
+          ],
+        },
+      ];
+
+      const initialState = mock<AppState>();
+
+      initialState.planner.selectedMeals = [
+        [
+          mockRecipe,
+          mockRecipe1,
+          mockRecipe2,
+          mockRecipe3,
+          mockRecipe4,
+          mockRecipe5,
+        ],
+        [
+          mockRecipe,
+          mockRecipe1,
+          mockRecipe2,
+          mockRecipe3,
+          mockRecipe4,
+          mockRecipe5,
+        ]
+      ]
+      initialState.planner.customerSelections = originalOutcome
+
+      const state = plannerReducer(
+        initialState,
+        addAdHoc({ customer: mockCustomer2, deliveryIndex: 1 })
+      );
+
+      expect(state.planner.customerSelections?.[0].deliveries[0]).toHaveLength(3)
+      expect(state.planner.customerSelections?.[0].deliveries[1]).toHaveLength(3)
+      expect(state.planner.customerSelections?.[1].deliveries[0]).toHaveLength(3)
+      expect(state.planner.customerSelections?.[1].deliveries[1]).toHaveLength(4)
+      expect(Array.isArray(state.planner.customerSelections?.[1].deliveries[1]) && state.planner.customerSelections?.[1].deliveries[1][3].chosenVariant).toEqual("Mass")
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect(((state.planner.customerSelections?.[1].deliveries[1] as any)[3].recipe)).toBe(mockRecipe3)
+    });
+  })
 
   describe("generateCustomerMeals", () => {
     it("Should change 'customerSelections' to the result of 'selectedMeals' being fed through 'planMeals'", () => {

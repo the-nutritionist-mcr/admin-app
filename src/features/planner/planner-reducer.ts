@@ -3,7 +3,7 @@ import AppState from "../../types/AppState";
 import Customer from "../../domain/Customer";
 import DeliveryMealsSelection from "../../types/DeliveryMealsSelection";
 import Recipe from "../../domain/Recipe";
-import { defaultDeliveryDays } from "../../lib/config";
+import { defaultDeliveryDays, planLabels } from "../../lib/config";
 import {
   chooseMeals,
   CustomerMealsSelection,
@@ -59,7 +59,13 @@ const executeAction = <T>(
   return state;
 };
 
+interface AddAdHocPayload {
+  customer: Customer;
+  deliveryIndex: number;
+}
+
 export const clearPlanner = createAction("clearPlanner");
+export const addAdHoc = createAction<AddAdHocPayload>("addAdHoc");
 export const adjustCustomerSelection = createAction<
   CustomerSelectionAdjustPayload,
   "adjustCustomerSelection"
@@ -138,8 +144,63 @@ const plannerReducer = (state: AppState, action?: AnyAction): AppState => {
     })
   );
 
-  return executeAction<CustomerSelectionAdjustPayload>(
+  const stateAfterAdhoc = executeAction<AddAdHocPayload>(
     stateAfterClearAll,
+    action,
+    addAdHoc.type,
+
+    (newState, executingAction) => {
+      if (!newState.planner.customerSelections) {
+        return { ...newState };
+      }
+
+      return {
+        ...newState,
+        planner: {
+          ...newState.planner,
+          customerSelections: newState.planner.customerSelections.map(
+            ({ customer, deliveries }) => ({
+              customer: {
+                ...customer,
+                plan: { ...customer.plan },
+                exclusions: customer.exclusions.map((exclusion) => ({
+                  ...exclusion,
+                })),
+              },
+              deliveries: deliveries.map((delivery, index) =>
+                delivery
+                  ? [
+                      ...(index === executingAction.payload.deliveryIndex &&
+                      customer.id === executingAction.payload.customer.id
+                        ? [
+                            ...delivery,
+                            {
+                              chosenVariant:
+                                delivery.length === 0 ? planLabels[0] : delivery[delivery.length - 1]?.chosenVariant,
+                              recipe:
+                                newState.planner.selectedMeals[
+                                  executingAction.payload.deliveryIndex
+                                ][
+                                  delivery.length %
+                                    newState.planner.selectedMeals[
+                                      executingAction.payload.deliveryIndex
+                                    ].length
+                                ],
+                            },
+                          ]
+                        : delivery),
+                    ]
+                  : delivery
+              ),
+            })
+          ),
+        },
+      };
+    }
+  );
+
+  return executeAction<CustomerSelectionAdjustPayload>(
+    stateAfterAdhoc,
     action,
     adjustCustomerSelection.type,
     (newState, executingAction) => {
