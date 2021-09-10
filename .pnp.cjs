@@ -12148,7 +12148,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@reduxjs/toolkit", "virtual:b939c03314397eeca7e4b949c2dcceea8cca50bbe318556df05debd593c45e790f2e14230e8026ba6e2bdc042c13d6e15bedf0566bf0c7e3fef93d5e39568672#npm:1.6.1"],
             ["@types/react", "npm:16.14.13"],
             ["@types/react-redux", "npm:7.1.18"],
-            ["immer", "npm:9.0.5"],
+            ["immer", "npm:9.0.6"],
             ["react", "npm:17.0.1"],
             ["react-redux", "virtual:b939c03314397eeca7e4b949c2dcceea8cca50bbe318556df05debd593c45e790f2e14230e8026ba6e2bdc042c13d6e15bedf0566bf0c7e3fef93d5e39568672#npm:7.2.4"],
             ["redux", "npm:4.1.1"],
@@ -26779,17 +26779,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["immer", [
-        ["npm:8.0.1", {
-          "packageLocation": "./.yarn/cache/immer-npm-8.0.1-e4136eda12-63d875c048.zip/node_modules/immer/",
+        ["npm:9.0.6", {
+          "packageLocation": "./.yarn/cache/immer-npm-9.0.6-bed441f4ed-75da22f3b3.zip/node_modules/immer/",
           "packageDependencies": [
-            ["immer", "npm:8.0.1"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:9.0.5", {
-          "packageLocation": "./.yarn/cache/immer-npm-9.0.5-22c5d08d81-8199c092bb.zip/node_modules/immer/",
-          "packageDependencies": [
-            ["immer", "npm:9.0.5"]
+            ["immer", "npm:9.0.6"]
           ],
           "linkType": "HARD",
         }]
@@ -37427,7 +37420,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["global-modules", "npm:2.0.0"],
             ["globby", "npm:11.0.1"],
             ["gzip-size", "npm:5.1.1"],
-            ["immer", "npm:8.0.1"],
+            ["immer", "npm:9.0.6"],
             ["is-root", "npm:2.1.0"],
             ["loader-utils", "npm:2.0.0"],
             ["open", "npm:7.4.2"],
