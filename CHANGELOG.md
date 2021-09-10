@@ -1,3 +1,11 @@
+## [1.13.0](https://github.com/benwainwright/tnm/compare/v1.12.0...v1.13.0) (2021-09-10)
+
+
+### Features
+
+* add count of active and paused customers to customers page ([78d36a3](https://github.com/benwainwright/tnm/commit/78d36a3de0913fa8032981ed791d3c4346bc3d4d))
+* pause including date now appears on plan TRELLO-82 ([6cf6ec1](https://github.com/benwainwright/tnm/commit/6cf6ec1bf1b3156fe1ebb454643f32ab0b652c97))
+
 ## [1.12.0](https://github.com/benwainwright/tnm/compare/v1.11.1...v1.12.0) (2021-09-10)
 
 
