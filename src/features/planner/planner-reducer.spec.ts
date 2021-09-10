@@ -269,8 +269,8 @@ describe("The planner slice", () => {
         Array.isArray(state.planner.customerSelections?.[1].deliveries[1]) &&
           state.planner.customerSelections?.[1].deliveries[1][3].chosenVariant
       ).toEqual("Mass");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (state.planner.customerSelections?.[1].deliveries[1] as any)[3].recipe
       ).toBe(mockRecipe3);
     });
