@@ -1,3 +1,21 @@
+## [1.12.0](https://github.com/benwainwright/tnm/compare/v1.11.1...v1.12.0) (2021-09-10)
+
+
+### Features
+
+* ad-hoc extra meals can now be added to the plan before printing ([d16f0ca](https://github.com/benwainwright/tnm/commit/d16f0caf6be42ca157907988abb5ad9f2303b6c1))
+* warn user when updating plan ([f540cee](https://github.com/benwainwright/tnm/commit/f540cee49a7095dea95e80c8e2ea8a095ba7796c))
+
+
+### Performance Updates
+
+* remove final useRecipes dispatch ([82cae64](https://github.com/benwainwright/tnm/commit/82cae6413d8b4b1f8d4ae23809b0e56e62aef0e5))
+
+
+### Security Updates
+
+* upgrade immer to fix security vulnerability ([7ea06f1](https://github.com/benwainwright/tnm/commit/7ea06f15e993268d072adebf314e8f8af0fbc322))
+
 ### [1.11.1](https://github.com/benwainwright/tnm/compare/v1.11.0...v1.11.1) (2021-09-07)
 
 
