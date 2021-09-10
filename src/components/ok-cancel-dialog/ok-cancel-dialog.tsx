@@ -55,6 +55,7 @@ function OkCancelDialogContainer<T>(
           type={props.thing ? "submit" : undefined}
           icon={<Checkmark color="brand" size="small" />}
           label="Ok"
+          onClick={props.thing ? undefined : props.onOk}
         />
         <Button
           icon={<Close color="brand" size="small" />}

@@ -38,6 +38,7 @@ import styled from "styled-components";
 import { allExclusionsSelector } from "../exclusions/exclusionsSlice";
 import AppState from "../../types/AppState";
 import { AnyAction } from "redux";
+import { OkCancelDialog } from "../../components";
 
 const StyledFormField = styled(FormField)`
   width: 300px;
@@ -78,6 +79,8 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
 
   const [customer, setCustomer] = React.useState<Customer>(isEdit && idCustomer ? idCustomer : defaultCustomer);
   const [dirty, setDirty] = React.useState(false);
+  const [planChanged, setPlanChanged] = React.useState(false);
+  const [showPlanChangedDialog, setShowPlanChangedDialog] = React.useState(false);
 
   const propsCustomer = {
     ...defaultCustomer,
@@ -97,6 +100,8 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
     const thunk = isEdit ? updateCustomer : createCustomer;
     await dispatch(thunk(submittingCustomer));
     setDirty(false);
+    setPlanChanged(false);
+    setShowPlanChangedDialog(false);
     history.push("/customers");
   }, SUBMIT_DEBOUNCE);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -126,8 +131,14 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
             setCustomer(propsCustomer);
           }}
           onChange={onChange}
-          onSubmit={onSubmit}
+          onSubmit={planChanged && isEdit ? () => setShowPlanChangedDialog(true) : onSubmit}
         >
+        <OkCancelDialog
+        header="Plan Changed"
+        onOk={onSubmit}
+        show={showPlanChangedDialog}
+        onCancel={() => setShowPlanChangedDialog(false)}
+        >You have made an update to this Customer&apos;s plan. This will result in the meals they receive changing. Are you sure you want to do this?</OkCancelDialog>
           <Prompt
             when={dirty}
             message="You have unsaved changes. Are you sure you want to leave?"
@@ -244,6 +255,7 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
             }}
             onChange={(plan) => {
               onChange({ ...customer, newPlan: plan });
+              setPlanChanged(true)
             }}
             exclusions={exclusions}
           />
