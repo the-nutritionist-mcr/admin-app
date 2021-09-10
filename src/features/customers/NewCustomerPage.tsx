@@ -13,6 +13,7 @@ import {
   Paragraph,
 } from "grommet";
 import React, { FC } from "react";
+import { ThunkDispatch } from "redux-thunk";
 import { Prompt, RouteComponentProps, useHistory } from "react-router-dom";
 import {
   daysPerWeekOptions,
@@ -34,6 +35,8 @@ import {
 
 import styled from "styled-components";
 import { allExclusionsSelector } from "../exclusions/exclusionsSlice";
+import AppState from "../../types/AppState";
+import { AnyAction } from "redux";
 
 const StyledFormField = styled(FormField)`
   width: 300px;
@@ -92,7 +95,7 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
     breakfast: false,
   };
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<AppState, Customer, AnyAction>>();
   const history = useHistory();
 
   const onSubmit = debounce(async () => {
