@@ -1,9 +1,4 @@
-import {
-  Form,
-  Header,
-  Heading,
-  Button,
-} from "grommet";
+import { Form, Header, Heading, Button } from "grommet";
 import React, { FC } from "react";
 import { ThunkDispatch } from "redux-thunk";
 import { Prompt, RouteComponentProps, useHistory } from "react-router-dom";
@@ -19,9 +14,7 @@ import { debounce } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import PlanPanel from "./PlanPanel";
 import { makeNewPlan } from "./distribution-generator";
-import {
-  createCustomer,
-} from "./customersSlice";
+import { createCustomer } from "./customersSlice";
 
 import { allExclusionsSelector } from "../exclusions/exclusionsSlice";
 import AppState from "../../types/AppState";
@@ -75,7 +68,7 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = () => {
     setDirty(false);
     history.push("/customers");
   }, SUBMIT_DEBOUNCE);
-  
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onChange = (nextCustomerData: any): void => {
     setDirty(true);
@@ -95,43 +88,37 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = () => {
   };
   return (
     <>
-        <Form
-          value={customer}
-          onChange={onChange}
-          onSubmit={onSubmit}
-        >
-          <Prompt
-            when={dirty}
-            message="You have unsaved changes. Are you sure you want to leave?"
-          />
-          <Header justify="start" gap="small">
-            <Heading level={2}>
-              New Customer
-            </Heading>
+      <Form value={customer} onChange={onChange} onSubmit={onSubmit}>
+        <Prompt
+          when={dirty}
+          message="You have unsaved changes. Are you sure you want to leave?"
+        />
+        <Header justify="start" gap="small">
+          <Heading level={2}>New Customer</Heading>
 
-            <Button
-              primary
-              disabled={!dirty}
-              label="Save"
-              type="submit"
-              name="submit"
-            />
-          </Header>
-          <Heading level={3}>Personal Details</Heading>
-          <EditCustomerDetailsPanel />
-          <PlanPanel
-            plan={customer.newPlan}
-            plannerConfig={{
-              planLabels: [...planLabels],
-              extrasLabels: [...extrasLabels],
-              defaultDeliveryDays,
-            }}
-            onChange={(plan) => {
-              onChange({ ...customer, newPlan: plan });
-            }}
-            exclusions={exclusions}
+          <Button
+            primary
+            disabled={!dirty}
+            label="Save"
+            type="submit"
+            name="submit"
           />
-        </Form>
+        </Header>
+        <Heading level={3}>Personal Details</Heading>
+        <EditCustomerDetailsPanel />
+        <PlanPanel
+          plan={customer.newPlan}
+          plannerConfig={{
+            planLabels: [...planLabels],
+            extrasLabels: [...extrasLabels],
+            defaultDeliveryDays,
+          }}
+          onChange={(plan) => {
+            onChange({ ...customer, newPlan: plan });
+          }}
+          exclusions={exclusions}
+        />
+      </Form>
     </>
   );
 };

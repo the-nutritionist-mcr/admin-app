@@ -216,7 +216,9 @@ export const chooseMeals = (
     .map(({ customer, deliveries }) => ({
       customer,
       deliveries: deliveries.map((delivery, index) =>
-        isActive(customer, cookDates[index]) ? delivery : getStatusString(customer, cookDates[index])
+        isActive(customer, cookDates[index])
+          ? delivery
+          : getStatusString(customer, cookDates[index])
       ),
     }));
 
@@ -228,7 +230,7 @@ export const makeCookPlan = (
     selections.reduce<Map<string, RecipeVariantMap>>(
       (startMap, customerSelections) => {
         const cook = customerSelections.deliveries[deliveryIndex];
-        if (typeof cook === 'string') {
+        if (typeof cook === "string") {
           return startMap;
         }
         return cook.reduce((map, item) => {

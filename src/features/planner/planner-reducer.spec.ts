@@ -177,7 +177,6 @@ describe("The planner slice", () => {
 
   describe("Add adHoc", () => {
     it("Should add the next appropriate meal to the customer's selection", () => {
-
       const mockRecipe = mock<Recipe>();
 
       const mockRecipe1 = mock<Recipe>();
@@ -187,11 +186,11 @@ describe("The planner slice", () => {
       const mockRecipe5 = mock<Recipe>();
 
       const mockCustomer1 = mock<Customer>();
-      mockCustomer1.id = '0'
-      mockCustomer1.exclusions = []
+      mockCustomer1.id = "0";
+      mockCustomer1.exclusions = [];
       const mockCustomer2 = mock<Customer>();
-      mockCustomer2.id = '1'
-      mockCustomer2.exclusions = []
+      mockCustomer2.id = "1";
+      mockCustomer2.exclusions = [];
 
       const originalOutcome: CustomerMealsSelection = [
         {
@@ -245,24 +244,37 @@ describe("The planner slice", () => {
           mockRecipe3,
           mockRecipe4,
           mockRecipe5,
-        ]
-      ]
-      initialState.planner.customerSelections = originalOutcome
+        ],
+      ];
+      initialState.planner.customerSelections = originalOutcome;
 
       const state = plannerReducer(
         initialState,
         addAdHoc({ customer: mockCustomer2, deliveryIndex: 1 })
       );
 
-      expect(state.planner.customerSelections?.[0].deliveries[0]).toHaveLength(3)
-      expect(state.planner.customerSelections?.[0].deliveries[1]).toHaveLength(3)
-      expect(state.planner.customerSelections?.[1].deliveries[0]).toHaveLength(3)
-      expect(state.planner.customerSelections?.[1].deliveries[1]).toHaveLength(4)
-      expect(Array.isArray(state.planner.customerSelections?.[1].deliveries[1]) && state.planner.customerSelections?.[1].deliveries[1][3].chosenVariant).toEqual("Mass")
+      expect(state.planner.customerSelections?.[0].deliveries[0]).toHaveLength(
+        3
+      );
+      expect(state.planner.customerSelections?.[0].deliveries[1]).toHaveLength(
+        3
+      );
+      expect(state.planner.customerSelections?.[1].deliveries[0]).toHaveLength(
+        3
+      );
+      expect(state.planner.customerSelections?.[1].deliveries[1]).toHaveLength(
+        4
+      );
+      expect(
+        Array.isArray(state.planner.customerSelections?.[1].deliveries[1]) &&
+          state.planner.customerSelections?.[1].deliveries[1][3].chosenVariant
+      ).toEqual("Mass");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(((state.planner.customerSelections?.[1].deliveries[1] as any)[3].recipe)).toBe(mockRecipe3)
+      expect(
+        (state.planner.customerSelections?.[1].deliveries[1] as any)[3].recipe
+      ).toBe(mockRecipe3);
     });
-  })
+  });
 
   describe("generateCustomerMeals", () => {
     it("Should change 'customerSelections' to the result of 'selectedMeals' being fed through 'planMeals'", () => {

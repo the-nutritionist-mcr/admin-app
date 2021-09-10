@@ -29,7 +29,7 @@ const makeRowsFromSelections = (
         bold: true,
       },
     ],
-    ...(typeof customerSelection.delivery === 'string'
+    ...(typeof customerSelection.delivery === "string"
       ? [customerSelection.delivery]
       : customerSelection.delivery
           .map((item) =>

@@ -176,7 +176,10 @@ const plannerReducer = (state: AppState, action?: AnyAction): AppState => {
                             ...delivery,
                             {
                               chosenVariant:
-                                delivery.length === 0 ? planLabels[0] : delivery[delivery.length - 1]?.chosenVariant,
+                                delivery.length === 0
+                                  ? planLabels[0]
+                                  : delivery[delivery.length - 1]
+                                      ?.chosenVariant,
                               recipe:
                                 newState.planner.selectedMeals[
                                   executingAction.payload.deliveryIndex
@@ -222,7 +225,7 @@ const plannerReducer = (state: AppState, action?: AnyAction): AppState => {
                 })),
               },
               deliveries: deliveries.map((delivery, index) =>
-                typeof delivery !== 'string'
+                typeof delivery !== "string"
                   ? [
                       ...(index === executingAction.payload.deliveryIndex
                         ? delivery.map((item, itemIndex) => ({
