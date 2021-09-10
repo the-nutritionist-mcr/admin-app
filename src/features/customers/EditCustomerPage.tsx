@@ -22,11 +22,13 @@ import { NotFound } from "../../components/not-found";
 
 const SUBMIT_DEBOUNCE = 500;
 
-interface PathParams {
+export interface EditCustomerPathParams {
   id?: string;
 }
 
-const EditCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
+const EditCustomerPage: FC<RouteComponentProps<EditCustomerPathParams>> = (
+  props
+) => {
   const exclusions = useSelector(allExclusionsSelector);
   const idCustomer = useSelector(
     customerByIdSelector(props.match.params.id ?? "")

@@ -1,9 +1,10 @@
 import { Box, Header, Heading, Text } from "grommet";
-import { Cafeteria, Configure, Home, Logout, Plan, User } from "grommet-icons";
+import { Logout } from "grommet-icons";
 import { Auth } from "@aws-amplify/auth";
 import { MenuButton } from "..";
 import React from "react";
 import styled from "styled-components";
+import { navbarRoutes } from "../router/navbar-routes";
 
 const NonPrintableHeader = styled(Header)`
   @media print {
@@ -15,49 +16,27 @@ const BoxWithGap = styled(Box)`
   gap: 40px;
 `;
 
+const capitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
+const groups = (anonymous: boolean | undefined) =>
+  anonymous ? ["anonymous", "user", "admin"] : ["user", "admin"];
+
 const NavBar: React.FC = () => {
   const env = process.env.REACT_APP_ENVIRONMENT;
   const buttons = [
-    <MenuButton
-      key="/"
-      to="/"
-      groups={["anonymous", "user", "admin"]}
-      icon={<Home />}
-    >
-      Home
-    </MenuButton>,
-    <MenuButton
-      key="/customers"
-      to="/customers"
-      groups={["user", "admin"]}
-      icon={<User />}
-    >
-      Customers
-    </MenuButton>,
-    <MenuButton
-      key="/recipes"
-      to="/recipes"
-      groups={["user", "admin"]}
-      icon={<Cafeteria />}
-    >
-      Recipes
-    </MenuButton>,
-    <MenuButton
-      key="/customisations"
-      to="/customisations"
-      groups={["user", "admin"]}
-      icon={<Configure />}
-    >
-      Customisations
-    </MenuButton>,
-    <MenuButton
-      key="/planner"
-      to="/planner"
-      groups={["user", "admin"]}
-      icon={<Plan />}
-    >
-      Planner
-    </MenuButton>,
+    ...Object.entries(navbarRoutes).map(([path, route]) => (
+      <MenuButton
+        key={path}
+        to={path}
+        groups={groups(route.anonymous)}
+        icon={route.icon}
+      >
+      {route.name ?? capitalizeFirstLetter(path.split("/")[1])}
+      </MenuButton>
+    )),
     <MenuButton
       key="logout"
       groups={["anonymous", "user", "admin"]}
@@ -69,7 +48,7 @@ const NavBar: React.FC = () => {
     >
       Logout
     </MenuButton>,
-  ].filter(Boolean);
+  ];
 
   return (
     <NonPrintableHeader

@@ -3,7 +3,7 @@ import UserContext from "../../lib/UserContext";
 import { RouteComponentProps, Route } from "react-router-dom";
 import { DataOrModifiedFn } from "use-async-resource";
 
-interface AuthenticatedrouteProps<T> {
+interface TnmRouteProps<T> {
   path: string;
   groups: string[];
   exact?: boolean;
@@ -16,9 +16,7 @@ function assertFC<P>(
   // eslint-disable-next-line @typescript-eslint/no-empty-function
 ): asserts _component is React.FC<P> {}
 
-function AuthenticatedRoute<T>(
-  props: AuthenticatedrouteProps<T>
-): React.ReactElement | null {
+function TnmRoute<T>(props: TnmRouteProps<T>): React.ReactElement | null {
   props.dataReader();
   const user = React.useContext(UserContext);
   return props.groups.some((group) => user?.groups?.includes(group)) ? (
@@ -26,6 +24,6 @@ function AuthenticatedRoute<T>(
   ) : null;
 }
 
-assertFC(AuthenticatedRoute);
+assertFC(TnmRoute);
 
-export default AuthenticatedRoute;
+export default TnmRoute;

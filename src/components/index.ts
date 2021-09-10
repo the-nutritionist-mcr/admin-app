@@ -5,7 +5,7 @@ import {
   PrintableThead,
 } from "./printable-table";
 import { App } from "./app";
-import { AuthenticatedRoute } from "./authenticated-route";
+import { TnmRoute } from "./tnm-route";
 import { ExtendedParagraph } from "./extended-paragraph";
 import { Home } from "./home";
 import { MenuButton } from "./menu-button";
@@ -19,7 +19,7 @@ import { TabsWithoutGaps } from "./tabs-without-gap";
 
 export {
   App,
-  AuthenticatedRoute,
+  TnmRoute,
   ExtendedParagraph,
   Home,
   MenuButton,

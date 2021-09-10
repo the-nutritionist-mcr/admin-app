@@ -1,9 +1,9 @@
-import { AuthenticatedRoute } from ".";
+import { TnmRoute } from ".";
 import React from "react";
 import { Route } from "react-router-dom";
 import { shallow } from "enzyme";
 
-describe("<AuthenticatedRoute />", () => {
+describe("<TnmRoute />", () => {
   it("Displays a react router <Route> if the current user is in a group specified by the groups prop", () => {
     jest.spyOn(React, "useContext").mockReturnValue({
       groups: ["foo", "bar"],
@@ -12,11 +12,7 @@ describe("<AuthenticatedRoute />", () => {
     const dataReader = jest.fn();
 
     const wrapper = shallow(
-      <AuthenticatedRoute
-        path="/foo"
-        groups={["foo"]}
-        dataReader={dataReader}
-      />
+      <TnmRoute path="/foo" groups={["foo"]} dataReader={dataReader} />
     );
 
     expect(wrapper.find(Route).exists()).toEqual(true);
@@ -30,11 +26,7 @@ describe("<AuthenticatedRoute />", () => {
     const dataReader = jest.fn();
 
     const wrapper = shallow(
-      <AuthenticatedRoute
-        path="/foo"
-        groups={["bar"]}
-        dataReader={dataReader}
-      />
+      <TnmRoute path="/foo" groups={["bar"]} dataReader={dataReader} />
     );
 
     expect(wrapper.find(Route).exists()).toEqual(false);
@@ -48,7 +40,7 @@ describe("<AuthenticatedRoute />", () => {
     const dataReader = jest.fn();
 
     const wrapper = shallow(
-      <AuthenticatedRoute
+      <TnmRoute
         exact={true}
         path="/foo"
         groups={["foo"]}
