@@ -111,7 +111,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                 style={{ width: "100%" }}
                 key={`${props.customerSelection.customer.id}-${deliveryIndex}-${batchIndex}}-row`}
               >
-                <TableCell>{batchIndex === 0 && <Text><strong>{deliveryIndex + 1}</strong></Text>}</TableCell>
+                <TableCell scope="row">{batchIndex === 0 && <Text><strong>{deliveryIndex + 1}</strong></Text>}</TableCell>
                 {row}
               </AlternatingTableRow>
             ))

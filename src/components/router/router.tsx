@@ -32,6 +32,10 @@ const LazyNewCustomer = React.lazy(
   async () => import("../../features/customers/NewCustomerPage")
 );
 
+const LazyEditCustomer = React.lazy(
+  async () => import("../../features/customers/EditCustomerPage")
+);
+
 const Router: React.FC = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, void, AnyAction>>();
 
@@ -85,7 +89,7 @@ const Router: React.FC = () => {
         dataReader={reader}
         path="/edit-customer/:id"
         groups={["user", "admin"]}
-        component={LazyNewCustomer}
+        component={LazyEditCustomer}
       />
       <AuthenticatedRoute
         dataReader={reader}

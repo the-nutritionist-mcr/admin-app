@@ -386,7 +386,6 @@ test("The finalize component breaks rows that are longer than six items into mul
   const tableRows = within(customerTables[0]).getAllByRole("rowheader");
   expect(tableRows).toHaveLength(3);
   expect(within(tableRows[0]).queryByText("1")).toBeInTheDocument();
-  expect(within(tableRows[1]).queryByText("1")).toBeInTheDocument();
   expect(within(tableRows[2]).queryByText("2")).toBeInTheDocument();
 });
 

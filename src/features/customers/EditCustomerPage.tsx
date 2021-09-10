@@ -3,66 +3,53 @@ import {
   Header,
   Heading,
   Button,
+  Paragraph,
 } from "grommet";
 import React, { FC } from "react";
 import { ThunkDispatch } from "redux-thunk";
 import { Prompt, RouteComponentProps, useHistory } from "react-router-dom";
 import {
-  daysPerWeekOptions,
-  plans,
   planLabels,
   extrasLabels,
   defaultDeliveryDays,
 } from "../../lib/config";
-import Customer, { Snack } from "../../domain/Customer";
+import Customer from "../../domain/Customer";
 import { debounce } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import PlanPanel from "./PlanPanel";
-import { makeNewPlan } from "./distribution-generator";
 import {
-  createCustomer,
+  updateCustomer,
+  customerByIdSelector
 } from "./customersSlice";
 
 import { allExclusionsSelector } from "../exclusions/exclusionsSlice";
 import AppState from "../../types/AppState";
 import { AnyAction } from "redux";
+import { OkCancelDialog } from "../../components";
 import EditCustomerDetailsPanel from "./EditCustomerDetailsPanel";
+import { NotFound } from "../../components/not-found";
 
 const SUBMIT_DEBOUNCE = 500;
-
-const defaultCustomer = {
-  id: "0",
-  firstName: "",
-  surname: "",
-  salutation: "",
-  telephone: "",
-  address: "",
-  notes: "",
-  email: "",
-  daysPerWeek: daysPerWeekOptions[0],
-  plan: plans[0],
-  newPlan: makeNewPlan({
-    planLabels: [...planLabels],
-    extrasLabels: [...extrasLabels],
-    defaultDeliveryDays,
-  }),
-  snack: Snack.None,
-  breakfast: false,
-  exclusions: [],
-};
 
 interface PathParams {
   id?: string;
 }
 
-const NewCustomerPage: FC<RouteComponentProps<PathParams>> = () => {
+const EditCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
   const exclusions = useSelector(allExclusionsSelector);
+  const idCustomer = useSelector(customerByIdSelector(props.match.params.id ?? ""));
 
-  const [customer, setCustomer] = React.useState<Customer>(defaultCustomer);
+  const [customer, setCustomer] = React.useState<Customer | undefined>(idCustomer);
   const [dirty, setDirty] = React.useState(false);
+  const [planChanged, setPlanChanged] = React.useState(false);
+  const [showPlanChangedDialog, setShowPlanChangedDialog] = React.useState(false);
 
   const dispatch = useDispatch<ThunkDispatch<AppState, Customer, AnyAction>>();
   const history = useHistory();
+
+  if(!customer) {
+    return <NotFound />
+  }
 
   const onSubmit = debounce(async () => {
     const submittingCustomer = {
@@ -71,8 +58,10 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = () => {
       breakfast: (customer.breakfast as any) === "Yes",
     };
 
-    await dispatch(createCustomer(submittingCustomer));
+    await dispatch(updateCustomer(submittingCustomer));
     setDirty(false);
+    setPlanChanged(false);
+    setShowPlanChangedDialog(false);
     history.push("/customers");
   }, SUBMIT_DEBOUNCE);
   
@@ -93,20 +82,25 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = () => {
 
     setCustomer(nextCustomer);
   };
-  return (
-    <>
+    return <>
         <Form
           value={customer}
           onChange={onChange}
-          onSubmit={onSubmit}
+          onSubmit={planChanged ? () => setShowPlanChangedDialog(true) : onSubmit}
         >
+        <OkCancelDialog
+        header="Plan Changed"
+        onOk={onSubmit}
+        show={showPlanChangedDialog}
+        onCancel={() => setShowPlanChangedDialog(false)}
+        >You have made an update to this Customer&apos;s plan. This will result in the meals they receive changing. Are you sure you want to do this?</OkCancelDialog>
           <Prompt
             when={dirty}
             message="You have unsaved changes. Are you sure you want to leave?"
           />
           <Header justify="start" gap="small">
             <Heading level={2}>
-              New Customer
+              Update Customer
             </Heading>
 
             <Button
@@ -117,8 +111,18 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = () => {
               name="submit"
             />
           </Header>
+
           <Heading level={3}>Personal Details</Heading>
           <EditCustomerDetailsPanel />
+          {!customer.newPlan && (
+            <>
+              <Heading level={3}>Legacy Plan</Heading>
+              <Paragraph fill>
+                {customer.plan.category} {customer.plan.mealsPerDay} (
+                {customer.daysPerWeek} days)
+              </Paragraph>
+            </>
+          )}
           <PlanPanel
             plan={customer.newPlan}
             plannerConfig={{
@@ -128,12 +132,12 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = () => {
             }}
             onChange={(plan) => {
               onChange({ ...customer, newPlan: plan });
+              setPlanChanged(true)
             }}
             exclusions={exclusions}
           />
         </Form>
     </>
-  );
 };
 
-export default NewCustomerPage;
+export default EditCustomerPage;
