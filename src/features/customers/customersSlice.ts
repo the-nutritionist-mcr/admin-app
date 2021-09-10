@@ -152,5 +152,7 @@ export const asyncActions = [
 
 export default customersSlice;
 
+export const customerByIdSelector = (id: string) => (state: AppState): Customer | undefined => state.customers.items.find(customer => customer.id === id)
+
 export const allCustomersSelector = (state: AppState): Customer[] =>
   state.customers.items;

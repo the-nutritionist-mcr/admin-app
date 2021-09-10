@@ -31,6 +31,7 @@ import {
   updateCustomer,
   createCustomer,
   allCustomersSelector,
+  customerByIdSelector
 } from "./customersSlice";
 
 import styled from "styled-components";
@@ -70,25 +71,13 @@ interface PathParams {
 }
 
 const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
-  const customers = useSelector(allCustomersSelector);
   const exclusions = useSelector(allExclusionsSelector);
 
-  const [customer, setCustomer] = React.useState<Customer>(defaultCustomer);
-  const [dirty, setDirty] = React.useState(false);
-
+  const idCustomer = useSelector(customerByIdSelector(props.match.params.id ?? ""));
   const isEdit = props.match.params.id;
 
-  const [customerWasFound, setCustomerWasFound] = React.useState(false);
-
-  React.useEffect(() => {
-    const foundCustomer = customers.find(
-      (thisCustomer) => thisCustomer.id === props.match.params.id
-    );
-    if (foundCustomer) {
-      setCustomer(foundCustomer);
-      setCustomerWasFound(true);
-    }
-  }, [customers, props.match.params.id]);
+  const [customer, setCustomer] = React.useState<Customer>(isEdit && idCustomer ? idCustomer : defaultCustomer);
+  const [dirty, setDirty] = React.useState(false);
 
   const propsCustomer = {
     ...defaultCustomer,
@@ -130,7 +119,7 @@ const NewCustomerPage: FC<RouteComponentProps<PathParams>> = (props) => {
   return (
     <>
       {" "}
-      {(isEdit && customerWasFound) || !isEdit ? (
+      {(isEdit && customer) || !isEdit ? (
         <Form
           value={customer}
           onReset={(): void => {
