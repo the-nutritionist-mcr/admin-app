@@ -72,7 +72,6 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                   <strong>{deliveryIndex + 1}</strong>
                 </Text>
               </TableCell>
-
               <TableCell>
                 <em>{delivery}</em>
               </TableCell>

@@ -18,7 +18,7 @@ import EditCustomerDialog from "./EditCustomerDialog";
 import LoadingState from "../../types/LoadingState";
 import React from "react";
 import { Spinning } from "grommet-controls";
-import { allCustomersSelector, createCustomer } from "./customersSlice";
+import { allCustomersSelector, createCustomer, currentltActiveCustomersSelector, pausedCustomersSelector } from "./customersSlice";
 import fileDownload from "js-file-download";
 import generateCsvStringFromObjectArray from "../../lib/generateCsvStringFromObjectArray";
 import { loadingSelector } from "../../lib/rootReducer";
@@ -38,6 +38,8 @@ const Customers: React.FC = () => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
 
   const customers = useSelector(allCustomersSelector);
+  const pausedCustomers = useSelector(pausedCustomersSelector)
+  const activeCustomers = useSelector(currentltActiveCustomersSelector)
 
   const loading = useSelector(loadingSelector);
   const history = useHistory();
@@ -45,6 +47,7 @@ const Customers: React.FC = () => {
   return (
     <React.Fragment>
       <Header align="center" justify="start" gap="small">
+      <Box direction="row" flex='grow' align="center" gap="small">
         <Heading level={2}>Customers</Heading>
         <Button
           primary
@@ -92,6 +95,11 @@ const Customers: React.FC = () => {
             }}
           />
         )}
+        </Box>
+        <Box direction="column" style={{fontSize: "0.9rem"}}>
+        <Box direction="row" gap="small">Total <strong>{customers.length}</strong></Box>
+        <Box direction="row" gap="small">Active <strong>{activeCustomers.length}</strong></Box>
+        <Box direction="row" gap="small">Paused <strong>{pausedCustomers.length}</strong></Box></Box>
       </Header>
       {customers.length > 0 ? (
         <Table alignSelf="start">

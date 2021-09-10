@@ -19,6 +19,7 @@ import Customer from "../../domain/Customer";
 
 import apiRequestCreator from "../../lib/apiRequestCreator";
 import { createSlice } from "@reduxjs/toolkit";
+import isActive from "../../lib/isActive";
 
 interface CustomersState {
   items: Customer[];
@@ -156,3 +157,11 @@ export const customerByIdSelector = (id: string) => (state: AppState): Customer 
 
 export const allCustomersSelector = (state: AppState): Customer[] =>
   state.customers.items;
+
+
+export const pausedCustomersSelector = (state: AppState): Customer[] =>
+  state.customers.items.filter((customer) => !isActive(customer));
+
+export const currentltActiveCustomersSelector = (state: AppState): Customer[] =>
+  state.customers.items.filter((customer) => isActive(customer));
+
