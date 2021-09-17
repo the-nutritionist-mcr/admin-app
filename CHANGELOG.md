@@ -1,3 +1,10 @@
+### [1.13.1](https://github.com/benwainwright/tnm/compare/v1.13.0...v1.13.1) (2021-09-17)
+
+
+### Bug Fixes
+
+* fixed bug where I was hitting the max limit for the DDB batchGetItems call ([a7d853e](https://github.com/benwainwright/tnm/commit/a7d853e07e93ef7b732d71656d27583fdc0028a8))
+
 ## [1.13.0](https://github.com/benwainwright/tnm/compare/v1.12.0...v1.13.0) (2021-09-10)
 
 
