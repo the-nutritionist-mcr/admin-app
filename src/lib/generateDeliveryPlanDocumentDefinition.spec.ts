@@ -1,5 +1,6 @@
 import { mock } from "jest-mock-extended";
-import { Content, ContentTable, ContentText } from "pdfmake/interfaces";
+// eslint-disable-next-line import/no-unresolved
+import { Content, ContentTable } from "pdfmake/interfaces";
 import Customer from "../domain/Customer";
 import generateDeliveryPlanDocumentDefinition from "./generateDeliveryPlanDocumentDefinition";
 
@@ -41,15 +42,19 @@ describe("generate delivery plan document definition", () => {
 
       if (table && isTable(table)) {
         expect(
+          // eslint-disable-next-line  @typescript-eslint/no-explicit-any
           (table.table.body[0][0] as any).text[0].text.startsWith("abc")
         ).toBeTruthy();
         expect(
+          // eslint-disable-next-line  @typescript-eslint/no-explicit-any
           (table.table.body[1][0] as any).text[0].text.startsWith("dcf")
         ).toBeTruthy();
         expect(
+          // eslint-disable-next-line  @typescript-eslint/no-explicit-any
           (table.table.body[2][0] as any).text[0].text.startsWith("def")
         ).toBeTruthy();
         expect(
+          // eslint-disable-next-line  @typescript-eslint/no-explicit-any
           (table.table.body[3][0] as any).text[0].text.startsWith("gef")
         ).toBeTruthy();
       }
