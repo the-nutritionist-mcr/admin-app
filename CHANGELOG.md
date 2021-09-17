@@ -1,3 +1,10 @@
+## [1.14.0](https://github.com/benwainwright/tnm/compare/v1.13.1...v1.14.0) (2021-09-17)
+
+
+### Features
+
+* sort pack plan into alphabetical order ([9cadd2f](https://github.com/benwainwright/tnm/commit/9cadd2f2e49adb840db2dfbaa189a21e8d5c3635))
+
 ### [1.13.1](https://github.com/benwainwright/tnm/compare/v1.13.0...v1.13.1) (2021-09-17)
 
 
