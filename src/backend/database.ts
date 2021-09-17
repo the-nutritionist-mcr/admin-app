@@ -4,7 +4,7 @@ import log from "loglevel";
 const NUM_TABS = 4;
 
 const TRANSACT_ITEMS_MAX_SIZE = 25;
-const BATCH_GET_MAX_SIZE = 100
+const BATCH_GET_MAX_SIZE = 100;
 
 export const getAll = async <T>(table: string): Promise<T[]> => {
   const dynamoDb = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" });
@@ -64,27 +64,29 @@ export const getAllByIds = async <T>(
     return [];
   }
 
-  const batches = batchArray(ids, BATCH_GET_MAX_SIZE)
+  const batches = batchArray(ids, BATCH_GET_MAX_SIZE);
 
-  const result = await Promise.all(batches.map(async batch => {
-    const batchParams = {
-      RequestItems: {
-        [table]: {
-          Keys: Array.from(new Set(batch), (id) =>
-            typeof id === "string" ? { id } : { [id.key]: id.value }
-          ),
+  const result = await Promise.all(
+    batches.map(async (batch) => {
+      const batchParams = {
+        RequestItems: {
+          [table]: {
+            Keys: Array.from(new Set(batch), (id) =>
+              typeof id === "string" ? { id } : { [id.key]: id.value }
+            ),
+          },
         },
-      },
-    };
+      };
 
-    log.trace(JSON.stringify(batchParams, null, NUM_TABS));
+      log.trace(JSON.stringify(batchParams, null, NUM_TABS));
 
-    const results = await dynamoDb.batchGet(batchParams).promise();
+      const results = await dynamoDb.batchGet(batchParams).promise();
 
-    return results.Responses
-      ? (excludeDeleted(results.Responses[table]) as T[])
-      : [];
-  }))
+      return results.Responses
+        ? (excludeDeleted(results.Responses[table]) as T[])
+        : [];
+    })
+  );
 
   return result.flat();
 };

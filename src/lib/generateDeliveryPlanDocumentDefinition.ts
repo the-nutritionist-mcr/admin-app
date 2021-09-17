@@ -21,21 +21,25 @@ const makeRowsFromSelections = (
   customerSelections: CustomerMealDaySelection[],
   allMeals: Recipe[]
 ) =>
-  customerSelections.slice().sort((a, b) => a.customer.surname > b.customer.surname ? 1 : -1).map((customerSelection) => [
-    [
+  customerSelections
+    .slice()
+    .sort((a, b) => (a.customer.surname > b.customer.surname ? 1 : -1))
+    .map((customerSelection) => [
+      [
         {
-            fontSize: 13,
-            text: generateNameString(customerSelection.customer),
-            bold: true,
+          fontSize: 13,
+          text: generateNameString(customerSelection.customer),
+          bold: true,
         },
-    ],
-    ...(typeof customerSelection.delivery === "string"
+      ],
+      ...(typeof customerSelection.delivery === "string"
         ? [customerSelection.delivery]
         : customerSelection.delivery
-            .map((item) => createVariant(customerSelection.customer, item, allMeals)
+            .map((item) =>
+              createVariant(customerSelection.customer, item, allMeals)
             )
             .map((item) => formatPlanItem(item.mealWithVariantString, item))),
-]);
+    ]);
 
 const generateNameString = (customer: Customer) =>
   `${customer.surname}, ${customer.firstName}`;

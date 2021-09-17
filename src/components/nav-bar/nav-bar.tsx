@@ -18,8 +18,7 @@ const BoxWithGap = styled(Box)`
 
 const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
+};
 
 const groups = (anonymous: boolean | undefined) =>
   anonymous ? ["anonymous", "user", "admin"] : ["user", "admin"];
@@ -34,7 +33,7 @@ const NavBar: React.FC = () => {
         groups={groups(route.anonymous)}
         icon={route.icon}
       >
-      {route.name ?? capitalizeFirstLetter(path.split("/")[1])}
+        {route.name ?? capitalizeFirstLetter(path.split("/")[1])}
       </MenuButton>
     )),
     <MenuButton

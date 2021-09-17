@@ -1,5 +1,5 @@
 import { RouteComponentProps } from "react-router-dom";
-import React from "react"
+import React from "react";
 import { navbarRoutes } from "./navbar-routes";
 import { secondaryRoutes } from "./secondary-routes";
 

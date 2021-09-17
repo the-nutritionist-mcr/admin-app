@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import { Cafeteria, Configure, Home, Plan, User } from "grommet-icons";
 
 import { Route } from "./routes";
