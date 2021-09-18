@@ -27,7 +27,7 @@ const makeRowsFromSelections = (
     .map((customerSelection) => [
       [
         {
-          fontSize: 13,
+          fontSize: 10,
           text: generateNameString(customerSelection.customer),
           bold: true,
         },

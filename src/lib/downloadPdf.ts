@@ -20,7 +20,7 @@ export const makePdf = (
   content,
   pageOrientation: "landscape",
   defaultStyle: {
-    fontSize: 10,
+    fontSize: 8,
   },
   footer: (currentPage, pageCount) => {
     return {
