@@ -22,12 +22,12 @@ export class PdfBuilder {
     return this;
   }
 
-  private coverPage(text: string) {
+  private coverPage(text: string): void {
     this.content.push({
       text,
       style: "coverPage",
       pageBreak: "after",
-      alignment: "center",
+      alignment: "center"
     });
   }
 
@@ -51,7 +51,7 @@ export class PdfBuilder {
     }
   }
 
-  public table(rows: Content[][], columns: number, widths?: Size[]) {
+  public table(rows: Content[][], columns: number, widths?: Size[]): this {
     const initialTable = new PdfTable(columns, widths);
 
     const table = rows

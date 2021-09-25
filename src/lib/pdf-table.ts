@@ -20,7 +20,7 @@ export class PdfTable {
       .map((cell, index) => (index === 0 ? { ...cell, colSpan: size } : cell));
   }
 
-  public row(headerCell: Content, row: Content[]) {
+  public row(headerCell: Content, row: Content[]): this {
     this.content.push(
       ...batchArray(row, this.columns)
         .map((mapRow, index, array) => ({

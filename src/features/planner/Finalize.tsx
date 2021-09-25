@@ -5,10 +5,10 @@ import { allRecipesSelector } from "../recipes/recipesSlice";
 import FinalizeCustomerTable from "./FinalizeCustomerTable";
 import {
   customerSelectionsSelector,
-  plannedMealsSelector,
+  plannedMealsSelector
 } from "./planner-reducer";
 
-const Finalize = () => {
+const Finalize: React.FC = () => {
   const customerMeals = useSelector(customerSelectionsSelector);
   const planned = useSelector(plannedMealsSelector);
   const recipes = useSelector(allRecipesSelector);

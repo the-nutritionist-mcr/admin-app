@@ -1,4 +1,5 @@
 import { RecipeVariantMap } from "../types/CookPlan";
+import { DocumentDefinition } from "./downloadPdf";
 import formatPlanItem from "./formatPlanItem";
 import { PdfBuilder } from "./pdf-builder";
 
@@ -6,7 +7,7 @@ const getCountString = (count: number) => (count > 1 ? ` x ${count}` : ``);
 
 const generateCookPlanDocumentDefinition = (
   cookPlan: Map<string, RecipeVariantMap>[]
-) => {
+): DocumentDefinition => {
   const options = {
     weekday: "long",
     year: "numeric",

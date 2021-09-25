@@ -51,7 +51,7 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
   const nameString = `${props.customer.surname} ${props.customer.firstName} (${props.customer.salutation})`;
   const statusString = React.useMemo(
     () => getStatusString(props.customer),
-    [props.customer.pauseStart, props.customer.pauseEnd]
+    [props.customer]
   );
 
   const planString = React.useMemo(
