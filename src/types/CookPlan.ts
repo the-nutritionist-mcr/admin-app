@@ -1,3 +1,4 @@
+import Customer from "../domain/Customer";
 import Recipe from "../domain/Recipe";
 
 type CookPlan = {
@@ -13,6 +14,7 @@ type CookPlan = {
 
 export interface RecipeVariantMap {
   [variantName: string]: {
+    customers: Customer[];
     count: number;
     allergen: boolean;
     customisation: boolean;
