@@ -9,25 +9,25 @@ const doCopy = async () =>
       "exclusions-table",
       "customers-table",
       "customer-exclusions-table",
-      "recipe-exclusions-table",
+      "recipe-exclusions-table"
     ].map(
-      async (table) =>
+      async table =>
         await new Promise((resolve, reject) => {
           copy(
             {
               config: {
                 accessKeyId: process.env.AWS_ACCESS_KEY_ID,
                 secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-                region: "us-east-1",
+                region: "us-east-1"
               },
               source: {
-                tableName: `prod-tnm-admin-${table}`,
+                tableName: `prod-tnm-admin-${table}`
               },
               destination: {
-                tableName: `local-tnm-admin-${table}`,
+                tableName: `dev-tnm-admin-${table}`
               },
               log: true,
-              create: false,
+              create: false
             },
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (error: Error | null, result: any) => {

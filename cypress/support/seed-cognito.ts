@@ -8,7 +8,7 @@ const deleteAllFromTable = async (tableName: string): Promise<void> => {
   const scanParams = { TableName: tableName };
   const allItems = await dynamoDb.scan(scanParams).promise();
   await Promise.all(
-    allItems.Items?.map((item) => {
+    allItems.Items?.map(item => {
       const params = { TableName: tableName, Key: { id: item.id } };
       return dynamoDb.delete(params).promise();
     }) ?? []
@@ -17,12 +17,12 @@ const deleteAllFromTable = async (tableName: string): Promise<void> => {
 
 const assertIsBackendOutputs: (
   thing: unknown
-) => asserts thing is BackendOutputs = (thing) => {
+) => asserts thing is BackendOutputs = thing => {
   if (
     !(
       (typeof thing === "object" &&
         Object.entries(thing as BackendOutputs).length === 0) ||
-      Object.values(thing as BackendOutputs).every((config) =>
+      Object.values(thing as BackendOutputs).every(config =>
         Object.hasOwnProperty.call(config, "UserPoolId")
       )
     )
@@ -41,7 +41,7 @@ const seedCognito = async (): Promise<void> => {
   assertIsBackendOutputs(loadedConfig);
 
   const config = Object.entries(loadedConfig).find(([key]) =>
-    key.includes("backend-stack")
+    key.includes("BackendStack")
   )?.[1];
 
   if (!config) {
@@ -62,7 +62,7 @@ const seedCognito = async (): Promise<void> => {
     deleteAllFromTable(config.CustomerExclusionsTableName),
     deleteAllFromTable(config.CustomersTableName),
     deleteAllFromTable(config.ExclusionsTableName),
-    deleteAllFromTable(config.RecipesTableName),
+    deleteAllFromTable(config.RecipesTableName)
   ]);
 
   const createUserParams = {
@@ -74,28 +74,28 @@ const seedCognito = async (): Promise<void> => {
     UserAttributes: [
       {
         Name: "email_verified",
-        Value: "True",
+        Value: "True"
       },
       {
         Name: "phone_number_verified",
-        Value: "True",
+        Value: "True"
       },
       {
         Name: "phone_number",
-        Value: "+4478910123123",
+        Value: "+4478910123123"
       },
       {
         Name: "email",
-        Value: "a@b.c",
-      },
-    ],
+        Value: "a@b.c"
+      }
+    ]
   };
 
   try {
     await cognito
       .adminDeleteUser({
         UserPoolId: config.UserPoolId,
-        Username: COGNITO_USER,
+        Username: COGNITO_USER
       })
       .promise();
   } catch {
@@ -106,7 +106,7 @@ const seedCognito = async (): Promise<void> => {
     await cognito
       .createGroup({
         GroupName: "admin",
-        UserPoolId: config.UserPoolId,
+        UserPoolId: config.UserPoolId
       })
       .promise();
   } catch {
@@ -119,7 +119,7 @@ const seedCognito = async (): Promise<void> => {
     Password: COGNITO_PASSWORD,
     Permanent: true,
     Username: COGNITO_USER,
-    UserPoolId: config.UserPoolId,
+    UserPoolId: config.UserPoolId
   };
 
   await cognito.adminSetUserPassword(setPasswordParams).promise();
@@ -128,7 +128,7 @@ const seedCognito = async (): Promise<void> => {
     .adminAddUserToGroup({
       GroupName: "admin",
       UserPoolId: config.UserPoolId,
-      Username: COGNITO_USER,
+      Username: COGNITO_USER
     })
     .promise();
 };

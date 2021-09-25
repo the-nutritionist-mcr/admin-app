@@ -36,7 +36,7 @@ export class PdfBuilder {
     if (typeof lastContent === "object") {
       this.content[this.content.length - 1] = {
         ...lastContent,
-        pageBreak: "after",
+        pageBreak: "after"
       };
     }
     return this;

@@ -4195,6 +4195,7 @@ __metadata:
     "@types/jest": ^27.0.1
     "@types/jest-when": ^2.7.3
     "@types/lodash": ^4.14.165
+    "@types/neat-csv": ^5.1.1
     "@types/node": ^14.14.11
     "@types/node-fetch": ^2.5.12
     "@types/nodegit": ^0.27.3
@@ -4307,6 +4308,7 @@ __metadata:
     mochawesome-report-generator: ^5.1.0
     mockdate: ^3.0.2
     moment: ^2.29.1
+    neat-csv: ^6.0.1
     node-fetch: ^2.6.1
     nodegit: ^0.27.0
     optimize-css-assets-webpack-plugin: 5.0.4
@@ -7213,6 +7215,15 @@ __metadata:
   version: 0.7.31
   resolution: "@types/ms@npm:0.7.31"
   checksum: daadd354aedde024cce6f5aa873fefe7b71b22cd0e28632a69e8b677aeb48ae8caa1c60e5919bb781df040d116b01cb4316335167a3fc0ef6a63fa3614c0f6da
+  languageName: node
+  linkType: hard
+
+"@types/neat-csv@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "@types/neat-csv@npm:5.1.1"
+  dependencies:
+    neat-csv: "*"
+  checksum: 0291c0e116df7b8a8cb7ed352ee76704f447e1529f0b57e3fb0ec50a02fae0c6c2ed044daad84c3549522575b9ba9572f97202054a8a02c40d46939f59fa2368
   languageName: node
   linkType: hard
 
@@ -13123,6 +13134,17 @@ __metadata:
   version: 3.0.8
   resolution: "csstype@npm:3.0.8"
   checksum: 5939a003858a31a32cbc52a8f45496aa0c2bcb4629b21c5bc14a7ddcac1a3d4adfd655f56843dc14940f60563378e9444af2c9c373b3f212601b9eeb6740b8db
+  languageName: node
+  linkType: hard
+
+"csv-parser@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "csv-parser@npm:3.0.0"
+  dependencies:
+    minimist: ^1.2.0
+  bin:
+    csv-parser: bin/csv-parser
+  checksum: adc9d67d9f185249825570778c24d13004625301655330f6b735a052b9fdfbe1a239a014afb1f89939e0626ee573718f71f9f14164db7c17e4bcb2f38d6a162b
   languageName: node
   linkType: hard
 
@@ -24539,6 +24561,17 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"neat-csv@npm:*, neat-csv@npm:^6.0.1":
+  version: 6.0.1
+  resolution: "neat-csv@npm:6.0.1"
+  dependencies:
+    csv-parser: ^3.0.0
+    get-stream: ^6.0.0
+    to-readable-stream: ^2.1.0
+  checksum: 19f6a13f8493f2faf262095800f196f30352fed65e3162d781d1855ca00769ca9192bb8bd78fbd10bf72da25165c77413fc25807d18b64ae15e45bd5b3adef5c
+  languageName: node
+  linkType: hard
+
 "needle@npm:^2.2.1":
   version: 2.8.0
   resolution: "needle@npm:2.8.0"
@@ -31916,7 +31949,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"to-readable-stream@npm:^2.0.0":
+"to-readable-stream@npm:^2.0.0, to-readable-stream@npm:^2.1.0":
   version: 2.1.0
   resolution: "to-readable-stream@npm:2.1.0"
   checksum: 42039fb968a56af99a7201fe01debb0bc55a585a2ab0b1746e322c339c50f91043b1269cedcc6350d2a5f81ceaa6cff7960704f748a59542d1f2c50aca5ea7b9

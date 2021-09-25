@@ -37,3 +37,4 @@ template
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+cypress/downloads

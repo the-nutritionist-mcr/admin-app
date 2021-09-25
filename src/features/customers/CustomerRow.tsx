@@ -15,7 +15,7 @@ import { isCustomDeliveryPlan } from "./distribution-generator";
 import {
   defaultDeliveryDays,
   planLabels,
-  extrasLabels,
+  extrasLabels
 } from "../../lib/config";
 import deepMemo from "../../lib/deepMemo";
 
@@ -42,7 +42,7 @@ const getPlanString = (
   return `${plan.configuration.planType} ${plan.configuration.mealsPerDay} (${plan.configuration.daysPerWeek} days) x ${plan.configuration.totalPlans}`;
 };
 
-const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
+const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = props => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showPause, setShowPause] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
@@ -59,7 +59,7 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
       getPlanString(props.customer.newPlan, {
         planLabels: [...planLabels],
         extrasLabels: [...extrasLabels],
-        defaultDeliveryDays: [...defaultDeliveryDays],
+        defaultDeliveryDays: [...defaultDeliveryDays]
       }),
     [props.customer]
   );
@@ -75,7 +75,7 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
       <TableCell>
         {props.customer.exclusions.length > 0
           ? props.customer.exclusions
-              .map((exclusion) => exclusion.name)
+              .map(exclusion => exclusion.name)
               .join(", ")
           : "None"}
       </TableCell>
@@ -123,7 +123,7 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
               const customer = {
                 ...props.customer,
                 pauseStart: undefined,
-                pauseEnd: undefined,
+                pauseEnd: undefined
               };
               dispatch(updateCustomer(customer));
             }}

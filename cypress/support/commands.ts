@@ -9,25 +9,27 @@ const configureCognitoAndSignIn = async (
   username: string,
   password: string
 ) => {
-  const cypressConfig = Cypress.config()
-  const configResponse = await fetch(`${cypressConfig.baseUrl}/backend-outputs.json`);
+  const cypressConfig = Cypress.config();
+  const configResponse = await fetch(
+    `${cypressConfig.baseUrl}/backend-outputs.json`
+  );
   const rawConfig = await configResponse.json();
   assertIsBackendOutputs(rawConfig);
 
   const config = Object.entries(rawConfig).find(([key]) =>
-    key.includes("backend-stack")
+    key.includes("BackendStack")
   )?.[1];
 
   if (!config) {
-    throw new Error(`Whoops, couldn't load beckend config`);
+    throw new Error(`Whoops, couldn't load backend config`);
   }
 
   Auth.configure({
     Auth: {
       region: "us-east-1",
       userPoolId: config.UserPoolId,
-      userPoolWebClientId: config.ClientId,
-    },
+      userPoolWebClientId: config.ClientId
+    }
   });
   return Auth.signIn({ username, password });
 };
@@ -44,7 +46,7 @@ const createCustomisation = (name, allergen) => {
 
   cy.intercept({
     method: "POST",
-    url: "/graphql",
+    url: "/graphql"
   }).as("graphql");
 
   cy.contains("Ok").click();
@@ -60,7 +62,7 @@ const loginByCognitoApi = (username, password) => {
   const log = Cypress.log({
     displayName: "COGNITO LOGIN",
     message: [`🔐 Authenticating | ${username}`],
-    autoEnd: false,
+    autoEnd: false
   });
 
   const signIn = configureCognitoAndSignIn(username, password);
@@ -73,8 +75,8 @@ const loginByCognitoApi = (username, password) => {
       displayName: "Here",
       message: [
         `🔐 Authenticated, saving tokens: `,
-        JSON.stringify(cognitoResponse, null, 2),
-      ],
+        JSON.stringify(cognitoResponse, null, 2)
+      ]
     });
 
     const keyPrefixWithUsername = `${cognitoResponse.keyPrefix}.${cognitoResponse.username}`;
@@ -111,8 +113,9 @@ const loginByCognitoApi = (username, password) => {
 };
 
 const monthDiff = (dateFrom: Date, dateTo: Date) =>
-  dateTo.getMonth() - dateFrom.getMonth() + (12 * (dateTo.getFullYear() - dateFrom.getFullYear()))
-
+  dateTo.getMonth() -
+  dateFrom.getMonth() +
+  12 * (dateTo.getFullYear() - dateFrom.getFullYear());
 
 const months = {
   January: 0,
@@ -127,45 +130,45 @@ const months = {
   November: 9,
   December: 10,
   October: 11
-}
+};
 
 const selectFromDatePicker = (name: string, targetDate: Date) => {
   cy.get(`input[name='${name}']`).click();
   return cy.get("[data-g-portal-id]").within(() => {
-           cy.get('h3')
-           .then(header => {
-             const parts = header.text().split(" ");
-             const month = months[parts[0].trim()]
-             const year = Number.parseInt(parts[1].trim(), 10)
+    cy.get("h3").then(header => {
+      const parts = header.text().split(" ");
+      const month = months[parts[0].trim()];
+      const year = Number.parseInt(parts[1].trim(), 10);
 
-             const currentDate = new Date();
+      const currentDate = new Date();
 
-             currentDate.setMonth(month);
-             currentDate.setFullYear(year);
-             const difference = monthDiff(currentDate, targetDate);
+      currentDate.setMonth(month);
+      currentDate.setFullYear(year);
+      const difference = monthDiff(currentDate, targetDate);
 
-             const nextOrPrevious = difference > 0 ? 'Next' : 'Previous';
+      const nextOrPrevious = difference > 0 ? "Next" : "Previous";
 
-             [...new Array(Math.abs(difference))].forEach(() => {
-               cy.get(`[aria-label='${nextOrPrevious}']`).click()
-             })
+      [...new Array(Math.abs(difference))].forEach(() => {
+        cy.get(`[aria-label='${nextOrPrevious}']`).click();
+      });
 
-             Cypress.log({
-              message: [targetDate.getDate()],
-             })
+      Cypress.log({
+        message: [targetDate.getDate()]
+      });
 
-             cy.get('button').contains(targetDate.getDate()).click()
-           })
-  })
-}
+      cy.get("button").contains(targetDate.getDate()).click();
+    });
+  });
+};
 
 const selectFromDrop = (elementSelector: string, selection: string) => {
   cy.get(elementSelector).click();
-  return cy.get("[data-g-portal-id]")
+  return cy
+    .get("[data-g-portal-id]")
     .find("div[role='menubar']")
     .contains(selection)
     .click({ force: true });
-}
+};
 
 const createRecipe = (
   name: string,
@@ -180,7 +183,7 @@ const createRecipe = (
   cy.get("input[name='shortName']").type(shortName);
   cy.get("input[name='description']").type(description);
   cy.get("input[name='potentialExclusions']").click();
-  exclusions.forEach((exclusion) => {
+  exclusions.forEach(exclusion => {
     cy.get("[data-g-portal-id='1']")
       .find("div[role='menubar']")
       .contains(exclusion)
@@ -191,7 +194,7 @@ const createRecipe = (
 
   cy.intercept({
     method: "POST",
-    url: "/graphql",
+    url: "/graphql"
   }).as("graphql");
 
   cy.contains("Ok").click();
@@ -211,7 +214,9 @@ declare global {
 
       selectFromDrop: (...args: Parameters<typeof selectFromDrop>) => Chainable;
 
-      selectFromDatePicker: (...args: Parameters<typeof selectFromDatePicker>) => Chainable;
+      selectFromDatePicker: (
+        ...args: Parameters<typeof selectFromDatePicker>
+      ) => Chainable;
 
       createCustomisation: (
         ...args: Parameters<typeof createCustomisation>
