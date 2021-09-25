@@ -1,3 +1,10 @@
+### [1.14.1](https://github.com/benwainwright/tnm/compare/v1.14.0...v1.14.1) (2021-09-18)
+
+
+### Bug Fixes
+
+* reduce font sizes in pack plan ([df230e9](https://github.com/benwainwright/tnm/commit/df230e913ac88e85cd6bddc6f24f7bb45fb606b9))
+
 ## [1.14.0](https://github.com/benwainwright/tnm/compare/v1.13.1...v1.14.0) (2021-09-17)
 
 
