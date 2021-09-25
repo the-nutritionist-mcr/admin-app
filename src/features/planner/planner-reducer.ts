@@ -8,7 +8,7 @@ import {
   chooseMeals,
   CustomerMealsSelection,
   SelectedMeal,
-} from "../../lib/plan-meals";
+} from "../../meal-planning";
 
 export interface PlannerState {
   selectedMeals: DeliveryMealsSelection[];

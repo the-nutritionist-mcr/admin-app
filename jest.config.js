@@ -1,3 +1,16 @@
+const es6Packages = [
+  "grommet-controls",
+  "react-markdown",
+  "vfile",
+  "unified",
+  "remark-parse",
+  "mdast-util-from-markdown",
+  "mdast-util-to-string",
+  "micromark",
+  "micromark-core-commonmark",
+  "parse-entities"
+]
+
 module.exports = {
   "roots": [
     "<rootDir>/src"
@@ -22,12 +35,12 @@ module.exports = {
   "testEnvironment": "jsdom",
   "testRunner": "jest-circus/runner",
   "transform": {
-    "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "esbuild-jest",
+    "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "babel-jest",
     "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
     "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
   },
   "transformIgnorePatterns": [
-    "<rootDir>/node_modules/(?!grommet-controls)"
+    `<rootDir>/node_modules/(?!${es6Packages.join('|')})`
   ],
   "modulePaths": [
     "/Users/benwainwright1/repos/tnm/src"

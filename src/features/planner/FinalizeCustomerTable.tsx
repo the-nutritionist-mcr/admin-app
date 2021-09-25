@@ -7,10 +7,10 @@ import {
   TableBody,
   TableHeader,
   Button,
-  Box,
+  Box
 } from "grommet";
 import { FormAdd } from "grommet-icons";
-import { CustomerMealsSelection } from "../../lib/plan-meals";
+import { CustomerMealsSelection } from "../../meal-planning";
 import React from "react";
 import Recipe from "../../domain/Recipe";
 import deepMemo from "../../lib/deepMemo";
@@ -36,7 +36,7 @@ const AlternatingTableRow = styled(TableRow)`
   }
 `;
 
-const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
+const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = props => {
   const name = `${props.customerSelection.customer.firstName} ${props.customerSelection.customer.surname}`;
 
   const deliveries = props.customerSelection.deliveries ?? [];
@@ -98,11 +98,11 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                     dispatch(
                       addAdHoc({
                         customer: props.customerSelection.customer,
-                        deliveryIndex,
+                        deliveryIndex
                       })
                     )
                   }
-                />,
+                />
               ],
               props.columns
             ).map((row, batchIndex) => (
