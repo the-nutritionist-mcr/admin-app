@@ -32,9 +32,8 @@ amplifytools.xcconfigtemplate
 template
 
 .yarn/*
-!.yarn/cache
 !.yarn/patches
-!.yarn/plugins
 !.yarn/releases
+!.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
