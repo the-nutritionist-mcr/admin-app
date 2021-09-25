@@ -1,3 +1,10 @@
+## [1.15.0](https://github.com/benwainwright/tnm/compare/v1.14.1...v1.15.0) (2021-09-25)
+
+
+### Features
+
+* make individual customer customisations explicit on cook plan ([f67044f](https://github.com/benwainwright/tnm/commit/f67044fefd83497f9edef42cd45d851afe7f13a9))
+
 ### [1.14.1](https://github.com/benwainwright/tnm/compare/v1.14.0...v1.14.1) (2021-09-18)
 
 
