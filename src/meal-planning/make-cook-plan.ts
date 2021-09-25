@@ -25,6 +25,7 @@ export const makeCookPlan = (
           const key = isSelectedMeal(item)
             ? item.recipe.name
             : item.chosenVariant;
+
           const previousMap = map.get(key);
           const previousVariant = previousMap?.[variant.string];
           map.set(key, {
@@ -32,7 +33,10 @@ export const makeCookPlan = (
             [variant.string]: {
               ...variant,
               ...previousVariant,
-              count: (previousVariant?.count ?? 0) + 1
+              count: (previousVariant?.count ?? 0) + 1,
+              customers: previousVariant?.customers
+                ? [...previousVariant.customers, customerSelections.customer]
+                : [customerSelections.customer]
             }
           });
           return map;
